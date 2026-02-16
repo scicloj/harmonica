@@ -17,52 +17,52 @@
 
 ;; ## Create a group
 
-;; The cyclic group Z/8Z — integers 0 through 7 with addition mod 8.
+;; The cyclic group Z/24Z — integers 0 through 23 with addition mod 24.
 
-(def Z8 (reel/cyclic-group 8))
+(def G (reel/cyclic-group 24))
 
-(reel/order Z8)
-
-(kind/test-last
- [= 8])
-
-(reel/elements Z8)
+(reel/order G)
 
 (kind/test-last
- [= (range 8)])
+ [= 24])
+
+(reel/elements G)
+
+(kind/test-last
+ [= (range 24)])
 
 ;; Group operations work on plain integers.
 
-(reel/op Z8 3 5)
+(reel/op G 15 9)
 
 (kind/test-last
  [= 0])
 
-(reel/inv Z8 3)
+(reel/inv G 15)
 
 (kind/test-last
- [= 5])
+ [= 9])
 
 ;; ## Character table
 
 ;; The character table of Z/nZ is the DFT matrix — each row is a character
 ;; (irreducible representation), each column is a group element.
 
-(def ct (reel/character-table Z8))
+(def ct (reel/character-table G))
 
 ;; The first row is the trivial character: all ones.
 
-(mapv c/re (first (:table ct)))
+(every? #(< (Math/abs (- (c/re %) 1.0)) 1e-10) ((:table ct) 0))
 
 (kind/test-last
- [= [1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0]])
+ [true?])
 
 ;; Characters are orthonormal.
 
 (let [chi-0 ((:table ct) 0)
       chi-1 ((:table ct) 1)
       sizes (:class-sizes ct)
-      n 8]
+      n 24]
   (c/abs (reel/character-inner-product chi-0 chi-1 sizes n)))
 
 (kind/test-last
@@ -71,8 +71,13 @@
 ;; ## Fourier transform
 
 ;; Apply the Fourier transform to a signal — a function on the group.
+;; These 24 values represent monthly temperatures (°C) over two years.
 
-(def signal (mapv #(c/complex (double %)) [20 22 25 23 21 19 18 20]))
+(def temperatures
+  [2 3 7 12 17 22 25 24 19 13 7 3
+   3 4 8 13 18 23 26 25 20 14 8 4])
+
+(def signal (mapv #(c/complex (double %)) temperatures))
 
 (def f-hat (reel/fourier-transform ct signal))
 
@@ -81,29 +86,31 @@
 (c/re (f-hat 0))
 
 (kind/test-last
- [(fn [v] (< (Math/abs (- v 168.0)) 1e-10))])
+ [(fn [v] (< (Math/abs (- v 320.0)) 1e-10))])
 
 ;; Round-trip: inverse transform recovers the original signal.
 
 (def reconstructed (reel/inverse-fourier-transform ct f-hat))
 
-(mapv c/re reconstructed)
+(every? #(< (Math/abs (double %)) 1e-10)
+        (map - (mapv c/re reconstructed) temperatures))
 
 (kind/test-last
- [(fn [vs] (every? #(< (Math/abs (double %)) 1e-10)
-                   (map - vs [20 22 25 23 21 19 18 20])))])
+ [true?])
 
 ;; ## Convolution
 
 ;; Convolution in the group domain equals pointwise multiplication
 ;; in the Fourier domain.
 
-(def f (mapv #(c/complex (double %)) [1 2 0 0 0 0 0 3]))
-(def h (mapv #(c/complex (double %)) [0 1 1 0 0 0 0 0]))
+(def f (mapv #(c/complex (double %))
+             [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
+(def h (mapv #(c/complex (double %))
+             [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 (def convolved (reel/convolve ct f h))
 
 (mapv #(Math/round (c/re %)) convolved)
 
 (kind/test-last
- [= [3 4 3 2 0 0 0 0]])
+ [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])

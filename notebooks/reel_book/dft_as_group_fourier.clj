@@ -25,41 +25,44 @@
 
 ;; ## A signal is a function on a group
 
-;; Suppose we record eight temperature readings, one per hour:
+;; Suppose we record monthly average temperatures (°C) over two years:
 
-(def temperatures [20 22 25 23 21 19 18 20])
+(def temperatures
+  [2 3 7 12 17 22 25 24 19 13 7 3
+   3 4 8 13 18 23 26 25 20 14 8 4])
 
-;; These eight numbers implicitly define a periodic pattern — after hour 7,
-;; the cycle repeats. This periodicity is the key insight.
+;; These 24 numbers implicitly define a periodic pattern — after month 23,
+;; the cycle repeats. The clear seasonal pattern (cold winters, warm summers)
+;; repeats twice.
 ;;
-;; Mathematically, the indices 0..7 form the **cyclic group Z/8Z**: integers
-;; with addition mod 8. A signal of length 8 is a function on this group.
+;; Mathematically, the indices 0..23 form the **cyclic group Z/24Z**: integers
+;; with addition mod 24. A signal of length 24 is a function on this group.
 
-(def Z8 (reel/cyclic-group 8))
+(def G (reel/cyclic-group 24))
 
-(reel/elements Z8)
+(reel/elements G)
 
 (kind/test-last
- [= (range 8)])
+ [= (range 24)])
 
-;; The group operation is addition mod 8.
+;; The group operation is addition mod 24.
 
-(reel/op Z8 3 5)
+(reel/op G 15 9)
 
 (kind/test-last
  [= 0])
 
-(reel/op Z8 6 5)
+(reel/op G 18 10)
 
 (kind/test-last
- [= 3])
+ [= 4])
 
 ;; Every element has an inverse.
 
-(reel/inv Z8 3)
+(reel/inv G 15)
 
 (kind/test-last
- [= 5])
+ [= 9])
 
 ;; ## Characters: rotations at different speeds
 
@@ -83,14 +86,14 @@
 ;; The **character table** collects all characters into a matrix. Row k
 ;; gives the values of character $\chi_k$ at each group element.
 
-(def ct (reel/character-table Z8))
+(def ct (reel/character-table G))
 
-;; Let's display the character table. Each entry is a complex number on
-;; the unit circle.
+;; Let's display the character table properties. Each entry is a complex
+;; number on the unit circle.
 
 (def ^:private ct-display-data
   (let [table (:table ct)
-        n (reel/order Z8)]
+        n (reel/order G)]
     (for [k (range n)
           g (range n)]
       {:k k :g g
@@ -107,36 +110,38 @@
 
 ;; The first row (k=0) is the **trivial character** — all ones.
 
-(mapv c/re ((:table ct) 0))
+(every? #(< (Math/abs (- (c/re %) 1.0)) 1e-10) ((:table ct) 0))
 
 (kind/test-last
- [= [1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0]])
+ [true?])
 
-;; The second row (k=1) completes one full rotation around the unit circle.
-;; Let's visualize a few characters as rotations.
+;; Let's visualize a few characters as rotations. Character $\chi_k$
+;; completes k full rotations over the 24 group elements.
 
 (def ^:private character-plot-data
   (let [table (:table ct)]
     (tc/dataset
      (for [k [0 1 2 3]
-           g (range 8)]
-       {:element g
+           g (range 24)]
+       {:month g
         :real-part (c/re ((table k) g))
         :character (str "chi_" k)}))))
 
 (-> character-plot-data
-    (plotly/base {:=x :element
+    (plotly/base {:=x :month
                   :=y :real-part
                   :=color :character
-                  :=x-title "Group element g"
+                  :=x-title "Group element g (month)"
                   :=y-title "Re(chi_k(g))"
-                  :=title "Characters of Z/8Z — real parts (cosine components)"})
+                  :=title "Characters of Z/24Z — real parts (cosine components)"})
     (plotly/layer-line)
-    (plotly/layer-point {:=mark-size 8})
+    (plotly/layer-point {:=mark-size 6})
     plotly/plot)
 
 ;; Each character oscillates at a different rate — exactly the cosine waves
 ;; at different frequencies that the DFT decomposes a signal into.
+;; Character $\chi_2$ completes two full cycles in 24 months — the annual
+;; frequency.
 
 ;; ## Fourier transform on the group
 
@@ -156,13 +161,13 @@
 (c/re (f-hat 0))
 
 (kind/test-last
- [(fn [v] (< (Math/abs (- v 168.0)) 1e-10))])
+ [(fn [v] (< (Math/abs (- v 320.0)) 1e-10))])
 
 ;; Let's see the magnitude spectrum — how strong each "frequency" is.
 
 (def ^:private magnitude-data
   (tc/dataset
-   {:frequency (range 8)
+   {:frequency (range 24)
     :magnitude (mapv c/abs f-hat)}))
 
 (-> magnitude-data
@@ -170,13 +175,18 @@
                   :=y :magnitude
                   :=x-title "Frequency k (character index)"
                   :=y-title "|f-hat(k)|"
-                  :=title "Fourier spectrum of temperatures on Z/8Z"})
+                  :=title "Fourier spectrum of monthly temperatures on Z/24Z"})
     (plotly/layer-line)
-    (plotly/layer-point {:=mark-size 8})
+    (plotly/layer-point {:=mark-size 6})
     plotly/plot)
 
-;; The dominant oscillating component is k=1 (one cycle per period) —
-;; the daily temperature cycle.
+;; The dominant oscillating component is **k=2** — two complete cycles
+;; over the 24-month window, which is the **annual cycle** (period = 12
+;; months). This is the seasonal pattern. The k=22 peak is its conjugate
+;; mirror (the spectrum of real signals is symmetric).
+;;
+;; The small peak at k=1 captures the slight year-over-year warming trend
+;; (one cycle per 24 months = a 2-year period).
 
 ;; ## Comparison with the standard FFT
 
@@ -200,7 +210,7 @@
 
 ;; Compare magnitudes — they should match exactly.
 
-(def ^:private our-magnitudes (mapv c/abs (take 4 f-hat)))
+(def ^:private our-magnitudes (mapv c/abs (take 12 f-hat)))
 (def ^:private fft-magnitudes (mapv c/abs fft-coefficients))
 
 (every? true?
@@ -228,7 +238,7 @@
 (def ^:private orthogonality-data
   (let [table (:table ct)
         sizes (:class-sizes ct)
-        n 8]
+        n 24]
     (for [j (range 4)
           k (range 4)]
       {:j j :k k
@@ -287,8 +297,10 @@ max-reconstruction-error
 ;;
 ;; For Z/nZ, this is the familiar **cyclic convolution theorem**.
 
-(def f-fn (mapv #(c/complex (double %)) [1 2 0 0 0 0 0 3]))
-(def h-fn (mapv #(c/complex (double %)) [0 1 1 0 0 0 0 0]))
+(def f-fn (mapv #(c/complex (double %))
+                [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
+(def h-fn (mapv #(c/complex (double %))
+                [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 ;; Convolve via the library (which uses the Fourier domain internally).
 
@@ -297,7 +309,7 @@ max-reconstruction-error
 (mapv #(Math/round (c/re %)) convolved)
 
 (kind/test-last
- [= [3 4 3 2 0 0 0 0]])
+ [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])
 
 ;; Verify: the Fourier transform of the convolution equals the pointwise
 ;; product of the individual transforms.
@@ -326,13 +338,12 @@ max-reconstruction-error
 
 (def ^:private energy-freq-domain
   (/ (reduce + (map #(let [m (c/abs %)] (* m m)) f-hat))
-     (double (reel/order Z8))))
+     (double (reel/order G))))
 
 (< (Math/abs (- energy-time-domain energy-freq-domain)) 1e-8)
 
 (kind/test-last
  [true?])
-
 
 ;; ## Connection to dtype-next convolution
 ;;
@@ -341,23 +352,25 @@ max-reconstruction-error
 ;; can be obtained from a full linear convolution by folding the overflow
 ;; back around.
 
-(def ^:private f-real [1 2 0 0 0 0 0 3])
-(def ^:private h-real [0 1 1 0 0 0 0 0])
+(def ^:private f-real
+  [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
+(def ^:private h-real
+  [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
 
 ;; Full linear convolution has length 2n - 1.
 
 (def ^:private linear-conv
   (vec (dt-conv/convolve1d f-real h-real {:mode :full :edge-mode :zero})))
 
-linear-conv
+(count linear-conv)
 
 (kind/test-last
- [(fn [v] (= (count v) 15))])
+ [= 47])
 
 ;; To get cyclic convolution, fold the tail back onto the first n elements.
 
 (def ^:private cyclic-from-linear
-  (let [n 8]
+  (let [n 24]
     (mapv (fn [i]
             (+ (linear-conv i)
                (if (< (+ i n) (count linear-conv))
@@ -368,7 +381,7 @@ linear-conv
 cyclic-from-linear
 
 (kind/test-last
- [(fn [v] (= (mapv long v) [3 4 3 2 0 0 0 0]))])
+ [(fn [v] (= (mapv long v) [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))])
 
 ;; This matches our group-theoretic convolution exactly.
 
