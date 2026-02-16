@@ -40,7 +40,7 @@
 (def
  v16_l55
  (every?
-  (fn* [p1__73567#] (< (Math/abs (- (c/re p1__73567#) 1.0)) 1.0E-10))
+  (fn* [p1__74137#] (< (Math/abs (- (c/re p1__74137#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
@@ -74,64 +74,51 @@
 (def
  v23_l80
  (def
-  signal
-  (mapv
-   (fn* [p1__73568#] (c/complex (double p1__73568#)))
+  f-hat
+  (reel/fourier-transform
+   ct
+   (mapv
+    (fn* [p1__74138#] (c/complex (double p1__74138#)))
+    temperatures))))
+
+
+(def v25_l84 (c/re (f-hat 0)))
+
+
+(deftest
+ t26_l86
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v25_l84)))
+
+
+(def
+ v28_l91
+ (every?
+  (fn* [p1__74139#] (< (Math/abs (double p1__74139#)) 1.0E-10))
+  (map
+   -
+   (mapv c/re (reel/inverse-fourier-transform ct f-hat))
    temperatures)))
 
 
-(def v24_l82 (def f-hat (reel/fourier-transform ct signal)))
+(deftest t29_l95 (is (true? v28_l91)))
 
 
-(def v26_l86 (c/re (f-hat 0)))
+(def
+ v31_l103
+ (let
+  [f
+   (mapv
+    (fn* [p1__74140#] (c/complex (double p1__74140#)))
+    [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
+   h
+   (mapv
+    (fn* [p1__74141#] (c/complex (double p1__74141#)))
+    [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])]
+  (mapv
+   (fn* [p1__74142#] (Math/round (c/re p1__74142#)))
+   (reel/convolve ct f h))))
 
 
 (deftest
- t27_l88
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v26_l86)))
-
-
-(def
- v29_l93
- (def reconstructed (reel/inverse-fourier-transform ct f-hat)))
-
-
-(def
- v30_l95
- (every?
-  (fn* [p1__73569#] (< (Math/abs (double p1__73569#)) 1.0E-10))
-  (map - (mapv c/re reconstructed) temperatures)))
-
-
-(deftest t31_l98 (is (true? v30_l95)))
-
-
-(def
- v33_l106
- (def
-  f
-  (mapv
-   (fn* [p1__73570#] (c/complex (double p1__73570#)))
-   [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])))
-
-
-(def
- v34_l108
- (def
-  h
-  (mapv
-   (fn* [p1__73571#] (c/complex (double p1__73571#)))
-   [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
-
-
-(def v35_l111 (def convolved (reel/convolve ct f h)))
-
-
-(def
- v36_l113
- (mapv (fn* [p1__73572#] (Math/round (c/re p1__73572#))) convolved))
-
-
-(deftest
- t37_l115
- (is (= v36_l113 [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
+ t32_l109
+ (is (= v31_l103 [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))

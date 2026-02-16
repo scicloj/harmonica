@@ -77,9 +77,7 @@
   [2 3 7 12 17 22 25 24 19 13 7 3
    3 4 8 13 18 23 26 25 20 14 8 4])
 
-(def signal (mapv #(c/complex (double %)) temperatures))
-
-(def f-hat (reel/fourier-transform ct signal))
+(def f-hat (reel/fourier-transform ct (mapv #(c/complex (double %)) temperatures)))
 
 ;; The DC component (k=0) is the sum of all values.
 
@@ -90,10 +88,9 @@
 
 ;; Round-trip: inverse transform recovers the original signal.
 
-(def reconstructed (reel/inverse-fourier-transform ct f-hat))
-
 (every? #(< (Math/abs (double %)) 1e-10)
-        (map - (mapv c/re reconstructed) temperatures))
+        (map - (mapv c/re (reel/inverse-fourier-transform ct f-hat))
+             temperatures))
 
 (kind/test-last
  [true?])
@@ -103,14 +100,11 @@
 ;; Convolution in the group domain equals pointwise multiplication
 ;; in the Fourier domain.
 
-(def f (mapv #(c/complex (double %))
-             [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
-(def h (mapv #(c/complex (double %))
-             [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
-
-(def convolved (reel/convolve ct f h))
-
-(mapv #(Math/round (c/re %)) convolved)
+(let [f (mapv #(c/complex (double %))
+              [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
+      h (mapv #(c/complex (double %))
+              [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])]
+  (mapv #(Math/round (c/re %)) (reel/convolve ct f h)))
 
 (kind/test-last
  [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])

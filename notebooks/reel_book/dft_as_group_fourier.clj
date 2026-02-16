@@ -88,22 +88,13 @@
 
 (def ct (reel/character-table G))
 
-;; Let's display the character table properties. Each entry is a complex
-;; number on the unit circle.
-
-(def ct-display-data
-  (let [table (:table ct)
-        n (reel/order G)]
-    (for [k (range n)
-          g (range n)]
-      {:k k :g g
-       :re (c/re ((table k) g))
-       :im (c/im ((table k) g))
-       :magnitude (c/abs ((table k) g))})))
-
 ;; All entries have magnitude 1 (they lie on the unit circle).
 
-(every? #(< (Math/abs (- (:magnitude %) 1.0)) 1e-10) ct-display-data)
+(let [table (:table ct)
+      n (reel/order G)]
+  (every? (fn [v] (< (Math/abs (- (c/abs v) 1.0)) 1e-10))
+          (for [k (range n) g (range n)]
+            ((table k) g))))
 
 (kind/test-last
  [true?])
@@ -118,16 +109,13 @@
 ;; Let's visualize a few characters as rotations. Character $\chi_k$
 ;; completes k full rotations over the 24 group elements.
 
-(def character-plot-data
-  (let [table (:table ct)]
-    (tc/dataset
-     (for [k [0 1 2 3]
-           g (range 24)]
-       {:month g
-        :real-part (c/re ((table k) g))
-        :character (str "chi_" k)}))))
-
-(-> character-plot-data
+(-> (tc/dataset
+     (let [table (:table ct)]
+       (for [k [0 1 2 3]
+             g (range 24)]
+         {:month g
+          :real-part (c/re ((table k) g))
+          :character (str "chi_" k)})))
     (plotly/base {:=x :month
                   :=y :real-part
                   :=color :character
@@ -165,12 +153,9 @@
 
 ;; Let's see the magnitude spectrum — how strong each "frequency" is.
 
-(def magnitude-data
-  (tc/dataset
-   {:frequency (range 24)
-    :magnitude (mapv c/abs f-hat)}))
-
-(-> magnitude-data
+(-> (tc/dataset
+     {:frequency (range 24)
+      :magnitude (mapv c/abs f-hat)})
     (plotly/base {:=x :frequency
                   :=y :magnitude
                   :=x-title "Frequency k (character index)"
@@ -192,31 +177,22 @@
 
 ;; Let's verify that our group-theoretic Fourier transform gives the same
 ;; result as the standard FFT from fastmath.
-
-(def fft-transformer (t/transformer :real :fft))
-(def fft-result (t/forward-1d fft-transformer temperatures))
-
+;;
 ;; The fastmath FFT returns interleaved [re_0, im_0, re_1, im_1, ...] for
-;; the first N/2 coefficients (exploiting Hermitian symmetry). Let's extract
-;; them and compare with our full result.
+;; the first N/2 coefficients (exploiting Hermitian symmetry). We extract
+;; them and compare magnitudes with our full result.
 
-(def fft-coefficients
-  (let [data (vec fft-result)
-        n (/ (count data) 2)]
-    (mapv (fn [k]
-            (c/complex (data (* 2 k))
-                       (data (inc (* 2 k)))))
-          (range n))))
-
-;; Compare magnitudes — they should match exactly.
-
-(def our-magnitudes (mapv c/abs (take 12 f-hat)))
-(def fft-magnitudes (mapv c/abs fft-coefficients))
-
-(every? true?
-        (map (fn [a b] (< (Math/abs (- a b)) 1e-8))
-             our-magnitudes
-             fft-magnitudes))
+(let [fft-result (t/forward-1d (t/transformer :real :fft) temperatures)
+      fft-coefficients (let [data (vec fft-result)
+                             n (/ (count data) 2)]
+                         (mapv (fn [k]
+                                 (c/complex (data (* 2 k))
+                                            (data (inc (* 2 k)))))
+                               (range n)))]
+  (every? true?
+          (map (fn [a b] (< (Math/abs (- a b)) 1e-8))
+               (mapv c/abs (take 12 f-hat))
+               (mapv c/abs fft-coefficients))))
 
 (kind/test-last
  [true?])
@@ -269,17 +245,11 @@
 ;;
 ;; $$f(g) = \frac{1}{|G|} \sum_{k} \hat{f}(k) \cdot \chi_k(g)$$
 
-(def reconstructed (reel/inverse-fourier-transform ct f-hat))
-
-;; Compare with the original:
-
-(def max-reconstruction-error
+(let [reconstructed (reel/inverse-fourier-transform ct f-hat)]
   (apply max (map (fn [orig recon]
                     (c/abs (c/sub recon orig)))
                   signal
                   reconstructed)))
-
-max-reconstruction-error
 
 (kind/test-last
  [(fn [err] (< err 1e-10))])
@@ -314,15 +284,14 @@ max-reconstruction-error
 ;; Verify: the Fourier transform of the convolution equals the pointwise
 ;; product of the individual transforms.
 
-(def f-fn-hat (reel/fourier-transform ct f-fn))
-(def h-fn-hat (reel/fourier-transform ct h-fn))
-(def convolved-hat (reel/fourier-transform ct convolved))
-(def pointwise-product (mapv c/mult f-fn-hat h-fn-hat))
-
-(every? true?
-        (map (fn [a b] (< (c/abs (c/sub a b)) 1e-8))
-             convolved-hat
-             pointwise-product))
+(let [f-fn-hat (reel/fourier-transform ct f-fn)
+      h-fn-hat (reel/fourier-transform ct h-fn)
+      convolved-hat (reel/fourier-transform ct convolved)
+      pointwise-product (mapv c/mult f-fn-hat h-fn-hat)]
+  (every? true?
+          (map (fn [a b] (< (c/abs (c/sub a b)) 1e-8))
+               convolved-hat
+               pointwise-product)))
 
 (kind/test-last
  [true?])
@@ -333,14 +302,10 @@ max-reconstruction-error
 ;;
 ;; $$\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2$$
 
-(def energy-time-domain
-  (reduce + (map #(let [m (c/abs %)] (* m m)) signal)))
-
-(def energy-freq-domain
-  (/ (reduce + (map #(let [m (c/abs %)] (* m m)) f-hat))
-     (double (reel/order G))))
-
-(< (Math/abs (- energy-time-domain energy-freq-domain)) 1e-8)
+(let [energy-time (reduce + (map #(let [m (c/abs %)] (* m m)) signal))
+      energy-freq (/ (reduce + (map #(let [m (c/abs %)] (* m m)) f-hat))
+                     (double (reel/order G)))]
+  (< (Math/abs (- energy-time energy-freq)) 1e-8))
 
 (kind/test-last
  [true?])
@@ -385,15 +350,11 @@ cyclic-from-linear
 
 ;; This matches our group-theoretic convolution exactly.
 
-(def group-conv
-  (let [f (mapv #(c/complex (double %)) f-real)
-        h (mapv #(c/complex (double %)) h-real)]
-    (mapv #(c/re %) (reel/convolve ct f h))))
-
-;; Compare the two approaches element-wise.
-
-(every? #(< (Math/abs (double %)) 1e-10)
-        (map - cyclic-from-linear group-conv))
+(let [group-conv (let [f (mapv #(c/complex (double %)) f-real)
+                       h (mapv #(c/complex (double %)) h-real)]
+                   (mapv #(c/re %) (reel/convolve ct f h)))]
+  (every? #(< (Math/abs (double %)) 1e-10)
+          (map - cyclic-from-linear group-conv)))
 
 (kind/test-last
  [true?])
