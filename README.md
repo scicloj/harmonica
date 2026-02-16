@@ -13,7 +13,8 @@ generalizes it to symmetric groups and beyond.
 Current modules:
 
 - **Cyclic groups** Z/nZ — character tables, Fourier transform, convolution theorem
-- **Symmetric groups** S_n — permutations, partitions, conjugacy classes
+- **Symmetric groups** S_n — permutations, partitions, conjugacy classes, character tables
+- **Fourier analysis** — on both abelian and non-abelian groups
 
 ## General info
 |||
@@ -41,6 +42,8 @@ Current modules:
 - **Cycle notation** — decomposition, cycle type, sign (parity)
 - **Partitions** — enumeration, conjugate, validation
 - **Conjugacy classes** — indexed by partitions (cycle types), class sizes via formula
+- **Character tables** — computed via the Murnaghan-Nakayama rule
+- **Irrep dimensions** — hook-length formula
 
 ## Installation
 
@@ -50,62 +53,6 @@ Add to your `deps.edn`:
 {:deps {org.scicloj/reel {:mvn/version "0.1.0"}}}
 ```
 
-## Quick Start
-
-### Cyclic Groups and the DFT
-
-```clojure
-(require '[scicloj.reel.core :as reel]
-         '[fastmath.complex :as c])
-
-;; Create Z/24Z — the cyclic group of order 24
-(def G (reel/cyclic-group 24))
-
-(reel/order G)  ;; => 24
-(reel/op G 15 9)  ;; => 0 (addition mod 24)
-
-;; The character table is the DFT matrix
-(def ct (reel/character-table G))
-
-;; Fourier transform of a signal (monthly temperatures over 2 years)
-(def temperatures
-  [2 3 7 12 17 22 25 24 19 13 7 3
-   3 4 8 13 18 23 26 25 20 14 8 4])
-
-(def f-hat
-  (reel/fourier-transform ct (mapv #(c/complex (double %)) temperatures)))
-
-;; DC component = sum of all values
-(c/re (f-hat 0))  ;; => 320.0
-
-;; Dominant frequency k=2 = annual cycle (2 full cycles in 24 months)
-```
-
-### Symmetric Groups
-
-```clojure
-;; Create S_4 — permutations of {0, 1, 2, 3}
-(def S4 (reel/symmetric-group 4))
-
-(reel/order S4)  ;; => 24
-
-;; Permutations are plain vectors
-(reel/op S4 [1 0 2 3] [0 1 3 2])  ;; => [1 0 3 2]
-(reel/inv S4 [1 2 3 0])  ;; => [3 0 1 2]
-
-;; Cycle notation and cycle type
-(reel/cycles [1 2 3 0])  ;; => [[0 1 2 3]]
-(reel/cycle-type [1 0 3 2])  ;; => [2 2]
-(reel/sign [1 0 2 3])  ;; => -1
-
-;; Partitions of 4
-(reel/partitions 4)  ;; => [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]]
-
-;; Conjugacy classes indexed by partitions
-(map (juxt :cycle-type :size) (reel/conjugacy-classes S4))
-;; => ([[4] 6] [[3 1] 8] [[2 2] 3] [[2 1 1] 6] [[1 1 1 1] 1])
-```
-
 ## Documentation
 
 See the [Reel book](https://scicloj.github.io/reel/) for tutorials:
@@ -113,6 +60,7 @@ See the [Reel book](https://scicloj.github.io/reel/) for tutorials:
 - **[Quickstart](https://scicloj.github.io/reel/reel_book.quickstart.html)** — minimal introduction
 - **[The DFT as Group Fourier Transform](https://scicloj.github.io/reel/reel_book.dft_as_group_fourier.html)** — the full story connecting DFT to group theory
 - **[Symmetric Groups](https://scicloj.github.io/reel/reel_book.symmetric_groups.html)** — permutations, partitions, conjugacy classes
+- **[Random Transpositions](https://scicloj.github.io/reel/reel_book.random_transpositions.html)** — Diaconis-Shahshahani cutoff phenomenon
 
 ## API Namespaces
 
