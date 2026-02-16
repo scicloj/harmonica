@@ -12,8 +12,13 @@
      :table-im     - vector of double arrays (imaginary parts of each row)
 
    For cyclic groups Z/nZ, the character table is exactly the DFT matrix:
-   table[j][k] = omega^(jk) where omega = e^(2*pi*i/n)."
+   table[j][k] = omega^(jk) where omega = e^(2*pi*i/n).
+
+   For symmetric groups S_n, the character table is computed via the
+   Murnaghan-Nakayama rule. All entries are real integers."
   (:require [scicloj.reel.protocols :as p]
+            [scicloj.reel.impl.murnaghan-nakayama :as mn]
+            [scicloj.reel.impl.partition :as part]
             [fastmath.complex :as c]
             [fastmath.vector :as v])
   (:import [fastmath.vector Vec2]))
@@ -55,6 +60,37 @@
      :classes (vec (range n))
      :class-sizes (vec (repeat n 1))
      :irrep-labels (vec (range n))
+     :table (mapv :vec-row rows)
+     :table-re (mapv :re-row rows)
+     :table-im (mapv :im-row rows)}))
+
+(defmethod character-table :symmetric
+  [G]
+  (let [n (.-n G)
+        parts (part/partitions n)
+        ;; Classes ordered by reverse lex (identity [1^n] last in partitions,
+        ;; so we reverse to get identity first)
+        classes (vec (reverse parts))
+        num-classes (count classes)
+        class-sizes (mapv #(part/partition-class-size n %) classes)
+        ;; Compute character table via Murnaghan-Nakayama
+        rows (mapv (fn [lam]
+                     (let [re-row (double-array num-classes)
+                           im-row (double-array num-classes)
+                           vec-row (object-array num-classes)]
+                       (dotimes [j num-classes]
+                         (let [val (double (mn/chi lam (classes j)))]
+                           (aset re-row j val)
+                           (aset im-row j 0.0)
+                           (aset vec-row j (c/complex val 0.0))))
+                       {:vec-row (vec vec-row)
+                        :re-row re-row
+                        :im-row im-row}))
+                   parts)]
+    {:group G
+     :classes classes
+     :class-sizes class-sizes
+     :irrep-labels parts
      :table (mapv :vec-row rows)
      :table-re (mapv :re-row rows)
      :table-im (mapv :im-row rows)}))

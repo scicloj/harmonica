@@ -1,3 +1,4 @@
 {"Getting Started" ["quickstart"]
  "Foundations" ["dft_as_group_fourier"
-                "symmetric_groups"]}
+                "symmetric_groups"]
+ "Applications" ["random_transpositions"]}
