@@ -91,7 +91,7 @@
 ;; Let's display the character table properties. Each entry is a complex
 ;; number on the unit circle.
 
-(def ^:private ct-display-data
+(def ct-display-data
   (let [table (:table ct)
         n (reel/order G)]
     (for [k (range n)
@@ -118,7 +118,7 @@
 ;; Let's visualize a few characters as rotations. Character $\chi_k$
 ;; completes k full rotations over the 24 group elements.
 
-(def ^:private character-plot-data
+(def character-plot-data
   (let [table (:table ct)]
     (tc/dataset
      (for [k [0 1 2 3]
@@ -165,7 +165,7 @@
 
 ;; Let's see the magnitude spectrum — how strong each "frequency" is.
 
-(def ^:private magnitude-data
+(def magnitude-data
   (tc/dataset
    {:frequency (range 24)
     :magnitude (mapv c/abs f-hat)}))
@@ -200,7 +200,7 @@
 ;; the first N/2 coefficients (exploiting Hermitian symmetry). Let's extract
 ;; them and compare with our full result.
 
-(def ^:private fft-coefficients
+(def fft-coefficients
   (let [data (vec fft-result)
         n (/ (count data) 2)]
     (mapv (fn [k]
@@ -210,8 +210,8 @@
 
 ;; Compare magnitudes — they should match exactly.
 
-(def ^:private our-magnitudes (mapv c/abs (take 12 f-hat)))
-(def ^:private fft-magnitudes (mapv c/abs fft-coefficients))
+(def our-magnitudes (mapv c/abs (take 12 f-hat)))
+(def fft-magnitudes (mapv c/abs fft-coefficients))
 
 (every? true?
         (map (fn [a b] (< (Math/abs (- a b)) 1e-8))
@@ -235,7 +235,7 @@
 ;;
 ;; $$\frac{1}{|G|} \sum_{g \in G} \chi_j(g) \overline{\chi_k(g)} = \delta_{jk}$$
 
-(def ^:private orthogonality-data
+(def orthogonality-data
   (let [table (:table ct)
         sizes (:class-sizes ct)
         n 24]
@@ -273,7 +273,7 @@
 
 ;; Compare with the original:
 
-(def ^:private max-reconstruction-error
+(def max-reconstruction-error
   (apply max (map (fn [orig recon]
                     (c/abs (c/sub recon orig)))
                   signal
@@ -314,10 +314,10 @@ max-reconstruction-error
 ;; Verify: the Fourier transform of the convolution equals the pointwise
 ;; product of the individual transforms.
 
-(def ^:private f-fn-hat (reel/fourier-transform ct f-fn))
-(def ^:private h-fn-hat (reel/fourier-transform ct h-fn))
-(def ^:private convolved-hat (reel/fourier-transform ct convolved))
-(def ^:private pointwise-product (mapv c/mult f-fn-hat h-fn-hat))
+(def f-fn-hat (reel/fourier-transform ct f-fn))
+(def h-fn-hat (reel/fourier-transform ct h-fn))
+(def convolved-hat (reel/fourier-transform ct convolved))
+(def pointwise-product (mapv c/mult f-fn-hat h-fn-hat))
 
 (every? true?
         (map (fn [a b] (< (c/abs (c/sub a b)) 1e-8))
@@ -333,10 +333,10 @@ max-reconstruction-error
 ;;
 ;; $$\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2$$
 
-(def ^:private energy-time-domain
+(def energy-time-domain
   (reduce + (map #(let [m (c/abs %)] (* m m)) signal)))
 
-(def ^:private energy-freq-domain
+(def energy-freq-domain
   (/ (reduce + (map #(let [m (c/abs %)] (* m m)) f-hat))
      (double (reel/order G))))
 
@@ -352,14 +352,14 @@ max-reconstruction-error
 ;; can be obtained from a full linear convolution by folding the overflow
 ;; back around.
 
-(def ^:private f-real
+(def f-real
   [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
-(def ^:private h-real
+(def h-real
   [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
 
 ;; Full linear convolution has length 2n - 1.
 
-(def ^:private linear-conv
+(def linear-conv
   (vec (dt-conv/convolve1d f-real h-real {:mode :full :edge-mode :zero})))
 
 (count linear-conv)
@@ -369,7 +369,7 @@ max-reconstruction-error
 
 ;; To get cyclic convolution, fold the tail back onto the first n elements.
 
-(def ^:private cyclic-from-linear
+(def cyclic-from-linear
   (let [n 24]
     (mapv (fn [i]
             (+ (linear-conv i)
@@ -385,7 +385,7 @@ cyclic-from-linear
 
 ;; This matches our group-theoretic convolution exactly.
 
-(def ^:private group-conv
+(def group-conv
   (let [f (mapv #(c/complex (double %)) f-real)
         h (mapv #(c/complex (double %)) h-real)]
     (mapv #(c/re %) (reel/convolve ct f h))))

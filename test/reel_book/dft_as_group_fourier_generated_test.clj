@@ -69,8 +69,8 @@
  v21_l106
  (every?
   (fn*
-   [p1__73268#]
-   (< (Math/abs (- (:magnitude p1__73268#) 1.0)) 1.0E-10))
+   [p1__73877#]
+   (< (Math/abs (- (:magnitude p1__73877#) 1.0)) 1.0E-10))
   ct-display-data))
 
 
@@ -80,7 +80,7 @@
 (def
  v24_l113
  (every?
-  (fn* [p1__73269#] (< (Math/abs (- (c/re p1__73269#) 1.0)) 1.0E-10))
+  (fn* [p1__73878#] (< (Math/abs (- (c/re p1__73878#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
@@ -122,7 +122,7 @@
  (def
   signal
   (mapv
-   (fn* [p1__73270#] (c/complex (double p1__73270#)))
+   (fn* [p1__73879#] (c/complex (double p1__73879#)))
    temperatures)))
 
 
@@ -267,7 +267,7 @@
  (def
   f-fn
   (mapv
-   (fn* [p1__73271#] (c/complex (double p1__73271#)))
+   (fn* [p1__73880#] (c/complex (double p1__73880#)))
    [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])))
 
 
@@ -276,7 +276,7 @@
  (def
   h-fn
   (mapv
-   (fn* [p1__73272#] (c/complex (double p1__73272#)))
+   (fn* [p1__73881#] (c/complex (double p1__73881#)))
    [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
@@ -285,7 +285,7 @@
 
 (def
  v65_l309
- (mapv (fn* [p1__73273#] (Math/round (c/re p1__73273#))) convolved))
+ (mapv (fn* [p1__73882#] (Math/round (c/re p1__73882#))) convolved))
 
 
 (deftest
@@ -325,7 +325,7 @@
   (reduce
    +
    (map
-    (fn* [p1__73274#] (let [m (c/abs p1__73274#)] (* m m)))
+    (fn* [p1__73883#] (let [m (c/abs p1__73883#)] (* m m)))
     signal))))
 
 
@@ -337,7 +337,7 @@
    (reduce
     +
     (map
-     (fn* [p1__73275#] (let [m (c/abs p1__73275#)] (* m m)))
+     (fn* [p1__73884#] (let [m (c/abs p1__73884#)] (* m m)))
      f-hat))
    (double (reel/order G)))))
 
@@ -409,16 +409,16 @@
   group-conv
   (let
    [f
-    (mapv (fn* [p1__73276#] (c/complex (double p1__73276#))) f-real)
+    (mapv (fn* [p1__73885#] (c/complex (double p1__73885#))) f-real)
     h
-    (mapv (fn* [p1__73277#] (c/complex (double p1__73277#))) h-real)]
-   (mapv (fn* [p1__73278#] (c/re p1__73278#)) (reel/convolve ct f h)))))
+    (mapv (fn* [p1__73886#] (c/complex (double p1__73886#))) h-real)]
+   (mapv (fn* [p1__73887#] (c/re p1__73887#)) (reel/convolve ct f h)))))
 
 
 (def
  v93_l395
  (every?
-  (fn* [p1__73279#] (< (Math/abs (double p1__73279#)) 1.0E-10))
+  (fn* [p1__73888#] (< (Math/abs (double p1__73888#)) 1.0E-10))
   (map - cyclic-from-linear group-conv)))
 
 

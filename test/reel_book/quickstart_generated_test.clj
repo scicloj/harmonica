@@ -40,7 +40,7 @@
 (def
  v16_l55
  (every?
-  (fn* [p1__73196#] (< (Math/abs (- (c/re p1__73196#) 1.0)) 1.0E-10))
+  (fn* [p1__73567#] (< (Math/abs (- (c/re p1__73567#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
@@ -76,7 +76,7 @@
  (def
   signal
   (mapv
-   (fn* [p1__73197#] (c/complex (double p1__73197#)))
+   (fn* [p1__73568#] (c/complex (double p1__73568#)))
    temperatures)))
 
 
@@ -99,7 +99,7 @@
 (def
  v30_l95
  (every?
-  (fn* [p1__73198#] (< (Math/abs (double p1__73198#)) 1.0E-10))
+  (fn* [p1__73569#] (< (Math/abs (double p1__73569#)) 1.0E-10))
   (map - (mapv c/re reconstructed) temperatures)))
 
 
@@ -111,7 +111,7 @@
  (def
   f
   (mapv
-   (fn* [p1__73199#] (c/complex (double p1__73199#)))
+   (fn* [p1__73570#] (c/complex (double p1__73570#)))
    [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])))
 
 
@@ -120,7 +120,7 @@
  (def
   h
   (mapv
-   (fn* [p1__73200#] (c/complex (double p1__73200#)))
+   (fn* [p1__73571#] (c/complex (double p1__73571#)))
    [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
@@ -129,7 +129,7 @@
 
 (def
  v36_l113
- (mapv (fn* [p1__73201#] (Math/round (c/re p1__73201#))) convolved))
+ (mapv (fn* [p1__73572#] (Math/round (c/re p1__73572#))) convolved))
 
 
 (deftest
