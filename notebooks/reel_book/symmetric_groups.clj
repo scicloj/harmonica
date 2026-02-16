@@ -13,7 +13,6 @@
 (ns reel-book.symmetric-groups
   (:require
    [scicloj.reel.core :as reel]
-   [scicloj.reel.impl.permutation :as perm]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -40,7 +39,7 @@
 
 ;; A transposition swaps two elements.
 
-(perm/transposition 4 1 3)
+(reel/transposition 4 1 3)
 
 (kind/test-last
  [= [0 3 2 1]])

@@ -108,3 +108,24 @@
 
 (kind/test-last
  [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])
+
+;; ## What Else?
+;;
+;; This quickstart showed cyclic groups and abelian Fourier transforms.
+;; The library also provides:
+;;
+;; - **Symmetric groups** ($S_n$) with character tables via the Murnaghan-Nakayama rule
+;; - **Dihedral groups** ($D_n$) — symmetries of regular polygons
+;; - **Product groups** ($G_1 \times G_2$)
+;; - **Irreducible representations** via Young's orthogonal form
+;; - **Group actions**, Burnside's lemma, and Pólya enumeration
+;; - **Matrix-valued Fourier transforms** for non-abelian groups
+;;
+;; See the other notebooks for applications:
+;; [Symmetric Groups](symmetric_groups.html),
+;; [Random Transpositions](random_transpositions.html),
+;; [Riffle Shuffles](riffle_shuffle.html),
+;; [Counting Necklaces](counting_necklaces.html),
+;; [Chord Geometry](chord_geometry.html),
+;; [Hearing Symmetry](hearing_symmetry.html),
+;; [Symmetry Sketchpad](symmetry_sketchpad.html).

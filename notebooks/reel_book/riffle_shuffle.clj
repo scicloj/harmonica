@@ -23,9 +23,6 @@
 (ns reel-book.riffle-shuffle
   (:require
    [scicloj.reel.core :as reel]
-   [scicloj.reel.impl.partition :as part]
-   [scicloj.reel.impl.permutation :as perm]
-   [scicloj.reel.impl.riffle :as riffle]
    [scicloj.reel.representations :as rep]
    [scicloj.reel.protocols :as p]
    [tablecloth.api :as tc]
@@ -69,7 +66,7 @@
 ;; The sum $\sum_\lambda d_\lambda^2 = n!$ (a consequence of Maschke's theorem).
 
 (let [n 5
-      parts (part/partitions n)]
+      parts (reel/partitions n)]
   (kind/table
    {:column-names ["$\\lambda$" "$d_\\lambda$" "$d_\\lambda^2$"]
     :row-vectors (conj (mapv (fn [lam]
@@ -83,7 +80,7 @@
 
 (kind/test-last
  (fn [_]
-   (let [parts (part/partitions 5)]
+   (let [parts (reel/partitions 5)]
      (= 120 (reduce + (map #(let [d (reel/hook-length-dimension %)]
                                (* d d))
                             parts))))))
@@ -114,7 +111,7 @@
 ;; The identity permutation always has $r = 1$ (one rising sequence),
 ;; making it the most likely outcome:
 
-(reel/gsr-probability (perm/identity-perm 4) 1)
+(reel/gsr-probability (reel/identity-perm 4) 1)
 
 ;; ## Total Variation Distance: Exact Computation
 ;;
@@ -156,7 +153,7 @@
 
 (let [n 4
       G (reel/symmetric-group n)
-      parts (part/partitions n)
+      parts (reel/partitions n)
       irreps (mapv reel/irrep parts)
       k 2
       f (fn [sigma] (reel/gsr-probability sigma k))
@@ -178,7 +175,7 @@
 
 (let [n 4
       G (reel/symmetric-group n)
-      parts (part/partitions n)
+      parts (reel/partitions n)
       irreps (mapv reel/irrep parts)
       f (fn [sigma] (reel/gsr-probability sigma 2))
       f-hats (reel/matrix-fourier-transform-all G f irreps)

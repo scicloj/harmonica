@@ -2,9 +2,6 @@
  reel-book.riffle-shuffle-generated-test
  (:require
   [scicloj.reel.core :as reel]
-  [scicloj.reel.impl.partition :as part]
-  [scicloj.reel.impl.permutation :as perm]
-  [scicloj.reel.impl.riffle :as riffle]
   [scicloj.reel.representations :as rep]
   [scicloj.reel.protocols :as p]
   [tablecloth.api :as tc]
@@ -14,14 +11,14 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l46 (reel/standard-young-tableaux [3 1]))
+(def v3_l43 (reel/standard-young-tableaux [3 1]))
 
 
-(def v5_l50 (reel/hook-length-dimension [3 1]))
+(def v5_l47 (reel/hook-length-dimension [3 1]))
 
 
 (def
- v7_l55
+ v7_l52
  (let
   [ir (reel/irrep [3 1]) gens (reel/rep-generators ir)]
   (kind/table
@@ -31,9 +28,9 @@
 
 
 (def
- v9_l71
+ v9_l68
  (let
-  [n 5 parts (part/partitions n)]
+  [n 5 parts (reel/partitions n)]
   (kind/table
    {:column-names ["$\\lambda$" "$d_\\lambda$" "$d_\\lambda^2$"],
     :row-vectors
@@ -51,41 +48,41 @@
        +
        (map
         (fn*
-         [p1__90764#]
-         (let [d (reel/hook-length-dimension p1__90764#)] (* d d)))
+         [p1__73702#]
+         (let [d (reel/hook-length-dimension p1__73702#)] (* d d)))
         parts))])})))
 
 
 (deftest
- t10_l84
+ t10_l81
  (is
   (fn
-   v9_l71
+   v9_l68
    [_]
    (let
-    [parts (part/partitions 5)]
+    [parts (reel/partitions 5)]
     (=
      120
      (reduce
       +
       (map
        (fn*
-        [p1__90765#]
-        (let [d (reel/hook-length-dimension p1__90765#)] (* d d)))
+        [p1__73703#]
+        (let [d (reel/hook-length-dimension p1__73703#)] (* d d)))
        parts)))))))
 
 
-(def v12_l110 (reel/rising-sequences [2 0 3 1]))
+(def v12_l107 (reel/rising-sequences [2 0 3 1]))
 
 
-(deftest t13_l112 (is (fn v12_l110 [v] (= 3 v))))
+(deftest t13_l109 (is (fn v12_l107 [v] (= 3 v))))
 
 
-(def v15_l117 (reel/gsr-probability (perm/identity-perm 4) 1))
+(def v15_l114 (reel/gsr-probability (reel/identity-perm 4) 1))
 
 
 (def
- v17_l126
+ v17_l123
  (let
   [n
    5
@@ -111,8 +108,8 @@
          +
          (map
           (fn*
-           [p1__90766#]
-           (Math/abs (- (aget probs (int p1__90766#)) uniform)))
+           [p1__73704#]
+           (Math/abs (- (aget probs (int p1__73704#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -134,14 +131,14 @@
 
 
 (def
- v19_l157
+ v19_l154
  (let
   [n
    4
    G
    (reel/symmetric-group n)
    parts
-   (part/partitions n)
+   (reel/partitions n)
    irreps
    (mapv reel/irrep parts)
    k
@@ -166,14 +163,14 @@
 
 
 (def
- v21_l179
+ v21_l176
  (let
   [n
    4
    G
    (reel/symmetric-group n)
    parts
-   (part/partitions n)
+   (reel/partitions n)
    irreps
    (mapv reel/irrep parts)
    f
@@ -188,12 +185,12 @@
 
 
 (deftest
- t22_l189
- (is (fn v21_l179 [result] (< (:difference result) 1.0E-10))))
+ t22_l186
+ (is (fn v21_l176 [result] (< (:difference result) 1.0E-10))))
 
 
 (def
- v24_l197
+ v24_l194
  (let
   [tv-data
    (vec
@@ -217,8 +214,8 @@
          +
          (map
           (fn*
-           [p1__90767#]
-           (Math/abs (- (aget probs (int p1__90767#)) uniform)))
+           [p1__73705#]
+           (Math/abs (- (aget probs (int p1__73705#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->

@@ -2,7 +2,6 @@
  reel-book.random-transpositions-generated-test
  (:require
   [scicloj.reel.core :as reel]
-  [scicloj.reel.impl.partition :as part]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -17,14 +16,14 @@
    {:column-names
     (into
      ["Irrep $\\lambda$"]
-     (map (fn* [p1__90628#] (str p1__90628#)) (:classes ct))),
+     (map (fn* [p1__73462#] (str p1__73462#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__90629#] (long (.-x p1__90629#))) row)))
+       (map (fn* [p1__73463#] (long (.-x p1__73463#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
@@ -81,7 +80,11 @@
   (let
    [M (inc (/ (* n (dec n)) 2))]
    (/
-    (double (+ 1 (n-stat lambda) (- (n-stat (part/conjugate lambda)))))
+    (double
+     (+
+      1
+      (n-stat lambda)
+      (- (n-stat (reel/partition-conjugate lambda)))))
     (double M)))))
 
 
@@ -95,7 +98,7 @@
    (empty? lambda)
    1
    (let
-    [n (reduce + lambda) conj (part/conjugate lambda)]
+    [n (reduce + lambda) conj (reel/partition-conjugate lambda)]
     (/
      (reduce *' (range 1 (inc n)))
      (reduce

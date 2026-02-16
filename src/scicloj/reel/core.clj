@@ -35,6 +35,8 @@
      rep-dimension    - dimension of a representation
      rep-character    - character value (trace of matrix)
      rep-generators   - generator matrices for adjacent transpositions
+     tensor-product   - tensor product of representations
+     direct-sum       - direct sum of representations
      frobenius-norm-sq - squared Frobenius norm
      frobenius-norm   - Frobenius norm
      matrix-fourier-transform     - f̂(ρ) = Σ f(σ)·ρ(σ)
@@ -132,6 +134,19 @@
   "All partitions of n, as descending vectors."
   part/partitions)
 
+(def partition-conjugate
+  "Conjugate (transpose) of a partition — swap rows and columns in the Young diagram."
+  part/conjugate)
+
+(def identity-perm
+  "The identity permutation of size n: [0 1 2 ... n-1]."
+  perm/identity-perm)
+
+(def transposition
+  "Create a transposition permutation that swaps positions i and j.
+   (transposition n i j) returns a permutation of size n."
+  perm/transposition)
+
 ;; ---------------------------------------------------------------------------
 ;; Young tableaux
 ;; ---------------------------------------------------------------------------
@@ -209,6 +224,16 @@
 (def rep-generators
   "Generator matrices for adjacent transpositions s_1, ..., s_{n-1}."
   rep/rep-generators)
+
+(def tensor-product
+  "Tensor product ρ₁ ⊗ ρ₂ of two representations.
+   (ρ₁⊗ρ₂)(g) = ρ₁(g) ⊗ ρ₂(g) (Kronecker product)."
+  rep/tensor-product)
+
+(def direct-sum
+  "Direct sum ρ₁ ⊕ ρ₂ of two representations.
+   (ρ₁⊕ρ₂)(g) is block-diagonal with ρ₁(g) and ρ₂(g)."
+  rep/direct-sum)
 
 (def frobenius-norm-sq
   "Squared Frobenius norm: ||M||²_F = tr(M Mᵀ)."

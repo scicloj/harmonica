@@ -17,7 +17,7 @@
 (ns reel-book.random-transpositions
   (:require
    [scicloj.reel.core :as reel]
-   [scicloj.reel.impl.partition :as part]
+   
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -111,7 +111,7 @@
   "Eigenvalue of the random transposition operator on irrep lambda of S_n."
   [n lambda]
   (let [M (inc (/ (* n (dec n)) 2))]
-    (/ (double (+ 1 (n-stat lambda) (- (n-stat (part/conjugate lambda)))))
+    (/ (double (+ 1 (n-stat lambda) (- (n-stat (reel/partition-conjugate lambda)))))
        (double M))))
 
 (defn hook-length-dim
@@ -120,7 +120,7 @@
   (if (empty? lambda)
     1
     (let [n (reduce + lambda)
-          conj (part/conjugate lambda)]
+          conj (reel/partition-conjugate lambda)]
       (/ (reduce *' (range 1 (inc n)))
          (reduce *' (for [i (range (count lambda))
                           j (range (lambda i))]
