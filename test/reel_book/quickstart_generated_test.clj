@@ -40,7 +40,7 @@
 (def
  v16_l55
  (every?
-  (fn* [p1__75857#] (< (Math/abs (- (c/re p1__75857#) 1.0)) 1.0E-10))
+  (fn* [p1__73329#] (< (Math/abs (- (c/re p1__73329#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
@@ -78,7 +78,7 @@
   (reel/fourier-transform
    ct
    (mapv
-    (fn* [p1__75858#] (c/complex (double p1__75858#)))
+    (fn* [p1__73330#] (c/complex (double p1__73330#)))
     temperatures))))
 
 
@@ -93,7 +93,7 @@
 (def
  v28_l91
  (every?
-  (fn* [p1__75859#] (< (Math/abs (double p1__75859#)) 1.0E-10))
+  (fn* [p1__73331#] (< (Math/abs (double p1__73331#)) 1.0E-10))
   (map
    -
    (mapv c/re (reel/inverse-fourier-transform ct f-hat))
@@ -108,14 +108,14 @@
  (let
   [f
    (mapv
-    (fn* [p1__75860#] (c/complex (double p1__75860#)))
+    (fn* [p1__73332#] (c/complex (double p1__73332#)))
     [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
    h
    (mapv
-    (fn* [p1__75861#] (c/complex (double p1__75861#)))
+    (fn* [p1__73333#] (c/complex (double p1__73333#)))
     [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])]
   (mapv
-   (fn* [p1__75862#] (Math/round (c/re p1__75862#)))
+   (fn* [p1__73334#] (Math/round (c/re p1__73334#)))
    (reel/convolve ct f h))))
 
 

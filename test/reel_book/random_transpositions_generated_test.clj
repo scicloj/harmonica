@@ -14,20 +14,23 @@
  (let
   [ct (reel/character-table (reel/symmetric-group 5))]
   (kind/table
-   {:column-names (into ["Irrep λ"] (map str (:classes ct))),
+   {:column-names
+    (into
+     ["Irrep $\\lambda$"]
+     (map (fn* [p1__73720#] (str p1__73720#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__63701#] (long (.-x p1__63701#))) row)))
+       (map (fn* [p1__73721#] (long (.-x p1__73721#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
 
 (def
- v5_l49
+ v5_l51
  (let
   [ct
    (reel/character-table (reel/symmetric-group 5))
@@ -61,7 +64,7 @@
 
 
 (def
- v7_l102
+ v7_l105
  (defn
   n-stat
   "n(lambda) = sum_i C(lambda_i, 2) = sum_i lambda_i*(lambda_i-1)/2."
@@ -70,7 +73,7 @@
 
 
 (def
- v8_l107
+ v8_l110
  (defn
   eigenvalue
   "Eigenvalue of the random transposition operator on irrep lambda of S_n."
@@ -83,7 +86,7 @@
 
 
 (def
- v9_l114
+ v9_l117
  (defn
   hook-length-dim
   "Dimension of irrep lambda via the hook-length formula: n! / prod h(i,j)."
@@ -103,7 +106,7 @@
 
 
 (def
- v11_l131
+ v11_l134
  (let
   [n
    5
@@ -116,7 +119,11 @@
    trans-idx
    (.indexOf (:classes ct) (into [2] (repeat (- n 2) 1)))]
   (kind/table
-   {:column-names ["lambda" "d" "beta (table)" "beta (closed)"],
+   {:column-names
+    ["$\\lambda$"
+     "$d_\\lambda$"
+     "$\\beta$ (table)"
+     "$\\beta$ (closed)"],
     :row-vectors
     (mapv
      (fn
@@ -138,7 +145,7 @@
 
 
 (deftest
- t12_l148
+ t12_l151
  (is
   ((fn
     [_]
@@ -167,11 +174,11 @@
          (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ chi-t d))) M)]
         (< (Math/abs (- from-table (eigenvalue n lam))) 1.0E-10)))
       (range (count table)))))
-   v11_l131)))
+   v11_l134)))
 
 
 (def
- v14_l178
+ v14_l183
  (defn
   tv-upper-bound
   "Upper bound on ||Q^{*k} - U||_TV via Diaconis's Upper Bound Lemma."
@@ -189,7 +196,7 @@
 
 
 (def
- v16_l191
+ v16_l196
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -232,7 +239,7 @@
 
 
 (def
- v18_l219
+ v18_l224
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -270,16 +277,17 @@
      (assoc
       d
       :=layout
-      {:title "Cutoff at (1/2)*n*ln(n)",
-       :xaxis {:title "k / ((1/2)*n*ln(n))"},
+      {:title "Cutoff at k = (1/2) n ln(n)",
+       :xaxis {:title "k / ((1/2) n ln n)"},
        :yaxis {:title "TV upper bound", :range [0 1.05]}})))
    plotly/plot)))
 
 
 (def
- v20_l244
+ v20_l250
  (kind/table
-  {:column-names ["n" "|S_n|" "(1/2)*n*ln(n)" "# partitions"],
+  {:column-names
+   ["$n$" "$|S_n|$" "$\\tfrac{1}{2}n\\ln n$" "# partitions"],
    :row-vectors
    (mapv
     (fn

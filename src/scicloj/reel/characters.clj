@@ -20,7 +20,8 @@
             [scicloj.reel.impl.murnaghan-nakayama :as mn]
             [scicloj.reel.impl.partition :as part]
             [fastmath.complex :as c]
-            [fastmath.vector :as v])
+            [fastmath.vector :as v]
+            [tech.v3.datatype.functional :as dfn])
   (:import [fastmath.vector Vec2]))
 
 ;; ---------------------------------------------------------------------------
@@ -106,15 +107,28 @@
 
    chi-vals and psi-vals are vectors of complex values (Vec2), one per class.
    class-sizes is a vector of class sizes.
-   group-order is |G|."
+   group-order is |G|.
+
+   Uses split real/imaginary arrays and dfn for vectorized computation."
   [chi-vals psi-vals class-sizes group-order]
   (let [n (count chi-vals)
-        sum (reduce (fn [^Vec2 acc i]
-                      (let [chi-i (nth chi-vals i)
-                            psi-i (nth psi-vals i)
-                            size (nth class-sizes i)]
-                        (c/add acc (c/scale (c/mult chi-i (c/conjugate psi-i))
-                                            (double size)))))
-                    c/ZERO
-                    (range n))]
-    (c/scale sum (/ 1.0 (double group-order)))))
+        chi-re (double-array n)
+        chi-im (double-array n)
+        psi-re (double-array n)
+        psi-im (double-array n)
+        sz (double-array n)]
+    (dotimes [i n]
+      (let [^Vec2 chi (chi-vals i)
+            ^Vec2 psi (psi-vals i)]
+        (aset chi-re i (.-x chi))
+        (aset chi-im i (.-y chi))
+        (aset psi-re i (.-x psi))
+        (aset psi-im i (.-y psi))
+        (aset sz i (double (class-sizes i)))))
+    ;; chi * conj(psi) = (a+bi)(c-di) = (ac+bd) + (bc-ad)i
+    ;; weighted by class sizes, scaled by 1/|G|
+    (let [inv-order (/ 1.0 (double group-order))]
+      (c/complex (* inv-order (dfn/sum (dfn/* sz (dfn/+ (dfn/* chi-re psi-re)
+                                                        (dfn/* chi-im psi-im)))))
+                 (* inv-order (dfn/sum (dfn/* sz (dfn/- (dfn/* chi-im psi-re)
+                                                        (dfn/* chi-re psi-im)))))))))

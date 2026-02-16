@@ -1,13 +1,13 @@
 ;; # Symmetric Groups
 ;;
-;; The **symmetric group** S_n is the group of all permutations of n objects.
-;; It has n! elements — the most classical object in group theory.
+;; The **symmetric group** $S_n$ is the group of all permutations of $n$ objects.
+;; It has $n!$ elements — the most classical object in group theory.
 ;;
-;; The structure of S_n is richer than cyclic groups: it has multiple
+;; The structure of $S_n$ is richer than cyclic groups: it has multiple
 ;; conjugacy classes (indexed by **partitions**), and its representation
 ;; theory governs problems from card shuffling to quantum chemistry.
 ;;
-;; This notebook introduces S_n using reel's permutation and partition
+;; This notebook introduces $S_n$ using reel's permutation and partition
 ;; machinery.
 
 (ns reel-book.symmetric-groups
@@ -20,8 +20,8 @@
 
 ;; ## Permutations as vectors
 
-;; A permutation of {0, 1, ..., n-1} is stored as a vector in **one-line
-;; notation**: the entry at position i is the image of i under the
+;; A permutation of $\{0, 1, \ldots, n{-}1\}$ is stored as a vector in **one-line
+;; notation**: the entry at position $i$ is the image of $i$ under the
 ;; permutation.
 
 (def G (reel/symmetric-group 4))
@@ -46,8 +46,8 @@
  [= [0 3 2 1]])
 
 ;; Composition follows the standard mathematical convention (right-to-left):
-;; (σ∘τ)(i) = σ(τ(i)). Since permutations are vectors, this is simply
-;; `(mapv sigma tau)`.
+;; $(\sigma\circ\tau)(i) = \sigma(\tau(i))$. Since permutations are vectors,
+;; this is simply `(mapv sigma tau)`.
 
 (reel/op G [1 0 2 3] [0 1 3 2])
 
@@ -69,8 +69,8 @@
 ;; ## Cycle notation
 
 ;; Cycle notation reveals the structure of a permutation more clearly
-;; than one-line notation. The permutation [1 2 3 0] sends 0→1→2→3→0,
-;; which is the single 4-cycle (0 1 2 3).
+;; than one-line notation. The permutation `[1 2 3 0]` sends
+;; $0 \to 1 \to 2 \to 3 \to 0$, which is the single 4-cycle $(0\;1\;2\;3)$.
 
 (reel/cycles [1 2 3 0])
 
@@ -102,7 +102,7 @@
 
 ;; The **cycle type** records the lengths of all cycles (including
 ;; fixed points) as a partition — a descending sequence of positive
-;; integers summing to n.
+;; integers summing to $n$.
 
 (reel/cycle-type [1 2 3 0])
 
@@ -119,7 +119,7 @@
 (kind/test-last
  [= [2 1 1]])
 
-;; The **sign** of a permutation is +1 (even) or -1 (odd), determined
+;; The **sign** of a permutation is $+1$ (even) or $-1$ (odd), determined
 ;; by the parity of the number of transpositions needed to express it.
 
 (reel/sign [0 1 2 3])
@@ -132,7 +132,8 @@
 (kind/test-last
  [= -1])
 
-;; The sign is multiplicative: sign(σ∘τ) = sign(σ) · sign(τ).
+;; The sign is multiplicative:
+;; $\operatorname{sign}(\sigma\circ\tau) = \operatorname{sign}(\sigma)\cdot\operatorname{sign}(\tau)$.
 
 (let [sigma [1 2 0 3]
       tau [0 1 3 2]]
@@ -143,9 +144,9 @@
 
 ;; ## Partitions
 
-;; A **partition** of n is a way to write n as a sum of positive integers
-;; in descending order. Partitions index the conjugacy classes of S_n
-;; and (in Phase 3) will index the irreducible representations.
+;; A **partition** of $n$ is a way to write $n$ as a sum of positive integers
+;; in descending order. Partitions index the conjugacy classes of $S_n$
+;; and also index the irreducible representations.
 
 (reel/partitions 4)
 
@@ -155,7 +156,7 @@
 ;; The number of partitions grows quickly.
 
 (kind/table
- {:column-names ["n" "p(n)"]
+ {:column-names ["$n$" "$p(n)$"]
   :row-vectors (mapv (fn [n] [n (count (reel/partitions n))])
                      (range 1 11))})
 
@@ -171,7 +172,7 @@
  {:column-names ["Cycle type" "Class size"]
   :row-vectors (mapv (fn [c] [(:cycle-type c) (:size c)]) classes)})
 
-;; The class sizes sum to |S_n|.
+;; The class sizes sum to $|S_n|$.
 
 (reduce + (map :size classes))
 
@@ -185,14 +186,14 @@
 (kind/test-last
  [= (count (reel/partitions 4))])
 
-;; ## Growth of S_n
+;; ## Growth of $S_n$
 
-;; The symmetric group grows factorially — S_5 already has 120 elements.
+;; The symmetric group grows factorially — $S_5$ already has 120 elements.
 ;; But the number of conjugacy classes (= number of partitions) grows
 ;; much more slowly, which is what makes representation theory tractable.
 
 (kind/table
- {:column-names ["n" "|S_n|" "# classes"]
+ {:column-names ["$n$" "$|S_n|$" "# classes"]
   :row-vectors (mapv (fn [n]
                        (let [G (reel/symmetric-group n)]
                          [n (reel/order G)
@@ -204,5 +205,5 @@
 ;; With the symmetric group in hand, the next step is computing its
 ;; **character table** — a square matrix indexed by partitions, whose
 ;; entries are given by the Murnaghan-Nakayama rule. This will enable
-;; Fourier analysis on S_n, with applications to card shuffling
+;; Fourier analysis on $S_n$, with applications to card shuffling
 ;; (Diaconis's random transpositions analysis).

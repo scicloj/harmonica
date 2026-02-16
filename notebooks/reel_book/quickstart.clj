@@ -17,7 +17,7 @@
 
 ;; ## Create a group
 
-;; The cyclic group Z/24Z — integers 0 through 23 with addition mod 24.
+;; The cyclic group $\mathbb{Z}/24\mathbb{Z}$ — integers 0 through 23 with addition mod 24.
 
 (def G (reel/cyclic-group 24))
 
@@ -45,7 +45,7 @@
 
 ;; ## Character table
 
-;; The character table of Z/nZ is the DFT matrix — each row is a character
+;; The character table of $\mathbb{Z}/n\mathbb{Z}$ is the DFT matrix — each row is a character
 ;; (irreducible representation), each column is a group element.
 
 (def ct (reel/character-table G))
@@ -79,7 +79,7 @@
 
 (def f-hat (reel/fourier-transform ct (mapv #(c/complex (double %)) temperatures)))
 
-;; The DC component (k=0) is the sum of all values.
+;; The DC component ($k = 0$) is the sum of all values.
 
 (c/re (f-hat 0))
 

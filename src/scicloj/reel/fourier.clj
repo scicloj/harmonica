@@ -17,6 +17,76 @@
             [tech.v3.datatype.functional :as dfn])
   (:import [fastmath.vector Vec2]))
 
+;; ---------------------------------------------------------------------------
+;; Internal helpers: split real/imaginary double arrays
+;; ---------------------------------------------------------------------------
+
+(defn- split-vec2
+  "Split a vector of Vec2 into [re-array im-array] double arrays."
+  [vals]
+  (let [n (count vals)
+        re (double-array n)
+        im (double-array n)]
+    (dotimes [i n]
+      (let [^Vec2 v (nth vals i)]
+        (aset re i (.-x v))
+        (aset im i (.-y v))))
+    [re im]))
+
+(defn- join-vec2
+  "Join re/im double arrays into a vector of Vec2."
+  [^doubles re-arr ^doubles im-arr]
+  (let [n (alength re-arr)]
+    (mapv (fn [i]
+            (c/complex (aget re-arr (int i))
+                       (aget im-arr (int i))))
+          (range n))))
+
+;; ---------------------------------------------------------------------------
+;; Core transforms on split double arrays
+;; ---------------------------------------------------------------------------
+
+(defn- forward-split
+  "Forward Fourier transform on split arrays.
+   f(g) * conj(chi_k(g)) = (a+bi)(c-di) = (ac+bd) + (bc-ad)i
+   Returns [fhat-re fhat-im] as double arrays."
+  [table-re table-im ^doubles f-re ^doubles f-im]
+  (let [n (alength f-re)
+        fhat-re (double-array n)
+        fhat-im (double-array n)]
+    (dotimes [k n]
+      (let [chi-re (table-re k)
+            chi-im (table-im k)]
+        (aset fhat-re k (dfn/sum (dfn/+ (dfn/* f-re chi-re)
+                                        (dfn/* f-im chi-im))))
+        (aset fhat-im k (dfn/sum (dfn/- (dfn/* f-im chi-re)
+                                        (dfn/* f-re chi-im))))))
+    [fhat-re fhat-im]))
+
+(defn- inverse-split
+  "Inverse Fourier transform on split arrays.
+   f(g) = (1/n) * sum_k fhat(k) * chi_k(g)
+   Returns [f-re f-im] as double arrays."
+  [table-re table-im ^doubles fhat-re ^doubles fhat-im n]
+  (let [scale (/ 1.0 (double n))
+        f-re (double-array n)
+        f-im (double-array n)]
+    (dotimes [g n]
+      (let [col-re (double-array n)
+            col-im (double-array n)]
+        (dotimes [k n]
+          (aset col-re k (aget ^doubles (table-re k) (int g)))
+          (aset col-im k (aget ^doubles (table-im k) (int g))))
+        (aset f-re g (* scale (dfn/sum (dfn/- (dfn/* fhat-re col-re)
+                                              (dfn/* fhat-im col-im)))))
+        (aset f-im g (* scale (dfn/sum (dfn/+ (dfn/* fhat-re col-im)
+                                              (dfn/* fhat-im col-re)))))))
+    [f-re f-im]))
+
+;; ---------------------------------------------------------------------------
+;; Public API
+;; ---------------------------------------------------------------------------
+
 (defn fourier-transform
   "Compute the Fourier transform of a function on a finite group.
 
@@ -29,23 +99,9 @@
    for vectorized computation via dtype-next."
   [ct f-vals]
   (let [{:keys [table-re table-im]} ct
-        n (count f-vals)
-        ;; Split f into real/imaginary double arrays
-        f-re (double-array n)
-        f-im (double-array n)]
-    (dotimes [i n]
-      (let [^Vec2 v (nth f-vals i)]
-        (aset f-re i (.-x v))
-        (aset f-im i (.-y v))))
-    ;; f(g) * conj(chi_k(g)) = (a + bi)(c - di) = (ac + bd) + (bc - ad)i
-    ;; f-hat(k) = sum_g [ (f-re * chi-re + f-im * chi-im)
-    ;;                   + i*(f-im * chi-re - f-re * chi-im) ]
-    (mapv (fn [chi-re chi-im]
-            (c/complex (dfn/sum (dfn/+ (dfn/* f-re chi-re)
-                                       (dfn/* f-im chi-im)))
-                       (dfn/sum (dfn/- (dfn/* f-im chi-re)
-                                       (dfn/* f-re chi-im)))))
-          table-re table-im)))
+        [f-re f-im] (split-vec2 f-vals)
+        [fhat-re fhat-im] (forward-split table-re table-im f-re f-im)]
+    (join-vec2 fhat-re fhat-im)))
 
 (defn inverse-fourier-transform
   "Recover a function from its Fourier coefficients.
@@ -59,41 +115,34 @@
   [ct f-hat]
   (let [{:keys [table-re table-im group]} ct
         n (p/order group)
-        scale (/ 1.0 (double n))
-        ;; Split f-hat into real/imaginary double arrays
-        fh-re (double-array n)
-        fh-im (double-array n)]
-    (dotimes [k n]
-      (let [^Vec2 v (nth f-hat k)]
-        (aset fh-re k (.-x v))
-        (aset fh-im k (.-y v))))
-    ;; f(g) = (1/n) * sum_k f-hat(k) * chi_k(g)
-    ;; For each g, we need column g of the table: chi_k(g) for all k.
-    ;; We extract column g from the split arrays and compute:
-    ;; sum_k (fh-re * col-re - fh-im * col-im) + i*(fh-re * col-im + fh-im * col-re)
-    (mapv (fn [g]
-            (let [col-re (double-array n)
-                  col-im (double-array n)]
-              (dotimes [k n]
-                (aset col-re k (aget ^doubles (table-re k) (int g)))
-                (aset col-im k (aget ^doubles (table-im k) (int g))))
-              (c/complex (* scale (dfn/sum (dfn/- (dfn/* fh-re col-re)
-                                                  (dfn/* fh-im col-im))))
-                         (* scale (dfn/sum (dfn/+ (dfn/* fh-re col-im)
-                                                  (dfn/* fh-im col-re)))))))
-          (range n))))
+        [fhat-re fhat-im] (split-vec2 f-hat)
+        [f-re f-im] (inverse-split table-re table-im fhat-re fhat-im n)]
+    (join-vec2 f-re f-im)))
 
 (defn convolve
   "Convolve two functions on a finite group via the Fourier domain.
 
    (f * h)(g) = sum_{x} f(x) * h(x^{-1} g)
 
-   Computed as: IFFT(FFT(f) . FFT(h)) where . is pointwise multiplication."
+   Computed as: IFFT(FFT(f) . FFT(h)) where . is pointwise multiplication.
+   Uses split arrays throughout to avoid Vec2 intermediates."
   [ct f-vals h-vals]
-  (let [f-hat (fourier-transform ct f-vals)
-        h-hat (fourier-transform ct h-vals)
-        product (mapv c/mult f-hat h-hat)]
-    (inverse-fourier-transform ct product)))
+  (let [{:keys [table-re table-im group]} ct
+        n (p/order group)
+        ;; Split inputs
+        [f-re f-im] (split-vec2 f-vals)
+        [h-re h-im] (split-vec2 h-vals)
+        ;; Forward transforms (on double arrays)
+        [fhat-re fhat-im] (forward-split table-re table-im f-re f-im)
+        [hhat-re hhat-im] (forward-split table-re table-im h-re h-im)
+        ;; Pointwise complex multiply: (a+bi)(c+di) = (ac-bd) + (ad+bc)i
+        prod-re (double-array (dfn/- (dfn/* fhat-re hhat-re)
+                                     (dfn/* fhat-im hhat-im)))
+        prod-im (double-array (dfn/+ (dfn/* fhat-re hhat-im)
+                                     (dfn/* fhat-im hhat-re)))
+        ;; Inverse transform (on double arrays)
+        [result-re result-im] (inverse-split table-re table-im prod-re prod-im n)]
+    (join-vec2 result-re result-im)))
 
 (defn total-variation-distance
   "Total variation distance between two probability distributions on a finite group.

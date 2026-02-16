@@ -5,7 +5,7 @@
 ;; frequencies, really?
 ;;
 ;; The answer comes from group theory: the DFT is the **Fourier transform on
-;; the cyclic group** Z/nZ. The "frequencies" are the **irreducible
+;; the cyclic group** $\mathbb{Z}/n\mathbb{Z}$. The "frequencies" are the **irreducible
 ;; representations** (characters) of this group. The DFT matrix **is** the
 ;; character table.
 ;;
@@ -35,8 +35,9 @@
 ;; the cycle repeats. The clear seasonal pattern (cold winters, warm summers)
 ;; repeats twice.
 ;;
-;; Mathematically, the indices 0..23 form the **cyclic group Z/24Z**: integers
-;; with addition mod 24. A signal of length 24 is a function on this group.
+;; Mathematically, the indices $0, \ldots, 23$ form the **cyclic group
+;; $\mathbb{Z}/24\mathbb{Z}$**: integers with addition mod 24. A signal of length 24
+;; is a function on this group.
 
 (def G (reel/cyclic-group 24))
 
@@ -66,24 +67,24 @@
 
 ;; ## Characters: rotations at different speeds
 
-;; A **character** of Z/nZ is a homomorphism from the group to the complex
+;; A **character** of $\mathbb{Z}/n\mathbb{Z}$ is a homomorphism from the group to the complex
 ;; numbers of magnitude 1 — that is, a mapping that preserves the group
 ;; operation and lands on the unit circle.
 ;;
-;; For Z/nZ, the characters are:
+;; For $\mathbb{Z}/n\mathbb{Z}$, the characters are:
 ;;
 ;; $$\chi_k(g) = \omega^{kg}$$
 ;;
-;; where $\omega = e^{2\pi i/n}$ is the primitive n-th root of unity and
+;; where $\omega = e^{2\pi i/n}$ is the primitive $n$-th root of unity and
 ;; $k = 0, 1, \ldots, n-1$.
 ;;
-;; Each character $\chi_k$ is a "rotation at speed k" — it goes around the
-;; unit circle k times as g goes from 0 to n-1. This is exactly the
+;; Each character $\chi_k$ is a "rotation at speed $k$" — it goes around the
+;; unit circle $k$ times as $g$ goes from 0 to $n-1$. This is exactly the
 ;; "rotations at different speeds" intuition from signal processing.
 
 ;; ## The character table is the DFT matrix
 
-;; The **character table** collects all characters into a matrix. Row k
+;; The **character table** collects all characters into a matrix. Row $k$
 ;; gives the values of character $\chi_k$ at each group element.
 
 (def ct (reel/character-table G))
@@ -99,7 +100,7 @@
 (kind/test-last
  [true?])
 
-;; The first row (k=0) is the **trivial character** — all ones.
+;; The first row ($k = 0$) is the **trivial character** — all ones.
 
 (every? #(< (Math/abs (- (c/re %) 1.0)) 1e-10) ((:table ct) 0))
 
@@ -107,7 +108,7 @@
  [true?])
 
 ;; Let's visualize a few characters as rotations. Character $\chi_k$
-;; completes k full rotations over the 24 group elements.
+;; completes $k$ full rotations over the 24 group elements.
 
 (-> (tc/dataset
      (let [table (:table ct)]
@@ -137,14 +138,14 @@
 ;;
 ;; $$\hat{f}(k) = \sum_{g \in G} f(g) \cdot \overline{\chi_k(g)}$$
 ;;
-;; This is an inner product: "how much does f align with character k?"
-;; For Z/nZ, this is exactly the DFT formula.
+;; This is an inner product: "how much does $f$ align with character $\chi_k$?"
+;; For $\mathbb{Z}/n\mathbb{Z}$, this is exactly the DFT formula.
 
 (def signal (mapv #(c/complex (double %)) temperatures))
 
 (def f-hat (reel/fourier-transform ct signal))
 
-;; The k=0 coefficient is the sum of all values (the DC component).
+;; The $k = 0$ coefficient is the sum of all values (the DC component).
 
 (c/re (f-hat 0))
 
@@ -165,12 +166,12 @@
     (plotly/layer-point {:=mark-size 6})
     plotly/plot)
 
-;; The dominant oscillating component is **k=2** — two complete cycles
+;; The dominant oscillating component is $k = 2$ — two complete cycles
 ;; over the 24-month window, which is the **annual cycle** (period = 12
-;; months). This is the seasonal pattern. The k=22 peak is its conjugate
+;; months). This is the seasonal pattern. The $k = 22$ peak is its conjugate
 ;; mirror (the spectrum of real signals is symmetric).
 ;;
-;; The small peak at k=1 captures the slight year-over-year warming trend
+;; The small peak at $k = 1$ captures the slight year-over-year warming trend
 ;; (one cycle per 24 months = a 2-year period).
 
 ;; ## Comparison with the standard FFT
@@ -178,8 +179,8 @@
 ;; Let's verify that our group-theoretic Fourier transform gives the same
 ;; result as the standard FFT from fastmath.
 ;;
-;; The fastmath FFT returns interleaved [re_0, im_0, re_1, im_1, ...] for
-;; the first N/2 coefficients (exploiting Hermitian symmetry). We extract
+;; The fastmath FFT returns interleaved `[re_0, im_0, re_1, im_1, ...]` for
+;; the first $N/2$ coefficients (exploiting Hermitian symmetry). We extract
 ;; them and compare magnitudes with our full result.
 
 (let [fft-result (t/forward-1d (t/transformer :real :fft) temperatures)
@@ -223,7 +224,7 @@
                (table j) (table k) sizes n))})))
 
 (kind/table
- {:column-names ["j" "k" "|<chi_j, chi_k>|"]
+ {:column-names ["$j$" "$k$" "$|\\langle\\chi_j, \\chi_k\\rangle|$"]
   :row-vectors (mapv (fn [{:keys [j k inner-product-magnitude]}]
                        [j k (format "%.10f" inner-product-magnitude)])
                      orthogonality-data)})
@@ -265,7 +266,7 @@
 ;;
 ;; $$\widehat{f * h}(k) = \hat{f}(k) \cdot \hat{h}(k)$$
 ;;
-;; For Z/nZ, this is the familiar **cyclic convolution theorem**.
+;; For $\mathbb{Z}/n\mathbb{Z}$, this is the familiar **cyclic convolution theorem**.
 
 (def f-fn (mapv #(c/complex (double %))
                 [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
@@ -322,7 +323,7 @@
 (def h-real
   [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
 
-;; Full linear convolution has length 2n - 1.
+;; Full linear convolution has length $2n - 1$.
 
 (def linear-conv
   (vec (dt-conv/convolve1d f-real h-real {:mode :full :edge-mode :zero})))
@@ -332,7 +333,7 @@
 (kind/test-last
  [= 47])
 
-;; To get cyclic convolution, fold the tail back onto the first n elements.
+;; To get cyclic convolution, fold the tail back onto the first $n$ elements.
 
 (def cyclic-from-linear
   (let [n 24]
@@ -373,11 +374,11 @@ cyclic-from-linear
 ;; - **Dihedral groups** (symmetries of regular polygons) — for Burnside
 ;;   counting and musical pitch class theory
 ;;
-;; - **Symmetric groups** S_n (permutations) — where characters are indexed
+;; - **Symmetric groups** $S_n$ (permutations) — where characters are indexed
 ;;   by partitions and the Fourier transform produces matrix-valued
 ;;   coefficients. This is the setting for Diaconis's card shuffling analysis.
 ;;
-;; - **Product groups** Z/n_1Z x Z/n_2Z — giving the 2D DFT for image
+;; - **Product groups** $\mathbb{Z}/n_1\mathbb{Z} \times \mathbb{Z}/n_2\mathbb{Z}$ — giving the 2D DFT for image
 ;;   processing
 ;;
 ;; The reel library builds all of these on the same protocol foundation

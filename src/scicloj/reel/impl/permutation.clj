@@ -93,3 +93,40 @@
   (-> (identity-perm n)
       (assoc i j)
       (assoc j i)))
+
+(defn adjacent-transposition-decomposition
+  "Decompose a permutation into a sequence of adjacent transpositions.
+   Returns a vector of indices [i_1, i_2, ...] (0-indexed) such that
+   sigma = s_{i_1} ∘ s_{i_2} ∘ ... ∘ s_{i_k}
+   where s_i swaps positions i and i+1.
+
+   Uses the bubble-sort algorithm: repeatedly sweep left-to-right,
+   swapping adjacent out-of-order elements. Bubble sort on the array
+   computes sigma · s_{j_1} · s_{j_2} · ... = id (right multiplications),
+   so sigma = ... ∘ s_{j_2} ∘ s_{j_1}, and we reverse to get left-to-right
+   composition order."
+  [sigma]
+  (let [n (count sigma)
+        arr (int-array sigma)
+        swaps (java.util.ArrayList.)]
+    (loop [changed true]
+      (when changed
+        (let [did-swap (volatile! false)]
+          (dotimes [i (dec n)]
+            (when (> (aget arr i) (aget arr (inc i)))
+              (let [tmp (aget arr i)]
+                (aset arr i (aget arr (inc i)))
+                (aset arr (inc i) tmp))
+              (.add swaps (int i))
+              (vreset! did-swap true)))
+          (recur @did-swap))))
+    ;; Bubble sort applied right-multiplications: sigma · s_{j_1} · s_{j_2} · ... = id
+    ;; So sigma = ... ∘ s_{j_2} ∘ s_{j_1}
+    ;; Reversing gives left-to-right: sigma = s_{last} ∘ ... ∘ s_{first}
+    ;; We want: sigma = s_{i_1} ∘ s_{i_2} ∘ ... ∘ s_{i_k}
+    ;; So i_1=last, ..., i_k=first → reverse the recorded swaps
+    (let [m (.size swaps)
+          result (int-array m)]
+      (dotimes [i m]
+        (aset result i (.get swaps (- m 1 i))))
+      (vec result))))

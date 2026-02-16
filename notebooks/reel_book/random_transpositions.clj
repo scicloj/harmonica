@@ -2,13 +2,13 @@
 ;;
 ;; How many random transpositions does it take to mix up a deck of cards?
 ;;
-;; At each step, we pick a random transposition (i j) uniformly — including
-;; the "identity transposition" where i = j — and apply it. After k steps,
+;; At each step, we pick a random transposition $(i\; j)$ uniformly — including
+;; the "identity transposition" where $i = j$ — and apply it. After $k$ steps,
 ;; how close is the resulting distribution to uniform?
 ;;
 ;; **Diaconis and Shahshahani (1981)** proved a remarkable result: the
-;; distribution stays far from uniform until approximately ½n·ln(n) steps,
-;; then rapidly converges. This sharp transition is called the
+;; distribution stays far from uniform until approximately $\tfrac{1}{2}n\ln n$
+;; steps, then rapidly converges. This sharp transition is called the
 ;; **cutoff phenomenon**.
 ;;
 ;; The analysis uses **Fourier analysis on the symmetric group** — exactly
@@ -22,7 +22,7 @@
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
 
-;; ## Character table of S_5
+;; ## Character table of $S_5$
 
 ;; Let's start by looking at the character table for a small symmetric group.
 ;; Rows are indexed by **partitions** (labeling irreducible representations),
@@ -30,21 +30,23 @@
 
 (let [ct (reel/character-table (reel/symmetric-group 5))]
   (kind/table
-   {:column-names (into ["Irrep \u03BB"]
-                        (map str (:classes ct)))
+   {:column-names (into ["Irrep $\\lambda$"]
+                        (map #(str %) (:classes ct)))
     :row-vectors (mapv (fn [label row]
                          (into [(str label)]
                                (map #(long (.-x ^fastmath.vector.Vec2 %)) row)))
                        (:irrep-labels ct) (:table ct))}))
 
-;; Each entry \u03C7_\u03BB(\u03BC) is an integer. The first column (identity class)
-;; gives the **dimension** d_\u03BB of each irrep.
+;; Each entry $\chi_\lambda(\mu)$ is an integer. The first column (identity
+;; class) gives the **dimension** $d_\lambda$ of each irrep.
 
 ;; ## Row orthogonality
 
 ;; The character table satisfies a fundamental orthogonality relation:
 ;;
-;;   \u27E8\u03C7_\u03BB, \u03C7_\u03BC\u27E9 = (1/|G|) \u03A3_C |C| \u00B7 \u03C7_\u03BB(C) \u00B7 conj(\u03C7_\u03BC(C)) = \u03B4_{\u03BB\u03BC}
+;; $$\langle \chi_\lambda, \chi_\mu \rangle
+;;   = \frac{1}{|G|} \sum_C |C|\;\chi_\lambda(C)\;\overline{\chi_\mu(C)}
+;;   = \delta_{\lambda\mu}$$
 
 (let [ct (reel/character-table (reel/symmetric-group 5))
       table (:table ct)
@@ -65,39 +67,40 @@
 
 ;; ## The random transposition walk
 
-;; A **random transposition** on S_n picks an ordered pair (i, j) uniformly
-;; from {0,...,n-1}\u00B2. If i \u2260 j, apply the transposition (i j). If i = j,
-;; do nothing (stay at the current permutation).
+;; A **random transposition** on $S_n$ picks an ordered pair $(i, j)$
+;; uniformly from $\{0,\ldots,n{-}1\}^2$. If $i \neq j$, apply the
+;; transposition $(i\; j)$. If $i = j$, do nothing.
 ;;
-;; There are C(n,2) distinct transpositions and 1 identity, giving
-;; M = C(n,2) + 1 equally weighted outcomes. Since the distribution depends
-;; only on cycle type, it is a **class function** — its Fourier transform
-;; gives a scalar for each irrep.
+;; There are $\binom{n}{2}$ distinct transpositions and 1 identity, giving
+;; $M = \binom{n}{2} + 1$ equally weighted outcomes. Since the distribution
+;; depends only on cycle type, it is a **class function** — its Fourier
+;; transform gives a scalar for each irrep.
 
 ;; ## Fourier coefficients via characters
 
-;; For a class function f, the Fourier coefficient at irrep \u03BB is:
+;; For a class function $f$, the Fourier coefficient at irrep $\lambda$ is:
 ;;
-;;   f\u0302(\u03BB) = (1/d_\u03BB) \u03A3_\u03BC |C_\u03BC| \u00B7 f(\u03BC) \u00B7 \u03C7_\u03BB(\u03BC)
+;; $$\hat{f}(\lambda) = \frac{1}{d_\lambda}\sum_\mu |C_\mu|\;f(\mu)\;\chi_\lambda(\mu)$$
 ;;
 ;; For random transpositions, only the identity class and the transposition
-;; class contribute:
+;; class $[2,1^{n-2}]$ contribute:
 ;;
-;;   \u03B2_\u03BB = [1 + C(n,2) \u00B7 \u03C7_\u03BB([2,1^{n-2}]) / d_\u03BB] / M
+;; $$\beta_\lambda = \frac{1 + \binom{n}{2}\;\chi_\lambda([2,1^{n-2}])/d_\lambda}{M}$$
 
 ;; ## Closed-form eigenvalues
 
-;; A key result gives the ratio \u03C7_\u03BB([2,1^{n-2}]) / d_\u03BB in closed form:
+;; A key result gives the ratio $\chi_\lambda([2,1^{n-2}])/d_\lambda$ in
+;; closed form:
 ;;
-;;   \u03C7_\u03BB([2,1^{n-2}]) / d_\u03BB = [n(\u03BB) \u2212 n(\u03BB')] / C(n,2)
+;; $$\frac{\chi_\lambda([2,1^{n-2}])}{d_\lambda} = \frac{n(\lambda) - n(\lambda')}{\binom{n}{2}}$$
 ;;
-;; where n(\u03BB) = \u03A3_i C(\u03BB_i, 2) and \u03BB' is the conjugate partition.
-;; The eigenvalue simplifies to:
+;; where $n(\lambda) = \sum_i \binom{\lambda_i}{2}$ and $\lambda'$ is the
+;; conjugate partition. The eigenvalue simplifies to:
 ;;
-;;   \u03B2_\u03BB = [1 + n(\u03BB) \u2212 n(\u03BB')] / [C(n,2) + 1]
+;; $$\beta_\lambda = \frac{1 + n(\lambda) - n(\lambda')}{\binom{n}{2} + 1}$$
 ;;
 ;; This formula only needs partition shapes — no character table — so it
-;; scales to arbitrarily large n.
+;; scales to arbitrarily large $n$.
 
 (defn n-stat
   "n(lambda) = sum_i C(lambda_i, 2) = sum_i lambda_i*(lambda_i-1)/2."
@@ -126,7 +129,7 @@
                          -1)))))))
 
 ;; Let's verify the closed-form eigenvalues against the character table
-;; for S_5.
+;; for $S_5$.
 
 (let [n 5
       ct (reel/character-table (reel/symmetric-group n))
@@ -135,7 +138,7 @@
       trans-idx (.indexOf ^clojure.lang.PersistentVector (:classes ct)
                           (into [2] (repeat (- n 2) 1)))]
   (kind/table
-   {:column-names ["lambda" "d" "beta (table)" "beta (closed)"]
+   {:column-names ["$\\lambda$" "$d_\\lambda$" "$\\beta$ (table)" "$\\beta$ (closed)"]
     :row-vectors
     (mapv (fn [i]
             (let [lam ((:irrep-labels ct) i)
@@ -168,12 +171,14 @@
 ;; ## The Upper Bound Lemma
 
 ;; **Diaconis's Upper Bound Lemma** bounds the total variation distance
-;; between Q^{*k} (the distribution after k steps) and the uniform
-;; distribution U:
+;; between $Q^{*k}$ (the distribution after $k$ steps) and the uniform
+;; distribution $U$:
 ;;
-;;   4 ||Q^{*k} - U||^2_TV <= sum_{lambda != trivial} d^2_lambda |beta_lambda|^{2k}
+;; $$4\,\|Q^{*k} - U\|_{\mathrm{TV}}^2
+;;   \;\le\; \sum_{\lambda \neq \mathrm{trivial}} d_\lambda^2\;|\beta_\lambda|^{2k}$$
 ;;
-;; The trivial representation (partition [n]) is excluded because beta = 1.
+;; The trivial representation (partition $[n]$) is excluded because
+;; $\beta = 1$.
 
 (defn tv-upper-bound
   "Upper bound on ||Q^{*k} - U||_TV via Diaconis's Upper Bound Lemma."
@@ -185,8 +190,8 @@
 
 ;; ## The cutoff phenomenon
 
-;; The predicted cutoff is at k ~ (1/2)*n*ln(n). Let's compute the upper bound
-;; for several deck sizes and observe the sharp transition.
+;; The predicted cutoff is at $k \approx \tfrac{1}{2}n\ln n$. Let's compute
+;; the upper bound for several deck sizes and observe the sharp transition.
 
 (let [ns-to-plot [10 20 30 40]
       rows (vec (for [n ns-to-plot
@@ -213,8 +218,8 @@
 
 ;; ## Cutoff in normalized time
 
-;; To confirm the (1/2)*n*ln(n) scaling, we normalize the x-axis by
-;; dividing k by (1/2)*n*ln(n). All curves should drop near x = 1.
+;; To confirm the $\tfrac{1}{2}n\ln n$ scaling, we normalize the x-axis by
+;; dividing $k$ by $\tfrac{1}{2}n\ln n$. All curves should drop near $x = 1$.
 
 (let [ns-to-plot [10 20 30 40]
       rows (vec (for [n ns-to-plot
@@ -232,17 +237,18 @@
       (plotly/layer-line)
       (plotly/update-data
        (fn [d] (assoc d
-                      :=layout {:title "Cutoff at (1/2)*n*ln(n)"
-                                :xaxis {:title "k / ((1/2)*n*ln(n))"}
+                      :=layout {:title "Cutoff at k = (1/2) n ln(n)"
+                                :xaxis {:title "k / ((1/2) n ln n)"}
                                 :yaxis {:title "TV upper bound" :range [0 1.05]}})))
       plotly/plot))
 
-;; All curves drop around x = 1, confirming the (1/2)*n*ln(n) scaling law.
+;; All curves drop around $x \approx 1$, confirming the $\tfrac{1}{2}n\ln n$
+;; scaling law.
 
 ;; ## Summary
 
 (kind/table
- {:column-names ["n" "|S_n|" "(1/2)*n*ln(n)" "# partitions"]
+ {:column-names ["$n$" "$|S_n|$" "$\\tfrac{1}{2}n\\ln n$" "# partitions"]
   :row-vectors (mapv (fn [n]
                        [n
                         (str (reduce *' (range 1 (inc n))))
@@ -251,30 +257,31 @@
                      [5 10 15 20 30 40 52])})
 
 ;; For a standard 52-card deck, the cutoff is at about
-;; (1/2) * 52 * ln(52) = 103 random transpositions.
+;; $\tfrac{1}{2} \cdot 52 \cdot \ln 52 \approx 103$ random transpositions.
 
 ;; ## What drives the cutoff
 ;;
 ;; The Fourier transform decomposes the random walk into independent
 ;; components — one per irreducible representation. Each component decays
-;; at rate |beta_lambda|^{2k}. The **slowest-decaying** non-trivial component
-;; controls the mixing time.
+;; at rate $|\beta_\lambda|^{2k}$. The **slowest-decaying** non-trivial
+;; component controls the mixing time.
 ;;
 ;; For random transpositions, the largest non-trivial eigenvalue is
-;; beta_{[n-1,1]} = (n-2)/(n+1), which is close to 1 for large n. But
-;; because the sum includes d^2_lambda factors (which grow combinatorially
-;; with the partition), the overall mixing time is (1/2)*n*ln(n) — governed
-;; by the interplay between eigenvalue decay and multiplicity.
+;; $\beta_{[n-1,1]} = (n-2)/(n+1)$, which is close to 1 for large $n$.
+;; But because the sum includes $d_\lambda^2$ factors (which grow
+;; combinatorially with the partition), the overall mixing time is
+;; $\tfrac{1}{2}n\ln n$ — governed by the interplay between eigenvalue
+;; decay and multiplicity.
 
 ;; ## Connection to coupon collecting
 ;;
-;; The (1/2)*n*ln(n) threshold has an intuitive explanation via the **coupon
-;; collector problem**. For the permutation to be fully mixed, every
-;; position {0,...,n-1} must be "touched" by at least one transposition.
-;; The expected number of random events to cover all n positions is
-;; n*H_n ~ n*ln(n), where H_n is the n-th harmonic number. Since each
-;; transposition touches two positions, we divide by 2, yielding the
-;; (1/2)*n*ln(n) cutoff.
+;; The $\tfrac{1}{2}n\ln n$ threshold has an intuitive explanation via
+;; the **coupon collector problem**. For the permutation to be fully
+;; mixed, every position $\{0,\ldots,n{-}1\}$ must be "touched" by at
+;; least one transposition. The expected number of random events to cover
+;; all $n$ positions is $n H_n \sim n\ln n$, where $H_n$ is the $n$-th
+;; harmonic number. Since each transposition touches two positions, we
+;; divide by 2, yielding the $\tfrac{1}{2}n\ln n$ cutoff.
 ;;
 ;; The Fourier analysis makes this precise and quantitative.
 
@@ -282,7 +289,7 @@
 ;;
 ;; - Diaconis, P. & Shahshahani, M. (1981). "Generating a random
 ;;   permutation with random transpositions." *Z. Wahrscheinlichkeitstheorie*
-;;   **57**, 159-179.
+;;   **57**, 159–179.
 ;;
 ;; - Diaconis, P. (1988). *Group Representations in Probability and
 ;;   Statistics*. IMS Lecture Notes.

@@ -103,57 +103,57 @@
 
 
 (def
- v45_l137
+ v45_l138
  (let
   [sigma [1 2 0 3] tau [0 1 3 2]]
   (* (reel/sign sigma) (reel/sign tau))))
 
 
 (deftest
- t46_l141
- (is (= v45_l137 (reel/sign (reel/op G [1 2 0 3] [0 1 3 2])))))
+ t46_l142
+ (is (= v45_l138 (reel/sign (reel/op G [1 2 0 3] [0 1 3 2])))))
 
 
-(def v48_l150 (reel/partitions 4))
+(def v48_l151 (reel/partitions 4))
 
 
-(deftest t49_l152 (is (= v48_l150 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
+(deftest t49_l153 (is (= v48_l151 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
 
 
 (def
- v51_l157
+ v51_l158
  (kind/table
-  {:column-names ["n" "p(n)"],
+  {:column-names ["$n$" "$p(n)$"],
    :row-vectors
    (mapv (fn [n] [n (count (reel/partitions n))]) (range 1 11))}))
 
 
-(def v53_l168 (def classes (reel/conjugacy-classes G)))
+(def v53_l169 (def classes (reel/conjugacy-classes G)))
 
 
 (def
- v54_l170
+ v54_l171
  (kind/table
   {:column-names ["Cycle type" "Class size"],
    :row-vectors (mapv (fn [c] [(:cycle-type c) (:size c)]) classes)}))
 
 
-(def v56_l176 (reduce + (map :size classes)))
+(def v56_l177 (reduce + (map :size classes)))
 
 
-(deftest t57_l178 (is (= v56_l176 24)))
+(deftest t57_l179 (is (= v56_l177 24)))
 
 
-(def v59_l183 (count classes))
+(def v59_l184 (count classes))
 
 
-(deftest t60_l185 (is (= v59_l183 (count (reel/partitions 4)))))
+(deftest t60_l186 (is (= v59_l184 (count (reel/partitions 4)))))
 
 
 (def
- v62_l194
+ v62_l195
  (kind/table
-  {:column-names ["n" "|S_n|" "# classes"],
+  {:column-names ["$n$" "$|S_n|$" "# classes"],
    :row-vectors
    (mapv
     (fn
