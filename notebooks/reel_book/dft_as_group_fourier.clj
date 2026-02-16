@@ -18,6 +18,7 @@
    [fastmath.transform :as t]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
+   [tech.v3.datatype.convolve :as dt-conv]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -331,6 +332,64 @@ max-reconstruction-error
 
 (kind/test-last
  [true?])
+
+
+;; ## Connection to dtype-next convolution
+;;
+;; The dtype-next library provides `convolve1d` for efficient real-valued
+;; linear convolution. For signals on cyclic groups, **cyclic** convolution
+;; can be obtained from a full linear convolution by folding the overflow
+;; back around.
+
+(def ^:private f-real [1 2 0 0 0 0 0 3])
+(def ^:private h-real [0 1 1 0 0 0 0 0])
+
+;; Full linear convolution has length 2n - 1.
+
+(def ^:private linear-conv
+  (vec (dt-conv/convolve1d f-real h-real {:mode :full :edge-mode :zero})))
+
+linear-conv
+
+(kind/test-last
+ [(fn [v] (= (count v) 15))])
+
+;; To get cyclic convolution, fold the tail back onto the first n elements.
+
+(def ^:private cyclic-from-linear
+  (let [n 8]
+    (mapv (fn [i]
+            (+ (linear-conv i)
+               (if (< (+ i n) (count linear-conv))
+                 (linear-conv (+ i n))
+                 0.0)))
+          (range n))))
+
+cyclic-from-linear
+
+(kind/test-last
+ [(fn [v] (= (mapv long v) [3 4 3 2 0 0 0 0]))])
+
+;; This matches our group-theoretic convolution exactly.
+
+(def ^:private group-conv
+  (let [f (mapv #(c/complex (double %)) f-real)
+        h (mapv #(c/complex (double %)) h-real)]
+    (mapv #(c/re %) (reel/convolve ct f h))))
+
+;; Compare the two approaches element-wise.
+
+(every? #(< (Math/abs (double %)) 1e-10)
+        (map - cyclic-from-linear group-conv))
+
+(kind/test-last
+ [true?])
+
+;; The connection: reel's `convolve` computes cyclic convolution via the
+;; group Fourier transform (pointwise multiply in the frequency domain),
+;; which is equivalent to folding a linear convolution. For real-valued
+;; signals, dtype-next's `convolve1d` provides the fast underlying
+;; linear convolution; reel adds the group-theoretic structure.
 
 ;; ## What comes next
 ;;

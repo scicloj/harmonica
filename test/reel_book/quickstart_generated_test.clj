@@ -65,7 +65,7 @@
  (def
   signal
   (mapv
-   (fn* [p1__71930#] (c/complex (double p1__71930#)))
+   (fn* [p1__72868#] (c/complex (double p1__72868#)))
    [20 22 25 23 21 19 18 20])))
 
 
@@ -94,7 +94,7 @@
   ((fn
     [vs]
     (every?
-     (fn* [p1__71931#] (< (Math/abs (double p1__71931#)) 1.0E-10))
+     (fn* [p1__72869#] (< (Math/abs (double p1__72869#)) 1.0E-10))
      (map - vs [20 22 25 23 21 19 18 20])))
    v29_l90)))
 
@@ -104,7 +104,7 @@
  (def
   f
   (mapv
-   (fn* [p1__71932#] (c/complex (double p1__71932#)))
+   (fn* [p1__72870#] (c/complex (double p1__72870#)))
    [1 2 0 0 0 0 0 3])))
 
 
@@ -113,7 +113,7 @@
  (def
   h
   (mapv
-   (fn* [p1__71933#] (c/complex (double p1__71933#)))
+   (fn* [p1__72871#] (c/complex (double p1__72871#)))
    [0 1 1 0 0 0 0 0])))
 
 
@@ -122,7 +122,7 @@
 
 (def
  v35_l106
- (mapv (fn* [p1__71934#] (Math/round (c/re p1__71934#))) convolved))
+ (mapv (fn* [p1__72872#] (Math/round (c/re p1__72872#))) convolved))
 
 
 (deftest t36_l108 (is (= v35_l106 [3 4 3 2 0 0 0 0])))

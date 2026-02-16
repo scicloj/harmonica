@@ -8,6 +8,8 @@
      :irrep-labels - vector of labels for each irreducible representation
      :table        - vector of vectors of complex values (Vec2)
                      table[i][j] = chi_i(class_j)
+     :table-re     - vector of double arrays (real parts of each row)
+     :table-im     - vector of double arrays (imaginary parts of each row)
 
    For cyclic groups Z/nZ, the character table is exactly the DFT matrix:
    table[j][k] = omega^(jk) where omega = e^(2*pi*i/n)."
@@ -30,22 +32,32 @@
   (let [n (p/order G)
         ;; omega = e^(2*pi*i/n), the primitive n-th root of unity
         angle (/ (* 2.0 Math/PI) n)
-        ;; Precompute omega^k for k = 0..n-1
-        roots (mapv (fn [k]
-                      (c/complex (Math/cos (* k angle))
-                                 (Math/sin (* k angle))))
-                    (range n))
-        ;; table[j][k] = omega^(j*k) = roots[(j*k) mod n]
-        table (mapv (fn [j]
-                      (mapv (fn [k]
-                              (nth roots (mod (* j k) n)))
-                            (range n)))
-                    (range n))]
+        ;; Precompute cos and sin arrays for k = 0..n-1
+        cos-vals (double-array (map #(Math/cos (* (double %) angle)) (range n)))
+        sin-vals (double-array (map #(Math/sin (* (double %) angle)) (range n)))
+        ;; Build table: table[j][k] = omega^(j*k)
+        ;; Also build split real/imaginary double arrays for fast numerical access
+        rows (mapv (fn [j]
+                     (let [re-row (double-array n)
+                           im-row (double-array n)
+                           vec-row (object-array n)]
+                       (dotimes [k n]
+                         (let [idx (mod (* (long j) (long k)) n)]
+                           (aset re-row k (aget cos-vals idx))
+                           (aset im-row k (aget sin-vals idx))
+                           (aset vec-row k (c/complex (aget cos-vals idx)
+                                                      (aget sin-vals idx)))))
+                       {:vec-row (vec vec-row)
+                        :re-row re-row
+                        :im-row im-row}))
+                   (range n))]
     {:group G
      :classes (vec (range n))
      :class-sizes (vec (repeat n 1))
      :irrep-labels (vec (range n))
-     :table table}))
+     :table (mapv :vec-row rows)
+     :table-re (mapv :re-row rows)
+     :table-im (mapv :im-row rows)}))
 
 ;; ---------------------------------------------------------------------------
 ;; Character inner product
@@ -66,7 +78,7 @@
                             psi-i (nth psi-vals i)
                             size (nth class-sizes i)]
                         (c/add acc (c/scale (c/mult chi-i (c/conjugate psi-i))
-                                           (double size)))))
+                                            (double size)))))
                     c/ZERO
                     (range n))]
     (c/scale sum (/ 1.0 (double group-order)))))
