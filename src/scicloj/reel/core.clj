@@ -3,11 +3,20 @@
 
    Groups:
      cyclic-group     - create Z/nZ
+     symmetric-group  - create S_n
 
    Group operations:
      op, inv, id      - group operation, inverse, identity
      elements, order  - enumerate elements, group size
      conjugacy-classes - structural decomposition
+
+   Permutations:
+     cycles           - cycle decomposition
+     cycle-type       - partition (cycle type) of a permutation
+     sign             - permutation sign (+1 or -1)
+
+   Partitions:
+     partitions       - all partitions of n
 
    Characters:
      character-table  - compute the character table
@@ -20,6 +29,9 @@
      total-variation-distance  - distance between distributions"
   (:require [scicloj.reel.protocols :as p]
             [scicloj.reel.impl.cyclic :as cyclic]
+            [scicloj.reel.impl.symmetric :as symmetric]
+            [scicloj.reel.impl.permutation :as perm]
+            [scicloj.reel.impl.partition :as part]
             [scicloj.reel.characters :as ch]
             [scicloj.reel.fourier :as fourier]))
 
@@ -32,6 +44,38 @@
    Elements are integers 0, 1, ..., n-1.
    The group operation is addition mod n."
   cyclic/cyclic-group)
+
+(def symmetric-group
+  "Create the symmetric group S_n — all permutations of {0, ..., n-1}.
+   Elements are 0-indexed one-line notation vectors.
+   The group operation is composition (right-to-left)."
+  symmetric/symmetric-group)
+
+;; ---------------------------------------------------------------------------
+;; Permutation utilities
+;; ---------------------------------------------------------------------------
+
+(def cycles
+  "Cycle decomposition of a permutation.
+   Returns a vector of cycles (each a vector), omitting fixed points."
+  perm/cycles)
+
+(def cycle-type
+  "The cycle type of a permutation as a partition (descending sorted).
+   Includes 1-cycles (fixed points)."
+  perm/cycle-type)
+
+(def sign
+  "The sign of a permutation: +1 for even, -1 for odd."
+  perm/sign)
+
+;; ---------------------------------------------------------------------------
+;; Partitions
+;; ---------------------------------------------------------------------------
+
+(def partitions
+  "All partitions of n, as descending vectors."
+  part/partitions)
 
 ;; ---------------------------------------------------------------------------
 ;; Group protocol functions

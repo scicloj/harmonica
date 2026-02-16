@@ -1,2 +1,3 @@
 {"Getting Started" ["quickstart"]
- "Foundations" ["dft_as_group_fourier"]}
+ "Foundations" ["dft_as_group_fourier"
+                "symmetric_groups"]}
