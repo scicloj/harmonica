@@ -1,0 +1,19 @@
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    theme: [cosmo, notebooks/custom.scss]
+    toc-expand: 3
+    number-depth: 1
+  revealjs: {theme: solarized, navigation-mode: vertical, transition: slide, background-transition: fade, incremental: true}
+project: {type: book}
+book:
+  chapters:
+  - index.qmd
+  - part: Getting Started
+    chapters: [reel_book.quickstart.qmd]
+  - part: Foundations
+    chapters: [reel_book.dft_as_group_fourier.qmd, reel_book.symmetric_groups.qmd]
+  - part: Applications
+    chapters: [reel_book.random_transpositions.qmd, reel_book.riffle_shuffle.qmd, reel_book.counting_necklaces.qmd]
+  title: reel

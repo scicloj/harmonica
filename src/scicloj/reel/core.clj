@@ -4,6 +4,8 @@
    Groups:
      cyclic-group     - create Z/nZ
      symmetric-group  - create S_n
+     dihedral-group   - create D_n
+     product-group    - create G₁ × G₂
 
    Group operations:
      op, inv, id      - group operation, inverse, identity
@@ -43,6 +45,16 @@
      rising-sequences     - number of rising sequences of a permutation
      gsr-distribution-vec - GSR distribution as double array
 
+   Group actions:
+     orbit            - orbit of a point under a group action
+     orbits           - partition a domain into orbits
+     fixed-points     - points fixed by a group element
+     stabilizer       - elements that fix a point
+     burnside-count   - number of orbits via Burnside's lemma
+     cycle-index      - cycle index of a permutation action
+     polya-count      - colorings via Pólya enumeration
+     subset-action    - induced action on k-element subsets
+
    Fourier analysis:
      fourier-transform         - transform a function on a group
      inverse-fourier-transform - recover function from coefficients
@@ -51,13 +63,16 @@
   (:require [scicloj.reel.protocols :as p]
             [scicloj.reel.impl.cyclic :as cyclic]
             [scicloj.reel.impl.symmetric :as symmetric]
+            [scicloj.reel.impl.dihedral :as dihedral]
+            [scicloj.reel.impl.product :as product]
             [scicloj.reel.impl.permutation :as perm]
             [scicloj.reel.impl.partition :as part]
             [scicloj.reel.impl.young-tableaux :as yt]
             [scicloj.reel.impl.riffle :as riffle]
             [scicloj.reel.characters :as ch]
             [scicloj.reel.representations :as rep]
-            [scicloj.reel.fourier :as fourier]))
+            [scicloj.reel.fourier :as fourier]
+            [scicloj.reel.action :as action]))
 
 ;; ---------------------------------------------------------------------------
 ;; Group constructors
@@ -74,6 +89,16 @@
    Elements are 0-indexed one-line notation vectors.
    The group operation is composition (right-to-left)."
   symmetric/symmetric-group)
+
+(def dihedral-group
+  "Create the dihedral group D_n — symmetries of a regular n-gon.
+   Order 2n. Elements are [:r k] (rotations) and [:s k] (reflections)."
+  dihedral/dihedral-group)
+
+(def product-group
+  "Create the direct product G₁ × G₂ of two finite groups.
+   Elements are pairs [g h]."
+  product/product-group)
 
 ;; ---------------------------------------------------------------------------
 ;; Permutation utilities
@@ -217,6 +242,48 @@
 (def gsr-distribution-vec
   "GSR distribution as a double array for a vector of permutations."
   riffle/gsr-distribution-vec)
+
+;; ---------------------------------------------------------------------------
+;; Group actions
+;; ---------------------------------------------------------------------------
+
+(def orbit
+  "The orbit of point x under the action of group G.
+   act is a function (act g x) → x'."
+  action/orbit)
+
+(def orbits
+  "Partition domain into orbits under the action of group G.
+   Returns a vector of sets."
+  action/orbits)
+
+(def fixed-points
+  "The set of points in domain fixed by group element g.
+   (fixed-points act g domain)"
+  action/fixed-points)
+
+(def stabilizer
+  "The stabilizer of point x: group elements that fix x."
+  action/stabilizer)
+
+(def burnside-count
+  "Number of orbits via Burnside's lemma:
+   |orbits| = (1/|G|) Σ_{g∈G} |Fix(g)|"
+  action/burnside-count)
+
+(def cycle-index
+  "The cycle index of a group action.
+   Returns a map from cycle-type partition to coefficient."
+  action/cycle-index)
+
+(def polya-count
+  "Number of distinct colorings with k colors via Pólya enumeration."
+  action/polya-count)
+
+(def subset-action
+  "Induced action on k-element subsets of a domain.
+   Returns {:act act-fn :domain all-subsets}."
+  action/subset-action)
 
 ;; ---------------------------------------------------------------------------
 ;; Fourier analysis

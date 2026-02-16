@@ -3,5 +3,4 @@
                 "symmetric_groups"]
  "Applications" ["random_transpositions"
                  "riffle_shuffle"
-                 "counting_necklaces"
-                 "chord_geometry"]}
+                 "counting_necklaces"]}

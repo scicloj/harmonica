@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Riffle Shuffles and the “Seven Shuffles” Theorem – reel</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./reel_book.counting_necklaces.html" rel="next">
+<link href="./reel_book.random_transpositions.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a52dacdebdbd438f6573f472e77663ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.random_transpositions.html">Applications</a></li><li class="breadcrumb-item"><a href="./reel_book.riffle_shuffle.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">reel</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quickstart</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.dft_as_group_fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The DFT as Fourier Transform on a Group</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.symmetric_groups.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.random_transpositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.riffle_shuffle.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#youngs-orthogonal-form" id="toc-youngs-orthogonal-form" class="nav-link active" data-scroll-target="#youngs-orthogonal-form">Young’s Orthogonal Form</a></li>
+  <li><a href="#dimension-table-for-s_5" id="toc-dimension-table-for-s_5" class="nav-link" data-scroll-target="#dimension-table-for-s_5">Dimension Table for <span class="math inline">\(S_5\)</span></a></li>
+  <li><a href="#the-gilbert-shannon-reeds-riffle-shuffle" id="toc-the-gilbert-shannon-reeds-riffle-shuffle" class="nav-link" data-scroll-target="#the-gilbert-shannon-reeds-riffle-shuffle">The Gilbert-Shannon-Reeds Riffle Shuffle</a></li>
+  <li><a href="#total-variation-distance-exact-computation" id="toc-total-variation-distance-exact-computation" class="nav-link" data-scroll-target="#total-variation-distance-exact-computation">Total Variation Distance: Exact Computation</a></li>
+  <li><a href="#matrix-fourier-transform-of-the-gsr-distribution" id="toc-matrix-fourier-transform-of-the-gsr-distribution" class="nav-link" data-scroll-target="#matrix-fourier-transform-of-the-gsr-distribution">Matrix Fourier Transform of the GSR Distribution</a></li>
+  <li><a href="#plancherel-identity-verification" id="toc-plancherel-identity-verification" class="nav-link" data-scroll-target="#plancherel-identity-verification">Plancherel Identity Verification</a></li>
+  <li><a href="#convergence-rates-comparing-s_4-s_5-s_6" id="toc-convergence-rates-comparing-s_4-s_5-s_6" class="nav-link" data-scroll-target="#convergence-rates-comparing-s_4-s_5-s_6">Convergence Rates: Comparing <span class="math inline">\(S_4\)</span>, <span class="math inline">\(S_5\)</span>, <span class="math inline">\(S_6\)</span></a></li>
+  <li><a href="#toward-n-52-the-seven-shuffles-result" id="toc-toward-n-52-the-seven-shuffles-result" class="nav-link" data-scroll-target="#toward-n-52-the-seven-shuffles-result">Toward <span class="math inline">\(n = 52\)</span>: The “Seven Shuffles” Result</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.random_transpositions.html">Applications</a></li><li class="breadcrumb-item"><a href="./reel_book.riffle_shuffle.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style></style>
+<style>.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+<style>.clay-limit-image-width .clay-image {max-width: 100%}
+.clay-side-by-side .sourceCode {margin: 0}
+.clay-side-by-side {margin: 1em 0}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.20.0/plotly.min.js" type="text/javascript"></script>
+<p>How many times should you riffle-shuffle a deck of cards?</p>
+<p>In 1992, <strong>Bayer and Diaconis</strong> proved a remarkable result: for a standard 52-card deck, the distribution after <span class="math inline">\(k\)</span> riffle shuffles stays far from uniform until <span class="math inline">\(k \approx 7\)</span>, then rapidly converges. This sharp transition is the <strong>cutoff phenomenon</strong>.</p>
+<p>Unlike random transpositions (which are a class function), the riffle shuffle distribution is <strong>not</strong> a class function — it depends on the specific permutation, not just its cycle type. Analyzing it requires the full machinery of <strong>matrix representations</strong> and the <strong>matrix-valued Fourier transform</strong>.</p>
+<p>In this notebook we:</p>
+<ul>
+<li>Build irreducible representations of <span class="math inline">\(S_n\)</span> via Young’s orthogonal form</li>
+<li>Compute the Gilbert-Shannon-Reeds (GSR) riffle shuffle distribution</li>
+<li>Use the matrix Fourier transform to analyze convergence</li>
+<li>Reproduce the cutoff phenomenon for small groups</li>
+</ul>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> reel-book.riffle-shuffle</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.core <span class="at">:as</span> reel]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.impl.<span class="kw">partition</span> <span class="at">:as</span> part]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.impl.permutation <span class="at">:as</span> perm]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.impl.riffle <span class="at">:as</span> riffle]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.representations <span class="at">:as</span> rep]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.protocols <span class="at">:as</span> p]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   [tablecloth.api <span class="at">:as</span> tc]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>   [scicloj.tableplot.v1.plotly <span class="at">:as</span> plotly]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   [fastmath.matrix <span class="at">:as</span> fm]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="youngs-orthogonal-form" class="level2">
+<h2 class="anchored" data-anchor-id="youngs-orthogonal-form">Young’s Orthogonal Form</h2>
+<p>Every irreducible representation of <span class="math inline">\(S_n\)</span> can be realized as an orthogonal matrix representation, indexed by a <strong>partition</strong> <span class="math inline">\(\lambda\)</span> of <span class="math inline">\(n\)</span>. The basis vectors are <strong>standard Young tableaux</strong> (SYTs) — fillings of the Young diagram of <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(1, \ldots, n\)</span> that increase along rows and columns.</p>
+<p>For <span class="math inline">\(S_4\)</span> with partition <span class="math inline">\([3\;1]\)</span>, the SYTs are:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(reel/standard-young-tableaux [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>[[[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">4</span>]] [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span> <span class="dv">4</span>] [<span class="dv">2</span>]]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The dimension is <span class="math inline">\(d_{[3,1]} = 3\)</span>, matching the hook-length formula:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(reel/hook-length-dimension [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The representation matrices for the generators <span class="math inline">\(s_1, s_2, s_3\)</span> (adjacent transpositions swapping values <span class="math inline">\(i\)</span> and <span class="math inline">\(i+1\)</span>):</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (reel/irrep [<span class="dv">3</span> <span class="dv">1</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      gens (reel/rep-generators ir)]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"Generator"</span> <span class="st">"Matrix"</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [i g]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> <span class="st">"$s_"</span> (<span class="kw">inc</span> i) <span class="st">"$"</span>) (<span class="kw">str</span> g)])</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">range</span>) gens)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Generator</th>
+<th data-quarto-table-cell-role="th">Matrix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>$s_1$</td>
+<td>Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,-1.0}}</td>
+</tr>
+<tr class="even">
+<td>$s_2$</td>
+<td>Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,-0.5,0.8660254038},{0.0,0.8660254038,0.5}}</td>
+</tr>
+<tr class="odd">
+<td>$s_3$</td>
+<td>Array2DRowRealMatrix{{-0.3333333333,0.9428090416,0.0},{0.9428090416,0.3333333333,0.0},{0.0,0.0,1.0}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>These matrices are <strong>orthogonal</strong> (<span class="math inline">\(\rho(\sigma)^T \rho(\sigma) = I\)</span>) and satisfy the <strong>homomorphism property</strong> (<span class="math inline">\(\rho(\sigma\tau) = \rho(\sigma)\rho(\tau)\)</span>).</p>
+</section>
+<section id="dimension-table-for-s_5" class="level2">
+<h2 class="anchored" data-anchor-id="dimension-table-for-s_5">Dimension Table for <span class="math inline">\(S_5\)</span></h2>
+<p>Each partition <span class="math inline">\(\lambda\)</span> of <span class="math inline">\(n\)</span> gives an irrep of dimension <span class="math inline">\(d_\lambda\)</span>. The sum <span class="math inline">\(\sum_\lambda d_\lambda^2 = n!\)</span> (a consequence of Maschke’s theorem).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [n <span class="dv">5</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      parts (part/partitions n)]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"$</span><span class="sc">\\</span><span class="st">lambda$"</span> <span class="st">"$d_</span><span class="sc">\\</span><span class="st">lambda$"</span> <span class="st">"$d_</span><span class="sc">\\</span><span class="st">lambda^2$"</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">conj</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [lam]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                               (<span class="kw">let</span> [d (reel/hook-length-dimension lam)]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                                 [(<span class="kw">str</span> lam) d (<span class="kw">*</span> d d)]))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                             parts)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                       [<span class="st">"**Total**"</span> <span class="st">""</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                        (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(<span class="kw">let</span> [d (reel/hook-length-dimension <span class="va">%</span>)]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                                          (<span class="kw">*</span> d d))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                                       parts))])}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">$\lambda$</th>
+<th data-quarto-table-cell-role="th">$d_\lambda$</th>
+<th data-quarto-table-cell-role="th">$d_\lambda^2$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>[5]</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>[4 1]</td>
+<td>4</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td>[3 2]</td>
+<td>5</td>
+<td>25</td>
+</tr>
+<tr class="even">
+<td>[3 1 1]</td>
+<td>6</td>
+<td>36</td>
+</tr>
+<tr class="odd">
+<td>[2 2 1]</td>
+<td>5</td>
+<td>25</td>
+</tr>
+<tr class="even">
+<td>[2 1 1 1]</td>
+<td>4</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td>[1 1 1 1 1]</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>**Total**</td>
+<td></td>
+<td>120</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="the-gilbert-shannon-reeds-riffle-shuffle" class="level2">
+<h2 class="anchored" data-anchor-id="the-gilbert-shannon-reeds-riffle-shuffle">The Gilbert-Shannon-Reeds Riffle Shuffle</h2>
+<p>The GSR model for a single riffle shuffle:</p>
+<ol type="1">
+<li>Cut the deck into two packets according to a binomial distribution</li>
+<li>Interleave the packets, preserving relative order within each</li>
+</ol>
+<p>After <span class="math inline">\(k\)</span> shuffles (equivalently, an <span class="math inline">\(a\)</span>-shuffle with <span class="math inline">\(a = 2^k\)</span>), the probability of permutation <span class="math inline">\(\sigma\)</span> is:</p>
+<p><span class="math display">\[Q_a(\sigma) = \frac{\binom{a + n - r(\sigma)}{n}}{a^n}\]</span></p>
+<p>where <span class="math inline">\(r(\sigma)\)</span> is the number of <strong>rising sequences</strong> of <span class="math inline">\(\sigma\)</span> — maximal consecutive increasing runs. Equivalently, <span class="math inline">\(r(\sigma) = 1 + \text{descents}(\sigma^{-1})\)</span>.</p>
+<p>For example, <span class="math inline">\([2\;0\;3\;1]\)</span> has <span class="math inline">\(\sigma^{-1} = [1\;3\;0\;2]\)</span>, with descents at positions 1 and 3, so <span class="math inline">\(r = 1 + 2 = 3\)</span> rising sequences:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(reel/rising-sequences [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The identity permutation always has <span class="math inline">\(r = 1\)</span> (one rising sequence), making it the most likely outcome:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(reel/gsr-probability (perm/identity-perm <span class="dv">4</span>) <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3125</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="total-variation-distance-exact-computation" class="level2">
+<h2 class="anchored" data-anchor-id="total-variation-distance-exact-computation">Total Variation Distance: Exact Computation</h2>
+<p>For small <span class="math inline">\(n\)</span>, we can compute the exact total variation distance between the <span class="math inline">\(k\)</span>-shuffle distribution and uniform:</p>
+<p><span class="math display">\[\|Q^{*k} - U\|_{TV} = \frac{1}{2}\sum_{\sigma \in S_n} \left|Q_a(\sigma) - \frac{1}{n!}\right|\]</span></p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [n <span class="dv">5</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      G (reel/symmetric-group n)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (p/elements G))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      n-elts (<span class="kw">count</span> elts)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      uniform (<span class="kw">/</span> <span class="fl">1.0</span> n-elts)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      tv-data (<span class="kw">mapv</span> (<span class="kw">fn</span> [k]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">let</span> [probs (reel/gsr-distribution-vec elts k)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                            tv (<span class="kw">*</span> <span class="fl">0.5</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(Math/abs (<span class="kw">-</span> (<span class="kw">aget</span> ^<span class="kw">doubles</span> probs (<span class="kw">int</span> <span class="va">%</span>)) uniform))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                                     (<span class="kw">range</span> n-elts))))]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                        {<span class="at">:k</span> k <span class="at">:tv</span> tv}))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">15</span>))]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> (tc/dataset tv-data)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      (plotly/base {:=x <span class="at">:k</span> :=y <span class="at">:tv</span>})</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      (plotly/layer-line {:=mark-color <span class="st">"steelblue"</span>})</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      (plotly/layer-point {:=mark-color <span class="st">"steelblue"</span> :=mark-size <span class="dv">8</span>})</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      (plotly/update-data</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">fn</span> [d] (<span class="kw">assoc</span> d</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                      :=layout {<span class="at">:title</span> <span class="st">"TV distance from uniform after k riffle shuffles (S₅)"</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>                                <span class="at">:xaxis</span> {<span class="at">:title</span> <span class="st">"k (number of shuffles)"</span>}</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>                                <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"Total variation distance"</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">:range</span> [<span class="dv">0</span> <span class="fl">1.05</span>]}})))</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>      plotly/plot))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"y":[0.775,0.3628906250000005,0.16574707031249986,0.0781082153320312,0.037779712677001906,0.01856225132942197,0.009198184683918954,0.004578232509084042,0.002283886059012726,0.0011406335969695609,5.699892062068519E-4,2.849126758480442E-4,1.424358524670672E-4,7.121280441422552E-5],"name":"","mode":"lines","type":"scatter","line":{"color":"steelblue"},"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]},{"y":[0.775,0.3628906250000005,0.16574707031249986,0.0781082153320312,0.037779712677001906,0.01856225132942197,0.009198184683918954,0.004578232509084042,0.002283886059012726,0.0011406335969695609,5.699892062068519E-4,2.849126758480442E-4,1.424358524670672E-4,7.121280441422552E-5],"name":"","marker":{"color":"steelblue","size":8},"mode":"markers","type":"scatter","x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]}], {"width":500,"height":400,"margin":{"t":25},"automargin":false,"plot_bgcolor":"rgb(235,235,235)","xaxis":{"gridcolor":"rgb(255,255,255)","title":"k","showgrid":true},"yaxis":{"gridcolor":"rgb(255,255,255)","title":"tv","showgrid":true}}, {});</script></div>
+<p>The cutoff is at <span class="math inline">\(k \approx \tfrac{3}{2}\log_2(n)\)</span>. For <span class="math inline">\(n = 5\)</span>, that is <span class="math inline">\(\approx 3.5\)</span> shuffles.</p>
+</section>
+<section id="matrix-fourier-transform-of-the-gsr-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-fourier-transform-of-the-gsr-distribution">Matrix Fourier Transform of the GSR Distribution</h2>
+<p>We compute <span class="math inline">\(\hat{Q}(\rho_\lambda) = \sum_\sigma Q(\sigma) \cdot \rho_\lambda(\sigma)\)</span> for all irreps of <span class="math inline">\(S_4\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [n <span class="dv">4</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      G (reel/symmetric-group n)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      parts (part/partitions n)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> reel/irrep parts)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      k <span class="dv">2</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">fn</span> [sigma] (reel/gsr-probability sigma k))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      f-hats (reel/matrix-fourier-transform-all G f irreps)]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"$</span><span class="sc">\\</span><span class="st">lambda$"</span> <span class="st">"$d_</span><span class="sc">\\</span><span class="st">lambda$"</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"$</span><span class="sc">\\</span><span class="st">|</span><span class="sc">\\</span><span class="st">hat{Q}(</span><span class="sc">\\</span><span class="st">rho_</span><span class="sc">\\</span><span class="st">lambda)</span><span class="sc">\\</span><span class="st">|_F$"</span>]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [lam ir fh]</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> lam)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                          (<span class="at">:dimension</span> ir)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">format</span> <span class="st">"%.6f"</span> (reel/frobenius-norm fh))])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                       parts irreps f-hats)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">$\lambda$</th>
+<th data-quarto-table-cell-role="th">$d_\lambda$</th>
+<th data-quarto-table-cell-role="th">$\|\hat{Q}(\rho_\lambda)\|_F$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>[4]</td>
+<td>1</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td>[3 1]</td>
+<td>3</td>
+<td>0.269729</td>
+</tr>
+<tr class="odd">
+<td>[2 2]</td>
+<td>2</td>
+<td>0.088388</td>
+</tr>
+<tr class="even">
+<td>[2 1 1]</td>
+<td>3</td>
+<td>0.269729</td>
+</tr>
+<tr class="odd">
+<td>[1 1 1 1]</td>
+<td>1</td>
+<td>0.062500</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="plancherel-identity-verification" class="level2">
+<h2 class="anchored" data-anchor-id="plancherel-identity-verification">Plancherel Identity Verification</h2>
+<p>The Plancherel identity states:</p>
+<p><span class="math display">\[\sum_{\sigma \in G} |f(\sigma)|^2 = \frac{1}{|G|} \sum_\lambda d_\lambda \|\hat{f}(\rho_\lambda)\|_F^2\]</span></p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [n <span class="dv">4</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      G (reel/symmetric-group n)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      parts (part/partitions n)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> reel/irrep parts)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">fn</span> [sigma] (reel/gsr-probability sigma <span class="dv">2</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      f-hats (reel/matrix-fourier-transform-all G f irreps)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      lhs (rep/plancherel-lhs G f)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      rhs (rep/plancherel-rhs G f-hats irreps)]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:lhs</span> lhs <span class="at">:rhs</span> rhs <span class="at">:difference</span> (Math/abs (<span class="kw">-</span> lhs rhs))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:lhs</span> <span class="fl">0.0606689453125</span>, <span class="at">:rhs</span> <span class="fl">0.0606689453125</span>, <span class="at">:difference</span> <span class="fl">0.0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="convergence-rates-comparing-s_4-s_5-s_6" class="level2">
+<h2 class="anchored" data-anchor-id="convergence-rates-comparing-s_4-s_5-s_6">Convergence Rates: Comparing <span class="math inline">\(S_4\)</span>, <span class="math inline">\(S_5\)</span>, <span class="math inline">\(S_6\)</span></h2>
+<p>The cutoff at <span class="math inline">\(k \approx \tfrac{3}{2}\log_2(n)\)</span> means larger groups need more shuffles. Let’s compare.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [tv-data (<span class="kw">vec</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">for</span> [n [<span class="dv">4</span> <span class="dv">5</span> <span class="dv">6</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                     k (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">15</span>)]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                 (<span class="kw">let</span> [G (reel/symmetric-group n)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                       elts (<span class="kw">vec</span> (p/elements G))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                       n-elts (<span class="kw">count</span> elts)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                       uniform (<span class="kw">/</span> <span class="fl">1.0</span> n-elts)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                       probs (reel/gsr-distribution-vec elts k)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                       tv (<span class="kw">*</span> <span class="fl">0.5</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(Math/abs (<span class="kw">-</span> (<span class="kw">aget</span> ^<span class="kw">doubles</span> probs (<span class="kw">int</span> <span class="va">%</span>)) uniform))</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                                                (<span class="kw">range</span> n-elts))))]</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                   {<span class="at">:k</span> k <span class="at">:tv</span> tv <span class="at">:n</span> (<span class="kw">str</span> <span class="st">"n="</span> n)})))]</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> (tc/dataset tv-data)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      (plotly/base {:=x <span class="at">:k</span> :=y <span class="at">:tv</span> :=color <span class="at">:n</span>})</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      (plotly/layer-line)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>      (plotly/layer-point {:=mark-size <span class="dv">6</span>})</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      (plotly/update-data</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">fn</span> [d] (<span class="kw">assoc</span> d</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                      :=layout {<span class="at">:title</span> <span class="st">"Riffle shuffle cutoff phenomenon"</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>                                <span class="at">:xaxis</span> {<span class="at">:title</span> <span class="st">"k (number of shuffles)"</span>}</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>                                <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"Total variation distance"</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">:range</span> [<span class="dv">0</span> <span class="fl">1.05</span>]}})))</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      plotly/plot))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"y":[0.5000000000000001,0.28124999999999994,0.14453125,0.07275390625000003,0.03643798828125,0.018226623535156257,0.009114265441894608,0.004557251930236782,0.002278640866279602,0.001139322295784985,5.696613807231257E-4,2.848307194653517E-4,1.4241536337059393E-4,7.120768214008422E-5],"name":"n=4","mode":"lines","type":"scatter","line":{"color":"#1B9E77"},"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]},{"y":[0.775,0.3628906250000005,0.16574707031249986,0.0781082153320312,0.037779712677001906,0.01856225132942197,0.009198184683918954,0.004578232509084042,0.002283886059012726,0.0011406335969695609,5.699892062068519E-4,2.849126758480442E-4,1.424358524670672E-4,7.121280441422552E-5],"name":"n=5","mode":"lines","type":"scatter","line":{"color":"#D95F02"},"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]},{"y":[0.9194444444444431,0.42626953125000017,0.2397003173828127,0.12331247329711947,0.06209345161914863,0.0311015159822999,0.015557611084659789,0.007779662314078502,0.0038899382577284305,0.0019449825165822822,9.724929317599876E-4,4.8624667506365034E-4,2.431233636799355E-4,1.2156168510837591E-4],"name":"n=6","mode":"lines","type":"scatter","line":{"color":"#7570B3"},"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]},{"y":[0.5000000000000001,0.28124999999999994,0.14453125,0.07275390625000003,0.03643798828125,0.018226623535156257,0.009114265441894608,0.004557251930236782,0.002278640866279602,0.001139322295784985,5.696613807231257E-4,2.848307194653517E-4,1.4241536337059393E-4,7.120768214008422E-5],"name":"n=4","marker":{"color":"#1B9E77","size":6},"mode":"markers","type":"scatter","x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]},{"y":[0.775,0.3628906250000005,0.16574707031249986,0.0781082153320312,0.037779712677001906,0.01856225132942197,0.009198184683918954,0.004578232509084042,0.002283886059012726,0.0011406335969695609,5.699892062068519E-4,2.849126758480442E-4,1.424358524670672E-4,7.121280441422552E-5],"name":"n=5","marker":{"color":"#D95F02","size":6},"mode":"markers","type":"scatter","x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]},{"y":[0.9194444444444431,0.42626953125000017,0.2397003173828127,0.12331247329711947,0.06209345161914863,0.0311015159822999,0.015557611084659789,0.007779662314078502,0.0038899382577284305,0.0019449825165822822,9.724929317599876E-4,4.8624667506365034E-4,2.431233636799355E-4,1.2156168510837591E-4],"name":"n=6","marker":{"color":"#7570B3","size":6},"mode":"markers","type":"scatter","x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14]}], {"width":500,"height":400,"margin":{"t":25},"automargin":false,"plot_bgcolor":"rgb(235,235,235)","xaxis":{"gridcolor":"rgb(255,255,255)","title":"k","showgrid":true},"yaxis":{"gridcolor":"rgb(255,255,255)","title":"tv","showgrid":true}}, {});</script></div>
+</section>
+<section id="toward-n-52-the-seven-shuffles-result" class="level2">
+<h2 class="anchored" data-anchor-id="toward-n-52-the-seven-shuffles-result">Toward <span class="math inline">\(n = 52\)</span>: The “Seven Shuffles” Result</h2>
+<p>For a standard 52-card deck, the exact computation is infeasible (<span class="math inline">\(52! \approx 8 \times 10^{67}\)</span> permutations). However, Bayer and Diaconis computed the exact total variation distance using the formula for <span class="math inline">\(a\)</span>-shuffles. Their result:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(k\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\|Q^{*k} - U\|_{TV}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0.924</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0.614</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0.334</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0.167</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0.039</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">0.009</td>
+</tr>
+</tbody>
+</table>
+<p>The cutoff at <span class="math inline">\(k \approx \tfrac{3}{2}\log_2(52) \approx 8.5\)</span> is clearly visible. After 7 shuffles the deck is “nearly random” (TV <span class="math inline">\(\approx 1/3\)</span>), while 6 shuffles leave it decidedly non-random (TV <span class="math inline">\(&gt; 0.6\)</span>).</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This notebook demonstrated:</p>
+<ul>
+<li><strong>Standard Young Tableaux</strong> as the basis for irreducible representations</li>
+<li><strong>Young’s orthogonal form</strong>: explicit orthogonal matrices for generators</li>
+<li>The <strong>GSR riffle shuffle</strong> distribution <span class="math inline">\(Q_a(\sigma) = \binom{a+n-r}{n}/a^n\)</span></li>
+<li><strong>Matrix Fourier transform</strong> for non-class functions</li>
+<li>The <strong>Plancherel identity</strong> as a verification tool</li>
+<li>The <strong>cutoff phenomenon</strong>: a sharp transition from “far from random” to “nearly uniform” at <span class="math inline">\(k \approx \tfrac{3}{2}\log_2(n)\)</span></li>
+</ul>
+<div style="background-color:grey;height:2px;width:100%;"></div>
+<div><pre><small><small>source: <a href="https://github.com/scicloj/reel/blob/main/notebooks/reel_book/riffle_shuffle.clj">notebooks/reel_book/riffle_shuffle.clj</a></small></small></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./reel_book.random_transpositions.html" class="pagination-link" aria-label="Random Transpositions and the Cutoff Phenomenon">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./reel_book.counting_necklaces.html" class="pagination-link" aria-label="Counting Necklaces — Burnside's Lemma Visualized">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

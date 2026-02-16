@@ -96,6 +96,124 @@
      :table-re (mapv :re-row rows)
      :table-im (mapv :im-row rows)}))
 
+(defmethod character-table :dihedral
+  [G]
+  (let [n (.-n G)
+        classes (p/conjugacy-classes G)
+        num-classes (count classes)
+        class-sizes (mapv :size classes)
+        class-reps (mapv :representative classes)]
+    (if (odd? n)
+      ;; n odd: 2 one-dim irreps + (n-1)/2 two-dim irreps
+      ;; Classes: {e}, {r^k, r^{-k}} for k=1..(n-1)/2, {all reflections}
+      (let [num-2d (quot (dec n) 2)
+            angle (/ (* 2.0 Math/PI) n)
+            rows (vec
+                  (concat
+                   ;; χ₁: trivial — all 1s
+                   [(let [re-row (double-array num-classes)
+                          im-row (double-array num-classes)
+                          vec-row (object-array num-classes)]
+                      (dotimes [j num-classes]
+                        (aset re-row j 1.0)
+                        (aset im-row j 0.0)
+                        (aset vec-row j (c/complex 1.0 0.0)))
+                      {:vec-row (vec vec-row) :re-row re-row :im-row im-row})]
+                   ;; χ₂: +1 on rotations, -1 on reflections
+                   [(let [re-row (double-array num-classes)
+                          im-row (double-array num-classes)
+                          vec-row (object-array num-classes)]
+                      (dotimes [j num-classes]
+                        (let [rep (class-reps j)
+                              val (if (= :s (first rep)) -1.0 1.0)]
+                          (aset re-row j val)
+                          (aset im-row j 0.0)
+                          (aset vec-row j (c/complex val 0.0))))
+                      {:vec-row (vec vec-row) :re-row re-row :im-row im-row})]
+                   ;; χ_m for m=1..(n-1)/2: dimension 2
+                   ;; χ_m(e)=2, χ_m(r^k)=2cos(2πmk/n), χ_m(s)=0
+                   (mapv (fn [m]
+                           (let [re-row (double-array num-classes)
+                                 im-row (double-array num-classes)
+                                 vec-row (object-array num-classes)]
+                             (dotimes [j num-classes]
+                               (let [rep (class-reps j)
+                                     val (cond
+                                           ;; identity
+                                           (= rep [:r 0]) 2.0
+                                           ;; rotation class {r^k, r^{-k}}
+                                           (= :r (first rep))
+                                           (* 2.0 (Math/cos (* angle m (double (second rep)))))
+                                           ;; reflection class
+                                           :else 0.0)]
+                                 (aset re-row j val)
+                                 (aset im-row j 0.0)
+                                 (aset vec-row j (c/complex val 0.0))))
+                             {:vec-row (vec vec-row) :re-row re-row :im-row im-row}))
+                         (range 1 (inc num-2d)))))]
+        {:group G
+         :classes class-reps
+         :class-sizes class-sizes
+         :irrep-labels (vec (concat [:trivial :sign]
+                                    (mapv (fn [m] [:dim2 m]) (range 1 (inc num-2d)))))
+         :table (mapv :vec-row rows)
+         :table-re (mapv :re-row rows)
+         :table-im (mapv :im-row rows)})
+      ;; n even: 4 one-dim irreps + (n/2-1) two-dim irreps
+      ;; Classes: {e}, {r^{n/2}}, {r^k,r^{-k}} for k=1..n/2-1, {even refl}, {odd refl}
+      (let [half (quot n 2)
+            num-2d (dec half)
+            angle (/ (* 2.0 Math/PI) n)
+            ;; Helper: value of 1-dim irrep on class representative
+            ;; χ₁: all 1
+            ;; χ₂: +1 on rotations, -1 on all reflections
+            ;; χ₃: (-1)^k on r^k, +1 on even-refl, -1 on odd-refl
+            ;; χ₄: (-1)^k on r^k, -1 on even-refl, +1 on odd-refl
+            one-dim-row (fn [rot-fn even-refl-val odd-refl-val]
+                          (let [re-row (double-array num-classes)
+                                im-row (double-array num-classes)
+                                vec-row (object-array num-classes)]
+                            (dotimes [j num-classes]
+                              (let [rep (class-reps j)
+                                    val (cond
+                                          (= :r (first rep)) (rot-fn (second rep))
+                                          (= rep [:s 0]) (double even-refl-val)
+                                          :else (double odd-refl-val))]
+                                (aset re-row j (double val))
+                                (aset im-row j 0.0)
+                                (aset vec-row j (c/complex val 0.0))))
+                            {:vec-row (vec vec-row) :re-row re-row :im-row im-row}))
+            rows (vec
+                  (concat
+                   [(one-dim-row (constantly 1.0) 1.0 1.0) ;; χ₁
+                    (one-dim-row (constantly 1.0) -1.0 -1.0) ;; χ₂
+                    (one-dim-row (fn [k] (Math/pow -1.0 (double k))) 1.0 -1.0) ;; χ₃
+                    (one-dim-row (fn [k] (Math/pow -1.0 (double k))) -1.0 1.0)] ;; χ₄
+                   ;; 2-dim irreps χ_m for m=1..(n/2-1)
+                   (mapv (fn [m]
+                           (let [re-row (double-array num-classes)
+                                 im-row (double-array num-classes)
+                                 vec-row (object-array num-classes)]
+                             (dotimes [j num-classes]
+                               (let [rep (class-reps j)
+                                     val (cond
+                                           (= :r (first rep))
+                                           (* 2.0 (Math/cos (* angle m (double (second rep)))))
+                                           :else 0.0)]
+                                 (aset re-row j val)
+                                 (aset im-row j 0.0)
+                                 (aset vec-row j (c/complex val 0.0))))
+                             {:vec-row (vec vec-row) :re-row re-row :im-row im-row}))
+                         (range 1 (inc num-2d)))))]
+        {:group G
+         :classes class-reps
+         :class-sizes class-sizes
+         :irrep-labels (vec (concat [:trivial :sign :sign-rot :sign-both]
+                                    (mapv (fn [m] [:dim2 m]) (range 1 (inc num-2d)))))
+         :table (mapv :vec-row rows)
+         :table-re (mapv :re-row rows)
+         :table-im (mapv :im-row rows)}))))
+
 ;; ---------------------------------------------------------------------------
 ;; Character inner product
 ;; ---------------------------------------------------------------------------
