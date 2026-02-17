@@ -2,7 +2,7 @@
   (:require [clojure.tools.build.api :as b]
             [deps-deploy.deps-deploy :as dd]))
 
-(def lib 'org.scicloj/reel)
+(def lib 'org.scicloj/harmonica)
 (def version "0.1.0")
 (def snapshot (str version "-SNAPSHOT"))
 (def class-dir "target/classes")
@@ -32,7 +32,7 @@
 
 (defn- pom-template [version]
   [[:description "A Clojure library"]
-   [:url "https://github.com/scicloj/reel"]
+   [:url "https://github.com/scicloj/harmonica"]
    [:licenses
     [:license
      [:name "MIT License"]
@@ -41,9 +41,9 @@
     [:developer
      [:name "scicloj"]]]
    [:scm
-    [:url "https://github.com/scicloj/reel"]
-    [:connection "scm:git:https://github.com/scicloj/reel.git"]
-    [:developerConnection "scm:git:ssh:git@github.com:scicloj/reel.git"]
+    [:url "https://github.com/scicloj/harmonica"]
+    [:connection "scm:git:https://github.com/scicloj/harmonica.git"]
+    [:developerConnection "scm:git:ssh:git@github.com:scicloj/harmonica.git"]
     [:tag (str "v" version)]]])
 
 (defn ci

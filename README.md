@@ -1,13 +1,13 @@
-# Reel
+# Harmonica
 
 **Computational group theory and representation theory in Clojure**
 
-Reel provides group-theoretic Fourier analysis on finite groups, built on
+Harmonica provides group-theoretic Fourier analysis on finite groups, built on
 [dtype-next](https://github.com/cnuernber/dtype-next) for numerics and
 [fastmath](https://generateme.github.io/fastmath/clay) for complex arithmetic.
 
 The unifying idea: the Discrete Fourier Transform is secretly the Fourier
-transform on the cyclic group. Reel makes this connection explicit and
+transform on the cyclic group. Harmonica makes this connection explicit and
 generalizes it to symmetric groups and beyond.
 
 Current modules:
@@ -19,10 +19,10 @@ Current modules:
 ## General info
 |||
 |-|-|
-|Website | [https://scicloj.github.io/reel/](https://scicloj.github.io/reel/)
-|Source |[![(GitHub repo)](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/scicloj/reel)|
-|Deps |[![Clojars Project](https://img.shields.io/clojars/v/org.scicloj/reel.svg)](https://clojars.org/org.scicloj/reel)|
-|License |[MIT](https://github.com/scicloj/reel/blob/main/LICENSE)|
+|Website | [https://scicloj.github.io/harmonica/](https://scicloj.github.io/harmonica/)
+|Source |[![(GitHub repo)](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/scicloj/harmonica)|
+|Deps |[![Clojars Project](https://img.shields.io/clojars/v/org.scicloj/harmonica.svg)](https://clojars.org/org.scicloj/harmonica)|
+|License |[MIT](https://github.com/scicloj/harmonica/blob/main/LICENSE)|
 |Status |🛠alpha🛠|
 
 ## Features
@@ -50,26 +50,26 @@ Current modules:
 Add to your `deps.edn`:
 
 ```clojure
-{:deps {org.scicloj/reel {:mvn/version "0.1.0"}}}
+{:deps {org.scicloj/harmonica {:mvn/version "0.1.0"}}}
 ```
 
 ## Documentation
 
-See the [Reel book](https://scicloj.github.io/reel/) for tutorials:
+See the [Harmonica book](https://scicloj.github.io/harmonica/) for tutorials:
 
-- **[Quickstart](https://scicloj.github.io/reel/reel_book.quickstart.html)** — minimal introduction
-- **[The DFT as Group Fourier Transform](https://scicloj.github.io/reel/reel_book.dft_as_group_fourier.html)** — the full story connecting DFT to group theory
-- **[Symmetric Groups](https://scicloj.github.io/reel/reel_book.symmetric_groups.html)** — permutations, partitions, conjugacy classes
-- **[Random Transpositions](https://scicloj.github.io/reel/reel_book.random_transpositions.html)** — Diaconis-Shahshahani cutoff phenomenon
+- **[Quickstart](https://scicloj.github.io/harmonica/harmonica_book.quickstart.html)** — minimal introduction
+- **[The DFT as Group Fourier Transform](https://scicloj.github.io/harmonica/harmonica_book.dft_as_group_fourier.html)** — the full story connecting DFT to group theory
+- **[Symmetric Groups](https://scicloj.github.io/harmonica/harmonica_book.symmetric_groups.html)** — permutations, partitions, conjugacy classes
+- **[Random Transpositions](https://scicloj.github.io/harmonica/harmonica_book.random_transpositions.html)** — Diaconis-Shahshahani cutoff phenomenon
 
 ## API Namespaces
 
 | Namespace | Purpose |
 |:----------|:--------|
-| `scicloj.reel.core` | Public API — groups, permutations, partitions, characters, Fourier |
-| `scicloj.reel.protocols` | Core protocols: Group, FiniteGroup, GroupStructure, GroupType |
-| `scicloj.reel.characters` | Character table computation (multimethod on group type) |
-| `scicloj.reel.fourier` | Fourier transform, inverse, convolution, total variation distance |
+| `scicloj.harmonica.core` | Public API — groups, permutations, partitions, characters, Fourier |
+| `scicloj.harmonica.protocols` | Core protocols: Group, FiniteGroup, GroupStructure, GroupType |
+| `scicloj.harmonica.characters` | Character table computation (multimethod on group type) |
+| `scicloj.harmonica.fourier` | Fourier transform, inverse, convolution, total variation distance |
 
 ## Development
 

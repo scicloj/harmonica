@@ -1,4 +1,4 @@
-{:remote-repo {:git-url "https://github.com/scicloj/reel"
+{:remote-repo {:git-url "https://github.com/scicloj/harmonica"
                :branch "main"}
  :quarto {:format {:html {:toc true
                           :toc-expand 3

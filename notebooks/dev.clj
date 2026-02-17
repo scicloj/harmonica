@@ -8,7 +8,7 @@
   "Convert chapters map to flat vector of source paths."
   [chapters]
   (into [] (mapcat (fn [[_part names]]
-                     (map #(format "reel_book/%s.clj" %) names)))
+                     (map #(format "harmonica_book/%s.clj" %) names)))
         chapters))
 
 (defn- chapters->parts
@@ -16,7 +16,7 @@
   [chapters]
   (mapv (fn [[part names]]
           {:part part
-           :chapters (mapv #(format "reel_book/%s.clj" %) names)})
+           :chapters (mapv #(format "harmonica_book/%s.clj" %) names)})
         chapters))
 
 (defn make-book!
@@ -26,7 +26,7 @@
                :base-source-path "notebooks"
                :source-path (into ["index.clj"] (chapters->parts (read-chapters)))
                :base-target-path "docs"
-               :book {:title "reel"}
+               :book {:title "harmonica"}
                :clean-up-target-dir true}))
 
 (defn make-gfm!
@@ -43,4 +43,4 @@
 (comment
   (make-book!)
   (make-gfm!)
-  (make-gfm! "reel_book/quickstart.clj"))
+  (make-gfm! "harmonica_book/quickstart.clj"))
