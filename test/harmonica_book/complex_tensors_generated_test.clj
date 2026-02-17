@@ -639,31 +639,138 @@
    v154_l539)))
 
 
-(def v157_l555 (str (cx/complex-tensor (tensor/->tensor [3.0 4.0]))))
+(def v157_l559 (cx/complex-tensor (tensor/->tensor [3.0 4.0])))
 
 
-(deftest t158_l557 (is (= v157_l555 "3.0+4.0i")))
+(deftest
+ t158_l561
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "3.0+4.0i")) v157_l559)))
 
 
-(def v159_l559 (str (cx/complex-tensor (tensor/->tensor [3.0 -4.0]))))
+(def v160_l565 (cx/complex-tensor (tensor/->tensor [3.0 -4.0])))
 
 
-(deftest t160_l561 (is (= v159_l559 "3.0-4.0i")))
+(deftest
+ t161_l567
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "3.0-4.0i")) v160_l565)))
 
 
-(def v162_l565 (str (cx/complex-tensor (tensor/->tensor [5.0 0.0]))))
+(def v163_l571 (cx/complex-tensor (tensor/->tensor [5.0 0.0])))
 
 
-(deftest t163_l567 (is (= v162_l565 "5.0")))
+(deftest
+ t164_l573
+ (is ((fn [v] (clojure.string/includes? (str v) "5.0")) v163_l571)))
 
 
-(def v165_l571 (str (cx/complex-tensor [1.0 3.0] [2.0 4.0])))
+(def v166_l577 (cx/complex-tensor (tensor/->tensor [0.0 0.0])))
 
 
-(deftest t166_l573 (is (= v165_l571 "[1.0+2.0i, 3.0+4.0i]")))
+(deftest
+ t167_l579
+ (is ((fn [v] (clojure.string/includes? (str v) "0.0")) v166_l577)))
 
 
-(def v167_l575 (str (cx/complex-tensor-real [1.0 2.0])))
+(def v169_l583 (cx/complex-tensor (tensor/->tensor [0.0 3.0])))
 
 
-(deftest t168_l577 (is (= v167_l575 "[1.0, 2.0]")))
+(deftest
+ t170_l585
+ (is ((fn [v] (clojure.string/includes? (str v) "3.0i")) v169_l583)))
+
+
+(def v172_l589 (cx/complex-tensor (tensor/->tensor [0.0 1.0])))
+
+
+(deftest
+ t173_l591
+ (is ((fn [v] (clojure.string/ends-with? (str v) "\ni")) v172_l589)))
+
+
+(def v174_l593 (cx/complex-tensor (tensor/->tensor [0.0 -1.0])))
+
+
+(deftest
+ t175_l595
+ (is ((fn [v] (clojure.string/ends-with? (str v) "\n-i")) v174_l593)))
+
+
+(def v177_l599 (cx/complex-tensor (tensor/->tensor [-2.0 3.0])))
+
+
+(deftest
+ t178_l601
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "-2.0+3.0i")) v177_l599)))
+
+
+(def v180_l608 (cx/complex-tensor [1.0 3.0] [2.0 4.0]))
+
+
+(deftest
+ t181_l610
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "[1.0+2.0i, 3.0+4.0i]"))
+   v180_l608)))
+
+
+(def v182_l612 (cx/complex-tensor-real [1.0 2.0]))
+
+
+(deftest
+ t183_l614
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "[1.0, 2.0]")) v182_l612)))
+
+
+(def v185_l618 (cx/complex-tensor [1.0 0.0 -1.0] [2.0 3.0 0.0]))
+
+
+(deftest
+ t186_l620
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "[1.0+2.0i, 3.0i, -1.0]"))
+   v185_l618)))
+
+
+(def v188_l624 (cx/complex-tensor-real (vec (range 25.0))))
+
+
+(deftest
+ t189_l626
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "... (25 total)"))
+   v188_l624)))
+
+
+(def
+ v191_l632
+ (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]]))
+
+
+(deftest
+ t192_l635
+ (is
+  ((fn
+    [v]
+    (and
+     (clojure.string/includes? (str v) "#ComplexTensor [2 2]")
+     (clojure.string/includes? (str v) "[1.0+5.0i, 2.0+6.0i]")
+     (clojure.string/includes? (str v) "[3.0+7.0i, 4.0+8.0i]")))
+   v191_l632)))
+
+
+(def
+ v194_l643
+ (cx/complex-tensor
+  [[[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]]]
+  [[[0.1 0.2] [0.3 0.4]] [[0.5 0.6] [0.7 0.8]]]))
+
+
+(deftest
+ t195_l648
+ (is
+  ((fn [v] (clojure.string/includes? (str v) "#ComplexTensor [2 2 2]"))
+   v194_l643)))

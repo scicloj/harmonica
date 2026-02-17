@@ -110,16 +110,16 @@
     (is (< (Math/abs (- 1.0 (double (m 1)))) 1e-10))))
 
 (deftest cdot-test
-  (let [a (cx/complex-tensor [1.0 0.0] [0.0 1.0])   ;; [1, i]
-        b (cx/complex-tensor [0.0 1.0] [1.0 0.0])]  ;; [i, 1]
+  (let [a (cx/complex-tensor [1.0 0.0] [0.0 1.0]) ;; [1, i]
+        b (cx/complex-tensor [0.0 1.0] [1.0 0.0])] ;; [i, 1]
     ;; 1*i + i*1 = 2i
     (let [[re im] (cx/cdot a b)]
       (is (< (Math/abs re) 1e-10))
       (is (< (Math/abs (- im 2.0)) 1e-10)))))
 
 (deftest cdot-conj-test
-  (let [a (cx/complex-tensor [1.0 0.0] [0.0 1.0])   ;; [1, i]
-        b (cx/complex-tensor [0.0 1.0] [1.0 0.0])]  ;; [i, 1]
+  (let [a (cx/complex-tensor [1.0 0.0] [0.0 1.0]) ;; [1, i]
+        b (cx/complex-tensor [0.0 1.0] [1.0 0.0])] ;; [i, 1]
     ;; 1*conj(i) + i*conj(1) = -i + i = 0
     (let [[re im] (cx/cdot-conj a b)]
       (is (< (Math/abs re) 1e-10))
@@ -149,9 +149,14 @@
 ;; ---------------------------------------------------------------------------
 
 (deftest print-format
-  (is (= "[1.0+2.0i, 3.0+4.0i]"
+  (is (= "#ComplexTensor [2]\n[1.0+2.0i, 3.0+4.0i]"
          (str (cx/complex-tensor [1.0 3.0] [2.0 4.0]))))
-  (is (= "[1.0, 2.0]"
+  (is (= "#ComplexTensor [2]\n[1.0, 2.0]"
          (str (cx/complex-tensor-real [1.0 2.0]))))
-  (is (= "[3.0-4.0i]"
-         (str (cx/complex-tensor [3.0] [-4.0])))))
+  (is (= "#ComplexTensor [1]\n[3.0-4.0i]"
+         (str (cx/complex-tensor [3.0] [-4.0]))))
+  (is (= "#ComplexTensor []\n3.0+4.0i"
+         (str (cx/complex-tensor (tensor/->tensor [3.0 4.0])))))
+  (is (= "#ComplexTensor [2 2]\n[[1.0+5.0i, 2.0+6.0i]\n [3.0+7.0i, 4.0+8.0i]]"
+         (str (cx/complex-tensor [[1.0 2.0] [3.0 4.0]]
+                                 [[5.0 6.0] [7.0 8.0]])))))

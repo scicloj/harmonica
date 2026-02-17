@@ -548,33 +548,104 @@
 
 ;; ## Printing
 ;;
-;; ComplexTensors have a human-readable print representation.
+;; ComplexTensors print with a header line (like dtype-next tensors)
+;; followed by the content in nested brackets. The header shows the
+;; **complex shape** â the underlying tensor shape without the trailing 2.
 
-;; Scalars print as `a+bi`:
+;; ### Scalars
+;;
+;; The general form is `a+bi`, with special cases for cleaner output.
 
-(str (cx/complex-tensor (tensor/->tensor [3.0 4.0])))
+(cx/complex-tensor (tensor/->tensor [3.0 4.0]))
 
-(kind/test-last [= "3.0+4.0i"])
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "3.0+4.0i"))])
 
-(str (cx/complex-tensor (tensor/->tensor [3.0 -4.0])))
+;; Negative imaginary parts use a minus sign directly:
 
-(kind/test-last [= "3.0-4.0i"])
+(cx/complex-tensor (tensor/->tensor [3.0 -4.0]))
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "3.0-4.0i"))])
 
 ;; Purely real values omit the imaginary part:
 
-(str (cx/complex-tensor (tensor/->tensor [5.0 0.0])))
+(cx/complex-tensor (tensor/->tensor [5.0 0.0]))
 
-(kind/test-last [= "5.0"])
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "5.0"))])
 
-;; Vectors print as bracketed lists:
+;; Zero prints as `0.0`:
 
-(str (cx/complex-tensor [1.0 3.0] [2.0 4.0]))
+(cx/complex-tensor (tensor/->tensor [0.0 0.0]))
 
-(kind/test-last [= "[1.0+2.0i, 3.0+4.0i]"])
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "0.0"))])
 
-(str (cx/complex-tensor-real [1.0 2.0]))
+;; Purely imaginary values omit the real part:
 
-(kind/test-last [= "[1.0, 2.0]"])
+(cx/complex-tensor (tensor/->tensor [0.0 3.0]))
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "3.0i"))])
+
+;; The unit imaginary number prints as `i` (not `1.0i`):
+
+(cx/complex-tensor (tensor/->tensor [0.0 1.0]))
+
+(kind/test-last [(fn [v] (clojure.string/ends-with? (str v) "\ni"))])
+
+(cx/complex-tensor (tensor/->tensor [0.0 -1.0]))
+
+(kind/test-last [(fn [v] (clojure.string/ends-with? (str v) "\n-i"))])
+
+;; Negative real parts work as expected:
+
+(cx/complex-tensor (tensor/->tensor [-2.0 3.0]))
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "-2.0+3.0i"))])
+
+;; ### Vectors
+;;
+;; Vectors print as bracketed, comma-separated lists. Each element
+;; uses the same scalar formatting rules.
+
+(cx/complex-tensor [1.0 3.0] [2.0 4.0])
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "[1.0+2.0i, 3.0+4.0i]"))])
+
+(cx/complex-tensor-real [1.0 2.0])
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "[1.0, 2.0]"))])
+
+;; A mixed vector with real, imaginary, and complex entries:
+
+(cx/complex-tensor [1.0 0.0 -1.0] [2.0 3.0 0.0])
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "[1.0+2.0i, 3.0i, -1.0]"))])
+
+;; Long vectors are truncated after 20 elements:
+
+(cx/complex-tensor-real (vec (range 25.0)))
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "... (25 total)"))])
+
+;; ### Matrices
+;;
+;; Matrices print with nested brackets and indentation, like dtype-next tensors.
+
+(cx/complex-tensor [[1.0 2.0] [3.0 4.0]]
+                   [[5.0 6.0] [7.0 8.0]])
+
+(kind/test-last [(fn [v] (and (clojure.string/includes? (str v) "#ComplexTensor [2 2]")
+                              (clojure.string/includes? (str v) "[1.0+5.0i, 2.0+6.0i]")
+                              (clojure.string/includes? (str v) "[3.0+7.0i, 4.0+8.0i]")))])
+
+;; ### Higher ranks
+;;
+;; 3-tensors and beyond also print their full content with deeper nesting.
+
+(cx/complex-tensor [[[1.0 2.0] [3.0 4.0]]
+                    [[5.0 6.0] [7.0 8.0]]]
+                   [[[0.1 0.2] [0.3 0.4]]
+                    [[0.5 0.6] [0.7 0.8]]])
+
+(kind/test-last [(fn [v] (clojure.string/includes? (str v) "#ComplexTensor [2 2 2]"))])
 
 ;; ## Summary
 ;;

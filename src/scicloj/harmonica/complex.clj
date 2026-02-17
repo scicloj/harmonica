@@ -47,6 +47,56 @@
     (neg? im) (str re im "i")
     :else (str re "+" im "i")))
 
+(def ^:private ^:const max-print-elems
+  "Maximum elements to show per dimension before truncating."
+  20)
+
+(defn- format-row
+  "Format a [n 2] tensor row as a bracketed string of complex numbers."
+  [tensor]
+  (let [n (first (dtype/shape tensor))
+        show-n (min n max-print-elems)]
+    (str "[" (clojure.string/join ", "
+                                  (map (fn [i]
+                                         (let [row (tensor i)]
+                                           (format-complex (double (row 0)) (double (row 1)))))
+                                       (range show-n)))
+         (when (> n max-print-elems) (str ", ... (" n " total)"))
+         "]")))
+
+(defn- rprint-complex
+  "Recursively print a complex tensor with nested brackets.
+   tensor has shape [d1 d2 ... dn 2]. Slices leading dims until
+   we reach [n 2] (a vector) or [2] (a scalar)."
+  [^StringBuilder sb tensor prefix]
+  (let [s (dtype/shape tensor)
+        ndims (count s)]
+    (cond
+      ;; Scalar [2]
+      (= ndims 1)
+      (.append sb (format-complex (double (tensor 0)) (double (tensor 1))))
+
+      ;; Vector [n 2] — leaf row
+      (= ndims 2)
+      (.append sb (format-row tensor))
+
+      ;; Matrix or higher — recurse
+      :else
+      (let [n (first s)
+            show-n (min n max-print-elems)
+            inner-prefix (str prefix " ")]
+        (.append sb "[")
+        (dotimes [i show-n]
+          (when (> i 0)
+            (.append sb "\n")
+            (.append sb inner-prefix))
+          (rprint-complex sb (tensor i) inner-prefix))
+        (when (> n max-print-elems)
+          (.append sb "\n")
+          (.append sb inner-prefix)
+          (.append sb (str "... (" n " rows total)")))
+        (.append sb "]")))))
+
 (defn- interleave-into!
   "Write re-data and im-data into an interleaved [... 2] tensor via strided views."
   [tensor re-data im-data]
@@ -101,28 +151,14 @@
       (map #(.nth this %) (range (.count this)))))
 
   Object
-  (toString [this]
-    (let [s (dtype/shape tensor)
-          ndims (count s)]
-      (cond
-        ;; Scalar [2]
-        (= ndims 1)
-        (format-complex (double (tensor 0)) (double (tensor 1)))
-
-        ;; Vector [n 2]
-        (= ndims 2)
-        (let [n (first s)]
-          (str "[" (clojure.string/join ", "
-                                        (map (fn [i]
-                                               (let [row (tensor i)]
-                                                 (format-complex (double (row 0)) (double (row 1)))))
-                                             (range (min n 20))))
-               (when (> n 20) (str ", ... (" n " total)"))
-               "]"))
-
-        ;; Matrix or higher
-        :else
-        (str "#ComplexTensor " (vec (butlast s)))))))
+  (toString [_]
+    (let [sb (StringBuilder.)
+          complex-shape (vec (butlast (dtype/shape tensor)))]
+      (.append sb "#ComplexTensor ")
+      (.append sb (str complex-shape))
+      (.append sb "\n")
+      (rprint-complex sb tensor "")
+      (.toString sb))))
 
 (defmethod print-method ComplexTensor [^ComplexTensor ct ^java.io.Writer w]
   (.write w (.toString ct)))
