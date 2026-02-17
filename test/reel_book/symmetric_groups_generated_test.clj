@@ -8,149 +8,159 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l26 (def G (reel/symmetric-group 4)))
+(def v3_l32 (def G (reel/symmetric-group 4)))
 
 
-(def v4_l28 (reel/order G))
+(def v4_l34 (reel/order G))
 
 
-(deftest t5_l30 (is (= v4_l28 24)))
+(deftest t5_l36 (is (= v4_l34 24)))
 
 
-(def v7_l35 (reel/id G))
+(def v7_l41 (reel/id G))
 
 
-(deftest t8_l37 (is (= v7_l35 [0 1 2 3])))
+(deftest t8_l43 (is (= v7_l41 [0 1 2 3])))
 
 
-(def v10_l42 (reel/transposition 4 1 3))
+(def v10_l48 (reel/transposition 4 1 3))
 
 
-(deftest t11_l44 (is (= v10_l42 [0 3 2 1])))
+(deftest t11_l50 (is (= v10_l48 [0 3 2 1])))
 
 
-(def v13_l51 (reel/op G [1 0 2 3] [0 1 3 2]))
+(def v13_l57 (reel/op G [1 0 2 3] [0 1 3 2]))
 
 
-(deftest t14_l53 (is (= v13_l51 [1 0 3 2])))
+(deftest t14_l59 (is (= v13_l57 [1 0 3 2])))
 
 
-(def v16_l58 (reel/inv G [1 2 3 0]))
+(def v16_l64 (reel/inv G [1 2 3 0]))
 
 
-(deftest t17_l60 (is (= v16_l58 [3 0 1 2])))
+(deftest t17_l66 (is (= v16_l64 [3 0 1 2])))
 
 
-(def v18_l63 (reel/op G [1 2 3 0] (reel/inv G [1 2 3 0])))
+(def v18_l69 (reel/op G [1 2 3 0] (reel/inv G [1 2 3 0])))
 
 
-(deftest t19_l65 (is (= v18_l63 [0 1 2 3])))
-
-
-(def v21_l74 (reel/cycles [1 2 3 0]))
-
-
-(deftest t22_l76 (is (= v21_l74 [[0 1 2 3]])))
-
-
-(def v24_l81 (reel/cycles [0 3 2 1]))
-
-
-(deftest t25_l83 (is (= v24_l81 [[1 3]])))
-
-
-(def v27_l88 (reel/cycles [0 1 2 3]))
-
-
-(deftest t28_l90 (is (= v27_l88 [])))
-
-
-(def v30_l95 (reel/cycles [1 0 3 2]))
-
-
-(deftest t31_l97 (is (= v30_l95 [[0 1] [2 3]])))
-
-
-(def v33_l106 (reel/cycle-type [1 2 3 0]))
-
-
-(deftest t34_l108 (is (= v33_l106 [4])))
-
-
-(def v35_l111 (reel/cycle-type [1 0 3 2]))
-
-
-(deftest t36_l113 (is (= v35_l111 [2 2])))
-
-
-(def v37_l116 (reel/cycle-type [1 0 2 3]))
-
-
-(deftest t38_l118 (is (= v37_l116 [2 1 1])))
-
-
-(def v40_l124 (reel/sign [0 1 2 3]))
-
-
-(deftest t41_l126 (is (= v40_l124 1)))
-
-
-(def v42_l129 (reel/sign [1 0 2 3]))
-
-
-(deftest t43_l131 (is (= v42_l129 -1)))
+(deftest t19_l71 (is (= v18_l69 [0 1 2 3])))
 
 
 (def
- v45_l137
+ v21_l79
+ (let
+  [sigma [1 2 0 3] tau [0 1 3 2]]
+  [(reel/op G sigma tau) (reel/op G tau sigma)]))
+
+
+(deftest t22_l84 (is ((fn [v] (not= (first v) (second v))) v21_l79)))
+
+
+(def v24_l93 (reel/cycles [1 2 3 0]))
+
+
+(deftest t25_l95 (is (= v24_l93 [[0 1 2 3]])))
+
+
+(def v27_l100 (reel/cycles [0 3 2 1]))
+
+
+(deftest t28_l102 (is (= v27_l100 [[1 3]])))
+
+
+(def v30_l107 (reel/cycles [0 1 2 3]))
+
+
+(deftest t31_l109 (is (= v30_l107 [])))
+
+
+(def v33_l114 (reel/cycles [1 0 3 2]))
+
+
+(deftest t34_l116 (is (= v33_l114 [[0 1] [2 3]])))
+
+
+(def v36_l126 (reel/cycle-type [1 2 3 0]))
+
+
+(deftest t37_l128 (is (= v36_l126 [4])))
+
+
+(def v38_l131 (reel/cycle-type [1 0 3 2]))
+
+
+(deftest t39_l133 (is (= v38_l131 [2 2])))
+
+
+(def v40_l136 (reel/cycle-type [1 0 2 3]))
+
+
+(deftest t41_l138 (is (= v40_l136 [2 1 1])))
+
+
+(def v43_l146 (reel/sign [0 1 2 3]))
+
+
+(deftest t44_l148 (is (= v43_l146 1)))
+
+
+(def v45_l151 (reel/sign [1 0 2 3]))
+
+
+(deftest t46_l153 (is (= v45_l151 -1)))
+
+
+(def
+ v48_l158
  (let
   [sigma [1 2 0 3] tau [0 1 3 2]]
   (* (reel/sign sigma) (reel/sign tau))))
 
 
 (deftest
- t46_l141
- (is (= v45_l137 (reel/sign (reel/op G [1 2 0 3] [0 1 3 2])))))
+ t49_l162
+ (is (= v48_l158 (reel/sign (reel/op G [1 2 0 3] [0 1 3 2])))))
 
 
-(def v48_l150 (reel/partitions 4))
+(def v51_l173 (reel/partitions 4))
 
 
-(deftest t49_l152 (is (= v48_l150 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
+(deftest t52_l175 (is (= v51_l173 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
 
 
 (def
- v51_l157
+ v54_l180
  (kind/table
   {:column-names ["$n$" "$p(n)$"],
    :row-vectors
    (mapv (fn [n] [n (count (reel/partitions n))]) (range 1 11))}))
 
 
-(def v53_l168 (def classes (reel/conjugacy-classes G)))
+(def v56_l192 (def classes (reel/conjugacy-classes G)))
 
 
 (def
- v54_l170
+ v57_l194
  (kind/table
   {:column-names ["Cycle type" "Class size"],
    :row-vectors (mapv (fn [c] [(:cycle-type c) (:size c)]) classes)}))
 
 
-(def v56_l176 (reduce + (map :size classes)))
+(def v59_l200 (reduce + (map :size classes)))
 
 
-(deftest t57_l178 (is (= v56_l176 24)))
+(deftest t60_l202 (is (= v59_l200 24)))
 
 
-(def v59_l183 (count classes))
+(def v62_l208 (count classes))
 
 
-(deftest t60_l185 (is (= v59_l183 (count (reel/partitions 4)))))
+(deftest t63_l210 (is (= v62_l208 (count (reel/partitions 4)))))
 
 
 (def
- v62_l194
+ v65_l221
  (kind/table
   {:column-names ["$n$" "$|S_n|$" "# classes"],
    :row-vectors
@@ -161,3 +171,29 @@
       [G (reel/symmetric-group n)]
       [n (reel/order G) (count (reel/conjugacy-classes G))]))
     (range 1 9))}))
+
+
+(def
+ v67_l232
+ (->
+  (tc/dataset
+   {:n (range 1 9),
+    :log-order
+    (mapv
+     (fn
+      [n]
+      (Math/log10 (double (reel/order (reel/symmetric-group n)))))
+     (range 1 9)),
+    :num-classes
+    (mapv
+     (fn [n] (count (reel/conjugacy-classes (reel/symmetric-group n))))
+     (range 1 9))})
+  (plotly/base
+   {:=x :n,
+    :=y :log-order,
+    :=x-title "n",
+    :=y-title "log₁₀(|Sₙ|)",
+    :=title "Factorial growth of Sₙ"})
+  (plotly/layer-line)
+  (plotly/layer-point {:=mark-size 8})
+  plotly/plot))

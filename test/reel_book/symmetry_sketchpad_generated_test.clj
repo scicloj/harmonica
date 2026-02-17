@@ -263,7 +263,7 @@
   (every? identity results)))
 
 
-(deftest t22_l188 (is (fn v21_l173 [v] (= true v))))
+(deftest t22_l188 (is (true? v21_l173)))
 
 
 (def
@@ -376,4 +376,4 @@
   (count (set orbit-pts))))
 
 
-(deftest t28_l264 (is (fn v27_l256 [v] (= 14 v))))
+(deftest t28_l264 (is (= v27_l256 14)))

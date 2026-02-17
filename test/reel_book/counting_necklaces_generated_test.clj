@@ -24,7 +24,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__90862#] (coloring (mod (+ p1__90862# (long g)) n)))
+     (fn* [p1__82774#] (coloring (mod (+ p1__82774# (long g)) n)))
      (range n)))
    orbs
    (reel/orbits G act domain)]
@@ -34,7 +34,7 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__90863#] (first (sort p1__90863#))) orbs))})))
+     (sort-by (fn* [p1__82775#] (first (sort p1__82775#))) orbs))})))
 
 
 (def
@@ -54,7 +54,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__90864#] (coloring (mod (+ p1__90864# (long g)) n)))
+     (fn* [p1__82776#] (coloring (mod (+ p1__82776# (long g)) n)))
      (range n)))
    fix-counts
    (mapv
@@ -87,12 +87,12 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__90865#] (coloring (mod (+ p1__90865# (long g)) n)))
+     (fn* [p1__82777#] (coloring (mod (+ p1__82777# (long g)) n)))
      (range n)))]
   (reel/burnside-count G act domain)))
 
 
-(deftest t8_l87 (is (fn v7_l77 [v] (= 14 v))))
+(deftest t8_l87 (is (= v7_l77 14)))
 
 
 (def
@@ -147,7 +147,7 @@
        (fn
         [g coloring]
         (mapv
-         (fn* [p1__90866#] (coloring (mod (+ p1__90866# (long g)) n)))
+         (fn* [p1__82778#] (coloring (mod (+ p1__82778# (long g)) n)))
          (range n)))
        act-d
        (fn
@@ -156,11 +156,11 @@
          t
          :r
          (mapv
-          (fn* [p1__90867#] (coloring (mod (+ p1__90867# (long k)) n)))
+          (fn* [p1__82779#] (coloring (mod (+ p1__82779# (long k)) n)))
           (range n))
          :s
          (mapv
-          (fn* [p1__90868#] (coloring (mod (- (long k) p1__90868#) n)))
+          (fn* [p1__82780#] (coloring (mod (- (long k) p1__82780#) n)))
           (range n))))
        domain
        (let

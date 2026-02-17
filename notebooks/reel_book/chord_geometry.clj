@@ -94,7 +94,7 @@
       orbs (reel/orbits G act-sub domain)]
   (count orbs))
 
-(kind/test-last (fn [v] (= 19 v)))
+(kind/test-last [= 19])
 
 ;; There are exactly **19 trichord types** under transposition.
 ;; These are known as **set classes** in music theory, cataloged by
@@ -154,7 +154,7 @@
       orbs (reel/orbits G act-sub domain)]
   (count orbs))
 
-(kind/test-last (fn [v] (= 12 v)))
+(kind/test-last [= 12])
 
 ;; Only **12 types** remain under $D_{12}$, down from 19.
 ;; The 7 pairs that merged are trichords related by inversion.
@@ -199,10 +199,13 @@
 ;; contains. Most chord types have unique interval vectors, but occasionally
 ;; two different types share the same one — the **Z-relation**.
 ;;
-;; For trichords, no Z-relation occurs. Let's check:
+;; For trichords under $D_{12}$, no Z-relation occurs. Let's verify:
 
-(let [G (reel/cyclic-group 12)
-      act (fn [g x] (mod (+ (long x) (long g)) 12))
+(let [G (reel/dihedral-group 12)
+      act (fn [[t k] x]
+            (case t
+              :r (mod (+ (long x) (long k)) 12)
+              :s (mod (- (long k) (long x)) 12)))
       {:keys [domain] act-sub :act} (reel/subset-action act (range 12) 3)
       orbs (reel/orbits G act-sub domain)
       reps (mapv #(first (sort %)) orbs)
@@ -210,10 +213,10 @@
       iv-groups (group-by identity ivs)]
   (every? #(= 1 (count (val %))) iv-groups))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
-;; All 19 trichord types have distinct interval vectors — no Z-relation
-;; among trichords.
+;; All 12 trichord types (under $D_{12}$) have distinct interval vectors —
+;; no Z-relation among trichords.
 
 ;; ## Beyond Trichords
 ;;
@@ -288,7 +291,7 @@
             (< (Math/abs (- (mag-sq (hat-a k)) (mag-sq (hat-b k)))) 1e-10))
           (range 12)))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Visualizing Chord Types
 ;;

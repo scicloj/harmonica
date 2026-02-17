@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Groups and Structure – reel</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./reel_book.character_theory.html" rel="next">
+<link href="./reel_book.permutations_and_partitions.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a52dacdebdbd438f6573f472e77663ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.dft_as_group_fourier.html">Foundations</a></li><li class="breadcrumb-item"><a href="./reel_book.groups_and_structure.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Groups and Structure</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">reel</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quickstart</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.dft_as_group_fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The DFT as Fourier Transform on a Group</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.symmetric_groups.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.permutations_and_partitions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Permutations and Partitions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.groups_and_structure.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Groups and Structure</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.character_theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Character Theory</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.representation_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Representation Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.group_actions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Group Actions</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.random_transpositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.riffle_shuffle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reel_book.api_reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#all-groups-under-test" id="toc-all-groups-under-test" class="nav-link active" data-scroll-target="#all-groups-under-test">All groups under test</a></li>
+  <li><a href="#identity-axiom" id="toc-identity-axiom" class="nav-link" data-scroll-target="#identity-axiom">Identity axiom</a></li>
+  <li><a href="#inverse-axiom" id="toc-inverse-axiom" class="nav-link" data-scroll-target="#inverse-axiom">Inverse axiom</a></li>
+  <li><a href="#associativity" id="toc-associativity" class="nav-link" data-scroll-target="#associativity">Associativity</a></li>
+  <li><a href="#closure" id="toc-closure" class="nav-link" data-scroll-target="#closure">Closure</a></li>
+  <li><a href="#inverse-is-in-the-group" id="toc-inverse-is-in-the-group" class="nav-link" data-scroll-target="#inverse-is-in-the-group">Inverse is in the group</a></li>
+  <li><a href="#order" id="toc-order" class="nav-link" data-scroll-target="#order">Order</a></li>
+  <li><a href="#conjugacy-classes" id="toc-conjugacy-classes" class="nav-link" data-scroll-target="#conjugacy-classes">Conjugacy classes</a>
+  <ul>
+  <li><a href="#classes-partition-the-group" id="toc-classes-partition-the-group" class="nav-link" data-scroll-target="#classes-partition-the-group">Classes partition the group</a></li>
+  <li><a href="#sizes-sum-to-order" id="toc-sizes-sum-to-order" class="nav-link" data-scroll-target="#sizes-sum-to-order">Sizes sum to order</a></li>
+  <li><a href="#reported-size-matches-element-count" id="toc-reported-size-matches-element-count" class="nav-link" data-scroll-target="#reported-size-matches-element-count">Reported size matches element count</a></li>
+  <li><a href="#conjugacy-all-elements-in-a-class-are-actually-conjugate" id="toc-conjugacy-all-elements-in-a-class-are-actually-conjugate" class="nav-link" data-scroll-target="#conjugacy-all-elements-in-a-class-are-actually-conjugate">Conjugacy: all elements in a class are actually conjugate</a></li>
+  </ul></li>
+  <li><a href="#dihedral-group-structure" id="toc-dihedral-group-structure" class="nav-link" data-scroll-target="#dihedral-group-structure">Dihedral group structure</a>
+  <ul>
+  <li><a href="#presentation-rn-s2-e-s-r-s-r-1" id="toc-presentation-rn-s2-e-s-r-s-r-1" class="nav-link" data-scroll-target="#presentation-rn-s2-e-s-r-s-r-1">Presentation: <span class="math inline">\(r^n = s^2 = e\)</span>, <span class="math inline">\(s r s = r^{-1}\)</span></a></li>
+  <li><a href="#conjugacy-class-count" id="toc-conjugacy-class-count" class="nav-link" data-scroll-target="#conjugacy-class-count">Conjugacy class count</a></li>
+  <li><a href="#order-is-2n" id="toc-order-is-2n" class="nav-link" data-scroll-target="#order-is-2n">Order is <span class="math inline">\(2n\)</span></a></li>
+  </ul></li>
+  <li><a href="#product-group-structure" id="toc-product-group-structure" class="nav-link" data-scroll-target="#product-group-structure">Product group structure</a>
+  <ul>
+  <li><a href="#order-g_1-times-g_2-g_1-cdot-g_2" id="toc-order-g_1-times-g_2-g_1-cdot-g_2" class="nav-link" data-scroll-target="#order-g_1-times-g_2-g_1-cdot-g_2">Order: <span class="math inline">\(|G_1 \times G_2| = |G_1| \cdot |G_2|\)</span></a></li>
+  <li><a href="#class-count-kg_1-times-g_2-kg_1-cdot-kg_2" id="toc-class-count-kg_1-times-g_2-kg_1-cdot-kg_2" class="nav-link" data-scroll-target="#class-count-kg_1-times-g_2-kg_1-cdot-kg_2">Class count: <span class="math inline">\(k(G_1 \times G_2) = k(G_1) \cdot k(G_2)\)</span></a></li>
+  </ul></li>
+  <li><a href="#abelian-groups-commutativity" id="toc-abelian-groups-commutativity" class="nav-link" data-scroll-target="#abelian-groups-commutativity">Abelian groups: commutativity</a></li>
+  <li><a href="#cayley-table-visualization" id="toc-cayley-table-visualization" class="nav-link" data-scroll-target="#cayley-table-visualization">Cayley table visualization</a></li>
+  <li><a href="#summary-of-verified-identities" id="toc-summary-of-verified-identities" class="nav-link" data-scroll-target="#summary-of-verified-identities">Summary of verified identities</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.dft_as_group_fourier.html">Foundations</a></li><li class="breadcrumb-item"><a href="./reel_book.groups_and_structure.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Groups and Structure</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Groups and Structure</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style></style>
+<style>.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+<style>.clay-limit-image-width .clay-image {max-width: 100%}
+.clay-side-by-side .sourceCode {margin: 0}
+.clay-side-by-side {margin: 1em 0}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
+<p>A <strong>group</strong> <span class="math inline">\((G, \cdot)\)</span> is a set <span class="math inline">\(G\)</span> with an operation satisfying closure, associativity, identity, and inverses. This notebook systematically verifies these axioms and explores the structural properties of every group type in the library.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> reel-book.groups-and-structure</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.reel.core <span class="at">:as</span> reel]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="all-groups-under-test" class="level2">
+<h2 class="anchored" data-anchor-id="all-groups-under-test">All groups under test</h2>
+<p>We test a diverse collection: small and large cyclic, symmetric, dihedral, and product groups.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> all-groups</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:label</span> <span class="st">"Z/1Z"</span> <span class="at">:group</span> (reel/cyclic-group <span class="dv">1</span>)}</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/2Z"</span> <span class="at">:group</span> (reel/cyclic-group <span class="dv">2</span>)}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/3Z"</span> <span class="at">:group</span> (reel/cyclic-group <span class="dv">3</span>)}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/7Z"</span> <span class="at">:group</span> (reel/cyclic-group <span class="dv">7</span>)}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/12Z"</span> <span class="at">:group</span> (reel/cyclic-group <span class="dv">12</span>)}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"S_1"</span> <span class="at">:group</span> (reel/symmetric-group <span class="dv">1</span>)}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"S_2"</span> <span class="at">:group</span> (reel/symmetric-group <span class="dv">2</span>)}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"S_3"</span> <span class="at">:group</span> (reel/symmetric-group <span class="dv">3</span>)}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"S_4"</span> <span class="at">:group</span> (reel/symmetric-group <span class="dv">4</span>)}</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"S_5"</span> <span class="at">:group</span> (reel/symmetric-group <span class="dv">5</span>)}</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_3"</span> <span class="at">:group</span> (reel/dihedral-group <span class="dv">3</span>)}</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_4"</span> <span class="at">:group</span> (reel/dihedral-group <span class="dv">4</span>)}</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_5"</span> <span class="at">:group</span> (reel/dihedral-group <span class="dv">5</span>)}</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_6"</span> <span class="at">:group</span> (reel/dihedral-group <span class="dv">6</span>)}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_8"</span> <span class="at">:group</span> (reel/dihedral-group <span class="dv">8</span>)}</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_12"</span> <span class="at">:group</span> (reel/dihedral-group <span class="dv">12</span>)}</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/2Z × Z/2Z"</span> <span class="at">:group</span> (reel/product-group (reel/cyclic-group <span class="dv">2</span>) (reel/cyclic-group <span class="dv">2</span>))}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/2Z × Z/3Z"</span> <span class="at">:group</span> (reel/product-group (reel/cyclic-group <span class="dv">2</span>) (reel/cyclic-group <span class="dv">3</span>))}</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"Z/3Z × Z/4Z"</span> <span class="at">:group</span> (reel/product-group (reel/cyclic-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">4</span>))}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:label</span> <span class="st">"D_3 × Z/2Z"</span> <span class="at">:group</span> (reel/product-group (reel/dihedral-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">2</span>))}])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="identity-axiom" class="level2">
+<h2 class="anchored" data-anchor-id="identity-axiom">Identity axiom</h2>
+<p><span class="math inline">\(e \cdot g = g \cdot e = g\)</span> for all <span class="math inline">\(g \in G\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [<span class="kw">e</span> (reel/id group)]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">every?</span> (<span class="kw">fn</span> [g]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">and</span> (<span class="kw">=</span> (reel/op group <span class="kw">e</span> g) g)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                                       (<span class="kw">=</span> (reel/op group g <span class="kw">e</span>) g)))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                (reel/elements group))}))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="inverse-axiom" class="level2">
+<h2 class="anchored" data-anchor-id="inverse-axiom">Inverse axiom</h2>
+<p><span class="math inline">\(g \cdot g^{-1} = g^{-1} \cdot g = e\)</span> for all <span class="math inline">\(g \in G\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [<span class="kw">e</span> (reel/id group)]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">every?</span> (<span class="kw">fn</span> [g]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">let</span> [gi (reel/inv group g)]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                                    (<span class="kw">and</span> (<span class="kw">=</span> (reel/op group g gi) <span class="kw">e</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                                         (<span class="kw">=</span> (reel/op group gi g) <span class="kw">e</span>))))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                                (reel/elements group))}))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="associativity" class="level2">
+<h2 class="anchored" data-anchor-id="associativity">Associativity</h2>
+<p><span class="math inline">\((g \cdot h) \cdot k = g \cdot (h \cdot k)\)</span></p>
+<p>We test exhaustively for small groups and sample for larger ones.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [elts (<span class="kw">vec</span> (reel/elements group))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                    n (<span class="kw">count</span> elts)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                    triples (<span class="kw">if</span> (<span class="kw">&lt;=</span> n <span class="dv">24</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">for</span> [a elts b elts c elts] [a b c])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">let</span> [rng (java.util.Random. <span class="dv">42</span>)]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                                (<span class="kw">repeatedly</span> <span class="dv">1000</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                                            (<span class="kw">fn</span> [] [(elts (.nextInt rng n))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                                                    (elts (.nextInt rng n))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                                                    (elts (.nextInt rng n))]))))]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">every?</span> (<span class="kw">fn</span> [[a b c]]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">=</span> (reel/op group (reel/op group a b) c)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                                     (reel/op group a (reel/op group b c))))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                                triples)}))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="closure" class="level2">
+<h2 class="anchored" data-anchor-id="closure">Closure</h2>
+<p>The product of any two elements is in the group.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [elt-set (<span class="kw">set</span> (reel/elements group))]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">every?</span> (<span class="kw">fn</span> [g]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">every?</span> (<span class="kw">fn</span> [h]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                            (<span class="kw">contains?</span> elt-set (reel/op group g h)))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                                          (reel/elements group)))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                                (reel/elements group))}))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="inverse-is-in-the-group" class="level2">
+<h2 class="anchored" data-anchor-id="inverse-is-in-the-group">Inverse is in the group</h2>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [elt-set (<span class="kw">set</span> (reel/elements group))]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">every?</span> (<span class="kw">fn</span> [g]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">contains?</span> elt-set (reel/inv group g)))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                                (reel/elements group))}))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="order" class="level2">
+<h2 class="anchored" data-anchor-id="order">Order</h2>
+<p>The <code>order</code> function returns the number of elements.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:group</span> label</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">:pass</span>? (<span class="kw">=</span> (reel/order group) (<span class="kw">count</span> (reel/elements group)))})</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Group sizes:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(kind/table</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:column-names</span> [<span class="st">"Group"</span> <span class="st">"Order"</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                       [label (reel/order group)])</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                     all-groups)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Group</th>
+<th data-quarto-table-cell-role="th">Order</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Z/1Z</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Z/2Z</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>Z/3Z</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>Z/7Z</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Z/12Z</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>S_1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>S_2</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>S_3</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>S_4</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>S_5</td>
+<td>120</td>
+</tr>
+<tr class="odd">
+<td>D_3</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>D_4</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>D_5</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>D_6</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>D_8</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>D_12</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>Z/2Z × Z/2Z</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>Z/2Z × Z/3Z</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>Z/3Z × Z/4Z</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>D_3 × Z/2Z</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="conjugacy-classes" class="level2">
+<h2 class="anchored" data-anchor-id="conjugacy-classes">Conjugacy classes</h2>
+<section id="classes-partition-the-group" class="level3">
+<h3 class="anchored" data-anchor-id="classes-partition-the-group">Classes partition the group</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [classes (reel/conjugacy-classes group)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                    all-elts (<span class="kw">mapcat</span> <span class="at">:elements</span> classes)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                    group-set (<span class="kw">set</span> (reel/elements group))]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">and</span> (<span class="kw">=</span> (<span class="kw">count</span> all-elts) (<span class="kw">count</span> (<span class="kw">set</span> all-elts)))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                             (<span class="kw">=</span> (<span class="kw">set</span> all-elts) group-set))}))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sizes-sum-to-order" class="level3">
+<h3 class="anchored" data-anchor-id="sizes-sum-to-order">Sizes sum to order</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [classes (reel/conjugacy-classes group)]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">=</span> (reel/order group)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                            (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> <span class="at">:size</span> classes)))}))</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="reported-size-matches-element-count" class="level3">
+<h3 class="anchored" data-anchor-id="reported-size-matches-element-count">Reported size matches element count</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">mapv</span> (<span class="kw">fn</span> [{<span class="at">:keys</span> [label group]}]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">let</span> [classes (reel/conjugacy-classes group)]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:group</span> label</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:pass</span>? (<span class="kw">every?</span> (<span class="kw">fn</span> [c]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">=</span> (<span class="at">:size</span> c) (<span class="kw">count</span> (<span class="at">:elements</span> c))))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                classes)}))</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>            all-groups)]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="at">:pass</span>? results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="conjugacy-all-elements-in-a-class-are-actually-conjugate" class="level3">
+<h3 class="anchored" data-anchor-id="conjugacy-all-elements-in-a-class-are-actually-conjugate">Conjugacy: all elements in a class are actually conjugate</h3>
+<p>For each class <span class="math inline">\(C\)</span>, for every <span class="math inline">\(g, h \in C\)</span>, there exists some <span class="math inline">\(x \in G\)</span> such that <span class="math inline">\(x g x^{-1} = h\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [{<span class="at">:keys</span> [label group]} all-groups</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">:when</span> (<span class="kw">&lt;=</span> (reel/order group) <span class="dv">120</span>)]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [classes (reel/conjugacy-classes group)]</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">every?</span> (<span class="kw">fn</span> [cls]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">let</span> [rep (<span class="at">:representative</span> cls)]</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">every?</span> (<span class="kw">fn</span> [h]</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                                (<span class="kw">some</span> (<span class="kw">fn</span> [x]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                                        (<span class="kw">=</span> h (reel/op group x</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                                                        (reel/op group rep</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                                                                 (reel/inv group x)))))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                                      (reel/elements group)))</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                              (<span class="at">:elements</span> cls))))</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                  classes)))]</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="dihedral-group-structure" class="level2">
+<h2 class="anchored" data-anchor-id="dihedral-group-structure">Dihedral group structure</h2>
+<section id="presentation-rn-s2-e-s-r-s-r-1" class="level3">
+<h3 class="anchored" data-anchor-id="presentation-rn-s2-e-s-r-s-r-1">Presentation: <span class="math inline">\(r^n = s^2 = e\)</span>, <span class="math inline">\(s r s = r^{-1}\)</span></h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">2</span> <span class="dv">21</span>)]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (reel/dihedral-group n)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>              <span class="kw">e</span> (reel/id G)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>              r [<span class="at">:r</span> <span class="dv">1</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>              s [<span class="at">:s</span> <span class="dv">0</span>]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>              r-n (<span class="kw">reduce</span> (<span class="kw">fn</span> [acc _] (reel/op G acc r)) <span class="kw">e</span> (<span class="kw">range</span> n))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>              s<span class="dv">-2</span> (reel/op G s s)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>              srs (reel/op G s (reel/op G r s))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>              r-inv (reel/inv G r)]</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">and</span> (<span class="kw">=</span> r-n <span class="kw">e</span>) (<span class="kw">=</span> s<span class="dv">-2</span> <span class="kw">e</span>) (<span class="kw">=</span> srs r-inv))))]</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="conjugacy-class-count" class="level3">
+<h3 class="anchored" data-anchor-id="conjugacy-class-count">Conjugacy class count</h3>
+<p><span class="math inline">\(D_n\)</span> has <span class="math inline">\((n+3)/2\)</span> classes for odd <span class="math inline">\(n\)</span>, and <span class="math inline">\(n/2 + 3\)</span> for even <span class="math inline">\(n\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">2</span> <span class="dv">25</span>)]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (reel/dihedral-group n)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>              actual (<span class="kw">count</span> (reel/conjugacy-classes G))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>              expected (<span class="kw">if</span> (<span class="kw">odd?</span> n)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">/</span> (<span class="kw">+</span> n <span class="dv">3</span>) <span class="dv">2</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">+</span> (<span class="kw">/</span> n <span class="dv">2</span>) <span class="dv">3</span>))]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> actual expected)))]</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="order-is-2n" class="level3">
+<h3 class="anchored" data-anchor-id="order-is-2n">Order is <span class="math inline">\(2n\)</span></h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">25</span>)]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">=</span> (reel/order (reel/dihedral-group n)) (<span class="kw">*</span> <span class="dv">2</span> n)))]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="product-group-structure" class="level2">
+<h2 class="anchored" data-anchor-id="product-group-structure">Product group structure</h2>
+<section id="order-g_1-times-g_2-g_1-cdot-g_2" class="level3">
+<h3 class="anchored" data-anchor-id="order-g_1-times-g_2-g_1-cdot-g_2">Order: <span class="math inline">\(|G_1 \times G_2| = |G_1| \cdot |G_2|\)</span></h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [[G1 G2] [[(reel/cyclic-group <span class="dv">2</span>) (reel/cyclic-group <span class="dv">3</span>)]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                      [(reel/cyclic-group <span class="dv">4</span>) (reel/cyclic-group <span class="dv">5</span>)]</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                      [(reel/dihedral-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">2</span>)]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                      [(reel/dihedral-group <span class="dv">4</span>) (reel/dihedral-group <span class="dv">3</span>)]</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                      [(reel/symmetric-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">2</span>)]]]</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [P (reel/product-group G1 G2)]</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> (reel/order P) (<span class="kw">*</span> (reel/order G1) (reel/order G2)))))]</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="class-count-kg_1-times-g_2-kg_1-cdot-kg_2" class="level3">
+<h3 class="anchored" data-anchor-id="class-count-kg_1-times-g_2-kg_1-cdot-kg_2">Class count: <span class="math inline">\(k(G_1 \times G_2) = k(G_1) \cdot k(G_2)\)</span></h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [[G1 G2] [[(reel/cyclic-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">4</span>)]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                      [(reel/dihedral-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">2</span>)]</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                      [(reel/dihedral-group <span class="dv">4</span>) (reel/dihedral-group <span class="dv">3</span>)]</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                      [(reel/symmetric-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">3</span>)]]]</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [P (reel/product-group G1 G2)]</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> (<span class="kw">count</span> (reel/conjugacy-classes P))</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">*</span> (<span class="kw">count</span> (reel/conjugacy-classes G1))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">count</span> (reel/conjugacy-classes G2))))))]</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="abelian-groups-commutativity" class="level2">
+<h2 class="anchored" data-anchor-id="abelian-groups-commutativity">Abelian groups: commutativity</h2>
+<p>Cyclic groups and products of cyclic groups are abelian: <span class="math inline">\(g \cdot h = h \cdot g\)</span> for all <span class="math inline">\(g, h\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [abelian-groups [(reel/cyclic-group <span class="dv">5</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                      (reel/cyclic-group <span class="dv">12</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                      (reel/product-group (reel/cyclic-group <span class="dv">2</span>) (reel/cyclic-group <span class="dv">3</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                      (reel/product-group (reel/cyclic-group <span class="dv">3</span>) (reel/cyclic-group <span class="dv">4</span>))]</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>      results</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [G abelian-groups]</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">every?</span> (<span class="kw">fn</span> [g]</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">every?</span> (<span class="kw">fn</span> [h]</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                            (<span class="kw">=</span> (reel/op G g h) (reel/op G h g)))</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>                          (reel/elements G)))</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>                (reel/elements G)))]</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Non-abelian groups have non-commuting elements:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/symmetric-group <span class="dv">3</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>      a [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span>]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>      b [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">1</span>]]</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">not=</span> (reel/op G a b) (reel/op G b a)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/dihedral-group <span class="dv">3</span>)]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">not=</span> (reel/op G [<span class="at">:r</span> <span class="dv">1</span>] [<span class="at">:s</span> <span class="dv">0</span>]) (reel/op G [<span class="at">:s</span> <span class="dv">0</span>] [<span class="at">:r</span> <span class="dv">1</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cayley-table-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="cayley-table-visualization">Cayley table visualization</h2>
+<p>For small groups, the Cayley table shows the complete multiplication structure.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> cayley-table-svg</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Render a Cayley table as an SVG grid with colored cells."</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  [G &amp; {<span class="at">:keys</span> [cell-size] <span class="at">:or</span> {cell-size <span class="dv">28</span>}}]</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [elts (<span class="kw">vec</span> (reel/elements G))</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        n (<span class="kw">count</span> elts)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        elt-idx (<span class="kw">into</span> {} (map-indexed (<span class="kw">fn</span> [i <span class="kw">e</span>] [<span class="kw">e</span> i]) elts))</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">;; Generate colors for each element</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        colors (<span class="kw">mapv</span> (<span class="kw">fn</span> [i]</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">let</span> [hue (<span class="kw">*</span> <span class="fl">360.0</span> (<span class="kw">/</span> i (<span class="kw">double</span> n)))]</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">str</span> <span class="st">"hsl("</span> (<span class="kw">int</span> hue) <span class="st">",70%,75%)"</span>)))</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">range</span> n))</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>        header cell-size</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>        w (<span class="kw">+</span> header (<span class="kw">*</span> n cell-size) <span class="dv">2</span>)</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>        h (<span class="kw">+</span> header (<span class="kw">*</span> n cell-size) <span class="dv">2</span>)]</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">into</span> [<span class="at">:svg</span> {<span class="at">:width</span> w <span class="at">:height</span> h <span class="at">:xmlns</span> <span class="st">"http://www.w3.org/2000/svg"</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:style</span> <span class="st">"font-family: monospace; font-size: 11px;"</span>}]</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">concat</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>           <span class="co">;; Column headers</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">for</span> [j (<span class="kw">range</span> n)]</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>             [<span class="at">:text</span> {<span class="at">:x</span> (<span class="kw">+</span> header (<span class="kw">*</span> j cell-size) (<span class="kw">/</span> cell-size <span class="dv">2</span>))</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:y</span> (<span class="kw">-</span> header <span class="dv">4</span>)</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:text-anchor</span> <span class="st">"middle"</span> <span class="at">:font-size</span> <span class="dv">9</span> <span class="at">:fill</span> <span class="st">"#555"</span>}</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">str</span> (elts j))])</span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>           <span class="co">;; Row headers</span></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">for</span> [i (<span class="kw">range</span> n)]</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>             [<span class="at">:text</span> {<span class="at">:x</span> (<span class="kw">-</span> header <span class="dv">4</span>)</span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:y</span> (<span class="kw">+</span> header (<span class="kw">*</span> i cell-size) (<span class="kw">/</span> cell-size <span class="dv">2</span>) <span class="dv">4</span>)</span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:text-anchor</span> <span class="st">"end"</span> <span class="at">:font-size</span> <span class="dv">9</span> <span class="at">:fill</span> <span class="st">"#555"</span>}</span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">str</span> (elts i))])</span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>           <span class="co">;; Table cells</span></span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">for</span> [i (<span class="kw">range</span> n) j (<span class="kw">range</span> n)</span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:let</span> [prod (reel/op G (elts i) (elts j))</span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>                       k (elt-idx prod)]]</span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>             [<span class="at">:rect</span> {<span class="at">:x</span> (<span class="kw">+</span> header (<span class="kw">*</span> j cell-size))</span>
+<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:y</span> (<span class="kw">+</span> header (<span class="kw">*</span> i cell-size))</span>
+<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:width</span> (<span class="kw">dec</span> cell-size) <span class="at">:height</span> (<span class="kw">dec</span> cell-size)</span>
+<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a>                     <span class="at">:fill</span> (colors k) <span class="at">:stroke</span> <span class="st">"#fff"</span> <span class="at">:stroke-width</span> <span class="fl">0.5</span>}])))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Cayley table for <span class="math inline">\(\mathbb{Z}/4\mathbb{Z}\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (cayley-table-svg (reel/cyclic-group <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="142" style="font-family: monospace; font-size: 11px;" width="142" xmlns="http://www.w3.org/2000/svg"><text fill="#555" font-size="9" text-anchor="middle" x="42" y="24">0</text><text fill="#555" font-size="9" text-anchor="middle" x="70" y="24">1</text><text fill="#555" font-size="9" text-anchor="middle" x="98" y="24">2</text><text fill="#555" font-size="9" text-anchor="middle" x="126" y="24">3</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="46">0</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="74">1</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="102">2</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="130">3</text><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="28"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="28"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="28"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="28"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="56"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="56"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="56"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="56"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="84"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="84"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="84"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="84"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="112"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="112"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="112"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="112"></rect></svg>
+<p>Cayley table for <span class="math inline">\(D_3\)</span> (6 elements):</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (cayley-table-svg (reel/dihedral-group <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="198" style="font-family: monospace; font-size: 11px;" width="198" xmlns="http://www.w3.org/2000/svg"><text fill="#555" font-size="9" text-anchor="middle" x="42" y="24">[:r 0]</text><text fill="#555" font-size="9" text-anchor="middle" x="70" y="24">[:r 1]</text><text fill="#555" font-size="9" text-anchor="middle" x="98" y="24">[:r 2]</text><text fill="#555" font-size="9" text-anchor="middle" x="126" y="24">[:s 0]</text><text fill="#555" font-size="9" text-anchor="middle" x="154" y="24">[:s 1]</text><text fill="#555" font-size="9" text-anchor="middle" x="182" y="24">[:s 2]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="46">[:r 0]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="74">[:r 1]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="102">[:r 2]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="130">[:s 0]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="158">[:s 1]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="186">[:s 2]</text><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="28"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="28"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="28"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="28"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="28"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="28"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="56"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="56"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="56"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="56"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="56"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="56"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="84"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="84"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="84"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="84"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="84"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="84"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="112"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="112"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="112"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="112"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="112"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="112"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="140"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="140"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="140"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="140"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="140"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="140"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="168"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="168"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="168"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="168"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="168"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="168"></rect></svg>
+</section>
+<section id="summary-of-verified-identities" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-verified-identities">Summary of verified identities</h2>
+<p>This notebook verified across 20 groups (cyclic, symmetric, dihedral, product):</p>
+<ul>
+<li><p><strong>Identity axiom</strong>: <span class="math inline">\(eg = ge = g\)</span> for all elements</p></li>
+<li><p><strong>Inverse axiom</strong>: <span class="math inline">\(gg^{-1} = g^{-1}g = e\)</span> for all elements</p></li>
+<li><p><strong>Associativity</strong>: <span class="math inline">\((gh)k = g(hk)\)</span>, exhaustive or sampled</p></li>
+<li><p><strong>Closure</strong>: products and inverses stay in the group</p></li>
+<li><p><strong>Order</strong>: <code>order</code> = <code>(count (elements G))</code></p></li>
+<li><p><strong>Conjugacy classes</strong>: partition, size sum, actual conjugacy verified</p></li>
+<li><p><strong>Dihedral</strong>: presentation relations for <span class="math inline">\(n = 2, \ldots, 20\)</span>, class counts, order <span class="math inline">\(= 2n\)</span></p></li>
+<li><p><strong>Product</strong>: order and class count formulas</p></li>
+<li><p><strong>Commutativity</strong>: abelian groups commute, non-abelian don’t</p></li>
+</ul>
+<div style="background-color:grey;height:2px;width:100%;"></div>
+<div><pre><small><small>source: <a href="https://github.com/scicloj/reel/blob/main/notebooks/reel_book/groups_and_structure.clj">notebooks/reel_book/groups_and_structure.clj</a></small></small></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./reel_book.permutations_and_partitions.html" class="pagination-link" aria-label="Permutations and Partitions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Permutations and Partitions</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./reel_book.character_theory.html" class="pagination-link" aria-label="Character Theory">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Character Theory</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

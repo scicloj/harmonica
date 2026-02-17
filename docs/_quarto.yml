@@ -13,7 +13,9 @@ book:
   - part: Getting Started
     chapters: [reel_book.quickstart.qmd]
   - part: Foundations
-    chapters: [reel_book.dft_as_group_fourier.qmd, reel_book.symmetric_groups.qmd]
+    chapters: [reel_book.dft_as_group_fourier.qmd, reel_book.symmetric_groups.qmd, reel_book.permutations_and_partitions.qmd, reel_book.groups_and_structure.qmd, reel_book.character_theory.qmd, reel_book.representation_matrices.qmd, reel_book.group_actions.qmd]
   - part: Applications
-    chapters: [reel_book.random_transpositions.qmd, reel_book.riffle_shuffle.qmd, reel_book.counting_necklaces.qmd]
+    chapters: [reel_book.random_transpositions.qmd, reel_book.riffle_shuffle.qmd, reel_book.counting_necklaces.qmd, reel_book.chord_geometry.qmd, reel_book.hearing_symmetry.qmd, reel_book.symmetry_sketchpad.qmd]
+  - part: Reference
+    chapters: [reel_book.algebraic_identities.qmd, reel_book.api_reference.qmd]
   title: reel

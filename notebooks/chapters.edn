@@ -1,10 +1,16 @@
 {"Getting Started" ["quickstart"]
  "Foundations" ["dft_as_group_fourier"
-                "symmetric_groups"]
+                "symmetric_groups"
+                "permutations_and_partitions"
+                "groups_and_structure"
+                "character_theory"
+                "representation_matrices"
+                "group_actions"]
  "Applications" ["random_transpositions"
                  "riffle_shuffle"
                  "counting_necklaces"
                  "chord_geometry"
                  "hearing_symmetry"
                  "symmetry_sketchpad"]
- "Reference" ["algebraic_identities"]}
+ "Reference" ["algebraic_identities"
+              "api_reference"]}

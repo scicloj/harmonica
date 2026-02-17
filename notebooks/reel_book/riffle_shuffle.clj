@@ -79,12 +79,11 @@
                                        parts))])}))
 
 (kind/test-last
- (fn [_]
+ [(fn [_]
    (let [parts (reel/partitions 5)]
      (= 120 (reduce + (map #(let [d (reel/hook-length-dimension %)]
                                (* d d))
-                            parts))))))
-
+                            parts)))))])
 ;; ## The Gilbert-Shannon-Reeds Riffle Shuffle
 ;;
 ;; The GSR model for a single riffle shuffle:
@@ -102,11 +101,11 @@
 ;; $r(\sigma) = 1 + \text{descents}(\sigma^{-1})$.
 
 ;; For example, $[2\;0\;3\;1]$ has $\sigma^{-1} = [1\;3\;0\;2]$, with
-;; descents at positions 1 and 3, so $r = 1 + 2 = 3$ rising sequences:
+;; a descent at position 1 (3 > 0), so $r = 1 + 1 = 2$ rising sequences:
 
 (reel/rising-sequences [2 0 3 1])
 
-(kind/test-last (fn [v] (= 3 v)))
+(kind/test-last [= 2])
 
 ;; The identity permutation always has $r = 1$ (one rising sequence),
 ;; making it the most likely outcome:
@@ -184,7 +183,7 @@
   {:lhs lhs :rhs rhs :difference (Math/abs (- lhs rhs))})
 
 (kind/test-last
- (fn [result] (< (:difference result) 1e-10)))
+ [(fn [result] (< (:difference result) 1e-10))])
 
 ;; ## Convergence Rates: Comparing $S_4$, $S_5$, $S_6$
 ;;

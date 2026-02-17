@@ -84,7 +84,7 @@
             (mapv #(coloring (mod (+ % (long g)) n)) (range n)))]
   (reel/burnside-count G act domain))
 
-(kind/test-last (fn [v] (= 14 v)))
+(kind/test-last [= 14])
 
 ;; ## The Cycle Index Polynomial
 ;;

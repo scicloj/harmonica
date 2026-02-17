@@ -185,7 +185,7 @@
                   (for [a elts b elts] [a b]))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Cyclic vs Dihedral: The Difference
 ;;
@@ -261,7 +261,7 @@
       ys (mapv second orbit-pts)]
   (count (set orbit-pts)))
 
-(kind/test-last (fn [v] (= 14 v)))
+(kind/test-last [= 14])
 
 ;; The orbit has $|D_7| = 14$ distinct points (the point has trivial stabilizer).
 

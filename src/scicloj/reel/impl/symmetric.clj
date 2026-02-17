@@ -32,12 +32,17 @@
       :elements #{(perm/identity-perm (max n 0))}
       :size 1
       :cycle-type (if (pos? n) [1] [])}]
-    (let [parts (part/partitions n)]
+    (let [parts (part/partitions n)
+          ;; For small n, enumerate elements and group by cycle type
+          enumerate? (<= n 8)
+          by-ct (when enumerate?
+                  (group-by perm/cycle-type (all-permutations n)))]
       (mapv (fn [partition]
-              {:representative nil ;; filled lazily below
-               :elements nil       ;; too expensive to enumerate for large n
-               :size (part/partition-class-size n partition)
-               :cycle-type partition})
+              (let [elts (when enumerate? (set (get by-ct partition)))]
+                {:representative (when elts (first elts))
+                 :elements elts
+                 :size (part/partition-class-size n partition)
+                 :cycle-type partition}))
             parts))))
 
 (defrecord SymmetricGroup [n]

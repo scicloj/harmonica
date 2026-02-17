@@ -31,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__64502#] (Math/cos p1__64502#)) angles)
+    (mapv (fn* [p1__83110#] (Math/cos p1__83110#)) angles)
     ys
-    (mapv (fn* [p1__64503#] (Math/sin p1__64503#)) angles)
+    (mapv (fn* [p1__83111#] (Math/sin p1__83111#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -87,7 +87,7 @@
       [transposed
        (sort
         (mapv
-         (fn* [p1__64504#] (mod (+ p1__64504# (long k)) 12))
+         (fn* [p1__83112#] (mod (+ p1__83112# (long k)) 12))
          c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
@@ -113,7 +113,7 @@
   (count orbs)))
 
 
-(deftest t11_l97 (is (fn v10_l91 [v] (= 19 v))))
+(deftest t11_l97 (is (= v10_l91 19)))
 
 
 (def
@@ -184,7 +184,7 @@
   (count orbs)))
 
 
-(deftest t17_l157 (is (fn v16_l148 [v] (= 12 v))))
+(deftest t17_l157 (is (= v16_l148 12)))
 
 
 (def
@@ -219,7 +219,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__64505#] (contains? p1__64505# rep)) orbs-d)))
+     (filter (fn* [p1__83113#] (contains? p1__83113# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -238,27 +238,34 @@
  v21_l204
  (let
   [G
-   (reel/cyclic-group 12)
+   (reel/dihedral-group 12)
    act
-   (fn [g x] (mod (+ (long x) (long g)) 12))
+   (fn
+    [[t k] x]
+    (case
+     t
+     :r
+     (mod (+ (long x) (long k)) 12)
+     :s
+     (mod (- (long k) (long x)) 12)))
    {:keys [domain], act-sub :act}
    (reel/subset-action act (range 12) 3)
    orbs
    (reel/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__64506#] (first (sort p1__64506#))) orbs)
+   (mapv (fn* [p1__83114#] (first (sort p1__83114#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
-  (every? (fn* [p1__64507#] (= 1 (count (val p1__64507#)))) iv-groups)))
+  (every? (fn* [p1__83115#] (= 1 (count (val p1__83115#)))) iv-groups)))
 
 
-(deftest t22_l213 (is (fn v21_l204 [v] (= true v))))
+(deftest t22_l216 (is (true? v21_l204)))
 
 
 (def
- v24_l223
+ v24_l226
  (let
   [G-c
    (reel/cyclic-group 12)
@@ -308,7 +315,7 @@
 
 
 (def
- v26_l257
+ v26_l260
  (let
   [G
    (reel/cyclic-group 12)
@@ -331,7 +338,7 @@
 
 
 (def
- v28_l278
+ v28_l281
  (let
   [G
    (reel/cyclic-group 12)
@@ -362,16 +369,16 @@
    (range 12))))
 
 
-(deftest t29_l291 (is (fn v28_l278 [v] (= true v))))
+(deftest t29_l294 (is (true? v28_l281)))
 
 
-(def v31_l298 (chord-plot #{0 7 4} "Major triad"))
+(def v31_l301 (chord-plot #{0 7 4} "Major triad"))
 
 
-(def v32_l300 (chord-plot #{0 7 3} "Minor triad"))
+(def v32_l303 (chord-plot #{0 7 3} "Minor triad"))
 
 
-(def v33_l302 (chord-plot #{0 4 8} "Augmented triad"))
+(def v33_l305 (chord-plot #{0 4 8} "Augmented triad"))
 
 
-(def v34_l304 (chord-plot #{0 6 3} "Diminished triad"))
+(def v34_l307 (chord-plot #{0 6 3} "Diminished triad"))

@@ -64,7 +64,7 @@
             test-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Inverses: $g \cdot g^{-1} = g^{-1} \cdot g = e$
 
@@ -80,7 +80,7 @@
             test-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Associativity: $(g \cdot h) \cdot k = g \cdot (h \cdot k)$
 ;;
@@ -106,7 +106,7 @@
             test-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Conjugacy Class Properties
 ;;
@@ -120,7 +120,7 @@
             test-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Class elements are disjoint and form a partition
 
@@ -135,7 +135,7 @@
             test-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Character Table Properties
 ;;
@@ -172,7 +172,7 @@
 
 (every? row-orthogonality-check ct-groups)
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Column orthogonality
 ;;
@@ -202,7 +202,7 @@
 
 (every? column-orthogonality-check ct-groups)
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Dimension sum: $\sum_\rho d_\rho^2 = |G|$
 
@@ -219,7 +219,7 @@
             ct-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Number of irreps equals number of conjugacy classes
 
@@ -232,7 +232,7 @@
             ct-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Trivial character: $\chi_{\text{trivial}}(g) = 1$ for all $g$
 
@@ -248,7 +248,7 @@
             ct-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Character values at identity equal dimensions
 
@@ -264,7 +264,7 @@
             ct-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Fourier Transform Properties (Abelian Groups)
 ;;
@@ -294,7 +294,7 @@
             abelian-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Parseval's theorem: $\sum |f(g)|^2 = \frac{1}{|G|} \sum |\hat{f}(k)|^2$
 
@@ -312,7 +312,7 @@
             abelian-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Convolution theorem: $\widehat{f * g} = \hat{f} \cdot \hat{g}$
 
@@ -332,7 +332,7 @@
             abelian-groups)]
   (every? :pass? results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Representation Theory (S_n)
 ;;
@@ -365,7 +365,7 @@
           ok?))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Orthogonality: representation matrices are orthogonal
 ;;
@@ -390,7 +390,7 @@
                   (reel/elements G))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Trace matches character table
 ;;
@@ -416,7 +416,7 @@
                               (reel/elements G)))))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Plancherel identity
 ;;
@@ -438,7 +438,7 @@
           (< (Math/abs (- lhs rhs)) 1e-8)))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Group Action Identities
 
@@ -459,7 +459,7 @@
                   (range n))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Burnside equals orbit count
 
@@ -477,7 +477,7 @@
           (= orbit-count burnside)))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Cycle index gives correct Pólya count
 
@@ -498,7 +498,7 @@
           (= polya burnside)))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Dihedral-Specific Identities
 
@@ -522,7 +522,7 @@
                (= srs r-inv))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Dihedral character table: orthogonality on diverse sizes
 
@@ -532,7 +532,7 @@
                                   :group (reel/dihedral-group n)}))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Product Group Identities
 
@@ -547,7 +547,7 @@
           (= (reel/order P) (* (reel/order G1) (reel/order G2)))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Classes of product: $k(G_1 \times G_2) = k(G_1) \cdot k(G_2)$
 
@@ -562,7 +562,7 @@
                 (count (reel/conjugacy-classes G2))))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Permutation Identities (S_n specific)
 
@@ -578,7 +578,7 @@
                   (for [a elts b elts] [a b]))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Cycle type determines conjugacy class
 
@@ -593,7 +593,7 @@
                   classes)))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Decomposition round-trip: compose(decompose(σ)) = σ
 
@@ -607,14 +607,14 @@
           (every? (fn [sigma]
                     (let [swaps (reel/adjacent-transposition-decomposition sigma)
                           reconstructed (reduce (fn [p i]
-                                                  (reel/op G (make-swap i) p))
+                                                  (reel/op G p (make-swap i)))
                                                 id-perm
                                                 swaps)]
                       (= sigma reconstructed)))
                   (reel/elements G))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Tensor Product and Direct Sum
 
@@ -636,7 +636,7 @@
                   (reel/elements G))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Direct sum character: $\chi_{\rho_1 \oplus \rho_2}(g) = \chi_{\rho_1}(g) + \chi_{\rho_2}(g)$
 
@@ -656,7 +656,7 @@
                   (reel/elements G))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Tensor product is a homomorphism
 
@@ -680,7 +680,7 @@
                   (for [a elts b elts] [a b]))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ### Direct sum dimension: $d_{\rho_1 \oplus \rho_2} = d_{\rho_1} + d_{\rho_2}$
 
@@ -696,7 +696,7 @@
                   (* (reel/rep-dimension ir1) (reel/rep-dimension ir2))))))]
   (every? identity results))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Summary
 ;;

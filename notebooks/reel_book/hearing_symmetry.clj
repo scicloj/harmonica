@@ -31,13 +31,13 @@
 
 (reel/order V4)
 
-(kind/test-last (fn [v] (= 4 v)))
+(kind/test-last [= 4])
 
 ;; The group elements:
 
 (vec (reel/elements V4))
 
-(kind/test-last (fn [v] (= 4 (count v))))
+(kind/test-last [(fn [v] (= 4 (count v)))])
 
 ;; We label them:
 ;;
@@ -65,10 +65,9 @@
 
 (defn apply-v4
   "Apply a Klein four-group element to a melody.
-   Inversion reflects around the first note."
-  [[r i] melody]
-  (let [pivot (first melody)
-        inverted (if (= i 1)
+   Inversion reflects around a fixed pivot (the first note of the motif)."
+  [pivot [r i] melody]
+  (let [inverted (if (= i 1)
                    (mapv #(- (* 2 pivot) %) melody)
                    melody)
         retrograded (if (= r 1)
@@ -83,7 +82,7 @@
    [1 1] "Retrograde Inversion"})
 
 (let [rows (mapv (fn [g]
-                   (let [result (apply-v4 g motif)]
+                   (let [result (apply-v4 (first motif) g motif)]
                      {:transform (v4-labels g)
                       :element (str g)
                       :melody (str result)
@@ -101,12 +100,12 @@
 ;; ### Verification: V₄ is closed under composition
 
 (every? (fn [[g h]]
-          (let [gh-melody (apply-v4 g (apply-v4 h motif))
-                direct (apply-v4 (reel/op V4 g h) motif)]
+          (let [gh-melody (apply-v4 (first motif) g (apply-v4 (first motif) h motif))
+                direct (apply-v4 (first motif) (reel/op V4 g h) motif)]
             (= gh-melody direct)))
         (for [g (reel/elements V4) h (reel/elements V4)] [g h]))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Visualizing Transformations
 ;;
@@ -115,7 +114,7 @@
 ;; retrograde = horizontal flip, inversion = vertical flip.
 
 (let [transforms (mapv (fn [g]
-                         (let [result (apply-v4 g motif)]
+                         (let [result (apply-v4 (first motif) g motif)]
                            {:element g
                             :label (v4-labels g)
                             :melody result}))
@@ -168,7 +167,7 @@
 
 (reel/order D12)
 
-(kind/test-last (fn [v] (= 24 v)))
+(kind/test-last [= 24])
 
 ;; ## Twelve-Tone Rows
 ;;
@@ -214,7 +213,7 @@
 (let [forms (row-forms schoenberg-row)]
   (count forms))
 
-(kind/test-last (fn [v] (= 48 v)))
+(kind/test-last [= 48])
 
 ;; Let's see a few of the 48 forms:
 
@@ -234,7 +233,7 @@
             (= (set row) (set (range 12))))
           forms))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## Orbit Analysis
 ;;
@@ -245,7 +244,7 @@
       distinct-rows (set (map :row forms))]
   (count distinct-rows))
 
-(kind/test-last (fn [v] (= 48 v)))
+(kind/test-last [= 48])
 
 ;; Yes — Schoenberg's row has no internal symmetries, so its orbit has
 ;; the maximum size of 48.
@@ -263,7 +262,7 @@
                       (range 11))]
   (= (set intervals) (set (range 1 12))))
 
-(kind/test-last (fn [v] (= true v)))
+(kind/test-last [true?])
 
 ;; ## The Group Table
 ;;

@@ -369,17 +369,22 @@ cyclic-from-linear
 ;; ## What comes next
 ;;
 ;; The cyclic group is the simplest case. The same framework — groups,
-;; characters, Fourier transform — extends to:
+;; characters, Fourier transform — extends to every finite group:
 ;;
-;; - **Dihedral groups** (symmetries of regular polygons) — for Burnside
-;;   counting and musical pitch class theory
+;; - **Symmetric groups** $S_n$ — where characters are indexed by
+;;   partitions and the Fourier transform produces matrix-valued
+;;   coefficients. See [Symmetric Groups](symmetric_groups.html),
+;;   [Random Transpositions](random_transpositions.html), and
+;;   [Riffle Shuffles](riffle_shuffle.html).
 ;;
-;; - **Symmetric groups** $S_n$ (permutations) — where characters are indexed
-;;   by partitions and the Fourier transform produces matrix-valued
-;;   coefficients. This is the setting for Diaconis's card shuffling analysis.
+;; - **Dihedral groups** $D_n$ — symmetries of regular polygons, used for
+;;   Burnside counting and musical pitch classes. See
+;;   [Counting Necklaces](counting_necklaces.html) and
+;;   [Chord Geometry](chord_geometry.html).
 ;;
-;; - **Product groups** $\mathbb{Z}/n_1\mathbb{Z} \times \mathbb{Z}/n_2\mathbb{Z}$ — giving the 2D DFT for image
-;;   processing
+;; - **Product groups** $G_1 \times G_2$ — componentwise operations, giving
+;;   the 2D DFT as a special case. See
+;;   [Hearing Symmetry](hearing_symmetry.html) for $V_4 \cong \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$.
 ;;
 ;; The reel library builds all of these on the same protocol foundation
 ;; demonstrated here.

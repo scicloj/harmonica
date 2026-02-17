@@ -70,7 +70,7 @@
   (every? :pass? results)))
 
 
-(deftest t7_l67 (is (fn v6_l56 [v] (= true v))))
+(deftest t7_l67 (is (true? v6_l56)))
 
 
 (def
@@ -96,7 +96,7 @@
   (every? :pass? results)))
 
 
-(deftest t10_l83 (is (fn v9_l71 [v] (= true v))))
+(deftest t10_l83 (is (true? v9_l71)))
 
 
 (def
@@ -135,7 +135,7 @@
   (every? :pass? results)))
 
 
-(deftest t13_l109 (is (fn v12_l89 [v] (= true v))))
+(deftest t13_l109 (is (true? v12_l89)))
 
 
 (def
@@ -155,7 +155,7 @@
   (every? :pass? results)))
 
 
-(deftest t16_l123 (is (fn v15_l115 [v] (= true v))))
+(deftest t16_l123 (is (true? v15_l115)))
 
 
 (def
@@ -181,7 +181,7 @@
   (every? :pass? results)))
 
 
-(deftest t19_l138 (is (fn v18_l127 [v] (= true v))))
+(deftest t19_l138 (is (true? v18_l127)))
 
 
 (def
@@ -226,7 +226,7 @@
 (def v22_l173 (every? row-orthogonality-check ct-groups))
 
 
-(deftest t23_l175 (is (fn v22_l173 [v] (= true v))))
+(deftest t23_l175 (is (true? v22_l173)))
 
 
 (def
@@ -272,7 +272,7 @@
 (def v26_l203 (every? column-orthogonality-check ct-groups))
 
 
-(deftest t27_l205 (is (fn v26_l203 [v] (= true v))))
+(deftest t27_l205 (is (true? v26_l203)))
 
 
 (def
@@ -290,7 +290,7 @@
        dim-sq-sum
        (reduce
         +
-        (map (fn* [p1__71388#] (* p1__71388# p1__71388#)) dims))]
+        (map (fn* [p1__83654#] (* p1__83654# p1__83654#)) dims))]
       {:group label,
        :pass?
        (<
@@ -300,7 +300,7 @@
   (every? :pass? results)))
 
 
-(deftest t30_l222 (is (fn v29_l209 [v] (= true v))))
+(deftest t30_l222 (is (true? v29_l209)))
 
 
 (def
@@ -322,7 +322,7 @@
   (every? :pass? results)))
 
 
-(deftest t33_l235 (is (fn v32_l226 [v] (= true v))))
+(deftest t33_l235 (is (true? v32_l226)))
 
 
 (def
@@ -348,7 +348,7 @@
   (every? :pass? results)))
 
 
-(deftest t36_l251 (is (fn v35_l239 [v] (= true v))))
+(deftest t36_l251 (is (true? v35_l239)))
 
 
 (def
@@ -374,7 +374,7 @@
   (every? :pass? results)))
 
 
-(deftest t39_l267 (is (fn v38_l255 [v] (= true v))))
+(deftest t39_l267 (is (true? v38_l255)))
 
 
 (def
@@ -418,7 +418,7 @@
   (every? :pass? results)))
 
 
-(deftest t44_l297 (is (fn v43_l283 [v] (= true v))))
+(deftest t44_l297 (is (true? v43_l283)))
 
 
 (def
@@ -445,7 +445,7 @@
        (reduce
         +
         (map
-         (fn* [p1__71389#] (let [a (c/abs p1__71389#)] (* a a)))
+         (fn* [p1__83655#] (let [a (c/abs p1__83655#)] (* a a)))
          f-vals))
        rhs
        (*
@@ -453,14 +453,14 @@
         (reduce
          +
          (map
-          (fn* [p1__71390#] (let [a (c/abs p1__71390#)] (* a a)))
+          (fn* [p1__83656#] (let [a (c/abs p1__83656#)] (* a a)))
           f-hat)))]
       {:group label, :pass? (< (Math/abs (- lhs rhs)) 1.0E-8)}))
     abelian-groups)]
   (every? :pass? results)))
 
 
-(deftest t47_l315 (is (fn v46_l301 [v] (= true v))))
+(deftest t47_l315 (is (true? v46_l301)))
 
 
 (def
@@ -496,8 +496,8 @@
         max
         (map
          (fn*
-          [p1__71391# p2__71392#]
-          (c/abs (c/sub p1__71391# p2__71392#)))
+          [p1__83657# p2__83658#]
+          (c/abs (c/sub p1__83657# p2__83658#)))
          conv-hat
          pointwise))]
       {:group label, :pass? (< max-err 1.0E-8)}))
@@ -505,7 +505,7 @@
   (every? :pass? results)))
 
 
-(deftest t50_l335 (is (fn v49_l319 [v] (= true v))))
+(deftest t50_l335 (is (true? v49_l319)))
 
 
 (def
@@ -554,7 +554,7 @@
   (every? identity results)))
 
 
-(deftest t53_l368 (is (fn v52_l344 [v] (= true v))))
+(deftest t53_l368 (is (true? v52_l344)))
 
 
 (def
@@ -592,7 +592,7 @@
   (every? identity results)))
 
 
-(deftest t56_l393 (is (fn v55_l374 [v] (= true v))))
+(deftest t56_l393 (is (true? v55_l374)))
 
 
 (def
@@ -638,7 +638,7 @@
   (every? identity results)))
 
 
-(deftest t59_l419 (is (fn v58_l399 [v] (= true v))))
+(deftest t59_l419 (is (true? v58_l399)))
 
 
 (def
@@ -672,7 +672,7 @@
   (every? identity results)))
 
 
-(deftest t62_l441 (is (fn v61_l425 [v] (= true v))))
+(deftest t62_l441 (is (true? v61_l425)))
 
 
 (def
@@ -705,7 +705,7 @@
   (every? identity results)))
 
 
-(deftest t65_l462 (is (fn v64_l447 [v] (= true v))))
+(deftest t65_l462 (is (true? v64_l447)))
 
 
 (def
@@ -728,7 +728,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__71393#] (coloring (mod (+ p1__71393# (long g)) n)))
+        (fn* [p1__83659#] (coloring (mod (+ p1__83659# (long g)) n)))
         (range n)))
       orbit-count
       (count (reel/orbits G act domain))
@@ -738,7 +738,7 @@
   (every? identity results)))
 
 
-(deftest t68_l480 (is (fn v67_l466 [v] (= true v))))
+(deftest t68_l480 (is (true? v67_l466)))
 
 
 (def
@@ -767,7 +767,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__71394#] (coloring (mod (+ p1__71394# (long g)) n)))
+        (fn* [p1__83660#] (coloring (mod (+ p1__83660# (long g)) n)))
         (range n)))
       burnside
       (reel/burnside-count G act-coloring domain)]
@@ -775,7 +775,7 @@
   (every? identity results)))
 
 
-(deftest t71_l501 (is (fn v70_l484 [v] (= true v))))
+(deftest t71_l501 (is (true? v70_l484)))
 
 
 (def
@@ -805,7 +805,7 @@
   (every? identity results)))
 
 
-(deftest t74_l525 (is (fn v73_l507 [v] (= true v))))
+(deftest t74_l525 (is (true? v73_l507)))
 
 
 (def
@@ -819,7 +819,7 @@
   (every? identity results)))
 
 
-(deftest t77_l535 (is (fn v76_l529 [v] (= true v))))
+(deftest t77_l535 (is (true? v76_l529)))
 
 
 (def
@@ -839,7 +839,7 @@
   (every? identity results)))
 
 
-(deftest t80_l550 (is (fn v79_l541 [v] (= true v))))
+(deftest t80_l550 (is (true? v79_l541)))
 
 
 (def
@@ -863,7 +863,7 @@
   (every? identity results)))
 
 
-(deftest t83_l565 (is (fn v82_l554 [v] (= true v))))
+(deftest t83_l565 (is (true? v82_l554)))
 
 
 (def
@@ -882,7 +882,7 @@
   (every? identity results)))
 
 
-(deftest t86_l581 (is (fn v85_l571 [v] (= true v))))
+(deftest t86_l581 (is (true? v85_l571)))
 
 
 (def
@@ -903,7 +903,7 @@
   (every? identity results)))
 
 
-(deftest t89_l596 (is (fn v88_l585 [v] (= true v))))
+(deftest t89_l596 (is (true? v88_l585)))
 
 
 (def
@@ -926,13 +926,13 @@
         [swaps
          (reel/adjacent-transposition-decomposition sigma)
          reconstructed
-         (reduce (fn [p i] (reel/op G (make-swap i) p)) id-perm swaps)]
+         (reduce (fn [p i] (reel/op G p (make-swap i))) id-perm swaps)]
         (= sigma reconstructed)))
       (reel/elements G))))]
   (every? identity results)))
 
 
-(deftest t92_l617 (is (fn v91_l600 [v] (= true v))))
+(deftest t92_l617 (is (true? v91_l600)))
 
 
 (def
@@ -968,7 +968,7 @@
   (every? identity results)))
 
 
-(deftest t95_l639 (is (fn v94_l623 [v] (= true v))))
+(deftest t95_l639 (is (true? v94_l623)))
 
 
 (def
@@ -1004,7 +1004,7 @@
   (every? identity results)))
 
 
-(deftest t98_l659 (is (fn v97_l643 [v] (= true v))))
+(deftest t98_l659 (is (true? v97_l643)))
 
 
 (def
@@ -1048,7 +1048,7 @@
   (every? identity results)))
 
 
-(deftest t101_l683 (is (fn v100_l663 [v] (= true v))))
+(deftest t101_l683 (is (true? v100_l663)))
 
 
 (def
@@ -1072,4 +1072,4 @@
   (every? identity results)))
 
 
-(deftest t104_l699 (is (fn v103_l687 [v] (= true v))))
+(deftest t104_l699 (is (true? v103_l687)))

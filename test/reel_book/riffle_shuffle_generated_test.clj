@@ -48,41 +48,41 @@
        +
        (map
         (fn*
-         [p1__73702#]
-         (let [d (reel/hook-length-dimension p1__73702#)] (* d d)))
+         [p1__82678#]
+         (let [d (reel/hook-length-dimension p1__82678#)] (* d d)))
         parts))])})))
 
 
 (deftest
  t10_l81
  (is
-  (fn
-   v9_l68
-   [_]
-   (let
-    [parts (reel/partitions 5)]
-    (=
-     120
-     (reduce
-      +
-      (map
-       (fn*
-        [p1__73703#]
-        (let [d (reel/hook-length-dimension p1__73703#)] (* d d)))
-       parts)))))))
+  ((fn
+    [_]
+    (let
+     [parts (reel/partitions 5)]
+     (=
+      120
+      (reduce
+       +
+       (map
+        (fn*
+         [p1__82679#]
+         (let [d (reel/hook-length-dimension p1__82679#)] (* d d)))
+        parts)))))
+   v9_l68)))
 
 
-(def v12_l107 (reel/rising-sequences [2 0 3 1]))
+(def v12_l106 (reel/rising-sequences [2 0 3 1]))
 
 
-(deftest t13_l109 (is (fn v12_l107 [v] (= 3 v))))
+(deftest t13_l108 (is (= v12_l106 2)))
 
 
-(def v15_l114 (reel/gsr-probability (reel/identity-perm 4) 1))
+(def v15_l113 (reel/gsr-probability (reel/identity-perm 4) 1))
 
 
 (def
- v17_l123
+ v17_l122
  (let
   [n
    5
@@ -108,8 +108,8 @@
          +
          (map
           (fn*
-           [p1__73704#]
-           (Math/abs (- (aget probs (int p1__73704#)) uniform)))
+           [p1__82680#]
+           (Math/abs (- (aget probs (int p1__82680#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -131,7 +131,7 @@
 
 
 (def
- v19_l154
+ v19_l153
  (let
   [n
    4
@@ -163,7 +163,7 @@
 
 
 (def
- v21_l176
+ v21_l175
  (let
   [n
    4
@@ -185,12 +185,12 @@
 
 
 (deftest
- t22_l186
- (is (fn v21_l176 [result] (< (:difference result) 1.0E-10))))
+ t22_l185
+ (is ((fn [result] (< (:difference result) 1.0E-10)) v21_l175)))
 
 
 (def
- v24_l194
+ v24_l193
  (let
   [tv-data
    (vec
@@ -214,8 +214,8 @@
          +
          (map
           (fn*
-           [p1__73705#]
-           (Math/abs (- (aget probs (int p1__73705#)) uniform)))
+           [p1__82681#]
+           (Math/abs (- (aget probs (int p1__82681#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->
