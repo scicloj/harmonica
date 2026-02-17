@@ -5,13 +5,15 @@
    where g is a group element and x is a point in the domain.
 
    Core functions:
-     orbit         - orbit of a point under the group action
-     orbits        - partition a domain into orbits
-     fixed-points  - points fixed by a given group element
-     stabilizer    - group elements that fix a given point
+     orbit          - orbit of a point under the group action
+     orbits         - partition a domain into orbits
+     fixed-points   - points fixed by a given group element
+     stabilizer     - group elements that fix a given point
      burnside-count - number of orbits via Burnside's lemma
-     cycle-index   - cycle index of a permutation action
-     polya-count   - number of colorings via Pólya enumeration"
+     cycle-index    - cycle index of a permutation action
+     polya-count    - number of colorings via Pólya enumeration
+     subset-action  - induced action on k-element subsets
+     coloring-action - induced action on k-colorings of n positions"
   (:require [scicloj.reel.protocols :as p]))
 
 (defn orbit
@@ -115,8 +117,25 @@
                                     (concat
                                      (map #(into [f] %) (combos r (dec k)))
                                      (combos r k)))))]
-                 (vec (combos domain-vec k)))
+                  (vec (combos domain-vec k)))
         act-on-subset (fn [g subset]
                         (vec (sort (map #(act g %) subset))))]
     {:act act-on-subset
      :domain subsets}))
+
+(defn coloring-action
+  "Induced action of a group on k-colorings of n positions.
+   Given a point action (act g i) → i' on positions {0, ..., n-1},
+   returns:
+     {:act    - function (act g coloring) acting on coloring vectors
+      :domain - all k^n colorings as vectors of length n with entries in {0, ..., k-1}}"
+  [point-act n k]
+  (let [domain (loop [i 0 d [[]]]
+                 (if (= i n) d
+                     (recur (inc i)
+                            (vec (for [prev d c (range k)]
+                                   (conj prev c))))))
+        act-on-coloring (fn [g coloring]
+                          (mapv #(coloring (point-act g %)) (range n)))]
+    {:act act-on-coloring
+     :domain domain}))

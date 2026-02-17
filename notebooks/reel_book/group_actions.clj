@@ -157,21 +157,10 @@
 ;;
 ;; We verify that Burnside's count matches the actual orbit count for
 ;; colorings of beads under cyclic and dihedral groups.
-
-(defn all-colorings
-  "Generate all k-colorings of n positions."
-  [n k]
-  (if (zero? n)
-    [[]]
-    (for [rest (all-colorings (dec n) k)
-          c (range k)]
-      (conj rest c))))
-
-(defn coloring-action
-  "Action of a cyclic group on colorings."
-  [n]
-  (fn [g coloring]
-    (mapv #(coloring (mod (+ % (long g)) n)) (range n))))
+;;
+;; The library provides `coloring-action` to generate all $k$-colorings
+;; and lift a point action to colorings — analogous to `subset-action`
+;; for $k$-element subsets.
 
 ;; ### Cyclic group on binary colorings
 
@@ -179,8 +168,7 @@
       (for [n (range 2 9)
             k [2 3]]
         (let [G (reel/cyclic-group n)
-              domain (all-colorings n k)
-              act (coloring-action n)
+              {:keys [domain act]} (reel/coloring-action (rotation-action n) n k)
               actual-orbits (count (reel/orbits G act domain))
               burnside (reel/burnside-count G act domain)]
           (= actual-orbits burnside)))]
@@ -190,19 +178,11 @@
 
 ;; ### Dihedral group on binary colorings (bracelets)
 
-(defn dihedral-coloring-action
-  "Action of D_n on colorings: rotations and reflections."
-  [n]
-  (let [vertex-act (dihedral-vertex-action n)]
-    (fn [g coloring]
-      (mapv #(coloring (vertex-act g %)) (range n)))))
-
 (let [results
       (for [n (range 3 9)
             k [2 3]]
         (let [G (reel/dihedral-group n)
-              domain (all-colorings n k)
-              act (dihedral-coloring-action n)
+              {:keys [domain act]} (reel/coloring-action (dihedral-vertex-action n) n k)
               actual-orbits (count (reel/orbits G act domain))
               burnside (reel/burnside-count G act domain)]
           (= actual-orbits burnside)))]
@@ -221,8 +201,7 @@
 (let [results
       (for [n (range 1 (inc (count known-necklaces)))]
         (let [G (reel/cyclic-group n)
-              domain (all-colorings n 2)
-              act (coloring-action n)]
+              {:keys [domain act]} (reel/coloring-action (rotation-action n) n 2)]
           (= (reel/burnside-count G act domain) (nth known-necklaces (dec n)))))]
   (every? true? results))
 
@@ -231,8 +210,7 @@
 (let [results
       (for [n (range 1 (inc (count known-bracelets)))]
         (let [G (reel/dihedral-group n)
-              domain (all-colorings n 2)
-              act (dihedral-coloring-action n)]
+              {:keys [domain act]} (reel/coloring-action (dihedral-vertex-action n) n 2)]
           (= (reel/burnside-count G act domain) (nth known-bracelets (dec n)))))]
   (every? true? results))
 
@@ -286,9 +264,8 @@
               act (rotation-action n)
               ci (reel/cycle-index G act (range n))
               polya (reel/polya-count ci k)
-              domain (all-colorings n k)
-              act-coloring (coloring-action n)
-              burnside (reel/burnside-count G act-coloring domain)]
+              {:keys [domain] act-col :act} (reel/coloring-action act n k)
+              burnside (reel/burnside-count G act-col domain)]
           (= polya burnside)))]
   (every? true? results))
 
@@ -303,9 +280,8 @@
               act (dihedral-vertex-action n)
               ci (reel/cycle-index G act (range n))
               polya (reel/polya-count ci k)
-              domain (all-colorings n k)
-              act-coloring (dihedral-coloring-action n)
-              burnside (reel/burnside-count G act-coloring domain)]
+              {:keys [domain] act-col :act} (reel/coloring-action act n k)
+              burnside (reel/burnside-count G act-col domain)]
           (= polya burnside)))]
   (every? true? results))
 
@@ -364,14 +340,13 @@
       (for [n [5 6 7]
             k [2 3]]
         (let [G (reel/cyclic-group n)
-              perm-act (fn [g x] (mod (+ (long x) (long g)) n))
-              {:keys [act domain]} (reel/subset-action perm-act (range n) k)
+              point-act (rotation-action n)
+              {:keys [act domain]} (reel/subset-action point-act (range n) k)
               subset-orbits (count (reel/orbits G act domain))
               ;; Binary colorings of weight k
-              weighted-colorings (filter (fn [c] (= k (reduce + c)))
-                                        (all-colorings n 2))
-              act-coloring (coloring-action n)
-              weighted-orbits (count (reel/orbits G act-coloring weighted-colorings))]
+              {all-cols :domain act-col :act} (reel/coloring-action point-act n 2)
+              weighted-colorings (filter (fn [c] (= k (reduce + c))) all-cols)
+              weighted-orbits (count (reel/orbits G act-col weighted-colorings))]
           (= subset-orbits weighted-orbits)))]
   (every? true? results))
 
@@ -395,3 +370,6 @@
 ;; - **Fixed point properties**: identity fixes all, rotation by 1 fixes none,
 ;;   reflection fixes at most 2
 
+;; For applications of group actions, see
+;; [Counting Necklaces](counting_necklaces.html) and
+;; [Chord Geometry](chord_geometry.html).

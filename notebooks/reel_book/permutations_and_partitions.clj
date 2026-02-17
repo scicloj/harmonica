@@ -1,103 +1,27 @@
 ;; # Permutations and Partitions
 ;;
-;; This notebook explores the two foundational data types in combinatorial
-;; group theory: **permutations** (the elements of symmetric groups) and
-;; **partitions** (the labels for conjugacy classes and irreducible
-;; representations).
+;; This notebook is a deep dive into the algebraic properties of
+;; **permutations** and **partitions** — the two foundational data types
+;; in the representation theory of symmetric groups. We verify identities
+;; systematically and visualize partitions as Young diagrams.
 ;;
-;; We verify their algebraic properties systematically and visualize
-;; partitions as Young diagrams.
+;; For a narrative introduction to permutations, cycles, and the symmetric
+;; group, see [Symmetric Groups](symmetric_groups.html).
 
 (ns reel-book.permutations-and-partitions
   (:require
    [scicloj.reel.core :as reel]
    [scicloj.kindly.v4.kind :as kind]))
 
-;; ## Permutations
+;; ## Permutation Identities
 ;;
-;; A permutation of $\{0, 1, \ldots, n{-}1\}$ is stored as a vector in **one-line
-;; notation**: position $i$ maps to value $\sigma(i)$. All operations use
-;; 0-based indexing.
+;; The following verifications cover the fundamental algebraic properties
+;; of permutations in $S_n$. Each identity is tested exhaustively on
+;; small symmetric groups.
 
-;; ### Basic operations
-
-(reel/identity-perm 5)
-
-(kind/test-last [= [0 1 2 3 4]])
-
-(reel/transposition 5 1 3)
-
-(kind/test-last [= [0 3 2 1 4]])
-
-;; Composition is right-to-left: $(\sigma \circ \tau)(i) = \sigma(\tau(i))$.
-
-(let [G (reel/symmetric-group 4)]
-  (reel/op G [1 0 3 2] [2 3 0 1]))
-
-(kind/test-last [= [3 2 1 0]])
-
-;; ### Cycle decomposition
+;; ### Sign is a homomorphism
 ;;
-;; Every permutation decomposes uniquely into disjoint cycles.
-;; Fixed points (1-cycles) are omitted from the display.
-
-(reel/cycles [1 2 3 0])
-
-(kind/test-last [= [[0 1 2 3]]])
-
-(reel/cycles [0 3 2 1])
-
-(kind/test-last [= [[1 3]]])
-
-(reel/cycles [1 0 3 2])
-
-(kind/test-last [= [[0 1] [2 3]]])
-
-;; The identity has no non-trivial cycles.
-
-(reel/cycles [0 1 2 3])
-
-(kind/test-last [= []])
-
-;; ### Cycle type
-;;
-;; The **cycle type** records all cycle lengths (including fixed points)
-;; as a descending vector — a **partition** of $n$.
-
-(reel/cycle-type [1 2 3 0])
-
-(kind/test-last [= [4]])
-
-(reel/cycle-type [1 0 3 2])
-
-(kind/test-last [= [2 2]])
-
-(reel/cycle-type [1 0 2 3])
-
-(kind/test-last [= [2 1 1]])
-
-(reel/cycle-type [0 1 2 3])
-
-(kind/test-last [= [1 1 1 1]])
-
-;; ### Sign
-;;
-;; The sign of a permutation is $+1$ (even) or $-1$ (odd), determined by
-;; the parity of the number of transpositions.
-
-(reel/sign [0 1 2 3])
-
-(kind/test-last [= 1])
-
-(reel/sign [1 0 2 3])
-
-(kind/test-last [= -1])
-
-(reel/sign [1 2 3 0])
-
-(kind/test-last [= -1])
-
-;; Sign is multiplicative: $\operatorname{sign}(\sigma \tau) =
+;; $\operatorname{sign}(\sigma \tau) =
 ;; \operatorname{sign}(\sigma) \cdot \operatorname{sign}(\tau)$.
 ;; We verify for all pairs in $S_5$.
 

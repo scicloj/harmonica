@@ -44,12 +44,12 @@
   (testing "n odd: (n+3)/2 classes"
     (doseq [n [3 5 7]]
       (is (= (/ (+ n 3) 2)
-              (count (p/conjugacy-classes (dih/dihedral-group n))))
+             (count (p/conjugacy-classes (dih/dihedral-group n))))
           (str "D_" n))))
   (testing "n even: n/2+3 classes"
     (doseq [n [4 6 8]]
       (is (= (+ (/ n 2) 3)
-              (count (p/conjugacy-classes (dih/dihedral-group n))))
+             (count (p/conjugacy-classes (dih/dihedral-group n))))
           (str "D_" n)))))
 
 (deftest dihedral-class-sizes-sum-to-order
@@ -87,7 +87,7 @@
 (deftest product-group-class-count
   ;; Z/2Z × Z/3Z is abelian with 6 elements, so 6 conjugacy classes
   (is (= 6 (count (p/conjugacy-classes
-                    (prod/product-group (cyc/cyclic-group 2) (cyc/cyclic-group 3)))))))
+                   (prod/product-group (cyc/cyclic-group 2) (cyc/cyclic-group 3)))))))
 
 ;; ---------------------------------------------------------------------------
 ;; Dihedral character table
@@ -132,7 +132,7 @@
 (defn- rotation-act
   "Action of cyclic group element g on position x mod n."
   [g x]
-  (mod (+ (long x) (long g)) (count (range 12))))  ;; placeholder, use closure
+  (mod (+ (long x) (long g)) (count (range 12)))) ;; placeholder, use closure
 
 (defn- make-cyclic-act [n]
   (fn [g x] (mod (+ (long x) (long g)) n)))
@@ -242,3 +242,27 @@
         (is (= (long (p/order G))
                (* (count (action/orbit G act x))
                   (count (action/stabilizer G act x)))))))))
+
+(deftest coloring-action-test
+  (testing "coloring-action generates correct domain and action"
+    (let [point-act (fn [g x] (mod (+ (long x) (long g)) 4))
+          {:keys [domain act]} (action/coloring-action point-act 4 2)]
+      (is (= 16 (count domain)) "2^4 = 16 colorings")
+      (is (= [0 1 1 0] (act 1 [0 0 1 1])) "rotation by 1")))
+  (testing "coloring-action gives correct Burnside counts"
+    (doseq [[n k expected] [[4 2 6] [5 2 8] [6 2 14] [3 3 11]]]
+      (let [G (cyc/cyclic-group n)
+            point-act (fn [g x] (mod (+ (long x) (long g)) n))
+            {:keys [domain act]} (action/coloring-action point-act n k)]
+        (is (= expected (action/burnside-count G act domain))
+            (str "n=" n " k=" k)))))
+  (testing "coloring-action with dihedral group gives bracelet counts"
+    (doseq [[n expected] [[3 4] [4 6] [5 8] [6 13]]]
+      (let [G (dih/dihedral-group n)
+            point-act (fn [[t k] x]
+                        (case t
+                          :r (mod (+ (long x) (long k)) n)
+                          :s (mod (- (long k) (long x)) n)))
+            {:keys [domain act]} (action/coloring-action point-act n 2)]
+        (is (= expected (action/burnside-count G act domain))
+            (str "D_" n " bracelets"))))))

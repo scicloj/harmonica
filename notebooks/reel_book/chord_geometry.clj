@@ -321,3 +321,7 @@
 ;; - **Interval vectors**: a transposition-invariant fingerprint of a chord
 ;; - **Fourier magnitudes**: another invariant, connecting to representation theory
 ;; - **Inversional equivalence**: the dihedral group $D_{12}$ merges chord/inversion pairs
+
+;; For another perspective on music and group theory — transforming
+;; melodies via the Klein four-group — see
+;; [Hearing Symmetry](hearing_symmetry.html).

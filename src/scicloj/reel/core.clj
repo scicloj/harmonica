@@ -56,6 +56,7 @@
      cycle-index      - cycle index of a permutation action
      polya-count      - colorings via Pólya enumeration
      subset-action    - induced action on k-element subsets
+     coloring-action  - induced action on k-colorings of n positions
 
    Fourier analysis:
      fourier-transform         - transform a function on a group
@@ -309,6 +310,11 @@
   "Induced action on k-element subsets of a domain.
    Returns {:act act-fn :domain all-subsets}."
   action/subset-action)
+
+(def coloring-action
+  "Induced action on k-colorings of n positions.
+   Returns {:act act-fn :domain all-colorings}."
+  action/coloring-action)
 
 ;; ---------------------------------------------------------------------------
 ;; Fourier analysis

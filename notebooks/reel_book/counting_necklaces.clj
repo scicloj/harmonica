@@ -15,6 +15,18 @@
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
 
+;; We'll use `rotation-action` and `dihedral-vertex-action` as point actions
+;; on bead positions, then lift them to colorings with `reel/coloring-action`.
+
+(defn rotation-action [n]
+  (fn [g x] (mod (+ (long x) (long g)) n)))
+
+(defn dihedral-vertex-action [n]
+  (fn [[t k] x]
+    (case t
+      :r (mod (+ (long x) (long k)) n)
+      :s (mod (- (long k) (long x)) n))))
+
 ;; ## The Setup
 ;;
 ;; A "necklace" with $n$ beads and $k$ colors is an equivalence class of
@@ -30,12 +42,8 @@
 ;; There are $2^4 = 16$ colorings total.
 
 (let [n 4
-      k 2
-      domain (for [a (range k) b (range k) c (range k) d (range k)]
-               [a b c d])
       G (reel/cyclic-group n)
-      act (fn [g coloring]
-            (mapv #(coloring (mod (+ % (long g)) n)) (range n)))
+      {:keys [domain act]} (reel/coloring-action (rotation-action n) n 2)
       orbs (reel/orbits G act domain)]
   (kind/table
    {:column-names ["Orbit #" "Size" "Representative"]
@@ -55,13 +63,8 @@
 ;; fixed by group element $g$.
 
 (let [n 6
-      k 2
-      domain (let [bits (range k)]
-               (for [a bits b bits c bits d bits e bits f bits]
-                 [a b c d e f]))
       G (reel/cyclic-group n)
-      act (fn [g coloring]
-            (mapv #(coloring (mod (+ % (long g)) n)) (range n)))
+      {:keys [domain act]} (reel/coloring-action (rotation-action n) n 2)
       fix-counts (mapv (fn [g]
                          {:element g
                           :fixed (count (reel/fixed-points act g domain))})
@@ -75,13 +78,8 @@
 ;; The Burnside count:
 
 (let [n 6
-      k 2
-      domain (let [bits (range k)]
-               (for [a bits b bits c bits d bits e bits f bits]
-                 [a b c d e f]))
       G (reel/cyclic-group n)
-      act (fn [g coloring]
-            (mapv #(coloring (mod (+ % (long g)) n)) (range n)))]
+      {:keys [domain act]} (reel/coloring-action (rotation-action n) n 2)]
   (reel/burnside-count G act domain))
 
 (kind/test-last [= 14])
@@ -95,8 +93,7 @@
 
 (let [n 6
       G (reel/cyclic-group n)
-      act (fn [g x] (mod (+ (long x) (long g)) n))
-      ci (reel/cycle-index G act (range n))]
+      ci (reel/cycle-index G (rotation-action n) (range n))]
   (kind/table
    {:column-names ["Cycle type" "Coefficient"]
     :row-vectors (mapv (fn [[ct coeff]]
@@ -108,8 +105,7 @@
 
 (let [n 6
       G (reel/cyclic-group n)
-      act (fn [g x] (mod (+ (long x) (long g)) n))
-      ci (reel/cycle-index G act (range n))]
+      ci (reel/cycle-index G (rotation-action n) (range n))]
   (kind/table
    {:column-names ["$k$ (colors)" "Necklaces"]
     :row-vectors (mapv (fn [k] [k (reel/polya-count ci k)])
@@ -124,18 +120,10 @@
       (mapv (fn [n]
               (let [G-c (reel/cyclic-group n)
                     G-d (reel/dihedral-group n)
-                    act-c (fn [g coloring]
-                            (mapv #(coloring (mod (+ % (long g)) n)) (range n)))
-                    act-d (fn [[t k] coloring]
-                            (case t
-                              :r (mapv #(coloring (mod (+ % (long k)) n)) (range n))
-                              :s (mapv #(coloring (mod (- (long k) %) n)) (range n))))
-                    domain (let [bits (range 2)]
-                             (loop [i 0 d [[]]]
-                               (if (= i n) d
-                                   (recur (inc i) (for [prev d c bits] (conj prev c))))))
-                    necklaces (reel/burnside-count G-c act-c domain)
-                    bracelets (reel/burnside-count G-d act-d domain)]
+                    {domain-c :domain act-c :act} (reel/coloring-action (rotation-action n) n 2)
+                    {domain-d :domain act-d :act} (reel/coloring-action (dihedral-vertex-action n) n 2)
+                    necklaces (reel/burnside-count G-c act-c domain-c)
+                    bracelets (reel/burnside-count G-d act-d domain-d)]
                 {:n n :necklaces necklaces :bracelets bracelets}))
             (range 3 10))]
   (kind/table
@@ -159,13 +147,10 @@
               (let [G (if (= group-type :cyclic)
                         (reel/cyclic-group n)
                         (reel/dihedral-group n))
-                    act (if (= group-type :cyclic)
-                          (fn [g x] (mod (+ (long x) (long g)) n))
-                          (fn [[t k] x]
-                            (case t
-                              :r (mod (+ (long x) (long k)) n)
-                              :s (mod (- (long k) (long x)) n))))
-                    ci (reel/cycle-index G act (range n))]
+                    point-act (if (= group-type :cyclic)
+                                (rotation-action n)
+                                (dihedral-vertex-action n))
+                    ci (reel/cycle-index G point-act (range n))]
                 {:n n
                  :count (long (reel/polya-count ci 2))
                  :type (if (= group-type :cyclic) "Necklaces" "Bracelets")})))]
@@ -226,3 +211,5 @@
 ;; - **Necklaces vs bracelets**: $C_n$ (rotations only) vs $D_n$ (rotations + flips)
 ;; - **Cube colorings**: using a known cycle index for a non-trivial symmetry group
 
+;; For the algebraic foundations behind group actions, see
+;; [Group Actions](group_actions.html).

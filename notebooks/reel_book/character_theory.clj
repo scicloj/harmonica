@@ -407,3 +407,6 @@
 ;; - **MN sign character**: $\chi_{[1^n]}(\mu) = (-1)^{n-k}$ for all $\mu$
 ;; - **Dihedral structure**: correct count of 1D and 2D irreps for $n = 3, \ldots, 20$
 
+
+;; For applications of character tables to random walks, see
+;; [Random Transpositions](random_transpositions.html).

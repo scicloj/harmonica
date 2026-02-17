@@ -7,7 +7,26 @@
 
 
 (def
- v3_l18
+ v3_l35
+ (let
+  [G (reel/dihedral-group 4)]
+  {:order (reel/order G),
+   :identity (reel/id G),
+   :elements (vec (reel/elements G))}))
+
+
+(def v5_l42 (let [G (reel/dihedral-group 5)] (reel/op G [:r 2] [:s 0])))
+
+
+(def
+ v7_l55
+ (let
+  [V4 (reel/product-group (reel/cyclic-group 2) (reel/cyclic-group 2))]
+  {:order (reel/order V4), :elements (vec (reel/elements V4))}))
+
+
+(def
+ v9_l64
  (def
   all-groups
   [{:label "Z/1Z", :group (reel/cyclic-group 1)}
@@ -43,7 +62,7 @@
 
 
 (def
- v5_l44
+ v11_l90
  (let
   [results
    (mapv
@@ -62,11 +81,11 @@
   (every? :pass? results)))
 
 
-(deftest t6_l55 (is (true? v5_l44)))
+(deftest t12_l101 (is (true? v11_l90)))
 
 
 (def
- v8_l61
+ v14_l107
  (let
   [results
    (mapv
@@ -87,11 +106,11 @@
   (every? :pass? results)))
 
 
-(deftest t9_l73 (is (true? v8_l61)))
+(deftest t15_l119 (is (true? v14_l107)))
 
 
 (def
- v11_l81
+ v17_l127
  (let
   [results
    (mapv
@@ -128,11 +147,11 @@
   (every? :pass? results)))
 
 
-(deftest t12_l100 (is (true? v11_l81)))
+(deftest t18_l146 (is (true? v17_l127)))
 
 
 (def
- v14_l106
+ v20_l152
  (let
   [results
    (mapv
@@ -153,11 +172,11 @@
   (every? :pass? results)))
 
 
-(deftest t15_l118 (is (true? v14_l106)))
+(deftest t21_l164 (is (true? v20_l152)))
 
 
 (def
- v17_l122
+ v23_l168
  (let
   [results
    (mapv
@@ -174,11 +193,11 @@
   (every? :pass? results)))
 
 
-(deftest t18_l132 (is (true? v17_l122)))
+(deftest t24_l178 (is (true? v23_l168)))
 
 
 (def
- v20_l138
+ v26_l184
  (let
   [results
    (mapv
@@ -190,11 +209,11 @@
   (every? :pass? results)))
 
 
-(deftest t21_l145 (is (true? v20_l138)))
+(deftest t27_l191 (is (true? v26_l184)))
 
 
 (def
- v23_l149
+ v29_l195
  (kind/table
   {:column-names ["Group" "Order"],
    :row-vectors
@@ -204,7 +223,7 @@
 
 
 (def
- v25_l159
+ v31_l205
  (let
   [results
    (mapv
@@ -226,11 +245,11 @@
   (every? :pass? results)))
 
 
-(deftest t26_l170 (is (true? v25_l159)))
+(deftest t32_l216 (is (true? v31_l205)))
 
 
 (def
- v28_l174
+ v34_l220
  (let
   [results
    (mapv
@@ -244,11 +263,11 @@
   (every? :pass? results)))
 
 
-(deftest t29_l183 (is (true? v28_l174)))
+(deftest t35_l229 (is (true? v34_l220)))
 
 
 (def
- v31_l187
+ v37_l233
  (let
   [results
    (mapv
@@ -263,11 +282,11 @@
   (every? :pass? results)))
 
 
-(deftest t32_l197 (is (true? v31_l187)))
+(deftest t38_l243 (is (true? v37_l233)))
 
 
 (def
- v34_l204
+ v40_l250
  (let
   [results
    (for
@@ -297,11 +316,11 @@
   (every? true? results)))
 
 
-(deftest t35_l220 (is (true? v34_l204)))
+(deftest t41_l266 (is (true? v40_l250)))
 
 
 (def
- v37_l226
+ v43_l272
  (let
   [results
    (for
@@ -327,11 +346,11 @@
   (every? true? results)))
 
 
-(deftest t38_l239 (is (true? v37_l226)))
+(deftest t44_l285 (is (true? v43_l272)))
 
 
 (def
- v40_l245
+ v46_l291
  (let
   [results
    (for
@@ -347,11 +366,11 @@
   (every? true? results)))
 
 
-(deftest t41_l255 (is (true? v40_l245)))
+(deftest t47_l301 (is (true? v46_l291)))
 
 
 (def
- v43_l259
+ v49_l305
  (let
   [results
    (for
@@ -360,11 +379,11 @@
   (every? true? results)))
 
 
-(deftest t44_l264 (is (true? v43_l259)))
+(deftest t50_l310 (is (true? v49_l305)))
 
 
 (def
- v46_l270
+ v52_l316
  (let
   [results
    (for
@@ -380,11 +399,11 @@
   (every? true? results)))
 
 
-(deftest t47_l280 (is (true? v46_l270)))
+(deftest t53_l326 (is (true? v52_l316)))
 
 
 (def
- v49_l284
+ v55_l330
  (let
   [results
    (for
@@ -403,11 +422,11 @@
   (every? true? results)))
 
 
-(deftest t50_l295 (is (true? v49_l284)))
+(deftest t56_l341 (is (true? v55_l330)))
 
 
 (def
- v52_l302
+ v58_l348
  (let
   [abelian-groups
    [(reel/cyclic-group 5)
@@ -427,31 +446,31 @@
   (every? true? results)))
 
 
-(deftest t53_l315 (is (true? v52_l302)))
+(deftest t59_l361 (is (true? v58_l348)))
 
 
 (def
- v55_l319
+ v61_l365
  (let
   [G (reel/symmetric-group 3) a [1 0 2] b [0 2 1]]
   (not= (reel/op G a b) (reel/op G b a))))
 
 
-(deftest t56_l324 (is (true? v55_l319)))
+(deftest t62_l370 (is (true? v61_l365)))
 
 
 (def
- v57_l326
+ v63_l372
  (let
   [G (reel/dihedral-group 3)]
   (not= (reel/op G [:r 1] [:s 0]) (reel/op G [:s 0] [:r 1]))))
 
 
-(deftest t58_l329 (is (true? v57_l326)))
+(deftest t64_l375 (is (true? v63_l372)))
 
 
 (def
- v60_l336
+ v66_l382
  (defn
   cayley-table-svg
   "Render a Cayley table as an SVG grid with colored cells."
@@ -519,7 +538,7 @@
         :stroke-width 0.5}]))))))
 
 
-(def v62_l376 (kind/hiccup (cayley-table-svg (reel/cyclic-group 4))))
+(def v68_l422 (kind/hiccup (cayley-table-svg (reel/cyclic-group 4))))
 
 
-(def v64_l380 (kind/hiccup (cayley-table-svg (reel/dihedral-group 3))))
+(def v70_l426 (kind/hiccup (cayley-table-svg (reel/dihedral-group 3))))

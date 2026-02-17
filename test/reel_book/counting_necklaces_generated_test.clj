@@ -10,22 +10,34 @@
 
 
 (def
- v3_l32
+ v3_l21
+ (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
+
+
+(def
+ v4_l24
+ (defn
+  dihedral-vertex-action
+  [n]
+  (fn
+   [[t k] x]
+   (case
+    t
+    :r
+    (mod (+ (long x) (long k)) n)
+    :s
+    (mod (- (long k) (long x)) n)))))
+
+
+(def
+ v6_l44
  (let
   [n
    4
-   k
-   2
-   domain
-   (for [a (range k) b (range k) c (range k) d (range k)] [a b c d])
    G
    (reel/cyclic-group n)
-   act
-   (fn
-    [g coloring]
-    (mapv
-     (fn* [p1__82774#] (coloring (mod (+ p1__82774# (long g)) n)))
-     (range n)))
+   {:keys [domain act]}
+   (reel/coloring-action (rotation-action n) n 2)
    orbs
    (reel/orbits G act domain)]
   (kind/table
@@ -34,28 +46,18 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__82775#] (first (sort p1__82775#))) orbs))})))
+     (sort-by (fn* [p1__89618#] (first (sort p1__89618#))) orbs))})))
 
 
 (def
- v5_l57
+ v8_l65
  (let
   [n
    6
-   k
-   2
-   domain
-   (let
-    [bits (range k)]
-    (for [a bits b bits c bits d bits e bits f bits] [a b c d e f]))
    G
    (reel/cyclic-group n)
-   act
-   (fn
-    [g coloring]
-    (mapv
-     (fn* [p1__82776#] (coloring (mod (+ p1__82776# (long g)) n)))
-     (range n)))
+   {:keys [domain act]}
+   (reel/coloring-action (rotation-action n) n 2)
    fix-counts
    (mapv
     (fn
@@ -71,41 +73,29 @@
 
 
 (def
- v7_l77
+ v10_l80
  (let
   [n
    6
-   k
-   2
-   domain
-   (let
-    [bits (range k)]
-    (for [a bits b bits c bits d bits e bits f bits] [a b c d e f]))
    G
    (reel/cyclic-group n)
-   act
-   (fn
-    [g coloring]
-    (mapv
-     (fn* [p1__82777#] (coloring (mod (+ p1__82777# (long g)) n)))
-     (range n)))]
+   {:keys [domain act]}
+   (reel/coloring-action (rotation-action n) n 2)]
   (reel/burnside-count G act domain)))
 
 
-(deftest t8_l87 (is (= v7_l77 14)))
+(deftest t11_l85 (is (= v10_l80 14)))
 
 
 (def
- v10_l96
+ v13_l94
  (let
   [n
    6
    G
    (reel/cyclic-group n)
-   act
-   (fn [g x] (mod (+ (long x) (long g)) n))
    ci
-   (reel/cycle-index G act (range n))]
+   (reel/cycle-index G (rotation-action n) (range n))]
   (kind/table
    {:column-names ["Cycle type" "Coefficient"],
     :row-vectors
@@ -115,16 +105,14 @@
 
 
 (def
- v12_l109
+ v15_l106
  (let
   [n
    6
    G
    (reel/cyclic-group n)
-   act
-   (fn [g x] (mod (+ (long x) (long g)) n))
    ci
-   (reel/cycle-index G act (range n))]
+   (reel/cycle-index G (rotation-action n) (range n))]
   (kind/table
    {:column-names ["$k$ (colors)" "Necklaces"],
     :row-vectors
@@ -132,7 +120,7 @@
 
 
 (def
- v14_l123
+ v17_l119
  (let
   [results
    (mapv
@@ -143,38 +131,14 @@
        (reel/cyclic-group n)
        G-d
        (reel/dihedral-group n)
-       act-c
-       (fn
-        [g coloring]
-        (mapv
-         (fn* [p1__82778#] (coloring (mod (+ p1__82778# (long g)) n)))
-         (range n)))
-       act-d
-       (fn
-        [[t k] coloring]
-        (case
-         t
-         :r
-         (mapv
-          (fn* [p1__82779#] (coloring (mod (+ p1__82779# (long k)) n)))
-          (range n))
-         :s
-         (mapv
-          (fn* [p1__82780#] (coloring (mod (- (long k) p1__82780#) n)))
-          (range n))))
-       domain
-       (let
-        [bits (range 2)]
-        (loop
-         [i 0 d [[]]]
-         (if
-          (= i n)
-          d
-          (recur (inc i) (for [prev d c bits] (conj prev c))))))
+       {domain-c :domain, act-c :act}
+       (reel/coloring-action (rotation-action n) n 2)
+       {domain-d :domain, act-d :act}
+       (reel/coloring-action (dihedral-vertex-action n) n 2)
        necklaces
-       (reel/burnside-count G-c act-c domain)
+       (reel/burnside-count G-c act-c domain-c)
        bracelets
-       (reel/burnside-count G-d act-d domain)]
+       (reel/burnside-count G-d act-d domain-d)]
       {:n n, :necklaces necklaces, :bracelets bracelets}))
     (range 3 10))]
   (kind/table
@@ -186,7 +150,7 @@
 
 
 (def
- v16_l156
+ v19_l144
  (let
   [data
    (vec
@@ -198,20 +162,13 @@
         (= group-type :cyclic)
         (reel/cyclic-group n)
         (reel/dihedral-group n))
-       act
+       point-act
        (if
         (= group-type :cyclic)
-        (fn [g x] (mod (+ (long x) (long g)) n))
-        (fn
-         [[t k] x]
-         (case
-          t
-          :r
-          (mod (+ (long x) (long k)) n)
-          :s
-          (mod (- (long k) (long x)) n))))
+        (rotation-action n)
+        (dihedral-vertex-action n))
        ci
-       (reel/cycle-index G act (range n))]
+       (reel/cycle-index G point-act (range n))]
       {:n n,
        :count (long (reel/polya-count ci 2)),
        :type (if (= group-type :cyclic) "Necklaces" "Bracelets")})))]
@@ -233,7 +190,7 @@
 
 
 (def
- v18_l192
+ v21_l177
  (let
   [G
    (reel/symmetric-group 4)

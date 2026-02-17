@@ -184,32 +184,7 @@
 
 
 (def
- v34_l161
- (defn
-  all-colorings
-  "Generate all k-colorings of n positions."
-  [n k]
-  (if
-   (zero? n)
-   [[]]
-   (for [rest (all-colorings (dec n) k) c (range k)] (conj rest c)))))
-
-
-(def
- v35_l170
- (defn
-  coloring-action
-  "Action of a cyclic group on colorings."
-  [n]
-  (fn
-   [g coloring]
-   (mapv
-    (fn* [p1__82070#] (coloring (mod (+ p1__82070# (long g)) n)))
-    (range n)))))
-
-
-(def
- v37_l178
+ v34_l167
  (let
   [results
    (for
@@ -217,10 +192,8 @@
     (let
      [G
       (reel/cyclic-group n)
-      domain
-      (all-colorings n k)
-      act
-      (coloring-action n)
+      {:keys [domain act]}
+      (reel/coloring-action (rotation-action n) n k)
       actual-orbits
       (count (reel/orbits G act domain))
       burnside
@@ -229,26 +202,11 @@
   (every? true? results)))
 
 
-(deftest t38_l189 (is (true? v37_l178)))
+(deftest t35_l177 (is (true? v34_l167)))
 
 
 (def
- v40_l193
- (defn
-  dihedral-coloring-action
-  "Action of D_n on colorings: rotations and reflections."
-  [n]
-  (let
-   [vertex-act (dihedral-vertex-action n)]
-   (fn
-    [g coloring]
-    (mapv
-     (fn* [p1__82071#] (coloring (vertex-act g p1__82071#)))
-     (range n))))))
-
-
-(def
- v41_l200
+ v37_l181
  (let
   [results
    (for
@@ -256,10 +214,8 @@
     (let
      [G
       (reel/dihedral-group n)
-      domain
-      (all-colorings n k)
-      act
-      (dihedral-coloring-action n)
+      {:keys [domain act]}
+      (reel/coloring-action (dihedral-vertex-action n) n k)
       actual-orbits
       (count (reel/orbits G act domain))
       burnside
@@ -268,17 +224,17 @@
   (every? true? results)))
 
 
-(deftest t42_l211 (is (true? v41_l200)))
+(deftest t38_l191 (is (true? v37_l181)))
 
 
-(def v44_l218 (def known-necklaces [2 3 4 6 8 14 20 36 60]))
+(def v40_l198 (def known-necklaces [2 3 4 6 8 14 20 36 60]))
 
 
-(def v45_l219 (def known-bracelets [2 3 4 6 8 13 18 30 46]))
+(def v41_l199 (def known-bracelets [2 3 4 6 8 13 18 30 46]))
 
 
 (def
- v46_l221
+ v42_l201
  (let
   [results
    (for
@@ -286,21 +242,19 @@
     (let
      [G
       (reel/cyclic-group n)
-      domain
-      (all-colorings n 2)
-      act
-      (coloring-action n)]
+      {:keys [domain act]}
+      (reel/coloring-action (rotation-action n) n 2)]
      (=
       (reel/burnside-count G act domain)
       (nth known-necklaces (dec n)))))]
   (every? true? results)))
 
 
-(deftest t47_l229 (is (true? v46_l221)))
+(deftest t43_l208 (is (true? v42_l201)))
 
 
 (def
- v48_l231
+ v44_l210
  (let
   [results
    (for
@@ -308,21 +262,19 @@
     (let
      [G
       (reel/dihedral-group n)
-      domain
-      (all-colorings n 2)
-      act
-      (dihedral-coloring-action n)]
+      {:keys [domain act]}
+      (reel/coloring-action (dihedral-vertex-action n) n 2)]
      (=
       (reel/burnside-count G act domain)
       (nth known-bracelets (dec n)))))]
   (every? true? results)))
 
 
-(deftest t49_l239 (is (true? v48_l231)))
+(deftest t45_l217 (is (true? v44_l210)))
 
 
 (def
- v51_l250
+ v47_l228
  (let
   [G
    (reel/cyclic-group 4)
@@ -333,11 +285,11 @@
   (= 1 (reduce + (vals ci)))))
 
 
-(deftest t52_l255 (is (true? v51_l250)))
+(deftest t48_l233 (is (true? v47_l228)))
 
 
 (def
- v54_l259
+ v50_l237
  (let
   [results
    (concat
@@ -364,11 +316,11 @@
   (every? true? results)))
 
 
-(deftest t55_l273 (is (true? v54_l259)))
+(deftest t51_l251 (is (true? v50_l237)))
 
 
 (def
- v57_l282
+ v53_l260
  (let
   [results
    (for
@@ -382,21 +334,19 @@
       (reel/cycle-index G act (range n))
       polya
       (reel/polya-count ci k)
-      domain
-      (all-colorings n k)
-      act-coloring
-      (coloring-action n)
+      {:keys [domain], act-col :act}
+      (reel/coloring-action act n k)
       burnside
-      (reel/burnside-count G act-coloring domain)]
+      (reel/burnside-count G act-col domain)]
      (= polya burnside)))]
   (every? true? results)))
 
 
-(deftest t58_l295 (is (true? v57_l282)))
+(deftest t54_l272 (is (true? v53_l260)))
 
 
 (def
- v60_l299
+ v56_l276
  (let
   [results
    (for
@@ -410,21 +360,19 @@
       (reel/cycle-index G act (range n))
       polya
       (reel/polya-count ci k)
-      domain
-      (all-colorings n k)
-      act-coloring
-      (dihedral-coloring-action n)
+      {:keys [domain], act-col :act}
+      (reel/coloring-action act n k)
       burnside
-      (reel/burnside-count G act-coloring domain)]
+      (reel/burnside-count G act-col domain)]
      (= polya burnside)))]
   (every? true? results)))
 
 
-(deftest t61_l312 (is (true? v60_l299)))
+(deftest t57_l288 (is (true? v56_l276)))
 
 
 (def
- v63_l318
+ v59_l294
  (let
   [results
    (for
@@ -440,11 +388,11 @@
   (every? true? results)))
 
 
-(deftest t64_l327 (is (true? v63_l318)))
+(deftest t60_l303 (is (true? v59_l294)))
 
 
 (def
- v66_l334
+ v62_l310
  (let
   [G
    (reel/cyclic-group 100)
@@ -455,11 +403,11 @@
   (reel/polya-count ci 2)))
 
 
-(deftest t67_l339 (is (= v66_l334 12676506002282305273966813560N)))
+(deftest t63_l315 (is (= v62_l310 12676506002282305273966813560N)))
 
 
 (def
- v69_l347
+ v65_l323
  (let
   [results
    (for
@@ -477,11 +425,11 @@
   (every? true? results)))
 
 
-(deftest t70_l357 (is (true? v69_l347)))
+(deftest t66_l333 (is (true? v65_l323)))
 
 
 (def
- v72_l363
+ v68_l339
  (let
   [results
    (for
@@ -489,20 +437,20 @@
     (let
      [G
       (reel/cyclic-group n)
-      perm-act
-      (fn [g x] (mod (+ (long x) (long g)) n))
+      point-act
+      (rotation-action n)
       {:keys [act domain]}
-      (reel/subset-action perm-act (range n) k)
+      (reel/subset-action point-act (range n) k)
       subset-orbits
       (count (reel/orbits G act domain))
+      {all-cols :domain, act-col :act}
+      (reel/coloring-action point-act n 2)
       weighted-colorings
-      (filter (fn [c] (= k (reduce + c))) (all-colorings n 2))
-      act-coloring
-      (coloring-action n)
+      (filter (fn [c] (= k (reduce + c))) all-cols)
       weighted-orbits
-      (count (reel/orbits G act-coloring weighted-colorings))]
+      (count (reel/orbits G act-col weighted-colorings))]
      (= subset-orbits weighted-orbits)))]
   (every? true? results)))
 
 
-(deftest t73_l378 (is (true? v72_l363)))
+(deftest t69_l353 (is (true? v68_l339)))

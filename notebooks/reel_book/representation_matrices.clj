@@ -430,3 +430,6 @@
 ;; - **Direct sum**: dimension, character additivity
 ;; - **Schur orthogonality** (matrix entry level) for $S_4$
 
+
+;; For an application of matrix representations to card shuffling, see
+;; [Riffle Shuffles](riffle_shuffle.html).

@@ -292,3 +292,6 @@
 ;; - **The TI-group $D_{12}$**: combining transposition and inversion
 ;; - **Twelve-tone rows**: 48 forms as the orbit under $V_4 \times C_{12}$
 ;; - **Group theory in music**: composers use symmetry as a compositional tool
+
+;; For a complementary perspective on music and group theory — classifying
+;; chords via group actions — see [Chord Geometry](chord_geometry.html).

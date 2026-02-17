@@ -6,94 +6,8 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l24 (reel/identity-perm 5))
-
-
-(deftest t4_l26 (is (= v3_l24 [0 1 2 3 4])))
-
-
-(def v5_l28 (reel/transposition 5 1 3))
-
-
-(deftest t6_l30 (is (= v5_l28 [0 3 2 1 4])))
-
-
 (def
- v8_l34
- (let [G (reel/symmetric-group 4)] (reel/op G [1 0 3 2] [2 3 0 1])))
-
-
-(deftest t9_l37 (is (= v8_l34 [3 2 1 0])))
-
-
-(def v11_l44 (reel/cycles [1 2 3 0]))
-
-
-(deftest t12_l46 (is (= v11_l44 [[0 1 2 3]])))
-
-
-(def v13_l48 (reel/cycles [0 3 2 1]))
-
-
-(deftest t14_l50 (is (= v13_l48 [[1 3]])))
-
-
-(def v15_l52 (reel/cycles [1 0 3 2]))
-
-
-(deftest t16_l54 (is (= v15_l52 [[0 1] [2 3]])))
-
-
-(def v18_l58 (reel/cycles [0 1 2 3]))
-
-
-(deftest t19_l60 (is (= v18_l58 [])))
-
-
-(def v21_l67 (reel/cycle-type [1 2 3 0]))
-
-
-(deftest t22_l69 (is (= v21_l67 [4])))
-
-
-(def v23_l71 (reel/cycle-type [1 0 3 2]))
-
-
-(deftest t24_l73 (is (= v23_l71 [2 2])))
-
-
-(def v25_l75 (reel/cycle-type [1 0 2 3]))
-
-
-(deftest t26_l77 (is (= v25_l75 [2 1 1])))
-
-
-(def v27_l79 (reel/cycle-type [0 1 2 3]))
-
-
-(deftest t28_l81 (is (= v27_l79 [1 1 1 1])))
-
-
-(def v30_l88 (reel/sign [0 1 2 3]))
-
-
-(deftest t31_l90 (is (= v30_l88 1)))
-
-
-(def v32_l92 (reel/sign [1 0 2 3]))
-
-
-(deftest t33_l94 (is (= v32_l92 -1)))
-
-
-(def v34_l96 (reel/sign [1 2 3 0]))
-
-
-(deftest t35_l98 (is (= v34_l96 -1)))
-
-
-(def
- v37_l104
+ v3_l28
  (let
   [G (reel/symmetric-group 5) elts (vec (reel/elements G))]
   (every?
@@ -103,11 +17,11 @@
    (for [a elts b elts] [a b]))))
 
 
-(deftest t38_l111 (is (true? v37_l104)))
+(deftest t4_l35 (is (true? v3_l28)))
 
 
 (def
- v40_l118
+ v6_l42
  (let
   [results
    (for
@@ -124,11 +38,11 @@
   (every? true? results)))
 
 
-(deftest t41_l129 (is (true? v40_l118)))
+(deftest t7_l53 (is (true? v6_l42)))
 
 
 (def
- v43_l137
+ v9_l61
  (let
   [results
    (for
@@ -153,11 +67,11 @@
   (every? true? results)))
 
 
-(deftest t44_l152 (is (true? v43_l137)))
+(deftest t10_l76 (is (true? v9_l61)))
 
 
 (def
- v46_l159
+ v12_l83
  (let
   [results
    (for
@@ -172,11 +86,11 @@
   (every? true? results)))
 
 
-(deftest t47_l168 (is (true? v46_l159)))
+(deftest t13_l92 (is (true? v12_l83)))
 
 
 (def
- v49_l175
+ v15_l99
  (let
   [G (reel/symmetric-group 4) elts (vec (reel/elements G))]
   (every?
@@ -186,11 +100,11 @@
    (for [a elts b elts c elts] [a b c]))))
 
 
-(deftest t50_l182 (is (true? v49_l175)))
+(deftest t16_l106 (is (true? v15_l99)))
 
 
 (def
- v52_l189
+ v18_l113
  (defn
   perm-order
   "Compute the order of a permutation by repeated composition."
@@ -203,7 +117,7 @@
 
 
 (def
- v54_l201
+ v20_l125
  (let
   [G (reel/symmetric-group 5)]
   (every?
@@ -222,32 +136,32 @@
    (reel/elements G))))
 
 
-(deftest t55_l209 (is (true? v54_l201)))
+(deftest t21_l133 (is (true? v20_l125)))
 
 
-(def v57_l219 (reel/partitions 1))
+(def v23_l143 (reel/partitions 1))
 
 
-(deftest t58_l221 (is (= v57_l219 [[1]])))
+(deftest t24_l145 (is (= v23_l143 [[1]])))
 
 
-(def v59_l223 (reel/partitions 4))
+(def v25_l147 (reel/partitions 4))
 
 
-(deftest t60_l225 (is (= v59_l223 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
+(deftest t26_l149 (is (= v25_l147 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
 
 
-(def v61_l227 (reel/partitions 5))
+(def v27_l151 (reel/partitions 5))
 
 
 (deftest
- t62_l229
+ t28_l153
  (is
-  (= v61_l227 [[5] [4 1] [3 2] [3 1 1] [2 2 1] [2 1 1 1] [1 1 1 1 1]])))
+  (= v27_l151 [[5] [4 1] [3 2] [3 1 1] [2 2 1] [2 1 1 1] [1 1 1 1 1]])))
 
 
 (def
- v64_l233
+ v30_l157
  (kind/table
   {:column-names ["$n$" "$p(n)$"],
    :row-vectors
@@ -255,7 +169,7 @@
 
 
 (def
- v66_l239
+ v32_l163
  (let
   [results
    (for
@@ -266,11 +180,11 @@
   (every? true? results)))
 
 
-(deftest t67_l248 (is (true? v66_l239)))
+(deftest t33_l172 (is (true? v32_l163)))
 
 
 (def
- v69_l255
+ v35_l179
  (defn
   young-diagram-svg
   "Render a partition as an SVG Young diagram."
@@ -303,7 +217,7 @@
 
 
 (def
- v71_l278
+ v37_l202
  (kind/hiccup
   (into
    [:div
@@ -320,26 +234,26 @@
       (str p)]]))))
 
 
-(def v73_l292 (reel/partition-conjugate [4 2 1]))
+(def v39_l216 (reel/partition-conjugate [4 2 1]))
 
 
-(deftest t74_l294 (is (= v73_l292 [3 2 1 1])))
+(deftest t40_l218 (is (= v39_l216 [3 2 1 1])))
 
 
-(def v75_l296 (reel/partition-conjugate [3 3]))
+(def v41_l220 (reel/partition-conjugate [3 3]))
 
 
-(deftest t76_l298 (is (= v75_l296 [2 2 2])))
+(deftest t42_l222 (is (= v41_l220 [2 2 2])))
 
 
-(def v77_l300 (reel/partition-conjugate [5]))
+(def v43_l224 (reel/partition-conjugate [5]))
 
 
-(deftest t78_l302 (is (= v77_l300 [1 1 1 1 1])))
+(deftest t44_l226 (is (= v43_l224 [1 1 1 1 1])))
 
 
 (def
- v80_l306
+ v46_l230
  (kind/hiccup
   (let
    [p [4 2 1] pc (reel/partition-conjugate p)]
@@ -364,7 +278,7 @@
 
 
 (def
- v82_l320
+ v48_l244
  (let
   [results
    (for
@@ -373,11 +287,11 @@
   (every? true? results)))
 
 
-(deftest t83_l326 (is (true? v82_l320)))
+(deftest t49_l250 (is (true? v48_l244)))
 
 
 (def
- v85_l330
+ v51_l254
  (let
   [results
    (for
@@ -386,11 +300,11 @@
   (every? true? results)))
 
 
-(deftest t86_l336 (is (true? v85_l330)))
+(deftest t52_l260 (is (true? v51_l254)))
 
 
 (def
- v88_l352
+ v54_l276
  (defn
   hook-lengths
   "Compute all hook lengths for a partition."
@@ -403,7 +317,7 @@
 
 
 (def
- v90_l364
+ v56_l288
  (defn
   young-hooks-svg
   "Render a Young diagram with hook lengths displayed in each cell."
@@ -448,17 +362,17 @@
        (str hook)]])))))
 
 
-(def v92_l398 (kind/hiccup (young-hooks-svg [4 2 1])))
+(def v58_l322 (kind/hiccup (young-hooks-svg [4 2 1])))
 
 
-(def v94_l402 (kind/hiccup (young-hooks-svg [3 2 2])))
+(def v60_l326 (kind/hiccup (young-hooks-svg [3 2 2])))
 
 
-(def v96_l409 (defn factorial [n] (reduce *' (range 1 (inc n)))))
+(def v62_l333 (defn factorial [n] (reduce *' (range 1 (inc n)))))
 
 
 (def
- v97_l411
+ v63_l335
  (let
   [results
    (for
@@ -478,11 +392,11 @@
   (every? true? results)))
 
 
-(deftest t98_l423 (is (true? v97_l411)))
+(deftest t64_l347 (is (true? v63_l335)))
 
 
 (def
- v100_l427
+ v66_l351
  (kind/table
   {:column-names
    ["Partition λ"
@@ -507,7 +421,7 @@
 
 
 (def
- v102_l444
+ v68_l368
  (let
   [results
    (for
@@ -518,28 +432,28 @@
       sum-sq
       (reduce
        +
-       (map (fn* [p1__79611#] (* p1__79611# p1__79611#)) dims))]
+       (map (fn* [p1__86532#] (* p1__86532# p1__86532#)) dims))]
      (= sum-sq (factorial n))))]
   (every? true? results)))
 
 
-(deftest t103_l451 (is (true? v102_l444)))
+(deftest t69_l375 (is (true? v68_l368)))
 
 
-(def v105_l460 (reel/standard-young-tableaux [2 1]))
+(def v71_l384 (reel/standard-young-tableaux [2 1]))
 
 
-(deftest t106_l462 (is (= v105_l460 [[[1 2] [3]] [[1 3] [2]]])))
+(deftest t72_l386 (is (= v71_l384 [[[1 2] [3]] [[1 3] [2]]])))
 
 
-(def v107_l464 (count (reel/standard-young-tableaux [3 2])))
+(def v73_l388 (count (reel/standard-young-tableaux [3 2])))
 
 
-(deftest t108_l466 (is (= v107_l464 5)))
+(deftest t74_l390 (is (= v73_l388 5)))
 
 
 (def
- v110_l470
+ v76_l394
  (defn
   syt-svg
   "Render a standard Young tableau as SVG with numbers in cells."
@@ -584,7 +498,7 @@
 
 
 (def
- v111_l500
+ v77_l424
  (kind/hiccup
   (into
    [:div
@@ -596,7 +510,7 @@
 
 
 (def
- v113_l514
+ v79_l438
  (defn
   class-size-formula
   "Compute conjugacy class size from the partition formula."
@@ -613,7 +527,7 @@
 
 
 (def
- v115_l527
+ v81_l451
  (let
   [results
    (for
@@ -632,11 +546,11 @@
   (every? true? results)))
 
 
-(deftest t116_l541 (is (true? v115_l527)))
+(deftest t82_l465 (is (true? v81_l451)))
 
 
 (def
- v118_l545
+ v84_l469
  (let
   [G (reel/symmetric-group 5) classes (reel/conjugacy-classes G)]
   (kind/table
@@ -652,7 +566,7 @@
 
 
 (def
- v120_l561
+ v86_l485
  (defn
   cycle-diagram-svg
   "Render a permutation as a cycle diagram SVG."
@@ -752,10 +666,10 @@
         (str i)]]))))))
 
 
-(def v122_l612 (kind/hiccup (cycle-diagram-svg [1 2 3 0])))
+(def v88_l536 (kind/hiccup (cycle-diagram-svg [1 2 3 0])))
 
 
-(def v124_l616 (kind/hiccup (cycle-diagram-svg [1 0 3 2])))
+(def v90_l540 (kind/hiccup (cycle-diagram-svg [1 0 3 2])))
 
 
-(def v126_l620 (kind/hiccup (cycle-diagram-svg [2 3 4 1 0 5])))
+(def v92_l544 (kind/hiccup (cycle-diagram-svg [2 3 4 1 0 5])))

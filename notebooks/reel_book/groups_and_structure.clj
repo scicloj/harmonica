@@ -10,6 +10,52 @@
    [scicloj.reel.core :as reel]
    [scicloj.kindly.v4.kind :as kind]))
 
+;; ## The group types in the library
+;;
+;; The library provides four families of groups. The first two —
+;; **cyclic groups** and **symmetric groups** — were introduced in
+;; [The DFT as Group Fourier Transform](dft_as_group_fourier.html) and
+;; [Symmetric Groups](symmetric_groups.html). Here we introduce the
+;; remaining two.
+;;
+;; ### Dihedral groups
+;;
+;; The **dihedral group** $D_n$ is the symmetry group of a regular $n$-gon:
+;; $n$ rotations and $n$ reflections, for a total of $2n$ elements.
+;;
+;; Elements are represented as tagged pairs:
+;;
+;; - $[:r\; k]$ — rotation by $2\pi k/n$ (for $k = 0, \ldots, n{-}1$)
+;; - $[:s\; k]$ — reflection (for $k = 0, \ldots, n{-}1$)
+;;
+;; The group is defined by the **presentation** $r^n = s^2 = e$ and
+;; $s r s = r^{-1}$: rotating then reflecting then rotating again
+;; is the same as reflecting in a different axis.
+
+(let [G (reel/dihedral-group 4)]
+  {:order (reel/order G)
+   :identity (reel/id G)
+   :elements (vec (reel/elements G))})
+
+;; A rotation composed with a reflection gives a reflection:
+
+(let [G (reel/dihedral-group 5)]
+  (reel/op G [:r 2] [:s 0]))
+
+;; ### Product groups
+;;
+;; The **product group** $G_1 \times G_2$ has elements that are pairs
+;; $[g, h]$ with $g \in G_1$, $h \in G_2$. All operations act
+;; componentwise: $(g_1, h_1) \cdot (g_2, h_2) = (g_1 g_2,\; h_1 h_2)$.
+;;
+;; The simplest non-trivial example is the **Klein four-group**
+;; $V_4 = \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$, which
+;; has 4 elements and is the smallest non-cyclic group:
+
+(let [V4 (reel/product-group (reel/cyclic-group 2) (reel/cyclic-group 2))]
+  {:order (reel/order V4)
+   :elements (vec (reel/elements V4))})
+
 ;; ## All groups under test
 ;;
 ;; We test a diverse collection: small and large cyclic, symmetric,
@@ -176,7 +222,7 @@
               (let [classes (reel/conjugacy-classes group)]
                 {:group label
                  :pass? (= (reel/order group)
-                            (reduce + (map :size classes)))}))
+                           (reduce + (map :size classes)))}))
             all-groups)]
   (every? :pass? results))
 
@@ -210,8 +256,8 @@
                       (every? (fn [h]
                                 (some (fn [x]
                                         (= h (reel/op group x
-                                                        (reel/op group rep
-                                                                 (reel/inv group x)))))
+                                                      (reel/op group rep
+                                                               (reel/inv group x)))))
                                       (reel/elements group)))
                               (:elements cls))))
                   classes)))]
@@ -269,10 +315,10 @@
 
 (let [results
       (for [[G1 G2] [[(reel/cyclic-group 2) (reel/cyclic-group 3)]
-                      [(reel/cyclic-group 4) (reel/cyclic-group 5)]
-                      [(reel/dihedral-group 3) (reel/cyclic-group 2)]
-                      [(reel/dihedral-group 4) (reel/dihedral-group 3)]
-                      [(reel/symmetric-group 3) (reel/cyclic-group 2)]]]
+                     [(reel/cyclic-group 4) (reel/cyclic-group 5)]
+                     [(reel/dihedral-group 3) (reel/cyclic-group 2)]
+                     [(reel/dihedral-group 4) (reel/dihedral-group 3)]
+                     [(reel/symmetric-group 3) (reel/cyclic-group 2)]]]
         (let [P (reel/product-group G1 G2)]
           (= (reel/order P) (* (reel/order G1) (reel/order G2)))))]
   (every? true? results))
@@ -283,9 +329,9 @@
 
 (let [results
       (for [[G1 G2] [[(reel/cyclic-group 3) (reel/cyclic-group 4)]
-                      [(reel/dihedral-group 3) (reel/cyclic-group 2)]
-                      [(reel/dihedral-group 4) (reel/dihedral-group 3)]
-                      [(reel/symmetric-group 3) (reel/cyclic-group 3)]]]
+                     [(reel/dihedral-group 3) (reel/cyclic-group 2)]
+                     [(reel/dihedral-group 4) (reel/dihedral-group 3)]
+                     [(reel/symmetric-group 3) (reel/cyclic-group 3)]]]
         (let [P (reel/product-group G1 G2)]
           (= (count (reel/conjugacy-classes P))
              (* (count (reel/conjugacy-classes G1))

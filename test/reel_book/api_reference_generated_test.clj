@@ -260,7 +260,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__84874#] (long (Math/round (c/re p1__84874#))))
+      (fn* [p1__91481#] (long (Math/round (c/re p1__91481#))))
       row))
     (:table ct))]
   re-table))
@@ -526,7 +526,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__84875#] (coloring (mod (+ p1__84875# (long g)) 4)))
+     (fn* [p1__91482#] (coloring (mod (+ p1__91482# (long g)) 4)))
      (range 4)))
    domain
    [[0 0 0 0]
@@ -613,7 +613,7 @@
    (reel/character-table (reel/cyclic-group 4))
    f
    (mapv
-    (fn* [p1__84876#] (c/complex (double p1__84876#) 0.0))
+    (fn* [p1__91483#] (c/complex (double p1__91483#) 0.0))
     [1 0 0 0])
    fhat
    (reel/fourier-transform ct f)]
@@ -633,7 +633,7 @@
    (reel/character-table (reel/cyclic-group 4))
    f
    (mapv
-    (fn* [p1__84877#] (c/complex (double p1__84877#) 0.0))
+    (fn* [p1__91484#] (c/complex (double p1__91484#) 0.0))
     [1 2 3 4])
    fhat
    (reel/fourier-transform ct f)
@@ -644,8 +644,8 @@
     max
     (map
      (fn*
-      [p1__84878# p2__84879#]
-      (c/abs (c/sub p1__84878# p2__84879#)))
+      [p1__91485# p2__91486#]
+      (c/abs (c/sub p1__91485# p2__91486#)))
      f
      f-back))]
   (< max-err 1.0E-10)))
@@ -664,11 +664,11 @@
    (reel/character-table (reel/cyclic-group 4))
    f
    (mapv
-    (fn* [p1__84880#] (c/complex (double p1__84880#) 0.0))
+    (fn* [p1__91487#] (c/complex (double p1__91487#) 0.0))
     [1 0 0 0])
    g
    (mapv
-    (fn* [p1__84881#] (c/complex (double p1__84881#) 0.0))
+    (fn* [p1__91488#] (c/complex (double p1__91488#) 0.0))
     [0 1 0 0])
    conv
    (reel/convolve ct f g)]
