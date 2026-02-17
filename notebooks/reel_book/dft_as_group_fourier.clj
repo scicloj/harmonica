@@ -37,7 +37,9 @@
 ;;
 ;; Mathematically, the indices $0, \ldots, 23$ form the **cyclic group
 ;; $\mathbb{Z}/24\mathbb{Z}$**: integers with addition mod 24. A signal of length 24
-;; is a function on this group.
+;; is a function on this group. The "mod" in modular arithmetic captures
+;; the periodicity: position 24 wraps around to position 0, just as
+;; January follows December.
 
 (def G (reel/cyclic-group 24))
 
@@ -86,6 +88,13 @@
 
 ;; The **character table** collects all characters into a matrix. Row $k$
 ;; gives the values of character $\chi_k$ at each group element.
+
+;; Why are characters the "right" basis? Consider the **shift operator**
+;; $T_1 f(g) = f(g - 1)$, which translates a signal by one step. A character
+;; $\chi_k$ is an **eigenvector** of every shift: $T_a \chi_k(g) = \chi_k(g - a)
+;; = \omega^{-ka} \chi_k(g)$. The eigenvalue $\omega^{-ka}$ depends on the
+;; shift amount but not on $g$ — this is what makes characters "pure frequencies."
+;; Decomposing into characters diagonalizes all shifts simultaneously.
 
 (def ct (reel/character-table G))
 
@@ -267,6 +276,9 @@
 ;; $$\widehat{f * h}(k) = \hat{f}(k) \cdot \hat{h}(k)$$
 ;;
 ;; For $\mathbb{Z}/n\mathbb{Z}$, this is the familiar **cyclic convolution theorem**.
+;; It is the reason fast convolution is possible: instead of $O(n^2)$
+;; direct summation, we can compute forward FFT, pointwise multiply, and
+;; inverse FFT in $O(n \log n)$.
 
 (def f-fn (mapv #(c/complex (double %))
                 [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
@@ -300,6 +312,8 @@
 ;; ## Parseval's theorem (energy conservation)
 
 ;; The total "energy" of a signal is preserved under the Fourier transform.
+;; This guarantees that the transform is an isometry — no information is
+;; lost or amplified when changing between the time and frequency domains.
 ;;
 ;; $$\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2$$
 

@@ -403,3 +403,25 @@
 
 (kind/test-last [(fn [v] (< (Math/abs (- v 0.5)) 1e-10))])
 
+
+;; ## SVG Visualizations
+
+(kind/doc #'reel/young-diagram-svg)
+
+(kind/hiccup (reel/young-diagram-svg [4 2 1]))
+
+(kind/doc #'reel/young-hooks-svg)
+
+(kind/hiccup (reel/young-hooks-svg [4 2 1]))
+
+(kind/doc #'reel/syt-svg)
+
+(kind/hiccup (reel/syt-svg [[1 2 3 4] [5 6] [7]]))
+
+(kind/doc #'reel/cycle-diagram-svg)
+
+(kind/hiccup (reel/cycle-diagram-svg [1 2 3 0]))
+
+(kind/doc #'reel/cayley-table-svg)
+
+(kind/hiccup (reel/cayley-table-svg (reel/cyclic-group 4)))

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>17&nbsp; API Reference – reel</title>
+<title>18&nbsp; API Reference – reel</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./reel_book.algebraic_identities.html" rel="prev">
+<link href="./reel_book.sympy_comparison.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./reel_book.api_reference.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./reel_book.api_reference.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -284,8 +284,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./reel_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./reel_book.api_reference.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,15 +382,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#convolve" id="toc-convolve" class="nav-link" data-scroll-target="#convolve"><code>convolve</code></a></li>
   <li><a href="#total-variation-distance" id="toc-total-variation-distance" class="nav-link" data-scroll-target="#total-variation-distance"><code>total-variation-distance</code></a></li>
   </ul></li>
+  <li><a href="#svg-visualizations" id="toc-svg-visualizations" class="nav-link" data-scroll-target="#svg-visualizations">SVG Visualizations</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./reel_book.api_reference.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./reel_book.api_reference.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></h1>
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></h1>
 </div>
 
 
@@ -1014,11 +1021,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb110"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+</section>
+<section id="svg-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="svg-visualizations">SVG Visualizations</h2>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>(kind/doc <span class="va">#'reel/young-diagram-svg</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Syntax error compiling var at (/workspace/Dropbox/projects/daslu/reel/notebooks/dev.clj:409:1).
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Unable to resolve var: reel/young-diagram-svg in this context</p>
+<pre><code>clojure.core/eval  core.clj: 3232
+              ...               
+             java.lang.RuntimeException: Unable to resolve var: reel/young-diagram-svg in this context
+clojure.lang.Compiler$CompilerException: Syntax error compiling var at (/workspace/Dropbox/projects/daslu/reel/notebooks/dev.clj:409:1).
+    data: #:clojure.error{:phase :compile-syntax-check,
+                      :line 409,
+                      :column 1,
+                      :source
+                      "/workspace/Dropbox/projects/daslu/reel/notebooks/dev.clj",
+                      :symbol var}
+
+</code></pre>
+</div>
+</div>
+</div>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/reel/blob/main/notebooks/reel_book/api_reference.clj">notebooks/reel_book/api_reference.clj</a></small></small></pre></div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1424,8 +1465,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./reel_book.algebraic_identities.html" class="pagination-link" aria-label="Algebraic Identities — A Verification Suite">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span>
+      <a href="./reel_book.sympy_comparison.html" class="pagination-link" aria-label="Cross-Validation with SymPy">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

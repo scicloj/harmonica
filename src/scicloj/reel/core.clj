@@ -20,6 +20,7 @@
 
    Partitions:
      partitions       - all partitions of n
+     partition-conjugate - conjugate (transpose) of a partition
 
    Young tableaux:
      standard-young-tableaux - enumerate SYTs of a partition
@@ -41,6 +42,8 @@
      frobenius-norm   - Frobenius norm
      matrix-fourier-transform     - f̂(ρ) = Σ f(σ)·ρ(σ)
      matrix-fourier-transform-all - transform for all irreps
+     class-of             - conjugacy class of an element
+     irrep-multiplicities - decompose a representation into irreducibles
 
    Riffle shuffles:
      gsr-probability      - GSR probability of a permutation after k shuffles
@@ -62,7 +65,14 @@
      fourier-transform         - transform a function on a group
      inverse-fourier-transform - recover function from coefficients
      convolve                  - convolution via Fourier domain
-     total-variation-distance  - distance between distributions"
+     total-variation-distance  - distance between distributions
+
+   SVG visualizations:
+     young-diagram-svg  - Young diagram as SVG hiccup
+     young-hooks-svg    - Young diagram with hook lengths
+     syt-svg            - standard Young tableau as SVG
+     cycle-diagram-svg  - permutation cycle diagram
+     cayley-table-svg   - group Cayley table"
   (:require [scicloj.reel.protocols :as p]
             [scicloj.reel.impl.cyclic :as cyclic]
             [scicloj.reel.impl.symmetric :as symmetric]
@@ -75,7 +85,8 @@
             [scicloj.reel.characters :as ch]
             [scicloj.reel.representations :as rep]
             [scicloj.reel.fourier :as fourier]
-            [scicloj.reel.action :as action]))
+            [scicloj.reel.action :as action]
+            [scicloj.reel.svg :as svg]))
 
 ;; ---------------------------------------------------------------------------
 ;; Group constructors
@@ -252,6 +263,15 @@
   "Matrix Fourier transform for all irreps."
   rep/matrix-fourier-transform-all)
 
+(def class-of
+  "Return the conjugacy class of element g in group G."
+  rep/class-of)
+
+(def irrep-multiplicities
+  "Decompose a representation into irreducible components.
+   Returns a map from partition (irrep label) to multiplicity."
+  rep/irrep-multiplicities)
+
 ;; ---------------------------------------------------------------------------
 ;; Riffle shuffles
 ;; ---------------------------------------------------------------------------
@@ -335,3 +355,32 @@
 (def total-variation-distance
   "Total variation distance between two distributions."
   fourier/total-variation-distance)
+
+;; ---------------------------------------------------------------------------
+;; SVG visualizations
+;; ---------------------------------------------------------------------------
+
+(def young-diagram-svg
+  "Render a partition as an SVG Young diagram (hiccup).
+   Options: :cell-size, :fill, :stroke."
+  svg/young-diagram-svg)
+
+(def young-hooks-svg
+  "Render a Young diagram with hook lengths in each cell (hiccup).
+   Options: :cell-size."
+  svg/young-hooks-svg)
+
+(def syt-svg
+  "Render a standard Young tableau as SVG (hiccup).
+   Options: :cell-size."
+  svg/syt-svg)
+
+(def cycle-diagram-svg
+  "Render a permutation as a cycle diagram SVG (hiccup).
+   Options: :radius."
+  svg/cycle-diagram-svg)
+
+(def cayley-table-svg
+  "Render a group Cayley table as an SVG grid with colored cells (hiccup).
+   Options: :cell-size."
+  svg/cayley-table-svg)

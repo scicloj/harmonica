@@ -11,10 +11,14 @@
    - rep-matrix: compute ρ(σ) for a group element σ
    - rep-dimension: dimension of the representation
    - rep-character: character value χ(σ) = tr(ρ(σ))
-   - frobenius-norm-sq: ||M||²_F = tr(M Mᵀ)"
+   - frobenius-norm-sq: ||M||²_F = tr(M Mᵀ)
+   - class-of: find the conjugacy class of an element
+   - irrep-multiplicities: decompose a representation into irreducibles"
   (:require [scicloj.reel.protocols :as p]
             [scicloj.reel.impl.young-orthogonal :as yo]
             [scicloj.reel.impl.young-tableaux :as yt]
+            [scicloj.reel.impl.permutation :as perm]
+            [scicloj.reel.characters :as ch]
             [fastmath.matrix :as fm]))
 
 (defn irrep
@@ -164,3 +168,67 @@
                                                 (vec (.getRow M2 i)))))
                                  (range d2)))))))}))
 
+(defn class-of
+  "Return the conjugacy class of element g in group G.
+   The result is a map with :representative, :size, :cycle-type, and
+   possibly :elements."
+  [G g]
+  (let [classes (p/conjugacy-classes G)]
+    ;; For S_n, use cycle type for O(n) lookup
+    (if (instance? scicloj.reel.impl.symmetric.SymmetricGroup G)
+      (let [ct (perm/cycle-type g)]
+        (first (filter #(= (:cycle-type %) ct) classes)))
+      ;; For general groups, check membership via elements or conjugacy
+      (first (filter (fn [cls]
+                       (if-let [elts (:elements cls)]
+                         (contains? elts g)
+                         ;; No elements enumerated; compute conjugacy manually
+                         (some (fn [h]
+                                 (= g (p/op G (p/op G h (:representative cls))
+                                            (p/inv G h))))
+                               (p/elements G))))
+                     classes)))))
+
+(defn irrep-multiplicities
+  "Decompose a representation into irreducible components.
+   Returns a map from partition (irrep label) to multiplicity.
+
+   Uses the character inner product:
+     m_λ = ⟨χ_ρ, χ_λ⟩ = (1/|G|) Σ_{c} |c| · χ_ρ(c) · χ_λ(c)
+
+   Parameters:
+   - G: a finite group (must be symmetric group for now)
+   - rep: a representation (from irrep, tensor-product, direct-sum, etc.)
+
+   Only works for symmetric groups."
+  [G rep]
+  (let [ct (ch/character-table G)
+        ct-classes (:classes ct) ;; partitions in CT order
+        table-re (:table-re ct)
+        irrep-labels (:irrep-labels ct)
+        order (double (p/order G))
+        ;; Map from partition to CT column index
+        ct-idx (into {} (map-indexed (fn [i p] [p i]) ct-classes))
+        ;; Use group's conjugacy classes (which have representatives)
+        g-classes (p/conjugacy-classes G)
+        ;; Compute character of rep on each group class representative
+        rep-chars (mapv (fn [cls]
+                          (rep-character rep (:representative cls)))
+                        g-classes)]
+    (into {}
+          (keep (fn [i]
+                  (let [label (nth irrep-labels i)
+                        row (nth table-re i)
+                        ;; Inner product: (1/|G|) Σ_c |c| * χ_ρ(c) * χ_λ(c)
+                        mult (/ (reduce + (map-indexed
+                                           (fn [j cls]
+                                             (let [col (ct-idx (:cycle-type cls))]
+                                               (* (double (:size cls))
+                                                  (nth rep-chars j)
+                                                  (aget ^doubles row col))))
+                                           g-classes))
+                                order)
+                        m (Math/round mult)]
+                    (when (pos? m)
+                      [label m])))
+                (range (count irrep-labels))))))

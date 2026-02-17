@@ -48,8 +48,8 @@
        +
        (map
         (fn*
-         [p1__74958#]
-         (let [d (reel/hook-length-dimension p1__74958#)] (* d d)))
+         [p1__96542#]
+         (let [d (reel/hook-length-dimension p1__96542#)] (* d d)))
         parts))])})))
 
 
@@ -66,8 +66,8 @@
        +
        (map
         (fn*
-         [p1__74959#]
-         (let [d (reel/hook-length-dimension p1__74959#)] (* d d)))
+         [p1__96543#]
+         (let [d (reel/hook-length-dimension p1__96543#)] (* d d)))
         parts)))))
    v9_l68)))
 
@@ -108,8 +108,8 @@
          +
          (map
           (fn*
-           [p1__74960#]
-           (Math/abs (- (aget probs (int p1__74960#)) uniform)))
+           [p1__96544#]
+           (Math/abs (- (aget probs (int p1__96544#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -214,8 +214,8 @@
          +
          (map
           (fn*
-           [p1__74961#]
-           (Math/abs (- (aget probs (int p1__74961#)) uniform)))
+           [p1__96545#]
+           (Math/abs (- (aget probs (int p1__96545#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->

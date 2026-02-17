@@ -16,14 +16,14 @@
    {:column-names
     (into
      ["Irrep $\\lambda$"]
-     (map (fn* [p1__74822#] (str p1__74822#)) (:classes ct))),
+     (map (fn* [p1__96406#] (str p1__96406#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__74823#] (long (.-x p1__74823#))) row)))
+       (map (fn* [p1__96407#] (long (.-x p1__96407#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 

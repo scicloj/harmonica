@@ -146,7 +146,36 @@
 
 
 (def
- v24_l120
+ v24_l122
+ (let
+  [G (reel/symmetric-group 4) elts (vec (sort (reel/elements G)))]
+  (every?
+   (fn
+    [[a b]]
+    (let
+     [ab-reel
+      (reel/op G a b)
+      inv-reel
+      (reel/inv G a)
+      pa
+      (sp/Permutation (vec a))
+      pb
+      (sp/Permutation (vec b))
+      ab-py
+      (vec
+       (py/->jvm (py/py.- (py/call-attr pb "__mul__" pa) array_form)))
+      inv-py
+      (vec
+       (py/->jvm (py/py.- (py/call-attr pa "__pow__" -1) array_form)))]
+     (and (= (vec ab-reel) ab-py) (= (vec inv-reel) inv-py))))
+   (for [a elts b elts] [a b]))))
+
+
+(deftest t25_l135 (is (true? v24_l122)))
+
+
+(def
+ v26_l137
  (defn
   sympy-class-sizes
   "Sorted vector of conjugacy class sizes from SymPy's SymmetricGroup(n)."
@@ -155,12 +184,12 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__78098#] (long (py/py. p1__78098# __len__)))
+     (fn* [p1__45818#] (long (py/py. p1__45818# __len__)))
      classes)))))
 
 
 (def
- v25_l127
+ v27_l144
  (defn
   reel-class-sizes
   "Sorted vector of conjugacy class sizes from reel's symmetric-group."
@@ -168,21 +197,21 @@
   (let
    [G (reel/symmetric-group n) classes (reel/conjugacy-classes G)]
    (sort
-    (mapv (fn* [p1__78099#] (count (:elements p1__78099#))) classes)))))
+    (mapv (fn* [p1__45819#] (count (:elements p1__45819#))) classes)))))
 
 
 (def
- v26_l134
+ v28_l151
  (every?
   (fn [n] (= (reel-class-sizes n) (sympy-class-sizes n)))
   (range 2 8)))
 
 
-(deftest t27_l138 (is (true? v26_l134)))
+(deftest t29_l155 (is (true? v28_l151)))
 
 
 (def
- v29_l142
+ v31_l159
  (let
   [n 5]
   (kind/table
@@ -193,7 +222,7 @@
 
 
 (def
- v31_l154
+ v33_l171
  (defn
   sympy-dihedral-info
   [n]
@@ -207,13 +236,13 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__78100#] (long (py/py. p1__78100# __len__)))
+      (fn* [p1__45820#] (long (py/py. p1__45820# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
 
 (def
- v32_l161
+ v34_l178
  (defn
   reel-dihedral-info
   [n]
@@ -224,24 +253,24 @@
     (reel/conjugacy-classes G)
     sizes
     (sort
-     (mapv (fn* [p1__78101#] (count (:elements p1__78101#))) classes))]
+     (mapv (fn* [p1__45821#] (count (:elements p1__45821#))) classes))]
    {:order (reel/order G),
     :num-classes (count classes),
     :class-sizes sizes})))
 
 
 (def
- v33_l167
+ v35_l184
  (every?
   (fn [n] (= (reel-dihedral-info n) (sympy-dihedral-info n)))
   (range 3 13)))
 
 
-(deftest t34_l171 (is (true? v33_l167)))
+(deftest t36_l188 (is (true? v35_l184)))
 
 
 (def
- v36_l175
+ v38_l192
  (let
   [rows
    (mapv
@@ -257,7 +286,7 @@
 
 
 (def
- v38_l189
+ v40_l206
  (every?
   (fn
    [n]
@@ -267,11 +296,11 @@
   (range 2 13)))
 
 
-(deftest t39_l195 (is (true? v38_l189)))
+(deftest t41_l212 (is (true? v40_l206)))
 
 
 (def
- v40_l197
+ v42_l214
  (every?
   (fn
    [n]
@@ -284,11 +313,11 @@
   (range 3 13)))
 
 
-(deftest t41_l204 (is (true? v40_l197)))
+(deftest t43_l221 (is (true? v42_l214)))
 
 
 (def
- v43_l211
+ v45_l228
  (defn
   sympy-partition-count
   [n]
@@ -296,17 +325,17 @@
 
 
 (def
- v44_l214
+ v46_l231
  (every?
   (fn [n] (= (count (reel/partitions n)) (sympy-partition-count n)))
   (range 1 16)))
 
 
-(deftest t45_l218 (is (true? v44_l214)))
+(deftest t47_l235 (is (true? v46_l231)))
 
 
 (def
- v47_l222
+ v49_l239
  (let
   [rows
    (mapv
@@ -317,7 +346,7 @@
 
 
 (def
- v49_l246
+ v51_l263
  (def
   known-S3
   {:irreps [[3] [2 1] [1 1 1]],
@@ -326,7 +355,7 @@
 
 
 (def
- v51_l261
+ v53_l278
  (def
   known-S4
   {:irreps [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]],
@@ -340,7 +369,7 @@
 
 
 (def
- v53_l272
+ v55_l289
  (def
   known-S5
   {:irreps [[5] [4 1] [3 2] [3 1 1] [2 2 1] [2 1 1 1] [1 1 1 1 1]],
@@ -356,7 +385,7 @@
 
 
 (def
- v54_l283
+ v56_l300
  (defn
   extract-reel-character-table
   "Extract reel's character table as a vec-of-vecs of integers,\n   with rows sorted by irrep partition (dominance) and columns\n   by class partition."
@@ -379,43 +408,43 @@
      (fn
       [row]
       (mapv
-       (fn* [p1__78102#] (long (aget row p1__78102#)))
+       (fn* [p1__45822#] (long (aget row p1__45822#)))
        (range (count classes))))
      table-re)})))
 
 
 (def
- v56_l302
+ v58_l319
  (let
   [reel-ct (extract-reel-character-table 3)]
   (= (:table known-S3) (:table reel-ct))))
 
 
-(deftest t57_l305 (is (true? v56_l302)))
+(deftest t59_l322 (is (true? v58_l319)))
 
 
 (def
- v59_l309
+ v61_l326
  (let
   [reel-ct (extract-reel-character-table 4)]
   (= (:table known-S4) (:table reel-ct))))
 
 
-(deftest t60_l312 (is (true? v59_l309)))
+(deftest t62_l329 (is (true? v61_l326)))
 
 
 (def
- v62_l316
+ v64_l333
  (let
   [reel-ct (extract-reel-character-table 5)]
   (= (:table known-S5) (:table reel-ct))))
 
 
-(deftest t63_l319 (is (true? v62_l316)))
+(deftest t65_l336 (is (true? v64_l333)))
 
 
 (def
- v65_l323
+ v67_l340
  (let
   [reel-ct
    (extract-reel-character-table 5)
@@ -439,7 +468,7 @@
 
 
 (def
- v67_l341
+ v69_l358
  (every?
   (fn
    [n]
@@ -454,11 +483,11 @@
   (range 2 8)))
 
 
-(deftest t68_l348 (is (true? v67_l341)))
+(deftest t70_l365 (is (true? v69_l358)))
 
 
 (def
- v70_l353
+ v72_l370
  (every?
   (fn
    [n]
@@ -470,18 +499,18 @@
       +
       (map
        (fn*
-        [p1__78103#]
-        (let [d (reel/hook-length-dimension p1__78103#)] (* d d)))
+        [p1__45823#]
+        (let [d (reel/hook-length-dimension p1__45823#)] (* d d)))
        parts))]
     (= total (reduce * (range 1 (inc n))))))
   (range 2 8)))
 
 
-(deftest t71_l359 (is (true? v70_l353)))
+(deftest t73_l376 (is (true? v72_l370)))
 
 
 (def
- v73_l367
+ v75_l384
  (defn
   necklace-formula
   "Number of binary necklaces with n beads, from the formula:\n   (1/n) * sum_{d|n} phi(d) * 2^{n/d}"
@@ -489,7 +518,7 @@
   (let
    [divisors
     (filter
-     (fn* [p1__78104#] (zero? (mod n p1__78104#)))
+     (fn* [p1__45824#] (zero? (mod n p1__45824#)))
      (range 1 (inc n)))
     euler-phi
     (fn
@@ -497,13 +526,13 @@
      (count
       (filter
        (fn*
-        [p1__78105#]
+        [p1__45825#]
         (=
          1
          (long
           (.gcd
            (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__78105#)))))
+           (BigInteger/valueOf p1__45825#)))))
        (range 1 (inc m)))))]
    (/
     (reduce
@@ -515,7 +544,7 @@
 
 
 (def
- v74_l379
+ v76_l396
  (defn
   reel-necklace-count
   [n]
@@ -530,17 +559,17 @@
 
 
 (def
- v75_l385
+ v77_l402
  (every?
   (fn [n] (= (reel-necklace-count n) (necklace-formula n)))
   (range 1 21)))
 
 
-(deftest t76_l389 (is (true? v75_l385)))
+(deftest t78_l406 (is (true? v77_l402)))
 
 
 (def
- v78_l393
+ v80_l410
  (let
   [rows
    (mapv
@@ -552,7 +581,39 @@
 
 
 (def
- v80_l409
+ v82_l423
+ (every?
+  (fn
+   [n]
+   (let
+    [G
+     (reel/symmetric-group n)
+     Sn
+     (named/SymmetricGroup n)
+     act
+     (fn [sigma x] (sigma x))]
+    (every?
+     (fn
+      [x]
+      (let
+       [orb-reel
+        (count (reel/orbit G act x))
+        stab-reel
+        (count (reel/stabilizer G act x))
+        orb-py
+        (long (py/py. (py/py. Sn orbit x) __len__))
+        stab-py
+        (long (py/py. (py/py. Sn stabilizer x) order))]
+       (and (= orb-reel orb-py) (= stab-reel stab-py))))
+     (range n))))
+  (range 2 6)))
+
+
+(deftest t83_l437 (is (true? v82_l423)))
+
+
+(def
+ v85_l448
  (let
   [G-c
    (reel/cyclic-group 12)
@@ -583,5 +644,5 @@
 
 
 (deftest
- t81_l422
- (is (= v80_l409 {:total 220, :under-C12 19, :under-D12 12})))
+ t86_l461
+ (is (= v85_l448 {:total 220, :under-C12 19, :under-D12 12})))

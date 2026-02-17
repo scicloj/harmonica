@@ -17,5 +17,5 @@ book:
   - part: Applications
     chapters: [reel_book.random_transpositions.qmd, reel_book.riffle_shuffle.qmd, reel_book.counting_necklaces.qmd, reel_book.chord_geometry.qmd, reel_book.hearing_symmetry.qmd, reel_book.symmetry_sketchpad.qmd]
   - part: Reference
-    chapters: [reel_book.algebraic_identities.qmd, reel_book.api_reference.qmd]
+    chapters: [reel_book.algebraic_identities.qmd, reel_book.sympy_comparison.qmd, reel_book.api_reference.qmd]
   title: reel

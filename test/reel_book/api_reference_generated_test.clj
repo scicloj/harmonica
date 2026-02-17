@@ -260,7 +260,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__77161#] (long (Math/round (c/re p1__77161#))))
+      (fn* [p1__98764#] (long (Math/round (c/re p1__98764#))))
       row))
     (:table ct))]
   re-table))
@@ -526,7 +526,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__77162#] (coloring (mod (+ p1__77162# (long g)) 4)))
+     (fn* [p1__98765#] (coloring (mod (+ p1__98765# (long g)) 4)))
      (range 4)))
    domain
    [[0 0 0 0]
@@ -613,7 +613,7 @@
    (reel/character-table (reel/cyclic-group 4))
    f
    (mapv
-    (fn* [p1__77163#] (c/complex (double p1__77163#) 0.0))
+    (fn* [p1__98766#] (c/complex (double p1__98766#) 0.0))
     [1 0 0 0])
    fhat
    (reel/fourier-transform ct f)]
@@ -633,7 +633,7 @@
    (reel/character-table (reel/cyclic-group 4))
    f
    (mapv
-    (fn* [p1__77164#] (c/complex (double p1__77164#) 0.0))
+    (fn* [p1__98767#] (c/complex (double p1__98767#) 0.0))
     [1 2 3 4])
    fhat
    (reel/fourier-transform ct f)
@@ -644,8 +644,8 @@
     max
     (map
      (fn*
-      [p1__77165# p2__77166#]
-      (c/abs (c/sub p1__77165# p2__77166#)))
+      [p1__98768# p2__98769#]
+      (c/abs (c/sub p1__98768# p2__98769#)))
      f
      f-back))]
   (< max-err 1.0E-10)))
@@ -664,11 +664,11 @@
    (reel/character-table (reel/cyclic-group 4))
    f
    (mapv
-    (fn* [p1__77167#] (c/complex (double p1__77167#) 0.0))
+    (fn* [p1__98770#] (c/complex (double p1__98770#) 0.0))
     [1 0 0 0])
    g
    (mapv
-    (fn* [p1__77168#] (c/complex (double p1__77168#) 0.0))
+    (fn* [p1__98771#] (c/complex (double p1__98771#) 0.0))
     [0 1 0 0])
    conv
    (reel/convolve ct f g)]
@@ -691,3 +691,6 @@
 (deftest
  t167_l404
  (is ((fn [v] (< (Math/abs (- v 0.5)) 1.0E-10)) v166_l402)))
+
+
+(def v169_l409 (kind/doc #'reel/young-diagram-svg))

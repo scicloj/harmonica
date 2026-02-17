@@ -227,7 +227,9 @@
                      (range 1 9))})
 
 ;; For $n = 8$, the group has 40,320 elements but only 22 conjugacy classes
-;; — and therefore only 22 irreducible representations.
+;; — and therefore only 22 irreducible representations. The character table
+;; is a 22×22 matrix, but it captures the complete Fourier-analytic structure
+;; of a group with over 40,000 elements.
 
 (-> (tc/dataset
      {:n (range 1 9)

@@ -25,7 +25,7 @@
    entries
    (for [row (:table ct) v row] v)]
   (every?
-   (fn* [p1__72933#] (< (Math/abs (- (c/abs p1__72933#) 1.0)) 1.0E-10))
+   (fn* [p1__94517#] (< (Math/abs (- (c/abs p1__94517#) 1.0)) 1.0E-10))
    entries)))
 
 
@@ -231,9 +231,9 @@
     order
     (reel/order (:group ct))
     dims
-    (map (fn* [p1__72934#] (c/re (first p1__72934#))) table)
+    (map (fn* [p1__94518#] (c/re (first p1__94518#))) table)
     sum-sq
-    (reduce + (map (fn* [p1__72935#] (* p1__72935# p1__72935#)) dims))]
+    (reduce + (map (fn* [p1__94519#] (* p1__94519# p1__94519#)) dims))]
    (< (Math/abs (- sum-sq (double order))) 1.0E-8))))
 
 
@@ -296,8 +296,8 @@
       [ct (reel/character-table (reel/cyclic-group n))]
       (every?
        (fn*
-        [p1__72936#]
-        (< (c/abs (c/sub p1__72936# (c/complex 1.0 0.0))) 1.0E-10))
+        [p1__94520#]
+        (< (c/abs (c/sub p1__94520# (c/complex 1.0 0.0))) 1.0E-10))
        (first (:table ct)))))
     (for
      [n [3 4 5]]
@@ -305,8 +305,8 @@
       [ct (reel/character-table (reel/symmetric-group n))]
       (every?
        (fn*
-        [p1__72937#]
-        (< (c/abs (c/sub p1__72937# (c/complex 1.0 0.0))) 1.0E-10))
+        [p1__94521#]
+        (< (c/abs (c/sub p1__94521# (c/complex 1.0 0.0))) 1.0E-10))
        (first (:table ct)))))
     (for
      [n [3 5 6 8]]
@@ -314,8 +314,8 @@
       [ct (reel/character-table (reel/dihedral-group n))]
       (every?
        (fn*
-        [p1__72938#]
-        (< (c/abs (c/sub p1__72938# (c/complex 1.0 0.0))) 1.0E-10))
+        [p1__94522#]
+        (< (c/abs (c/sub p1__94522# (c/complex 1.0 0.0))) 1.0E-10))
        (first (:table ct))))))]
   (every? true? results)))
 
@@ -370,7 +370,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__72939#] (long (Math/round (c/re p1__72939#))))
+      (fn* [p1__94523#] (long (Math/round (c/re p1__94523#))))
       row))
     (:table ct))]
   re-table))
@@ -389,7 +389,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__72940#] (long (Math/round (c/re p1__72940#))))
+      (fn* [p1__94524#] (long (Math/round (c/re p1__94524#))))
       row))
     (:table ct))]
   re-table))
@@ -415,14 +415,14 @@
    dims
    (sort
     (mapv
-     (fn* [p1__72941#] (long (Math/round (c/re (first p1__72941#)))))
+     (fn* [p1__94525#] (long (Math/round (c/re (first p1__94525#)))))
      (:table ct-d3)))
    ct-s3
    (reel/character-table (reel/symmetric-group 3))
    dims-s3
    (sort
     (mapv
-     (fn* [p1__72942#] (long (Math/round (c/re (first p1__72942#)))))
+     (fn* [p1__94526#] (long (Math/round (c/re (first p1__94526#)))))
      (:table ct-s3)))]
   (= dims dims-s3)))
 
@@ -494,12 +494,12 @@
       (reel/character-table (reel/dihedral-group n))
       dims
       (mapv
-       (fn* [p1__72943#] (long (Math/round (c/re (first p1__72943#)))))
+       (fn* [p1__94527#] (long (Math/round (c/re (first p1__94527#)))))
        (:table ct))
       one-dims
-      (count (filter (fn* [p1__72944#] (= 1 p1__72944#)) dims))
+      (count (filter (fn* [p1__94528#] (= 1 p1__94528#)) dims))
       two-dims
-      (count (filter (fn* [p1__72945#] (= 2 p1__72945#)) dims))
+      (count (filter (fn* [p1__94529#] (= 2 p1__94529#)) dims))
       expected-1d
       (if (odd? n) 2 4)
       expected-2d
@@ -527,7 +527,7 @@
       (into
        [(str label)]
        (mapv
-        (fn* [p1__72946#] (long (Math/round (c/re p1__72946#))))
+        (fn* [p1__94530#] (long (Math/round (c/re p1__94530#))))
         row)))
      irrep-labels
      table)})))

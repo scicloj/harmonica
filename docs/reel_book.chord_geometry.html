@@ -314,8 +314,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./reel_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./reel_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -787,21 +793,24 @@ window.Quarto = {
 <section id="interval-vectors-and-the-z-relation" class="level2">
 <h2 class="anchored" data-anchor-id="interval-vectors-and-the-z-relation">Interval Vectors and the Z-Relation</h2>
 <p>The <strong>interval vector</strong> counts how many of each interval class a chord contains. Most chord types have unique interval vectors, but occasionally two different types share the same one — the <strong>Z-relation</strong>.</p>
-<p>For trichords, no Z-relation occurs. Let’s check:</p>
+<p>For trichords under <span class="math inline">\(D_{12}\)</span>, no Z-relation occurs. Let’s verify:</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">12</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> x) (<span class="kw">long</span> g)) <span class="dv">12</span>))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain] act-sub <span class="at">:act</span>} (reel/subset-action act (<span class="kw">range</span> <span class="dv">12</span>) <span class="dv">3</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      orbs (reel/orbits G act-sub domain)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      reps (<span class="kw">mapv</span> #(<span class="kw">first</span> (<span class="kw">sort</span> <span class="va">%</span>)) orbs)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      ivs (<span class="kw">mapv</span> interval-vector reps)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      iv-groups (<span class="kw">group-by</span> <span class="kw">identity</span> ivs)]</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> #(<span class="kw">=</span> <span class="dv">1</span> (<span class="kw">count</span> (<span class="kw">val</span> <span class="va">%</span>))) iv-groups))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/dihedral-group <span class="dv">12</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [[t k] x]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">case</span> t</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">:r</span> (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> x) (<span class="kw">long</span> k)) <span class="dv">12</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">:s</span> (<span class="kw">mod</span> (<span class="kw">-</span> (<span class="kw">long</span> k) (<span class="kw">long</span> x)) <span class="dv">12</span>)))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain] act-sub <span class="at">:act</span>} (reel/subset-action act (<span class="kw">range</span> <span class="dv">12</span>) <span class="dv">3</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      orbs (reel/orbits G act-sub domain)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      reps (<span class="kw">mapv</span> #(<span class="kw">first</span> (<span class="kw">sort</span> <span class="va">%</span>)) orbs)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      ivs (<span class="kw">mapv</span> interval-vector reps)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      iv-groups (<span class="kw">group-by</span> <span class="kw">identity</span> ivs)]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> #(<span class="kw">=</span> <span class="dv">1</span> (<span class="kw">count</span> (<span class="kw">val</span> <span class="va">%</span>))) iv-groups))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>All 19 trichord types have distinct interval vectors — no Z-relation among trichords.</p>
+<p>All 12 trichord types (under <span class="math inline">\(D_{12}\)</span>) have distinct interval vectors — no Z-relation among trichords.</p>
 </section>
 <section id="beyond-trichords" class="level2">
 <h2 class="anchored" data-anchor-id="beyond-trichords">Beyond Trichords</h2>
@@ -1046,6 +1055,7 @@ window.Quarto = {
 <li><strong>Fourier magnitudes</strong>: another invariant, connecting to representation theory</li>
 <li><strong>Inversional equivalence</strong>: the dihedral group <span class="math inline">\(D_{12}\)</span> merges chord/inversion pairs</li>
 </ul>
+<p>For another perspective on music and group theory — transforming melodies via the Klein four-group — see <a href="hearing_symmetry.html">Hearing Symmetry</a>.</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/reel/blob/main/notebooks/reel_book/chord_geometry.clj">notebooks/reel_book/chord_geometry.clj</a></small></small></pre></div>
 

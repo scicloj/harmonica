@@ -314,8 +314,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./reel_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./reel_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -536,7 +542,7 @@ window.Quarto = {
 <p>After <span class="math inline">\(k\)</span> shuffles (equivalently, an <span class="math inline">\(a\)</span>-shuffle with <span class="math inline">\(a = 2^k\)</span>), the probability of permutation <span class="math inline">\(\sigma\)</span> is:</p>
 <p><span class="math display">\[Q_a(\sigma) = \frac{\binom{a + n - r(\sigma)}{n}}{a^n}\]</span></p>
 <p>where <span class="math inline">\(r(\sigma)\)</span> is the number of <strong>rising sequences</strong> of <span class="math inline">\(\sigma\)</span> — maximal consecutive increasing runs. Equivalently, <span class="math inline">\(r(\sigma) = 1 + \text{descents}(\sigma^{-1})\)</span>.</p>
-<p>For example, <span class="math inline">\([2\;0\;3\;1]\)</span> has <span class="math inline">\(\sigma^{-1} = [1\;3\;0\;2]\)</span>, with descents at positions 1 and 3, so <span class="math inline">\(r = 1 + 2 = 3\)</span> rising sequences:</p>
+<p>For example, <span class="math inline">\([2\;0\;3\;1]\)</span> has <span class="math inline">\(\sigma^{-1} = [1\;3\;0\;2]\)</span>, with a descent at position 1 (3 &gt; 0), so <span class="math inline">\(r = 1 + 1 = 2\)</span> rising sequences:</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(reel/rising-sequences [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

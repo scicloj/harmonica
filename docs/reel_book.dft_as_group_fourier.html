@@ -314,8 +314,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./reel_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./reel_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -404,7 +410,7 @@ window.Quarto = {
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   <span class="dv">3</span> <span class="dv">4</span> <span class="dv">8</span> <span class="dv">13</span> <span class="dv">18</span> <span class="dv">23</span> <span class="dv">26</span> <span class="dv">25</span> <span class="dv">20</span> <span class="dv">14</span> <span class="dv">8</span> <span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These 24 numbers implicitly define a periodic pattern — after month 23, the cycle repeats. The clear seasonal pattern (cold winters, warm summers) repeats twice.</p>
-<p>Mathematically, the indices <span class="math inline">\(0, \ldots, 23\)</span> form the <strong>cyclic group <span class="math inline">\(\mathbb{Z}/24\mathbb{Z}\)</span></strong>: integers with addition mod 24. A signal of length 24 is a function on this group.</p>
+<p>Mathematically, the indices <span class="math inline">\(0, \ldots, 23\)</span> form the <strong>cyclic group <span class="math inline">\(\mathbb{Z}/24\mathbb{Z}\)</span></strong>: integers with addition mod 24. A signal of length 24 is a function on this group. The “mod” in modular arithmetic captures the periodicity: position 24 wraps around to position 0, just as January follows December.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> G </span>(reel/cyclic-group <span class="dv">24</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -446,6 +452,8 @@ window.Quarto = {
 <section id="the-character-table-is-the-dft-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="the-character-table-is-the-dft-matrix">The character table is the DFT matrix</h2>
 <p>The <strong>character table</strong> collects all characters into a matrix. Row <span class="math inline">\(k\)</span> gives the values of character <span class="math inline">\(\chi_k\)</span> at each group element.</p>
+<p>Why are characters the “right” basis? Consider the <strong>shift operator</strong> <span class="math inline">\(T_1 f(g) = f(g - 1)\)</span>, which translates a signal by one step. A character <span class="math inline">\(\chi_k\)</span> is an <strong>eigenvector</strong> of every shift: <span class="math inline">\(T_a \chi_k(g) = \chi_k(g - a)
+= \omega^{-ka} \chi_k(g)\)</span>. The eigenvalue <span class="math inline">\(\omega^{-ka}\)</span> depends on the shift amount but not on <span class="math inline">\(g\)</span> — this is what makes characters “pure frequencies.” Decomposing into characters diagonalizes all shifts simultaneously.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ct </span>(reel/character-table G))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -699,7 +707,7 @@ window.Quarto = {
 <p><span class="math display">\[(f * h)(g) = \sum_{x \in G} f(x) \cdot h(x^{-1}g)\]</span></p>
 <p>In the Fourier domain:</p>
 <p><span class="math display">\[\widehat{f * h}(k) = \hat{f}(k) \cdot \hat{h}(k)\]</span></p>
-<p>For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, this is the familiar <strong>cyclic convolution theorem</strong>.</p>
+<p>For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, this is the familiar <strong>cyclic convolution theorem</strong>. It is the reason fast convolution is possible: instead of <span class="math inline">\(O(n^2)\)</span> direct summation, we can compute forward FFT, pointwise multiply, and inverse FFT in <span class="math inline">\(O(n \log n)\)</span>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> f-fn </span>(<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>))</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">3</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -735,7 +743,7 @@ window.Quarto = {
 </section>
 <section id="parsevals-theorem-energy-conservation" class="level2">
 <h2 class="anchored" data-anchor-id="parsevals-theorem-energy-conservation">Parseval’s theorem (energy conservation)</h2>
-<p>The total “energy” of a signal is preserved under the Fourier transform.</p>
+<p>The total “energy” of a signal is preserved under the Fourier transform. This guarantees that the transform is an isometry — no information is lost or amplified when changing between the time and frequency domains.</p>
 <p><span class="math display">\[\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2\]</span></p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [energy-time (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(<span class="kw">let</span> [m (c/abs <span class="va">%</span>)] (<span class="kw">*</span> m m)) signal))</span>

@@ -20,38 +20,38 @@
   [2 3 7 12 17 22 25 24 19 13 7 3 3 4 8 13 18 23 26 25 20 14 8 4]))
 
 
-(def v5_l42 (def G (reel/cyclic-group 24)))
+(def v5_l44 (def G (reel/cyclic-group 24)))
 
 
-(def v6_l44 (reel/elements G))
+(def v6_l46 (reel/elements G))
 
 
-(deftest t7_l46 (is (= v6_l44 (range 24))))
+(deftest t7_l48 (is (= v6_l46 (range 24))))
 
 
-(def v9_l51 (reel/op G 15 9))
+(def v9_l53 (reel/op G 15 9))
 
 
-(deftest t10_l53 (is (= v9_l51 0)))
+(deftest t10_l55 (is (= v9_l53 0)))
 
 
-(def v11_l56 (reel/op G 18 10))
+(def v11_l58 (reel/op G 18 10))
 
 
-(deftest t12_l58 (is (= v11_l56 4)))
+(deftest t12_l60 (is (= v11_l58 4)))
 
 
-(def v14_l63 (reel/inv G 15))
+(def v14_l65 (reel/inv G 15))
 
 
-(deftest t15_l65 (is (= v14_l63 9)))
+(deftest t15_l67 (is (= v14_l65 9)))
 
 
-(def v17_l90 (def ct (reel/character-table G)))
+(def v17_l99 (def ct (reel/character-table G)))
 
 
 (def
- v19_l94
+ v19_l103
  (let
   [table (:table ct) n (reel/order G)]
   (every?
@@ -59,21 +59,21 @@
    (for [k (range n) g (range n)] ((table k) g)))))
 
 
-(deftest t20_l100 (is (true? v19_l94)))
+(deftest t20_l109 (is (true? v19_l103)))
 
 
 (def
- v22_l105
+ v22_l114
  (every?
-  (fn* [p1__37011#] (< (Math/abs (- (c/re p1__37011#) 1.0)) 1.0E-10))
+  (fn* [p1__93426#] (< (Math/abs (- (c/re p1__93426#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
-(deftest t23_l107 (is (true? v22_l105)))
+(deftest t23_l116 (is (true? v22_l114)))
 
 
 (def
- v25_l113
+ v25_l122
  (->
   (tc/dataset
    (let
@@ -96,27 +96,27 @@
 
 
 (def
- v27_l144
+ v27_l153
  (def
   signal
   (mapv
-   (fn* [p1__37012#] (c/complex (double p1__37012#)))
+   (fn* [p1__93427#] (c/complex (double p1__93427#)))
    temperatures)))
 
 
-(def v28_l146 (def f-hat (reel/fourier-transform ct signal)))
+(def v28_l155 (def f-hat (reel/fourier-transform ct signal)))
 
 
-(def v30_l150 (c/re (f-hat 0)))
+(def v30_l159 (c/re (f-hat 0)))
 
 
 (deftest
- t31_l152
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v30_l150)))
+ t31_l161
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v30_l159)))
 
 
 (def
- v33_l157
+ v33_l166
  (->
   (tc/dataset {:frequency (range 24), :magnitude (mapv c/abs f-hat)})
   (plotly/base
@@ -131,7 +131,7 @@
 
 
 (def
- v35_l186
+ v35_l195
  (let
   [fft-result
    (t/forward-1d (t/transformer :real :fft) temperatures)
@@ -149,11 +149,11 @@
     (mapv c/abs fft-coefficients)))))
 
 
-(deftest t36_l198 (is (true? v35_l186)))
+(deftest t36_l207 (is (true? v35_l195)))
 
 
 (def
- v38_l215
+ v38_l224
  (def
   orthogonality-data
   (let
@@ -168,7 +168,7 @@
 
 
 (def
- v39_l226
+ v39_l235
  (kind/table
   {:column-names ["$j$" "$k$" "$|\\langle\\chi_j, \\chi_k\\rangle|$"],
    :row-vectors
@@ -180,7 +180,7 @@
 
 
 (def
- v41_l234
+ v41_l243
  (every?
   (fn
    [{:keys [j k inner-product-magnitude]}]
@@ -191,11 +191,11 @@
   orthogonality-data))
 
 
-(deftest t42_l240 (is (true? v41_l234)))
+(deftest t42_l249 (is (true? v41_l243)))
 
 
 (def
- v44_l249
+ v44_l258
  (let
   [reconstructed (reel/inverse-fourier-transform ct f-hat)]
   (apply
@@ -206,42 +206,42 @@
     reconstructed))))
 
 
-(deftest t45_l255 (is ((fn [err] (< err 1.0E-10)) v44_l249)))
+(deftest t45_l264 (is ((fn [err] (< err 1.0E-10)) v44_l258)))
 
 
 (def
- v47_l271
+ v47_l283
  (def
   f-fn
   (mapv
-   (fn* [p1__37013#] (c/complex (double p1__37013#)))
+   (fn* [p1__93428#] (c/complex (double p1__93428#)))
    [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])))
 
 
 (def
- v48_l273
+ v48_l285
  (def
   h-fn
   (mapv
-   (fn* [p1__37014#] (c/complex (double p1__37014#)))
+   (fn* [p1__93429#] (c/complex (double p1__93429#)))
    [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
-(def v50_l278 (def convolved (reel/convolve ct f-fn h-fn)))
+(def v50_l290 (def convolved (reel/convolve ct f-fn h-fn)))
 
 
 (def
- v51_l280
- (mapv (fn* [p1__37015#] (Math/round (c/re p1__37015#))) convolved))
+ v51_l292
+ (mapv (fn* [p1__93430#] (Math/round (c/re p1__93430#))) convolved))
 
 
 (deftest
- t52_l282
- (is (= v51_l280 [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
+ t52_l294
+ (is (= v51_l292 [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
 (def
- v54_l288
+ v54_l300
  (let
   [f-fn-hat
    (reel/fourier-transform ct f-fn)
@@ -259,58 +259,58 @@
     pointwise-product))))
 
 
-(deftest t55_l297 (is (true? v54_l288)))
+(deftest t55_l309 (is (true? v54_l300)))
 
 
 (def
- v57_l306
+ v57_l320
  (let
   [energy-time
    (reduce
     +
     (map
-     (fn* [p1__37016#] (let [m (c/abs p1__37016#)] (* m m)))
+     (fn* [p1__93431#] (let [m (c/abs p1__93431#)] (* m m)))
      signal))
    energy-freq
    (/
     (reduce
      +
      (map
-      (fn* [p1__37017#] (let [m (c/abs p1__37017#)] (* m m)))
+      (fn* [p1__93432#] (let [m (c/abs p1__93432#)] (* m m)))
       f-hat))
     (double (reel/order G)))]
   (< (Math/abs (- energy-time energy-freq)) 1.0E-8)))
 
 
-(deftest t58_l311 (is (true? v57_l306)))
+(deftest t58_l325 (is (true? v57_l320)))
 
 
 (def
- v60_l321
+ v60_l335
  (def f-real [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
 
 
 (def
- v61_l323
+ v61_l337
  (def h-real [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 
 (def
- v63_l328
+ v63_l342
  (def
   linear-conv
   (vec
    (dt-conv/convolve1d f-real h-real {:mode :full, :edge-mode :zero}))))
 
 
-(def v64_l331 (count linear-conv))
+(def v64_l345 (count linear-conv))
 
 
-(deftest t65_l333 (is (= v64_l331 47)))
+(deftest t65_l347 (is (= v64_l345 47)))
 
 
 (def
- v67_l338
+ v67_l352
  (def
   cyclic-from-linear
   (let
@@ -324,35 +324,35 @@
     (range n)))))
 
 
-(def v68_l347 cyclic-from-linear)
+(def v68_l361 cyclic-from-linear)
 
 
 (deftest
- t69_l349
+ t69_l363
  (is
   ((fn
     [v]
     (=
      (mapv long v)
      [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
-   v68_l347)))
+   v68_l361)))
 
 
 (def
- v71_l354
+ v71_l368
  (let
   [group-conv
    (let
     [f
-     (mapv (fn* [p1__37018#] (c/complex (double p1__37018#))) f-real)
+     (mapv (fn* [p1__93433#] (c/complex (double p1__93433#))) f-real)
      h
-     (mapv (fn* [p1__37019#] (c/complex (double p1__37019#))) h-real)]
+     (mapv (fn* [p1__93434#] (c/complex (double p1__93434#))) h-real)]
     (mapv
-     (fn* [p1__37020#] (c/re p1__37020#))
+     (fn* [p1__93435#] (c/re p1__93435#))
      (reel/convolve ct f h)))]
   (every?
-   (fn* [p1__37021#] (< (Math/abs (double p1__37021#)) 1.0E-10))
+   (fn* [p1__93436#] (< (Math/abs (double p1__93436#)) 1.0E-10))
    (map - cyclic-from-linear group-conv))))
 
 
-(deftest t72_l360 (is (true? v71_l354)))
+(deftest t72_l374 (is (true? v71_l368)))

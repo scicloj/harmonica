@@ -126,7 +126,7 @@
   (every? (fn [sigma]
             (let [ct (reel/cycle-type sigma)
                   expected (reduce (fn [a b] (/ (* a b) (biginteger (.gcd (biginteger a) (biginteger b)))))
-                                  (map biginteger ct))]
+                                   (map biginteger ct))]
               (= (perm-order G sigma) (long expected))))
           (reel/elements G)))
 
@@ -176,26 +176,7 @@
 ;; A partition is visualized as a **Young diagram**: a left-justified array
 ;; of boxes where row $i$ has $\lambda_i$ boxes.
 
-(defn young-diagram-svg
-  "Render a partition as an SVG Young diagram."
-  [lambda & {:keys [cell-size fill stroke]
-             :or {cell-size 28 fill "#4a90d9" stroke "#2c3e50"}}]
-  (let [rows (count lambda)
-        max-cols (if (seq lambda) (first lambda) 0)
-        w (+ (* max-cols cell-size) 2)
-        h (+ (* rows cell-size) 2)]
-    (into [:svg {:width w :height h
-                 :xmlns "http://www.w3.org/2000/svg"}]
-          (for [r (range rows)
-                c (range (nth lambda r))]
-            [:rect {:x (+ 1 (* c cell-size))
-                    :y (+ 1 (* r cell-size))
-                    :width (dec cell-size)
-                    :height (dec cell-size)
-                    :fill fill
-                    :stroke stroke
-                    :stroke-width 1.5
-                    :rx 2}]))))
+;; The library provides `reel/young-diagram-svg` to render these:
 
 ;; The partitions of 5 and their Young diagrams:
 
@@ -203,7 +184,7 @@
  (into [:div {:style "display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end;"}]
        (for [p (reel/partitions 5)]
          [:div {:style "text-align: center;"}
-          (young-diagram-svg p)
+          (reel/young-diagram-svg p)
           [:div {:style "margin-top: 4px; font-family: monospace; font-size: 13px;"}
            (str p)]])))
 
@@ -232,11 +213,11 @@
        pc (reel/partition-conjugate p)]
    [:div {:style "display: flex; gap: 40px; align-items: flex-end;"}
     [:div {:style "text-align: center;"}
-     (young-diagram-svg p)
+     (reel/young-diagram-svg p)
      [:div {:style "margin-top: 4px; font-family: monospace;"} (str "λ = " p)]]
     [:div {:style "text-align: center; font-size: 24px; align-self: center;"} "↔"]
     [:div {:style "text-align: center;"}
-     (young-diagram-svg pc :fill "#e67e22")
+     (reel/young-diagram-svg pc :fill "#e67e22")
      [:div {:style "margin-top: 4px; font-family: monospace;"} (str "λ' = " pc)]]]))
 
 ;; Conjugate is an involution: $(\lambda')' = \lambda$.
@@ -285,45 +266,15 @@
 
 ;; Visualize hook lengths on a Young diagram:
 
-(defn young-hooks-svg
-  "Render a Young diagram with hook lengths displayed in each cell."
-  [lambda & {:keys [cell-size] :or {cell-size 36}}]
-  (let [conj (reel/partition-conjugate lambda)
-        rows (count lambda)
-        max-cols (first lambda)
-        w (+ (* max-cols cell-size) 2)
-        h (+ (* rows cell-size) 2)]
-    (into [:svg {:width w :height h
-                 :xmlns "http://www.w3.org/2000/svg"}]
-          (for [r (range rows)
-                c (range (nth lambda r))
-                :let [hook (+ (- (nth lambda r) c)
-                              (- (nth conj c) r)
-                              -1)]]
-            [:g
-             [:rect {:x (+ 1 (* c cell-size))
-                     :y (+ 1 (* r cell-size))
-                     :width (dec cell-size)
-                     :height (dec cell-size)
-                     :fill "#ecf0f1"
-                     :stroke "#2c3e50"
-                     :stroke-width 1.5
-                     :rx 2}]
-             [:text {:x (+ 1 (* c cell-size) (/ cell-size 2))
-                     :y (+ 1 (* r cell-size) (/ cell-size 2) 5)
-                     :text-anchor "middle"
-                     :font-family "monospace"
-                     :font-size 14
-                     :fill "#2c3e50"}
-              (str hook)]]))))
+;; The library provides `reel/young-hooks-svg`:
 
 ;; Hook lengths for $[4, 2, 1]$:
 
-(kind/hiccup (young-hooks-svg [4 2 1]))
+(kind/hiccup (reel/young-hooks-svg [4 2 1]))
 
 ;; Hook lengths for $[3, 2, 2]$:
 
-(kind/hiccup (young-hooks-svg [3 2 2]))
+(kind/hiccup (reel/young-hooks-svg [3 2 2]))
 
 ;; ### Hook-length formula verification
 ;;
@@ -391,41 +342,13 @@
 
 ;; Visualize all SYTs of shape $[3, 2]$:
 
-(defn syt-svg
-  "Render a standard Young tableau as SVG with numbers in cells."
-  [syt & {:keys [cell-size] :or {cell-size 32}}]
-  (let [rows (count syt)
-        max-cols (apply max (map count syt))
-        w (+ (* max-cols cell-size) 2)
-        h (+ (* rows cell-size) 2)]
-    (into [:svg {:width w :height h
-                 :xmlns "http://www.w3.org/2000/svg"}]
-          (for [r (range rows)
-                c (range (count (nth syt r)))
-                :let [val (nth (nth syt r) c)]]
-            [:g
-             [:rect {:x (+ 1 (* c cell-size))
-                     :y (+ 1 (* r cell-size))
-                     :width (dec cell-size)
-                     :height (dec cell-size)
-                     :fill "#d5e8d4"
-                     :stroke "#2c3e50"
-                     :stroke-width 1.5
-                     :rx 2}]
-             [:text {:x (+ 1 (* c cell-size) (/ cell-size 2))
-                     :y (+ 1 (* r cell-size) (/ cell-size 2) 5)
-                     :text-anchor "middle"
-                     :font-family "monospace"
-                     :font-size 14
-                     :font-weight "bold"
-                     :fill "#2c3e50"}
-              (str val)]]))))
+;; The library provides `reel/syt-svg`:
 
 (kind/hiccup
  (into [:div {:style "display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;"}]
        (for [t (reel/standard-young-tableaux [3 2])]
          [:div {:style "text-align: center;"}
-          (syt-svg t)])))
+          (reel/syt-svg t)])))
 
 ;; ### Conjugacy class sizes
 ;;
@@ -482,66 +405,19 @@
 ;; A cycle diagram draws elements around a circle with arrows showing
 ;; where each element maps.
 
-(defn cycle-diagram-svg
-  "Render a permutation as a cycle diagram SVG."
-  [sigma & {:keys [radius] :or {radius 80}}]
-  (let [n (count sigma)
-        cx (+ radius 30)
-        cy (+ radius 30)
-        w (* 2 (+ radius 30))
-        h (* 2 (+ radius 30))
-        angle (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
-        px (fn [i] (+ cx (* radius (Math/cos (angle i)))))
-        py (fn [i] (+ cy (* radius (Math/sin (angle i)))))
-        node-r 14]
-    (into
-     [:svg {:width w :height h :xmlns "http://www.w3.org/2000/svg"}
-      [:defs
-       [:marker {:id "arrowhead" :markerWidth 8 :markerHeight 6
-                 :refX 7 :refY 3 :orient "auto"}
-        [:polygon {:points "0 0, 8 3, 0 6" :fill "#e74c3c"}]]]]
-     (concat
-      ;; Arrows for non-fixed points
-      (for [i (range n)
-            :when (not= i (sigma i))
-            :let [j (sigma i)
-                  x1 (px i) y1 (py i)
-                  x2 (px j) y2 (py j)
-                  dx (- x2 x1) dy (- y2 y1)
-                  dist (Math/sqrt (+ (* dx dx) (* dy dy)))
-                  ;; Shorten arrow to avoid overlapping nodes
-                  ux (/ dx dist) uy (/ dy dist)
-                  sx (+ x1 (* ux (+ node-r 2)))
-                  sy (+ y1 (* uy (+ node-r 2)))
-                  ex (- x2 (* ux (+ node-r 4)))
-                  ey (- y2 (* uy (+ node-r 4)))]]
-        [:line {:x1 sx :y1 sy :x2 ex :y2 ey
-                :stroke "#e74c3c" :stroke-width 1.5
-                :marker-end "url(#arrowhead)"}])
-      ;; Nodes
-      (for [i (range n)
-            :let [fixed? (= i (sigma i))]]
-        [:g
-         [:circle {:cx (px i) :cy (py i) :r node-r
-                   :fill (if fixed? "#bdc3c7" "#3498db")
-                   :stroke "#2c3e50" :stroke-width 1.5}]
-         [:text {:x (px i) :y (+ (py i) 5)
-                 :text-anchor "middle"
-                 :font-family "monospace" :font-size 13
-                 :font-weight "bold" :fill "white"}
-          (str i)]])))))
+;; The library provides `reel/cycle-diagram-svg`:
 
 ;; The 4-cycle $(0\;1\;2\;3)$:
 
-(kind/hiccup (cycle-diagram-svg [1 2 3 0]))
+(kind/hiccup (reel/cycle-diagram-svg [1 2 3 0]))
 
 ;; Two disjoint 2-cycles $(0\;1)(2\;3)$:
 
-(kind/hiccup (cycle-diagram-svg [1 0 3 2]))
+(kind/hiccup (reel/cycle-diagram-svg [1 0 3 2]))
 
 ;; A permutation with a fixed point: $(0\;2\;4)(1\;3)$, 5 is fixed.
 
-(kind/hiccup (cycle-diagram-svg [2 3 4 1 0 5]))
+(kind/hiccup (reel/cycle-diagram-svg [2 3 4 1 0 5]))
 
 ;; ## Summary of verified identities
 ;;

@@ -379,51 +379,15 @@
 ;; For small groups, the Cayley table shows the complete multiplication
 ;; structure.
 
-(defn cayley-table-svg
-  "Render a Cayley table as an SVG grid with colored cells."
-  [G & {:keys [cell-size] :or {cell-size 28}}]
-  (let [elts (vec (reel/elements G))
-        n (count elts)
-        elt-idx (into {} (map-indexed (fn [i e] [e i]) elts))
-        ;; Generate colors for each element
-        colors (mapv (fn [i]
-                       (let [hue (* 360.0 (/ i (double n)))]
-                         (str "hsl(" (int hue) ",70%,75%)")))
-                     (range n))
-        header cell-size
-        w (+ header (* n cell-size) 2)
-        h (+ header (* n cell-size) 2)]
-    (into [:svg {:width w :height h :xmlns "http://www.w3.org/2000/svg"
-                 :style "font-family: monospace; font-size: 11px;"}]
-          (concat
-           ;; Column headers
-           (for [j (range n)]
-             [:text {:x (+ header (* j cell-size) (/ cell-size 2))
-                     :y (- header 4)
-                     :text-anchor "middle" :font-size 9 :fill "#555"}
-              (str (elts j))])
-           ;; Row headers
-           (for [i (range n)]
-             [:text {:x (- header 4)
-                     :y (+ header (* i cell-size) (/ cell-size 2) 4)
-                     :text-anchor "end" :font-size 9 :fill "#555"}
-              (str (elts i))])
-           ;; Table cells
-           (for [i (range n) j (range n)
-                 :let [prod (reel/op G (elts i) (elts j))
-                       k (elt-idx prod)]]
-             [:rect {:x (+ header (* j cell-size))
-                     :y (+ header (* i cell-size))
-                     :width (dec cell-size) :height (dec cell-size)
-                     :fill (colors k) :stroke "#fff" :stroke-width 0.5}])))))
+;; The library provides `reel/cayley-table-svg`:
 
 ;; Cayley table for $\mathbb{Z}/4\mathbb{Z}$:
 
-(kind/hiccup (cayley-table-svg (reel/cyclic-group 4)))
+(kind/hiccup (reel/cayley-table-svg (reel/cyclic-group 4)))
 
 ;; Cayley table for $D_3$ (6 elements):
 
-(kind/hiccup (cayley-table-svg (reel/dihedral-group 3)))
+(kind/hiccup (reel/cayley-table-svg (reel/dihedral-group 3)))
 
 ;; ## Summary of verified identities
 ;;

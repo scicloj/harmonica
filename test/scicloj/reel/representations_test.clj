@@ -211,3 +211,59 @@
         (doseq [i (range (dec (count tvs)))]
           (is (< (tvs (inc i)) (tvs i))
               (str "TV distance not decreasing at k=" (+ i 2))))))))
+
+;; ---------------------------------------------------------------------------
+;; class-of
+;; ---------------------------------------------------------------------------
+
+(deftest class-of-identity
+  (testing "identity element is in the identity class"
+    (doseq [n [3 4 5]]
+      (let [G (reel/symmetric-group n)
+            cls (reel/class-of G (perm/identity-perm n))]
+        (is (= (:cycle-type cls) (vec (repeat n 1))))
+        (is (= (:size cls) 1))))))
+
+(deftest class-of-cycle-type
+  (testing "class-of returns correct cycle type for S_4"
+    (let [G (reel/symmetric-group 4)]
+      (is (= (:cycle-type (reel/class-of G [1 0 2 3])) [2 1 1]))
+      (is (= (:cycle-type (reel/class-of G [1 2 3 0])) [4]))
+      (is (= (:cycle-type (reel/class-of G [1 0 3 2])) [2 2])))))
+
+(deftest class-of-dihedral
+  (testing "class-of works for dihedral groups"
+    (let [G (reel/dihedral-group 5)]
+      (is (= (:size (reel/class-of G [:r 0])) 1))
+      (is (= (:size (reel/class-of G [:s 0])) 5)))))
+
+;; ---------------------------------------------------------------------------
+;; irrep-multiplicities
+;; ---------------------------------------------------------------------------
+
+(deftest irrep-decomp-trivial
+  (testing "an irrep decomposes as itself with multiplicity 1"
+    (doseq [n [3 4]
+            lam (part/partitions n)]
+      (let [G (reel/symmetric-group n)
+            decomp (reel/irrep-multiplicities G (reel/irrep lam))]
+        (is (= decomp {lam 1})
+            (str "irrep " lam " should decompose as itself"))))))
+
+(deftest irrep-decomp-direct-sum
+  (testing "direct sum decomposes into its components"
+    (let [G (reel/symmetric-group 4)
+          decomp (reel/irrep-multiplicities G
+                   (reel/direct-sum (reel/irrep [3 1]) (reel/irrep [2 2])))]
+      (is (= decomp {[3 1] 1, [2 2] 1})))))
+
+(deftest irrep-decomp-tensor-product
+  (testing "tensor product dimension matches decomposition"
+    (let [G (reel/symmetric-group 4)
+          rep31 (reel/irrep [3 1])
+          tp (reel/tensor-product rep31 rep31)
+          decomp (reel/irrep-multiplicities G tp)
+          dim-sum (reduce + (map (fn [[lam m]]
+                                   (* m (reel/hook-length-dimension lam)))
+                                 decomp))]
+      (is (= dim-sum (:dimension tp))))))

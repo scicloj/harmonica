@@ -117,6 +117,23 @@
 ;; by the partitions of $n$. We verify reel matches SymPy for
 ;; $n = 2, \ldots, 7$.
 
+;; ### $S_4$: all 576 pairs
+
+(let [G (reel/symmetric-group 4)
+      elts (vec (sort (reel/elements G)))]
+  (every? (fn [[a b]]
+            (let [ab-reel (reel/op G a b)
+                  inv-reel (reel/inv G a)
+                  pa (sp/Permutation (vec a))
+                  pb (sp/Permutation (vec b))
+                  ab-py (vec (py/->jvm (py/py.- (py/call-attr pb "__mul__" pa) array_form)))
+                  inv-py (vec (py/->jvm (py/py.- (py/call-attr pa "__pow__" -1) array_form)))]
+              (and (= (vec ab-reel) ab-py)
+                   (= (vec inv-reel) inv-py))))
+          (for [a elts b elts] [a b])))
+
+(kind/test-last [true?])
+
 (defn sympy-class-sizes
   "Sorted vector of conjugacy class sizes from SymPy's SymmetricGroup(n)."
   [n]
@@ -397,6 +414,28 @@
    {:column-names ["$n$" "reel (Pólya)" "Formula"]
     :row-vectors rows}))
 
+;; ## Orbit-Stabilizer Comparison
+;;
+;; SymPy's `SymmetricGroup(n)` has `orbit` and `stabilizer` methods.
+;; We verify reel's orbit sizes and stabilizer orders match SymPy's
+;; for $S_n$ acting on $\{0, \ldots, n{-}1\}$.
+
+(every? (fn [n]
+          (let [G (reel/symmetric-group n)
+                Sn (named/SymmetricGroup n)
+                act (fn [sigma x] (sigma x))]
+            (every? (fn [x]
+                      (let [orb-reel (count (reel/orbit G act x))
+                            stab-reel (count (reel/stabilizer G act x))
+                            orb-py (long (py/py. (py/py. Sn orbit x) __len__))
+                            stab-py (long (py/py. (py/py. Sn stabilizer x) order))]
+                        (and (= orb-reel orb-py)
+                             (= stab-reel stab-py))))
+                    (range n))))
+        (range 2 6))
+
+(kind/test-last [true?])
+
 ;; ## Trichord Classification
 ;;
 ;; 220 trichords (3-element subsets of $\mathbb{Z}/12\mathbb{Z}$)
@@ -427,7 +466,9 @@
 ;;
 ;; - **Permutation properties**: cycle type, sign, and order for every
 ;;   element of $S_3$, $S_4$, $S_5$ (150 permutations)
-;; - **Composition and inverse**: 50 random pairs in $S_4$
+;; - **Composition and inverse**: all pairs in $S_3$ (36) and $S_4$ (576),
+;;   accounting for the convention difference (reel right-to-left,
+;;   SymPy left-to-right)
 ;; - **Conjugacy class sizes**: $S_2$ through $S_7$ match SymPy
 ;; - **Dihedral group structure**: $D_3$ through $D_{12}$ — order,
 ;;   class count, and class sizes all match
@@ -435,6 +476,8 @@
 ;; - **Partition counts**: $p(1)$ through $p(15)$ match SymPy
 ;; - **Character tables**: $S_3$, $S_4$, $S_5$ match known textbook values
 ;; - **Hook-length dimensions**: consistent with character tables,
-;;   sum to $n!$, squared sum to $n!$
+;;   squared sum equals $n!$
 ;; - **Necklace counts**: Pólya agrees with number-theoretic formula for $n = 1, \ldots, 20$
+;; - **Orbit-stabilizer**: orbit sizes and stabilizer orders match SymPy
+;;   for $S_n$ acting on points ($n = 2, \ldots, 5$)
 ;; - **Trichord classification**: 220 $\to$ 19 under $C_{12}$, 12 under $D_{12}$
