@@ -46,7 +46,7 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__89618#] (first (sort p1__89618#))) orbs))})))
+     (sort-by (fn* [p1__75054#] (first (sort p1__75054#))) orbs))})))
 
 
 (def

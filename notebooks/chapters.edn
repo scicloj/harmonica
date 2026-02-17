@@ -13,4 +13,5 @@
                  "hearing_symmetry"
                  "symmetry_sketchpad"]
  "Reference" ["algebraic_identities"
+              "sympy_comparison"
               "api_reference"]}
