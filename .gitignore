@@ -9,3 +9,4 @@ gfm
 docs/*.qmd
 CLAUDE.md
 dev-notes/
+classes/
