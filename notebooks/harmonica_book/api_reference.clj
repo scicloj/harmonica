@@ -11,6 +11,9 @@
    [scicloj.harmonica.representations :as rep]
    [fastmath.complex :as c]
    [fastmath.matrix :as fm]
+   [scicloj.harmonica.complex :as cx]
+   [tech.v3.tensor :as tensor]
+   [tech.v3.datatype :as dtype]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Group Constructors
@@ -425,3 +428,142 @@
 (kind/doc #'hm/cayley-table-svg)
 
 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4)))
+
+
+;; ## Complex Tensors
+;;
+;; The `scicloj.harmonica.complex` namespace provides tensor-backed complex
+;; numbers. A ComplexTensor wraps a dtype-next tensor whose last dimension
+;; is 2 (interleaved real/imaginary pairs).
+
+;; ### Constructors
+
+(kind/doc #'cx/complex-tensor)
+
+(cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])
+
+(kind/test-last [(fn [v] (= [3] (cx/complex-shape v)))])
+
+(cx/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]]))
+
+(kind/test-last [(fn [v] (= [2] (cx/complex-shape v)))])
+
+(kind/doc #'cx/complex-tensor-real)
+
+(cx/complex-tensor-real [5.0 6.0 7.0])
+
+(kind/test-last [(fn [v] (= [0.0 0.0 0.0] (vec (cx/im v))))])
+
+;; ### Real and imaginary parts
+
+(kind/doc #'cx/re)
+
+(vec (cx/re (cx/complex-tensor [1.0 2.0] [3.0 4.0])))
+
+(kind/test-last [= [1.0 2.0]])
+
+(kind/doc #'cx/im)
+
+(vec (cx/im (cx/complex-tensor [1.0 2.0] [3.0 4.0])))
+
+(kind/test-last [= [3.0 4.0]])
+
+;; ### Accessors
+
+(kind/doc #'cx/complex-shape)
+
+(cx/complex-shape (cx/complex-tensor [[1.0 2.0] [3.0 4.0]]
+                                     [[5.0 6.0] [7.0 8.0]]))
+
+(kind/test-last [= [2 2]])
+
+(kind/doc #'cx/scalar?)
+
+(cx/scalar? (cx/complex-tensor (tensor/->tensor [3.0 4.0])))
+
+(kind/test-last [true?])
+
+(cx/scalar? (cx/complex-tensor [1.0 2.0] [3.0 4.0]))
+
+(kind/test-last [(fn [v] (not v))])
+
+(kind/doc #'cx/->tensor)
+
+(vec (dtype/shape (cx/->tensor (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
+
+(kind/test-last [= [2 2]])
+
+(kind/doc #'cx/->double-array)
+
+(let [ct (cx/complex-tensor [1.0 2.0] [3.0 4.0])]
+  (identical? (cx/->double-array ct) (cx/->double-array ct)))
+
+(kind/test-last [true?])
+
+;; ### Arithmetic
+
+(kind/doc #'cx/cmul)
+
+;; $(1+3i)(5+7i) = -16+22i$
+
+(let [a (cx/complex-tensor [1.0] [3.0])
+      b (cx/complex-tensor [5.0] [7.0])
+      c (cx/cmul a b)]
+  [(cx/re (c 0)) (cx/im (c 0))])
+
+(kind/test-last [= [-16.0 22.0]])
+
+(kind/doc #'cx/cconj)
+
+(let [ct (cx/cconj (cx/complex-tensor [1.0 2.0] [3.0 -4.0]))]
+  (vec (cx/im ct)))
+
+(kind/test-last [= [-3.0 4.0]])
+
+(kind/doc #'cx/cscale)
+
+(let [ct (cx/cscale (cx/complex-tensor [1.0 2.0] [3.0 4.0]) 2.0)]
+  [(vec (cx/re ct)) (vec (cx/im ct))])
+
+(kind/test-last [= [[2.0 4.0] [6.0 8.0]]])
+
+(kind/doc #'cx/cabs)
+
+;; $|3+4i| = 5$
+
+(let [m (cx/cabs (cx/complex-tensor [3.0] [4.0]))]
+  (< (Math/abs (- (double (m 0)) 5.0)) 1e-10))
+
+(kind/test-last [true?])
+
+;; ### Inner products
+
+(kind/doc #'cx/cdot)
+
+;; $\langle [1, i], [i, 1] \rangle = 1 \cdot i + i \cdot 1 = 2i$
+
+(let [a (cx/complex-tensor [1.0 0.0] [0.0 1.0])
+      b (cx/complex-tensor [0.0 1.0] [1.0 0.0])
+      [re im] (cx/cdot a b)]
+  (and (< (Math/abs re) 1e-10)
+       (< (Math/abs (- im 2.0)) 1e-10)))
+
+(kind/test-last [true?])
+
+(kind/doc #'cx/cdot-conj)
+
+;; $\langle a, a \rangle = \|a\|^2$ for the Hermitian inner product.
+
+(let [a (cx/complex-tensor [3.0 1.0] [4.0 2.0])
+      [re im] (cx/cdot-conj a a)]
+  (and (< (Math/abs (- re 30.0)) 1e-10)
+       (< (Math/abs im) 1e-10)))
+
+(kind/test-last [true?])
+
+;; ### Element access
+
+(let [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
+  [(count ct) (cx/scalar? (ct 0)) (cx/re (ct 1))])
+
+(kind/test-last [= [3 true 2.0]])
