@@ -1,0 +1,248 @@
+(ns scicloj.harmonica.complex
+  "Complex tensors backed by dtype-next.
+
+   A ComplexTensor wraps a real tensor whose last dimension is 2
+   (interleaved re/im pairs). The `re` and `im` functions always
+   slice the last axis, returning zero-copy tensor views.
+
+   Supported ranks:
+     [2]       scalar complex number
+     [n 2]     complex vector of length n
+     [r c 2]   complex r×c matrix
+     [... 2]   arbitrary rank
+
+   This namespace has zero dependencies on the rest of harmonica
+   and is designed to be extractable into a separate library."
+  (:require [tech.v3.tensor :as tensor]
+            [tech.v3.datatype :as dtype]
+            [tech.v3.datatype.functional :as dfn]))
+
+;; ---------------------------------------------------------------------------
+;; Protocol
+;; ---------------------------------------------------------------------------
+
+(defprotocol PComplex
+  (re [x] "Real part(s). Returns a tensor view (last dim removed) or a double for scalars.")
+  (im [x] "Imaginary part(s). Returns a tensor view (last dim removed) or a double for scalars."))
+
+;; ---------------------------------------------------------------------------
+;; Internal helpers
+;; ---------------------------------------------------------------------------
+
+(defn- select-part
+  "Select real (idx=0) or imaginary (idx=1) part from a tensor whose last dim is 2."
+  [tensor idx]
+  (let [ndims (count (dtype/shape tensor))]
+    (apply tensor/select tensor
+           (concat (repeat (dec ndims) :all) [idx]))))
+
+(defn- format-complex
+  "Format a single complex number as a string."
+  [re im]
+  (cond
+    (zero? im) (str re)
+    (zero? re) (if (== im 1.0) "i"
+                   (if (== im -1.0) "-i"
+                       (str im "i")))
+    (neg? im) (str re im "i")
+    :else (str re "+" im "i")))
+
+(defn- interleave-into!
+  "Write re-data and im-data into an interleaved [... 2] tensor via strided views."
+  [tensor re-data im-data]
+  (let [ndims (count (dtype/shape tensor))
+        re-view (apply tensor/select tensor (concat (repeat (dec ndims) :all) [0]))
+        im-view (apply tensor/select tensor (concat (repeat (dec ndims) :all) [1]))]
+    (dtype/copy! (dtype/->reader (tensor/ensure-tensor re-data))
+                 (dtype/->reader re-view))
+    (dtype/copy! (dtype/->reader (tensor/ensure-tensor im-data))
+                 (dtype/->reader im-view)))
+  tensor)
+
+;; ---------------------------------------------------------------------------
+;; ComplexTensor deftype
+;; ---------------------------------------------------------------------------
+
+(declare ->ComplexTensor)
+
+(deftype ComplexTensor [tensor]
+  PComplex
+  (re [_]
+    (if (= 1 (count (dtype/shape tensor)))
+      (double (tensor 0))
+      (select-part tensor 0)))
+  (im [_]
+    (if (= 1 (count (dtype/shape tensor)))
+      (double (tensor 1))
+      (select-part tensor 1)))
+
+  clojure.lang.Counted
+  (count [_]
+    (let [s (dtype/shape tensor)]
+      (if (<= (count s) 1)
+        0
+        (long (first s)))))
+
+  clojure.lang.Indexed
+  (nth [_ i]
+    (->ComplexTensor (tensor i)))
+  (nth [this i not-found]
+    (if (and (>= i 0) (< i (.count this)))
+      (.nth this i)
+      not-found))
+
+  clojure.lang.IFn
+  (invoke [this i]
+    (.nth this (int i)))
+
+  clojure.lang.Seqable
+  (seq [this]
+    (when (pos? (.count this))
+      (map #(.nth this %) (range (.count this)))))
+
+  Object
+  (toString [this]
+    (let [s (dtype/shape tensor)
+          ndims (count s)]
+      (cond
+        ;; Scalar [2]
+        (= ndims 1)
+        (format-complex (double (tensor 0)) (double (tensor 1)))
+
+        ;; Vector [n 2]
+        (= ndims 2)
+        (let [n (first s)]
+          (str "[" (clojure.string/join ", "
+                                        (map (fn [i]
+                                               (let [row (tensor i)]
+                                                 (format-complex (double (row 0)) (double (row 1)))))
+                                             (range (min n 20))))
+               (when (> n 20) (str ", ... (" n " total)"))
+               "]"))
+
+        ;; Matrix or higher
+        :else
+        (str "#ComplexTensor " (vec (butlast s)))))))
+
+(defmethod print-method ComplexTensor [^ComplexTensor ct ^java.io.Writer w]
+  (.write w (.toString ct)))
+
+;; ---------------------------------------------------------------------------
+;; Constructors
+;; ---------------------------------------------------------------------------
+
+(defn complex-tensor
+  "Create a ComplexTensor.
+
+   Arities:
+     (complex-tensor tensor)       — wrap an existing tensor with last dim = 2
+     (complex-tensor re-data im-data) — from separate real and imaginary parts
+
+   re-data and im-data can be: double arrays, seqs, dtype readers, or tensors.
+   They must have the same shape."
+  ([tensor-or-re]
+   (let [t (if (instance? ComplexTensor tensor-or-re)
+             (.-tensor ^ComplexTensor tensor-or-re)
+             (tensor/ensure-tensor tensor-or-re))]
+     (assert (= 2 (last (dtype/shape t)))
+             (str "Last dimension must be 2, got shape " (vec (dtype/shape t))))
+     (->ComplexTensor t)))
+  ([re-data im-data]
+   (let [re-t (tensor/ensure-tensor re-data)
+         im-t (tensor/ensure-tensor im-data)
+         re-shape (vec (dtype/shape re-t))
+         im-shape (vec (dtype/shape im-t))]
+     (assert (= re-shape im-shape)
+             (str "Shape mismatch: re=" re-shape " im=" im-shape))
+     (let [full-shape (conj re-shape 2)
+           n-elements (reduce * full-shape)
+           backing (double-array n-elements)
+           t (tensor/reshape (tensor/ensure-tensor backing) full-shape)]
+       (interleave-into! t re-data im-data)
+       (->ComplexTensor t)))))
+
+(defn complex-tensor-real
+  "Create a ComplexTensor from real data only (imaginary parts = 0)."
+  [re-data]
+  (let [re-t (tensor/ensure-tensor re-data)
+        re-shape (vec (dtype/shape re-t))
+        full-shape (conj re-shape 2)
+        n-elements (reduce * full-shape)
+        backing (double-array n-elements)
+        t (tensor/reshape (tensor/ensure-tensor backing) full-shape)]
+    (dtype/copy! (dtype/->reader re-t)
+                 (dtype/->reader (select-part t 0)))
+    (->ComplexTensor t)))
+
+;; ---------------------------------------------------------------------------
+;; Accessors
+;; ---------------------------------------------------------------------------
+
+(defn ->tensor
+  "Access the underlying [... 2] tensor."
+  [^ComplexTensor ct]
+  (.-tensor ct))
+
+(defn ->double-array
+  "Access the underlying interleaved double[].
+   Returns the identical array object (zero-copy)."
+  [^ComplexTensor ct]
+  (dtype/->double-array (.buffer (.-tensor ct))))
+
+(defn complex-shape
+  "The complex shape (underlying shape without trailing 2)."
+  [^ComplexTensor ct]
+  (vec (butlast (dtype/shape (.-tensor ct)))))
+
+(defn scalar?
+  "True if this ComplexTensor represents a scalar complex number."
+  [^ComplexTensor ct]
+  (= 1 (count (dtype/shape (.-tensor ct)))))
+
+;; ---------------------------------------------------------------------------
+;; Complex arithmetic
+;; ---------------------------------------------------------------------------
+
+(defn cmul
+  "Pointwise complex multiply: (a+bi)(c+di) = (ac-bd) + (ad+bc)i"
+  [^ComplexTensor a ^ComplexTensor b]
+  (let [ar (re a) ai (im a)
+        br (re b) bi (im b)]
+    (complex-tensor (dfn/- (dfn/* ar br) (dfn/* ai bi))
+                    (dfn/+ (dfn/* ar bi) (dfn/* ai br)))))
+
+(defn cconj
+  "Complex conjugate: negate imaginary part."
+  [^ComplexTensor ct]
+  (complex-tensor (re ct) (dfn/* -1.0 (im ct))))
+
+(defn cscale
+  "Scale by a real scalar."
+  [^ComplexTensor ct alpha]
+  (let [a (double alpha)]
+    (complex-tensor (dfn/* a (re ct)) (dfn/* a (im ct)))))
+
+(defn cabs
+  "Element-wise complex magnitude: sqrt(re² + im²).
+   Returns a real tensor (or double for scalar)."
+  [^ComplexTensor ct]
+  (let [r (re ct) i (im ct)]
+    (dfn/sqrt (dfn/+ (dfn/* r r) (dfn/* i i)))))
+
+(defn cdot
+  "Complex dot product: Σ a_i * b_i.
+   Returns a [re im] pair."
+  [^ComplexTensor a ^ComplexTensor b]
+  (let [ar (re a) ai (im a)
+        br (re b) bi (im b)]
+    [(- (dfn/sum (dfn/* ar br)) (dfn/sum (dfn/* ai bi)))
+     (+ (dfn/sum (dfn/* ar bi)) (dfn/sum (dfn/* ai br)))]))
+
+(defn cdot-conj
+  "Hermitian inner product: Σ a_i * conj(b_i).
+   Returns a [re im] pair."
+  [^ComplexTensor a ^ComplexTensor b]
+  (let [ar (re a) ai (im a)
+        br (re b) bi (im b)]
+    [(+ (dfn/sum (dfn/* ar br)) (dfn/sum (dfn/* ai bi)))
+     (- (dfn/sum (dfn/* ai br)) (dfn/sum (dfn/* ar bi)))]))
