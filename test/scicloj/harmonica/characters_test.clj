@@ -3,8 +3,7 @@
             [scicloj.harmonica.core :as hm]
             [scicloj.harmonica.impl.murnaghan-nakayama :as mn]
             [scicloj.harmonica.impl.partition :as part]
-            [fastmath.complex :as c])
-  (:import [fastmath.vector Vec2]))
+            [scicloj.harmonica.complex :as cx]))
 
 ;; ---------------------------------------------------------------------------
 ;; Murnaghan-Nakayama rule: known character tables
@@ -28,11 +27,11 @@
   (testing "S_4 character table matches known values"
     (let [parts [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]]
           classes [[1 1 1 1] [2 1 1] [2 2] [3 1] [4]]
-          expected [[1  1  1  1  1]
-                    [3  1 -1  0 -1]
-                    [2  0  2 -1  0]
-                    [3 -1 -1  0  1]
-                    [1 -1  1  1 -1]]]
+          expected [[1 1 1 1 1]
+                    [3 1 -1 0 -1]
+                    [2 0 2 -1 0]
+                    [3 -1 -1 0 1]
+                    [1 -1 1 1 -1]]]
       (doseq [i (range 5)
               j (range 5)]
         (is (= (get-in expected [i j]) (mn/chi (parts i) (classes j)))
@@ -42,13 +41,13 @@
   (testing "S_5 character table matches known values"
     (let [parts [[5] [4 1] [3 2] [3 1 1] [2 2 1] [2 1 1 1] [1 1 1 1 1]]
           classes [[1 1 1 1 1] [2 1 1 1] [2 2 1] [3 1 1] [3 2] [4 1] [5]]
-          expected [[1  1  1  1  1  1  1]
-                    [4  2  0  1 -1  0 -1]
-                    [5  1  1 -1  1 -1  0]
-                    [6  0 -2  0  0  0  1]
-                    [5 -1  1 -1 -1  1  0]
-                    [4 -2  0  1  1  0 -1]
-                    [1 -1  1  1 -1 -1  1]]]
+          expected [[1 1 1 1 1 1 1]
+                    [4 2 0 1 -1 0 -1]
+                    [5 1 1 -1 1 -1 0]
+                    [6 0 -2 0 0 0 1]
+                    [5 -1 1 -1 -1 1 0]
+                    [4 -2 0 1 1 0 -1]
+                    [1 -1 1 1 -1 -1 1]]]
       (doseq [i (range 7)
               j (range 7)]
         (is (= (get-in expected [i j]) (mn/chi (parts i) (classes j)))
@@ -75,9 +74,9 @@
     (doseq [n (range 2 7)]
       (let [G (hm/symmetric-group n)
             ct (hm/character-table G)
-            trivial-row (first (:table ct))]
-        (doseq [v trivial-row]
-          (is (< (Math/abs (- (.-x ^Vec2 v) 1.0)) 1e-10)
+            trivial-row ((:table ct) 0)]
+        (doseq [v (seq trivial-row)]
+          (is (< (Math/abs (- (cx/re v) 1.0)) 1e-10)
               (str "trivial character entry should be 1 for S_" n)))))))
 
 (deftest symmetric-sign-character
@@ -85,11 +84,13 @@
     (doseq [n (range 2 7)]
       (let [G (hm/symmetric-group n)
             ct (hm/character-table G)
-            sign-row (last (:table ct))
+            table (:table ct)
+            num-irreps (count table)
+            sign-row (table (dec num-irreps))
             classes (:classes ct)]
-        (doseq [[v cls] (map vector sign-row classes)]
+        (doseq [[v cls] (map vector (seq sign-row) classes)]
           (let [expected (if (even? (- n (count cls))) 1.0 -1.0)]
-            (is (< (Math/abs (- (.-x ^Vec2 v) expected)) 1e-10)
+            (is (< (Math/abs (- (cx/re v) expected)) 1e-10)
                 (str "sign character at " cls " for S_" n))))))))
 
 (deftest symmetric-dimensions
@@ -97,7 +98,8 @@
     (doseq [n (range 2 7)]
       (let [G (hm/symmetric-group n)
             ct (hm/character-table G)
-            dims (mapv (fn [row] (long (.-x ^Vec2 (first row)))) (:table ct))]
+            table (:table ct)
+            dims (mapv (fn [row] (long (cx/re (row 0)))) (seq table))]
         (doseq [d dims]
           (is (pos? d) (str "dimension should be positive for S_" n)))
         (is (= (hm/order G)
@@ -115,8 +117,8 @@
             k (count table)]
         (doseq [i (range k)
                 j (range i (min (+ i 3) k))]
-          (let [ip (c/abs (hm/character-inner-product
-                           (table i) (table j) sizes order))]
+          (let [ip (cx/cabs (hm/character-inner-product
+                             (table i) (table j) sizes order))]
             (if (= i j)
               (is (< (Math/abs (- ip 1.0)) 1e-8)
                   (str "norm of chi_" i " should be 1 in S_" n))
@@ -129,16 +131,17 @@
       (let [G (hm/symmetric-group n)
             ct (hm/character-table G)
             table (:table ct)
+            table-re (cx/re table)
             sizes (:class-sizes ct)
             order (hm/order G)
             k (count table)]
         (doseq [mu-idx (range k)
                 nu-idx (range mu-idx (min (+ mu-idx 3) k))]
-          (let [col-prod (reduce + (map (fn [row]
-                                          (let [^Vec2 a (row mu-idx)
-                                                ^Vec2 b (row nu-idx)]
-                                            (* (.-x a) (.-x b))))
-                                        table))]
+          (let [col-prod (reduce + (map (fn [i]
+                                          (let [a (double ((table-re i) mu-idx))
+                                                b (double ((table-re i) nu-idx))]
+                                            (* a b)))
+                                        (range k)))]
             (if (= mu-idx nu-idx)
               (is (< (Math/abs (- col-prod (/ (double order) (double (sizes mu-idx))))) 1e-8)
                   (str "column orthogonality diagonal for class " mu-idx " in S_" n))

@@ -7,7 +7,7 @@
             [scicloj.harmonica.impl.cyclic :as cyc]
             [scicloj.harmonica.characters :as ch]
             [scicloj.harmonica.action :as action]
-            [fastmath.complex :as c]))
+            [scicloj.harmonica.complex :as cx]))
 
 ;; ---------------------------------------------------------------------------
 ;; DihedralGroup axioms
@@ -104,7 +104,7 @@
       (testing (str "row orthogonality for D_" n)
         (doseq [i (range num-irreps)
                 j (range num-irreps)]
-          (let [ip (c/abs (ch/character-inner-product (table i) (table j) sizes order))]
+          (let [ip (cx/cabs (ch/character-inner-product (table i) (table j) sizes order))]
             (if (= i j)
               (is (< (Math/abs (- ip 1.0)) 1e-8)
                   (str "chi_" i " should have norm 1 in D_" n))
@@ -119,7 +119,7 @@
             table (:table ct)
             order (p/order G)
             sum-sq (reduce + (map (fn [row]
-                                    (let [d (long (Math/round (.x ^fastmath.vector.Vec2 (row 0))))]
+                                    (let [d (long (Math/round (cx/re (row 0))))]
                                       (* d d)))
                                   table))]
         (is (= order sum-sq)

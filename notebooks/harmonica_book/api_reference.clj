@@ -8,10 +8,10 @@
 (ns harmonica-book.api-reference
   (:require
    [scicloj.harmonica.core :as hm]
-   [scicloj.harmonica.representations :as rep]
-   [fastmath.complex :as c]
-   [fastmath.matrix :as fm]
    [scicloj.harmonica.complex :as cx]
+   [scicloj.harmonica.protocols :as p]
+   [scicloj.harmonica.representations :as rep]
+   [fastmath.matrix :as fm]
    [tech.v3.tensor :as tensor]
    [tech.v3.datatype :as dtype]
    [scicloj.kindly.v4.kind :as kind]))
@@ -185,7 +185,7 @@
 (kind/test-last [= 3])
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
-      re-table (mapv (fn [row] (mapv #(long (Math/round (c/re %))) row))
+      re-table (mapv (fn [row] (mapv #(long (Math/round (cx/re %))) row))
                      (:table ct))]
   re-table)
 
@@ -196,7 +196,7 @@
 (let [ct (hm/character-table (hm/symmetric-group 3))
       {:keys [table class-sizes]} ct
       order (hm/order (:group ct))]
-  (c/re (hm/character-inner-product (nth table 0) (nth table 1) class-sizes order)))
+  (cx/re (hm/character-inner-product (nth table 0) (nth table 1) class-sizes order)))
 
 (kind/test-last [(fn [v] (< (Math/abs v) 1e-10))])
 
@@ -373,19 +373,19 @@
 (kind/doc #'hm/fourier-transform)
 
 (let [ct (hm/character-table (hm/cyclic-group 4))
-      f (mapv #(c/complex (double %) 0.0) [1 0 0 0])
+      f (cx/complex-tensor-real [1 0 0 0])
       fhat (hm/fourier-transform ct f)]
   (count fhat))
 
 (kind/test-last [= 4])
 
 (kind/doc #'hm/inverse-fourier-transform)
-
 (let [ct (hm/character-table (hm/cyclic-group 4))
-      f (mapv #(c/complex (double %) 0.0) [1 2 3 4])
+      f (cx/complex-tensor-real [1 2 3 4])
       fhat (hm/fourier-transform ct f)
       f-back (hm/inverse-fourier-transform ct fhat)
-      max-err (apply max (map #(c/abs (c/sub %1 %2)) f f-back))]
+      max-err (apply max (vec (cx/cabs (cx/csub f-back f))))]
+  (< max-err 1e-10)
   (< max-err 1e-10))
 
 (kind/test-last [true?])
@@ -393,11 +393,10 @@
 (kind/doc #'hm/convolve)
 
 (let [ct (hm/character-table (hm/cyclic-group 4))
-      f (mapv #(c/complex (double %) 0.0) [1 0 0 0])
-      g (mapv #(c/complex (double %) 0.0) [0 1 0 0])
+      f (cx/complex-tensor-real [1 0 0 0])
+      g (cx/complex-tensor-real [0 1 0 0])
       conv (hm/convolve ct f g)]
-  (long (Math/round (c/re (nth conv 1)))))
-
+  (long (Math/round (cx/re (conv 1)))))
 (kind/test-last [= 1])
 
 (kind/doc #'hm/total-variation-distance)
@@ -405,7 +404,6 @@
 (hm/total-variation-distance [0.5 0.5 0.0 0.0] [0.25 0.25 0.25 0.25])
 
 (kind/test-last [(fn [v] (< (Math/abs (- v 0.5)) 1e-10))])
-
 
 ;; ## SVG Visualizations
 
@@ -428,7 +426,6 @@
 (kind/doc #'hm/cayley-table-svg)
 
 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4)))
-
 
 ;; ## Complex Tensors
 ;;

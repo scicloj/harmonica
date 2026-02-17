@@ -1996,7 +1996,7 @@
     "href": "harmonica_book.sympy_comparison.html#setup",
     "title": "18  Cross-Validation with SymPy",
     "section": "",
-    "text": "(require-python '[sympy.combinatorics :as sc])\n\n\n:ok\n\n\n(require-python '[sympy.combinatorics.named_groups :as named])\n\n\n:ok\n\n\n(require-python '[sympy.combinatorics.permutations :as sp])\n\n\n:ok\n\n\n(require-python '[sympy.utilities.iterables :as symiter])\n\n\n:ok\n\n\n(require-python '[builtins :as pybuiltins])\n\n\n:ok",
+    "text": "(require-python '[sympy.combinatorics :as sc])\n\n\n:ok\n\n\n(require-python '[sympy.combinatorics.named_groups :as named])\n\n\n:ok\n\n\n(require-python '[sympy.combinatorics.permutations :as sp])\n\n\n\n\n\n\n\nNoteERR\n\n\n\n[nREPL-session-d66b99a6-ccc0-4e66-9133-8e03f68d9ef4] WARN libpython-clj2.metadata - Metadata generation failed for &lt;module 'sympy.combinatorics.permutations' from '/workspace/Dropbox/projects/daslu/harmonica/.venv/lib/python3.11/site-packages/sympy/combinatorics/permutations.py'&gt;:ifac\n\n\n\n\n:ok\n\n\n(require-python '[sympy.utilities.iterables :as symiter])\n\n\n:ok\n\n\n(require-python '[builtins :as pybuiltins])\n\n\n:ok",
     "crumbs": [
       "Reference",
       "<span class='chapter-number'>18</span>  <span class='chapter-title'>Cross-Validation with SymPy</span>"

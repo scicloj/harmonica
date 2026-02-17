@@ -14,7 +14,7 @@
 (ns harmonica-book.dft-as-group-fourier
   (:require
    [scicloj.harmonica.core :as hm]
-   [fastmath.complex :as c]
+   [scicloj.harmonica.complex :as cx]
    [fastmath.transform :as t]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
@@ -102,7 +102,7 @@
 
 (let [table (:table ct)
       n (hm/order G)]
-  (every? (fn [v] (< (Math/abs (- (c/abs v) 1.0)) 1e-10))
+  (every? (fn [v] (< (Math/abs (- (cx/cabs v) 1.0)) 1e-10))
           (for [k (range n) g (range n)]
             ((table k) g))))
 
@@ -111,7 +111,7 @@
 
 ;; The first row ($k = 0$) is the **trivial character** — all ones.
 
-(every? #(< (Math/abs (- (c/re %) 1.0)) 1e-10) ((:table ct) 0))
+(every? #(< (Math/abs (- (cx/re %) 1.0)) 1e-10) ((:table ct) 0))
 
 (kind/test-last
  [true?])
@@ -124,7 +124,7 @@
        (for [k [0 1 2 3]
              g (range 24)]
          {:month g
-          :real-part (c/re ((table k) g))
+          :real-part (cx/re ((table k) g))
           :character (str "chi_" k)})))
     (plotly/base {:=x :month
                   :=y :real-part
@@ -150,13 +150,13 @@
 ;; This is an inner product: "how much does $f$ align with character $\chi_k$?"
 ;; For $\mathbb{Z}/n\mathbb{Z}$, this is exactly the DFT formula.
 
-(def signal (mapv #(c/complex (double %)) temperatures))
+(def signal (cx/complex-tensor-real temperatures))
 
 (def f-hat (hm/fourier-transform ct signal))
 
 ;; The $k = 0$ coefficient is the sum of all values (the DC component).
 
-(c/re (f-hat 0))
+(cx/re (f-hat 0))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 320.0)) 1e-10))])
@@ -165,7 +165,7 @@
 
 (-> (tc/dataset
      {:frequency (range 24)
-      :magnitude (mapv c/abs f-hat)})
+      :magnitude (vec (cx/cabs f-hat))})
     (plotly/base {:=x :frequency
                   :=y :magnitude
                   :=x-title "Frequency k (character index)"
@@ -195,15 +195,13 @@
 (let [fft-result (t/forward-1d (t/transformer :real :fft) temperatures)
       fft-coefficients (let [data (vec fft-result)
                              n (/ (count data) 2)]
-                         (mapv (fn [k]
-                                 (c/complex (data (* 2 k))
-                                            (data (inc (* 2 k)))))
-                               (range n)))]
+                         (cx/complex-tensor
+                          (mapv (fn [k] (data (* 2 k))) (range n))
+                          (mapv (fn [k] (data (inc (* 2 k)))) (range n))))]
   (every? true?
           (map (fn [a b] (< (Math/abs (- a b)) 1e-8))
-               (mapv c/abs (take 12 f-hat))
-               (mapv c/abs fft-coefficients))))
-
+               (take 12 (vec (cx/cabs f-hat)))
+               (vec (cx/cabs fft-coefficients)))))
 (kind/test-last
  [true?])
 
@@ -229,8 +227,8 @@
           k (range 4)]
       {:j j :k k
        :inner-product-magnitude
-       (c/abs (hm/character-inner-product
-               (table j) (table k) sizes n))})))
+       (cx/cabs (hm/character-inner-product
+                 (table j) (table k) sizes n))})))
 
 (kind/table
  {:column-names ["$j$" "$k$" "$|\\langle\\chi_j, \\chi_k\\rangle|$"]
@@ -256,11 +254,7 @@
 ;; $$f(g) = \frac{1}{|G|} \sum_{k} \hat{f}(k) \cdot \chi_k(g)$$
 
 (let [reconstructed (hm/inverse-fourier-transform ct f-hat)]
-  (apply max (map (fn [orig recon]
-                    (c/abs (c/sub recon orig)))
-                  signal
-                  reconstructed)))
-
+  (dfn/reduce-max (cx/cabs (cx/csub reconstructed signal))))
 (kind/test-last
  [(fn [err] (< err 1e-10))])
 
@@ -280,31 +274,27 @@
 ;; direct summation, we can compute forward FFT, pointwise multiply, and
 ;; inverse FFT in $O(n \log n)$.
 
-(def f-fn (mapv #(c/complex (double %))
-                [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
-(def h-fn (mapv #(c/complex (double %))
-                [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
+(def f-fn (cx/complex-tensor-real
+           [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
+(def h-fn (cx/complex-tensor-real
+           [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 ;; Convolve via the library (which uses the Fourier domain internally).
 
 (def convolved (hm/convolve ct f-fn h-fn))
 
-(mapv #(Math/round (c/re %)) convolved)
+(mapv #(Math/round %) (vec (cx/re convolved)))
 
 (kind/test-last
  [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])
 
 ;; Verify: the Fourier transform of the convolution equals the pointwise
 ;; product of the individual transforms.
-
 (let [f-fn-hat (hm/fourier-transform ct f-fn)
       h-fn-hat (hm/fourier-transform ct h-fn)
       convolved-hat (hm/fourier-transform ct convolved)
-      pointwise-product (mapv c/mult f-fn-hat h-fn-hat)]
-  (every? true?
-          (map (fn [a b] (< (c/abs (c/sub a b)) 1e-8))
-               convolved-hat
-               pointwise-product)))
+      pointwise-product (cx/cmul f-fn-hat h-fn-hat)]
+  (< (dfn/reduce-max (cx/cabs (cx/csub convolved-hat pointwise-product))) 1e-8))
 
 (kind/test-last
  [true?])
@@ -317,11 +307,13 @@
 ;;
 ;; $$\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2$$
 
-(let [energy-time (reduce + (map #(let [m (c/abs %)] (* m m)) signal))
-      energy-freq (/ (reduce + (map #(let [m (c/abs %)] (* m m)) f-hat))
+(let [mag-s (cx/cabs signal)
+      mag-f (cx/cabs f-hat)
+      energy-time (dfn/sum (dfn/* mag-s mag-s))
+      energy-freq (/ (dfn/sum (dfn/* mag-f mag-f))
                      (double (hm/order G)))]
+  (< (Math/abs (- energy-time energy-freq)) 1e-8)
   (< (Math/abs (- energy-time energy-freq)) 1e-8))
-
 (kind/test-last
  [true?])
 
@@ -365,9 +357,9 @@ cyclic-from-linear
 
 ;; This matches our group-theoretic convolution exactly.
 
-(let [group-conv (let [f (mapv #(c/complex (double %)) f-real)
-                       h (mapv #(c/complex (double %)) h-real)]
-                   (mapv #(c/re %) (hm/convolve ct f h)))]
+(let [group-conv (let [f (cx/complex-tensor-real f-real)
+                       h (cx/complex-tensor-real h-real)]
+                   (vec (cx/re (hm/convolve ct f h))))]
   (every? #(< (Math/abs (double %)) 1e-10)
           (map - cyclic-from-linear group-conv)))
 

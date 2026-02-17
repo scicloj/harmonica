@@ -19,6 +19,7 @@
             [scicloj.harmonica.impl.young-tableaux :as yt]
             [scicloj.harmonica.impl.permutation :as perm]
             [scicloj.harmonica.characters :as ch]
+            [scicloj.harmonica.complex :as cx]
             [fastmath.matrix :as fm]))
 
 (defn irrep
@@ -204,7 +205,7 @@
   [G rep]
   (let [ct (ch/character-table G)
         ct-classes (:classes ct) ;; partitions in CT order
-        table-re (:table-re ct)
+        table-re (cx/re (:table ct))
         irrep-labels (:irrep-labels ct)
         order (double (p/order G))
         ;; Map from partition to CT column index
@@ -218,14 +219,14 @@
     (into {}
           (keep (fn [i]
                   (let [label (nth irrep-labels i)
-                        row (nth table-re i)
+                        row (table-re i)
                         ;; Inner product: (1/|G|) Σ_c |c| * χ_ρ(c) * χ_λ(c)
                         mult (/ (reduce + (map-indexed
                                            (fn [j cls]
                                              (let [col (ct-idx (:cycle-type cls))]
                                                (* (double (:size cls))
                                                   (nth rep-chars j)
-                                                  (aget ^doubles row col))))
+                                                  (double (row col)))))
                                            g-classes))
                                 order)
                         m (Math/round mult)]

@@ -2,6 +2,7 @@
  harmonica-book.random-transpositions-generated-test
  (:require
   [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica.complex :as cx]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -16,14 +17,14 @@
    {:column-names
     (into
      ["Irrep $\\lambda$"]
-     (map (fn* [p1__116771#] (str p1__116771#)) (:classes ct))),
+     (map (fn* [p1__91363#] (str p1__91363#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__116772#] (long (.-x p1__116772#))) row)))
+       (map (fn* [p1__91364#] (long (cx/re p1__91364#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
@@ -57,7 +58,7 @@
             (table j)
             sizes
             order)]
-          (format "%.0f" (.-x v))))
+          (format "%.0f" (cx/re v))))
         (range (count table)))))
      (range (count table)))})))
 
@@ -135,9 +136,9 @@
        [lam
         ((:irrep-labels ct) i)
         d
-        (long (.-x ((table i) 0)))
+        (long (cx/re ((table i) 0)))
         chi-t
-        (long (.-x ((table i) trans-idx)))
+        (long (cx/re ((table i) trans-idx)))
         from-table
         (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ (double chi-t) d))) M)]
        [(str lam)
@@ -170,9 +171,9 @@
         [lam
          ((:irrep-labels ct) i)
          d
-         (.-x ((table i) 0))
+         (cx/re ((table i) 0))
          chi-t
-         (.-x ((table i) trans-idx))
+         (cx/re ((table i) trans-idx))
          from-table
          (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ chi-t d))) M)]
         (< (Math/abs (- from-table (eigenvalue n lam))) 1.0E-10)))

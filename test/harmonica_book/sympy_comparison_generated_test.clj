@@ -2,31 +2,32 @@
  harmonica-book.sympy-comparison-generated-test
  (:require
   [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica.complex :as cx]
   [scicloj.kindly.v4.kind :as kind]
   [libpython-clj2.python :as py]
   [libpython-clj2.require :refer [require-python]]
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l19 (require-python '[sympy.combinatorics :as sc]))
+(def v3_l20 (require-python '[sympy.combinatorics :as sc]))
 
 
 (def
- v4_l20
+ v4_l21
  (require-python '[sympy.combinatorics.named_groups :as named]))
 
 
-(def v5_l21 (require-python '[sympy.combinatorics.permutations :as sp]))
+(def v5_l22 (require-python '[sympy.combinatorics.permutations :as sp]))
 
 
-(def v6_l22 (require-python '[sympy.utilities.iterables :as symiter]))
+(def v6_l23 (require-python '[sympy.utilities.iterables :as symiter]))
 
 
-(def v7_l23 (require-python '[builtins :as pybuiltins]))
+(def v7_l24 (require-python '[builtins :as pybuiltins]))
 
 
 (def
- v9_l38
+ v9_l39
  (defn
   sympy-perm-props
   "Extract cycle type, sign, and order from a SymPy permutation."
@@ -53,7 +54,7 @@
 
 
 (def
- v10_l52
+ v10_l53
  (defn
   hm-perm-props
   "Extract cycle type, sign, and order from a harmonica permutation in S_n."
@@ -69,7 +70,7 @@
 
 
 (def
- v12_l65
+ v12_l66
  (let
   [G (hm/symmetric-group 3)]
   (every?
@@ -81,11 +82,11 @@
    (hm/elements G))))
 
 
-(deftest t13_l71 (is (true? v12_l65)))
+(deftest t13_l72 (is (true? v12_l66)))
 
 
 (def
- v15_l75
+ v15_l76
  (let
   [G (hm/symmetric-group 4)]
   (every?
@@ -97,11 +98,11 @@
    (hm/elements G))))
 
 
-(deftest t16_l81 (is (true? v15_l75)))
+(deftest t16_l82 (is (true? v15_l76)))
 
 
 (def
- v18_l85
+ v18_l86
  (let
   [G (hm/symmetric-group 5)]
   (every?
@@ -113,11 +114,11 @@
    (hm/elements G))))
 
 
-(deftest t19_l91 (is (true? v18_l85)))
+(deftest t19_l92 (is (true? v18_l86)))
 
 
 (def
- v21_l99
+ v21_l100
  (let
   [G (hm/symmetric-group 3) elts (vec (sort (hm/elements G)))]
   (every?
@@ -142,11 +143,11 @@
    (for [a elts b elts] [a b]))))
 
 
-(deftest t22_l112 (is (true? v21_l99)))
+(deftest t22_l113 (is (true? v21_l100)))
 
 
 (def
- v24_l122
+ v24_l123
  (let
   [G (hm/symmetric-group 4) elts (vec (sort (hm/elements G)))]
   (every?
@@ -171,11 +172,11 @@
    (for [a elts b elts] [a b]))))
 
 
-(deftest t25_l135 (is (true? v24_l122)))
+(deftest t25_l136 (is (true? v24_l123)))
 
 
 (def
- v26_l137
+ v26_l138
  (defn
   sympy-class-sizes
   "Sorted vector of conjugacy class sizes from SymPy's SymmetricGroup(n)."
@@ -184,12 +185,12 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__118866#] (long (py/py. p1__118866# __len__)))
+     (fn* [p1__95648#] (long (py/py. p1__95648# __len__)))
      classes)))))
 
 
 (def
- v27_l144
+ v27_l145
  (defn
   hm-class-sizes
   "Sorted vector of conjugacy class sizes from harmonica's symmetric-group."
@@ -197,23 +198,21 @@
   (let
    [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
    (sort
-    (mapv
-     (fn* [p1__118867#] (count (:elements p1__118867#)))
-     classes)))))
+    (mapv (fn* [p1__95649#] (count (:elements p1__95649#))) classes)))))
 
 
 (def
- v28_l151
+ v28_l152
  (every?
   (fn [n] (= (hm-class-sizes n) (sympy-class-sizes n)))
   (range 2 8)))
 
 
-(deftest t29_l155 (is (true? v28_l151)))
+(deftest t29_l156 (is (true? v28_l152)))
 
 
 (def
- v31_l159
+ v31_l160
  (let
   [n 5]
   (kind/table
@@ -224,7 +223,7 @@
 
 
 (def
- v33_l171
+ v33_l172
  (defn
   sympy-dihedral-info
   [n]
@@ -238,13 +237,13 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__118868#] (long (py/py. p1__118868# __len__)))
+      (fn* [p1__95650#] (long (py/py. p1__95650# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
 
 (def
- v34_l178
+ v34_l179
  (defn
   hm-dihedral-info
   [n]
@@ -255,26 +254,24 @@
     (hm/conjugacy-classes G)
     sizes
     (sort
-     (mapv
-      (fn* [p1__118869#] (count (:elements p1__118869#)))
-      classes))]
+     (mapv (fn* [p1__95651#] (count (:elements p1__95651#))) classes))]
    {:order (hm/order G),
     :num-classes (count classes),
     :class-sizes sizes})))
 
 
 (def
- v35_l184
+ v35_l185
  (every?
   (fn [n] (= (hm-dihedral-info n) (sympy-dihedral-info n)))
   (range 3 13)))
 
 
-(deftest t36_l188 (is (true? v35_l184)))
+(deftest t36_l189 (is (true? v35_l185)))
 
 
 (def
- v38_l192
+ v38_l193
  (let
   [rows
    (mapv
@@ -290,7 +287,7 @@
 
 
 (def
- v40_l206
+ v40_l207
  (every?
   (fn
    [n]
@@ -300,11 +297,11 @@
   (range 2 13)))
 
 
-(deftest t41_l212 (is (true? v40_l206)))
+(deftest t41_l213 (is (true? v40_l207)))
 
 
 (def
- v42_l214
+ v42_l215
  (every?
   (fn
    [n]
@@ -317,11 +314,11 @@
   (range 3 13)))
 
 
-(deftest t43_l221 (is (true? v42_l214)))
+(deftest t43_l222 (is (true? v42_l215)))
 
 
 (def
- v45_l228
+ v45_l229
  (defn
   sympy-partition-count
   [n]
@@ -329,17 +326,17 @@
 
 
 (def
- v46_l231
+ v46_l232
  (every?
   (fn [n] (= (count (hm/partitions n)) (sympy-partition-count n)))
   (range 1 16)))
 
 
-(deftest t47_l235 (is (true? v46_l231)))
+(deftest t47_l236 (is (true? v46_l232)))
 
 
 (def
- v49_l239
+ v49_l240
  (let
   [rows
    (mapv
@@ -350,7 +347,7 @@
 
 
 (def
- v51_l263
+ v51_l264
  (def
   known-S3
   {:irreps [[3] [2 1] [1 1 1]],
@@ -359,7 +356,7 @@
 
 
 (def
- v53_l278
+ v53_l279
  (def
   known-S4
   {:irreps [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]],
@@ -373,7 +370,7 @@
 
 
 (def
- v55_l289
+ v55_l290
  (def
   known-S5
   {:irreps [[5] [4 1] [3 2] [3 1 1] [2 2 1] [2 1 1 1] [1 1 1 1 1]],
@@ -389,10 +386,10 @@
 
 
 (def
- v56_l300
+ v56_l301
  (defn
   extract-hm-character-table
-  "Extract harmonica's character table as a vec-of-vecs of integers,\n   with rows sorted by irrep partition (dominance) and columns\n   by class partition."
+  "Build a {:irreps :classes :table} map from harmonica's character table."
   [n]
   (let
    [G
@@ -403,8 +400,8 @@
     (:classes ct)
     class-partitions
     (mapv :partition classes)
-    table-re
-    (:table-re ct)]
+    table
+    (:table ct)]
    {:irreps (:irrep-labels ct),
     :classes class-partitions,
     :table
@@ -412,43 +409,43 @@
      (fn
       [row]
       (mapv
-       (fn* [p1__118870#] (long (aget row p1__118870#)))
-       (range (count classes))))
-     table-re)})))
+       (fn* [p1__95652#] (long (Math/round (cx/re p1__95652#))))
+       row))
+     table)})))
 
 
 (def
- v58_l319
+ v58_l317
  (let
   [hm-ct (extract-hm-character-table 3)]
   (= (:table known-S3) (:table hm-ct))))
 
 
-(deftest t59_l322 (is (true? v58_l319)))
+(deftest t59_l320 (is (true? v58_l317)))
 
 
 (def
- v61_l326
+ v61_l324
  (let
   [hm-ct (extract-hm-character-table 4)]
   (= (:table known-S4) (:table hm-ct))))
 
 
-(deftest t62_l329 (is (true? v61_l326)))
+(deftest t62_l327 (is (true? v61_l324)))
 
 
 (def
- v64_l333
+ v64_l331
  (let
   [hm-ct (extract-hm-character-table 5)]
   (= (:table known-S5) (:table hm-ct))))
 
 
-(deftest t65_l336 (is (true? v64_l333)))
+(deftest t65_l334 (is (true? v64_l331)))
 
 
 (def
- v67_l340
+ v67_l338
  (let
   [hm-ct
    (extract-hm-character-table 5)
@@ -469,7 +466,7 @@
 
 
 (def
- v69_l358
+ v69_l356
  (every?
   (fn
    [n]
@@ -484,11 +481,11 @@
   (range 2 8)))
 
 
-(deftest t70_l365 (is (true? v69_l358)))
+(deftest t70_l363 (is (true? v69_l356)))
 
 
 (def
- v72_l370
+ v72_l368
  (every?
   (fn
    [n]
@@ -500,18 +497,18 @@
       +
       (map
        (fn*
-        [p1__118871#]
-        (let [d (hm/hook-length-dimension p1__118871#)] (* d d)))
+        [p1__95653#]
+        (let [d (hm/hook-length-dimension p1__95653#)] (* d d)))
        parts))]
     (= total (reduce * (range 1 (inc n))))))
   (range 2 8)))
 
 
-(deftest t73_l376 (is (true? v72_l370)))
+(deftest t73_l374 (is (true? v72_l368)))
 
 
 (def
- v75_l384
+ v75_l382
  (defn
   necklace-formula
   "Number of binary necklaces with n beads, from the formula:\n   (1/n) * sum_{d|n} phi(d) * 2^{n/d}"
@@ -519,7 +516,7 @@
   (let
    [divisors
     (filter
-     (fn* [p1__118872#] (zero? (mod n p1__118872#)))
+     (fn* [p1__95654#] (zero? (mod n p1__95654#)))
      (range 1 (inc n)))
     euler-phi
     (fn
@@ -527,13 +524,13 @@
      (count
       (filter
        (fn*
-        [p1__118873#]
+        [p1__95655#]
         (=
          1
          (long
           (.gcd
            (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__118873#)))))
+           (BigInteger/valueOf p1__95655#)))))
        (range 1 (inc m)))))]
    (/
     (reduce
@@ -545,7 +542,7 @@
 
 
 (def
- v76_l396
+ v76_l394
  (defn
   hm-necklace-count
   [n]
@@ -560,17 +557,17 @@
 
 
 (def
- v77_l402
+ v77_l400
  (every?
   (fn [n] (= (hm-necklace-count n) (necklace-formula n)))
   (range 1 21)))
 
 
-(deftest t78_l406 (is (true? v77_l402)))
+(deftest t78_l404 (is (true? v77_l400)))
 
 
 (def
- v80_l410
+ v80_l408
  (let
   [rows
    (mapv
@@ -582,7 +579,7 @@
 
 
 (def
- v82_l423
+ v82_l421
  (every?
   (fn
    [n]
@@ -610,11 +607,11 @@
   (range 2 6)))
 
 
-(deftest t83_l437 (is (true? v82_l423)))
+(deftest t83_l435 (is (true? v82_l421)))
 
 
 (def
- v85_l448
+ v85_l446
  (let
   [G-c
    (hm/cyclic-group 12)
@@ -645,5 +642,5 @@
 
 
 (deftest
- t86_l461
- (is (= v85_l448 {:total 220, :under-C12 19, :under-D12 12})))
+ t86_l459
+ (is (= v85_l446 {:total 220, :under-C12 19, :under-D12 12})))

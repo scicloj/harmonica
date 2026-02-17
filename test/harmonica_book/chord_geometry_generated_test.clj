@@ -3,7 +3,7 @@
  (:require
   [scicloj.harmonica.core :as hm]
   [scicloj.harmonica.protocols :as p]
-  [fastmath.complex :as c]
+  [scicloj.harmonica.complex :as cx]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -31,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__117102#] (Math/cos p1__117102#)) angles)
+    (mapv (fn* [p1__90321#] (Math/cos p1__90321#)) angles)
     ys
-    (mapv (fn* [p1__117103#] (Math/sin p1__117103#)) angles)
+    (mapv (fn* [p1__90322#] (Math/sin p1__90322#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -87,7 +87,7 @@
       [transposed
        (sort
         (mapv
-         (fn* [p1__117104#] (mod (+ p1__117104# (long k)) 12))
+         (fn* [p1__90323#] (mod (+ p1__90323# (long k)) 12))
          c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
@@ -219,7 +219,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__117105#] (contains? p1__117105# rep)) orbs-d)))
+     (filter (fn* [p1__90324#] (contains? p1__90324# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -253,14 +253,12 @@
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__117106#] (first (sort p1__117106#))) orbs)
+   (mapv (fn* [p1__90325#] (first (sort p1__90325#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
-  (every?
-   (fn* [p1__117107#] (= 1 (count (val p1__117107#))))
-   iv-groups)))
+  (every? (fn* [p1__90326#] (= 1 (count (val p1__90326#)))) iv-groups)))
 
 
 (deftest t22_l216 (is (true? v21_l204)))
@@ -324,7 +322,8 @@
    ct
    (hm/character-table G)
    f-vals
-   (mapv (fn [x] (c/complex (if (#{0 7 4} x) 1.0 0.0) 0.0)) (range 12))
+   (cx/complex-tensor-real
+    (mapv (fn [x] (if (#{0 7 4} x) 1.0 0.0)) (range 12)))
    f-hat
    (hm/fourier-transform ct f-vals)]
   (kind/table
@@ -334,7 +333,10 @@
      (fn
       [k]
       (let
-       [fk (f-hat k) mag-sq (+ (* (fk 0) (fk 0)) (* (fk 1) (fk 1)))]
+       [fk
+        (f-hat k)
+        mag-sq
+        (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i)))]
        [k (format "%.4f" mag-sq)]))
      (range 12))})))
 
@@ -351,19 +353,17 @@
    chord-b
    [6 10 1]
    f-a
-   (mapv
-    (fn [x] (c/complex (if ((set chord-a) x) 1.0 0.0) 0.0))
-    (range 12))
+   (cx/complex-tensor-real
+    (mapv (fn [x] (if ((set chord-a) x) 1.0 0.0)) (range 12)))
    f-b
-   (mapv
-    (fn [x] (c/complex (if ((set chord-b) x) 1.0 0.0) 0.0))
-    (range 12))
+   (cx/complex-tensor-real
+    (mapv (fn [x] (if ((set chord-b) x) 1.0 0.0)) (range 12)))
    hat-a
    (hm/fourier-transform ct f-a)
    hat-b
    (hm/fourier-transform ct f-b)
    mag-sq
-   (fn [fk] (+ (* (fk 0) (fk 0)) (* (fk 1) (fk 1))))]
+   (fn [fk] (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i))))]
   (every?
    (fn
     [k]

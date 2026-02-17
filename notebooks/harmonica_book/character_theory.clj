@@ -12,7 +12,7 @@
 (ns harmonica-book.character-theory
   (:require
    [scicloj.harmonica.core :as hm]
-   [fastmath.complex :as c]
+   [scicloj.harmonica.complex :as cx]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Character tables by group type
@@ -35,7 +35,7 @@
 
 (let [ct (hm/character-table (hm/cyclic-group 8))
       entries (for [row (:table ct) v row] v)]
-  (every? #(< (Math/abs (- (c/abs %) 1.0)) 1e-10) entries))
+  (every? #(< (Math/abs (- (cx/cabs %) 1.0)) 1e-10) entries))
 
 (kind/test-last [true?])
 
@@ -47,8 +47,8 @@
 (let [ct (hm/character-table (hm/symmetric-group 4))
       entries (for [row (:table ct) v row] v)]
   (every? (fn [v]
-            (and (< (Math/abs (c/im v)) 1e-10)
-                 (< (Math/abs (- (c/re v) (Math/round (c/re v)))) 1e-10)))
+            (and (< (Math/abs (cx/im v)) 1e-10)
+                 (< (Math/abs (- (cx/re v) (Math/round (cx/re v)))) 1e-10)))
           entries))
 
 (kind/test-last [true?])
@@ -90,8 +90,8 @@
                                    (let [ci (nth (nth table i) k)
                                          cj (nth (nth table j) k)]
                                      (* (double sz)
-                                        (+ (* (c/re ci) (c/re cj))
-                                           (* (c/im ci) (c/im cj))))))
+                                        (+ (* (cx/re ci) (cx/re cj))
+                                           (* (cx/im ci) (cx/im cj))))))
                                  class-sizes))
                    expected (if (= i j) (double order) 0.0)]
                (Math/abs (- ip expected)))))))
@@ -142,8 +142,8 @@
            (for [i (range n) j (range n)]
              (let [ip (reduce + (map (fn [row]
                                        (let [ci (nth row i) cj (nth row j)]
-                                         (+ (* (c/re ci) (c/re cj))
-                                            (* (c/im ci) (c/im cj)))))
+                                         (+ (* (cx/re ci) (cx/re cj))
+                                            (* (cx/im ci) (cx/im cj)))))
                                      table))
                    expected (if (= i j)
                               (/ (double order) (double (nth class-sizes i)))
@@ -179,7 +179,7 @@
   [ct]
   (let [{:keys [table]} ct
         order (hm/order (:group ct))
-        dims (map #(c/re (first %)) table)
+        dims (map #(cx/re (% 0)) table)
         sum-sq (reduce + (map #(* % %) dims))]
     (< (Math/abs (- sum-sq (double order))) 1e-8)))
 
@@ -230,15 +230,15 @@
       (concat
        (for [n [2 5 12]]
          (let [ct (hm/character-table (hm/cyclic-group n))]
-           (every? #(< (c/abs (c/sub % (c/complex 1.0 0.0))) 1e-10)
+           (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
                    (first (:table ct)))))
        (for [n [3 4 5]]
          (let [ct (hm/character-table (hm/symmetric-group n))]
-           (every? #(< (c/abs (c/sub % (c/complex 1.0 0.0))) 1e-10)
+           (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
                    (first (:table ct)))))
        (for [n [3 5 6 8]]
          (let [ct (hm/character-table (hm/dihedral-group n))]
-           (every? #(< (c/abs (c/sub % (c/complex 1.0 0.0))) 1e-10)
+           (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
                    (first (:table ct))))))]
   (every? true? results))
 
@@ -262,7 +262,7 @@
                     (let [ip (hm/character-inner-product
                               (nth table i) (nth table j) class-sizes order)
                           expected (if (= i j) 1.0 0.0)]
-                      (< (c/abs (c/sub ip (c/complex expected 0.0))) 1e-8))))))]
+                      (< (cx/cabs (cx/csub ip (cx/complex expected 0.0))) 1e-8))))))]
   (every? true? results))
 
 (kind/test-last [true?])
@@ -280,7 +280,7 @@
 ;; |$[1,1,1]$ (sign)| 1 | -1 | 1 |
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
-      re-table (mapv (fn [row] (mapv #(long (Math/round (c/re %))) row))
+      re-table (mapv (fn [row] (mapv #(long (Math/round (cx/re %))) row))
                      (:table ct))]
   re-table)
 
@@ -289,7 +289,7 @@
 ;; ### $S_4$ character table
 
 (let [ct (hm/character-table (hm/symmetric-group 4))
-      re-table (mapv (fn [row] (mapv #(long (Math/round (c/re %))) row))
+      re-table (mapv (fn [row] (mapv #(long (Math/round (cx/re %))) row))
                      (:table ct))]
   re-table)
 
@@ -305,9 +305,9 @@
 ;; $D_3 \cong S_3$, so the tables should match (up to class ordering).
 
 (let [ct-d3 (hm/character-table (hm/dihedral-group 3))
-      dims (sort (mapv #(long (Math/round (c/re (first %)))) (:table ct-d3)))
+      dims (sort (mapv #(long (Math/round (cx/re (% 0)))) (:table ct-d3)))
       ct-s3 (hm/character-table (hm/symmetric-group 3))
-      dims-s3 (sort (mapv #(long (Math/round (c/re (first %)))) (:table ct-s3)))]
+      dims-s3 (sort (mapv #(long (Math/round (cx/re (% 0)))) (:table ct-s3)))]
   (= dims dims-s3))
 
 (kind/test-last [true?])
@@ -325,7 +325,7 @@
         (let [ct (hm/character-table (hm/symmetric-group n))
               classes (:classes ct)
               idx (.indexOf classes mu)
-              val (c/re (nth (first (:table ct)) idx))]
+              val (cx/re (((:table ct) 0) idx))]
           (= 1.0 val)))]
   (every? true? results))
 
@@ -344,7 +344,7 @@
               labels (:irrep-labels ct)
               row-idx (.indexOf labels sign-label)
               col-idx (.indexOf classes mu)
-              val (long (Math/round (c/re (nth (nth (:table ct) row-idx) col-idx))))
+              val (long (Math/round (cx/re (((:table ct) row-idx) col-idx))))
               ;; sign of cycle type: (-1)^(n - number of parts)
               expected (long (Math/pow -1 (- n (count mu))))]
           (= val expected)))]
@@ -367,7 +367,7 @@
 (let [results
       (for [n (range 3 21)]
         (let [ct (hm/character-table (hm/dihedral-group n))
-              dims (mapv #(long (Math/round (c/re (first %)))) (:table ct))
+              dims (mapv #(long (Math/round (cx/re (% 0)))) (:table ct))
               one-dims (count (filter #(= 1 %) dims))
               two-dims (count (filter #(= 2 %) dims))
               expected-1d (if (odd? n) 2 4)
@@ -388,7 +388,7 @@
    {:column-names (into [""] (mapv str classes))
     :row-vectors (mapv (fn [label row]
                          (into [(str label)]
-                               (mapv #(long (Math/round (c/re %))) row)))
+                               (mapv #(long (Math/round (cx/re %))) row)))
                        irrep-labels table)}))
 
 ;; ## Summary of verified identities
@@ -406,7 +406,6 @@
 ;; - **MN trivial character**: $\chi_{[n]}(\mu) = 1$ for all $\mu$
 ;; - **MN sign character**: $\chi_{[1^n]}(\mu) = (-1)^{n-k}$ for all $\mu$
 ;; - **Dihedral structure**: correct count of 1D and 2D irreps for $n = 3, \ldots, 20$
-
 
 ;; For applications of character tables to random walks, see
 ;; [Random Transpositions](random_transpositions.html).

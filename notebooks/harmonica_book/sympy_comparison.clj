@@ -10,6 +10,7 @@
 (ns harmonica-book.sympy-comparison
   (:require
    [scicloj.harmonica.core :as hm]
+   [scicloj.harmonica.complex :as cx]
    [scicloj.kindly.v4.kind :as kind]
    [libpython-clj2.python :as py]
    [libpython-clj2.require :refer [require-python]]))
@@ -298,21 +299,18 @@
            [1 -1 1 1 -1 -1 1]]})
 
 (defn extract-hm-character-table
-  "Extract harmonica's character table as a vec-of-vecs of integers,
-   with rows sorted by irrep partition (dominance) and columns
-   by class partition."
+  "Build a {:irreps :classes :table} map from harmonica's character table."
   [n]
   (let [G (hm/symmetric-group n)
         ct (hm/character-table G)
         classes (:classes ct)
         class-partitions (mapv :partition classes)
-        table-re (:table-re ct)]
+        table (:table ct)]
     {:irreps (:irrep-labels ct)
      :classes class-partitions
      :table (mapv (fn [row]
-                    (mapv #(long (aget ^doubles row %))
-                          (range (count classes))))
-                  table-re)}))
+                    (mapv #(long (Math/round (cx/re %))) row))
+                  table)}))
 
 ;; ### $S_3$
 

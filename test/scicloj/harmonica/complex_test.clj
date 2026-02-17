@@ -2,7 +2,8 @@
   (:require [clojure.test :refer [deftest is testing]]
             [scicloj.harmonica.complex :as cx]
             [tech.v3.tensor :as tensor]
-            [tech.v3.datatype :as dtype]))
+            [tech.v3.datatype :as dtype]
+            [tech.v3.datatype.functional :as dfn]))
 
 ;; ---------------------------------------------------------------------------
 ;; Construction
@@ -133,6 +134,48 @@
     (is (< (Math/abs (- re 30.0)) 1e-10))
     (is (< (Math/abs im) 1e-10))))
 
+(deftest complex-scalar-test
+  (let [s (cx/complex 3.0 4.0)]
+    (is (cx/scalar? s))
+    (is (= 3.0 (cx/re s)))
+    (is (= 4.0 (cx/im s)))))
+
+(deftest cadd-test
+  (testing "vector addition"
+    (let [a (cx/complex-tensor [1.0 2.0] [3.0 4.0])
+          b (cx/complex-tensor [5.0 6.0] [7.0 8.0])
+          c (cx/cadd a b)]
+      (is (= [6.0 8.0] (vec (cx/re c))))
+      (is (= [10.0 12.0] (vec (cx/im c))))))
+  (testing "scalar addition"
+    (let [a (cx/complex 1.0 2.0)
+          b (cx/complex 3.0 4.0)
+          c (cx/cadd a b)]
+      (is (= 4.0 (cx/re c)))
+      (is (= 6.0 (cx/im c))))))
+
+(deftest csub-test
+  (testing "vector subtraction"
+    (let [a (cx/complex-tensor [5.0 8.0] [3.0 4.0])
+          b (cx/complex-tensor [1.0 2.0] [1.0 1.0])
+          c (cx/csub a b)]
+      (is (= [4.0 6.0] (vec (cx/re c))))
+      (is (= [2.0 3.0] (vec (cx/im c))))))
+  (testing "scalar subtraction"
+    (let [a (cx/complex 5.0 3.0)
+          b (cx/complex 2.0 1.0)
+          c (cx/csub a b)]
+      (is (= 3.0 (cx/re c)))
+      (is (= 2.0 (cx/im c))))))
+
+(deftest cmul-scalar-test
+  (let [a (cx/complex 1.0 3.0)
+        b (cx/complex 5.0 7.0)
+        c (cx/cmul a b)]
+    ;; (1+3i)(5+7i) = (5-21) + (7+15)i = -16+22i
+    (is (= -16.0 (cx/re c)))
+    (is (= 22.0 (cx/im c)))))
+
 ;; ---------------------------------------------------------------------------
 ;; Zero-copy
 ;; ---------------------------------------------------------------------------
@@ -160,3 +203,42 @@
   (is (= "#ComplexTensor [2 2]\n[[1.0+5.0i, 2.0+6.0i]\n [3.0+7.0i, 4.0+8.0i]]"
          (str (cx/complex-tensor [[1.0 2.0] [3.0 4.0]]
                                  [[5.0 6.0] [7.0 8.0]])))))
+
+;; ---------------------------------------------------------------------------
+;; dtype-next protocol integration
+;; ---------------------------------------------------------------------------
+
+(deftest dfn-addition
+  (let [a (cx/complex-tensor [1.0 2.0] [3.0 4.0])
+        b (cx/complex-tensor [5.0 6.0] [7.0 8.0])
+        result (cx/complex-tensor (dfn/+ a b))]
+    (is (= [6.0 8.0] (vec (cx/re result))))
+    (is (= [10.0 12.0] (vec (cx/im result))))))
+
+(deftest dfn-subtraction
+  (let [a (cx/complex-tensor [5.0 8.0] [3.0 4.0])
+        b (cx/complex-tensor [1.0 2.0] [1.0 1.0])
+        result (cx/complex-tensor (dfn/- a b))]
+    (is (= [4.0 6.0] (vec (cx/re result))))
+    (is (= [2.0 3.0] (vec (cx/im result))))))
+
+(deftest dfn-real-scaling
+  (let [a (cx/complex-tensor [1.0 2.0] [3.0 4.0])
+        result (cx/complex-tensor (dfn/* a 2.0))]
+    (is (= [2.0 4.0] (vec (cx/re result))))
+    (is (= [6.0 8.0] (vec (cx/im result))))))
+
+(deftest csum-test
+  (let [a (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])
+        s (cx/csum a)]
+    (is (cx/scalar? s))
+    (is (= 6.0 (cx/re s)))
+    (is (= 15.0 (cx/im s)))))
+
+(deftest dtype-ecount-test
+  (let [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
+    (is (= 6 (dtype/ecount ct)))))
+
+(deftest dtype-shape-test
+  (let [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
+    (is (= [3 2] (vec (dtype/shape ct))))))

@@ -3,7 +3,7 @@
  (:require
   [scicloj.harmonica.core :as hm]
   [scicloj.harmonica.representations :as rep]
-  [fastmath.complex :as c]
+  [scicloj.harmonica.complex :as cx]
   [fastmath.matrix :as fm]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
@@ -171,7 +171,7 @@
            [ct-idx
             (class-idx (hm/cycle-type sigma))
             chi-val
-            (c/re (nth row ct-idx))
+            (cx/re (row ct-idx))
             trace-val
             (hm/rep-character ir sigma)]
            (< (Math/abs (- chi-val trace-val)) 1.0E-8)))

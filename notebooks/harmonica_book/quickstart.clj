@@ -12,7 +12,7 @@
 (ns harmonica-book.quickstart
   (:require
    [scicloj.harmonica.core :as hm]
-   [fastmath.complex :as c]
+   [scicloj.harmonica.complex :as cx]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Create a group
@@ -52,7 +52,7 @@
 
 ;; The first row is the trivial character: all ones.
 
-(every? #(< (Math/abs (- (c/re %) 1.0)) 1e-10) ((:table ct) 0))
+(every? #(< (Math/abs (- (cx/re %) 1.0)) 1e-10) (seq ((:table ct) 0)))
 
 (kind/test-last
  [true?])
@@ -63,7 +63,7 @@
       chi-1 ((:table ct) 1)
       sizes (:class-sizes ct)
       n 24]
-  (c/abs (hm/character-inner-product chi-0 chi-1 sizes n)))
+  (cx/cabs (hm/character-inner-product chi-0 chi-1 sizes n)))
 
 (kind/test-last
  [(fn [v] (< v 1e-10))])
@@ -77,11 +77,11 @@
   [2 3 7 12 17 22 25 24 19 13 7 3
    3 4 8 13 18 23 26 25 20 14 8 4])
 
-(def f-hat (hm/fourier-transform ct (mapv #(c/complex (double %)) temperatures)))
+(def f-hat (hm/fourier-transform ct (cx/complex-tensor-real temperatures)))
 
 ;; The DC component ($k = 0$) is the sum of all values.
 
-(c/re (f-hat 0))
+(cx/re (f-hat 0))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 320.0)) 1e-10))])
@@ -89,7 +89,7 @@
 ;; Round-trip: inverse transform recovers the original signal.
 
 (every? #(< (Math/abs (double %)) 1e-10)
-        (map - (mapv c/re (hm/inverse-fourier-transform ct f-hat))
+        (map - (vec (cx/re (hm/inverse-fourier-transform ct f-hat)))
              temperatures))
 
 (kind/test-last
@@ -100,11 +100,11 @@
 ;; Convolution in the group domain equals pointwise multiplication
 ;; in the Fourier domain.
 
-(let [f (mapv #(c/complex (double %))
+(let [f (cx/complex-tensor-real
               [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
-      h (mapv #(c/complex (double %))
+      h (cx/complex-tensor-real
               [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])]
-  (mapv #(Math/round (c/re %)) (hm/convolve ct f h)))
+  (mapv #(Math/round %) (vec (cx/re (hm/convolve ct f h)))))
 
 (kind/test-last
  [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])

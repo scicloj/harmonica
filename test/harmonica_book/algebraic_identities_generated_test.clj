@@ -4,7 +4,7 @@
   [scicloj.harmonica.core :as hm]
   [scicloj.harmonica.protocols :as p]
   [scicloj.harmonica.representations :as rep]
-  [fastmath.complex :as c]
+  [scicloj.harmonica.complex :as cx]
   [fastmath.matrix :as fm]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
@@ -211,7 +211,7 @@
            [ci (nth (nth table i) k) cj (nth (nth table j) k)]
            (*
             (double sz)
-            (+ (* (c/re ci) (c/re cj)) (* (c/im ci) (c/im cj))))))
+            (+ (* (cx/re ci) (cx/re cj)) (* (cx/im ci) (cx/im cj))))))
          class-sizes))
        expected
        (if (= i j) (double order) 0.0)]
@@ -254,7 +254,7 @@
           [row]
           (let
            [ci (nth row i) cj (nth row j)]
-           (+ (* (c/re ci) (c/re cj)) (* (c/im ci) (c/im cj)))))
+           (+ (* (cx/re ci) (cx/re cj)) (* (cx/im ci) (cx/im cj)))))
          table))
        expected
        (if
@@ -281,11 +281,11 @@
       [ct
        (hm/character-table group)
        dims
-       (mapv (fn [row] (let [d (first row)] (c/re d))) (:table ct))
+       (mapv (fn [row] (let [d (first row)] (cx/re d))) (:table ct))
        dim-sq-sum
        (reduce
         +
-        (map (fn* [p1__117646#] (* p1__117646# p1__117646#)) dims))]
+        (map (fn* [p1__93703#] (* p1__93703# p1__93703#)) dims))]
       {:group label,
        :pass?
        (<
@@ -336,7 +336,7 @@
        (every?
         (fn
          [chi-val]
-         (< (c/abs (c/sub chi-val (c/complex 1.0 0.0))) 1.0E-8))
+         (< (cx/cabs (cx/csub chi-val (cx/complex 1.0 0.0))) 1.0E-8))
         trivial-row)]
       {:group label, :pass? ok?}))
     ct-groups)]
@@ -361,7 +361,7 @@
         (fn
          [row]
          (let
-          [d (c/re (first row))]
+          [d (cx/re (first row))]
           (< (Math/abs (- d (Math/round d))) 1.0E-8)))
         (:table ct))]
       {:group label, :pass? ok?}))
@@ -396,28 +396,24 @@
        ct
        (hm/character-table group)
        f-vals
-       (mapv (fn [i] (c/complex (double (inc i)) 0.0)) (range n))
+       (cx/complex-tensor-real
+        (mapv (fn [i] (double (inc i))) (range n)))
        f-hat
        (hm/fourier-transform ct f-vals)
        f-back
        (hm/inverse-fourier-transform ct f-hat)
        max-err
-       (apply
-        max
-        (map
-         (fn [orig back] (c/abs (c/sub back orig)))
-         f-vals
-         f-back))]
+       (apply max (vec (cx/cabs (cx/csub f-back f-vals))))]
       {:group label, :pass? (< max-err 1.0E-10)}))
     abelian-groups)]
   (every? :pass? results)))
 
 
-(deftest t44_l297 (is (true? v43_l283)))
+(deftest t44_l295 (is (true? v43_l283)))
 
 
 (def
- v46_l301
+ v46_l299
  (let
   [results
    (mapv
@@ -429,37 +425,38 @@
        ct
        (hm/character-table group)
        f-vals
-       (mapv
-        (fn
-         [i]
-         (c/complex (Math/sin (* 2.0 Math/PI (/ i (double n)))) 0.0))
-        (range n))
+       (cx/complex-tensor-real
+        (mapv
+         (fn [i] (Math/sin (* 2.0 Math/PI (/ i (double n)))))
+         (range n)))
        f-hat
        (hm/fourier-transform ct f-vals)
+       mag-f
+       (cx/cabs f-vals)
+       mag-fh
+       (cx/cabs f-hat)
        lhs
-       (reduce
+       (apply
         +
-        (map
-         (fn* [p1__117647#] (let [a (c/abs p1__117647#)] (* a a)))
-         f-vals))
+        (map (fn* [p1__93704#] (* p1__93704# p1__93704#)) (vec mag-f)))
        rhs
        (*
         (/ 1.0 (double n))
-        (reduce
+        (apply
          +
          (map
-          (fn* [p1__117648#] (let [a (c/abs p1__117648#)] (* a a)))
-          f-hat)))]
+          (fn* [p1__93705#] (* p1__93705# p1__93705#))
+          (vec mag-fh))))]
       {:group label, :pass? (< (Math/abs (- lhs rhs)) 1.0E-8)}))
     abelian-groups)]
   (every? :pass? results)))
 
 
-(deftest t47_l315 (is (true? v46_l301)))
+(deftest t47_l314 (is (true? v46_l299)))
 
 
 (def
- v49_l319
+ v49_l318
  (let
   [results
    (mapv
@@ -471,11 +468,11 @@
        ct
        (hm/character-table group)
        f
-       (mapv (fn [i] (c/complex (if (< i 3) 1.0 0.0) 0.0)) (range n))
+       (cx/complex-tensor-real
+        (mapv (fn [i] (if (< i 3) 1.0 0.0)) (range n)))
        g
-       (mapv
-        (fn [i] (c/complex (/ 1.0 (inc (double i))) 0.0))
-        (range n))
+       (cx/complex-tensor-real
+        (mapv (fn [i] (/ 1.0 (inc (double i)))) (range n)))
        conv
        (hm/convolve ct f g)
        f-hat
@@ -485,26 +482,19 @@
        conv-hat
        (hm/fourier-transform ct conv)
        pointwise
-       (mapv c/mult f-hat g-hat)
+       (cx/cmul f-hat g-hat)
        max-err
-       (apply
-        max
-        (map
-         (fn*
-          [p1__117649# p2__117650#]
-          (c/abs (c/sub p1__117649# p2__117650#)))
-         conv-hat
-         pointwise))]
+       (apply max (vec (cx/cabs (cx/csub conv-hat pointwise))))]
       {:group label, :pass? (< max-err 1.0E-8)}))
     abelian-groups)]
   (every? :pass? results)))
 
 
-(deftest t50_l335 (is (true? v49_l319)))
+(deftest t50_l334 (is (true? v49_l318)))
 
 
 (def
- v52_l344
+ v52_l343
  (let
   [results
    (for
@@ -549,11 +539,11 @@
   (every? identity results)))
 
 
-(deftest t53_l368 (is (true? v52_l344)))
+(deftest t53_l367 (is (true? v52_l343)))
 
 
 (def
- v55_l374
+ v55_l373
  (let
   [results
    (for
@@ -587,11 +577,11 @@
   (every? identity results)))
 
 
-(deftest t56_l393 (is (true? v55_l374)))
+(deftest t56_l392 (is (true? v55_l373)))
 
 
 (def
- v58_l399
+ v58_l398
  (let
   [results
    (for
@@ -625,7 +615,7 @@
            [ct-idx
             (class-idx (hm/cycle-type sigma))
             chi-val
-            (c/re (nth row ct-idx))
+            (cx/re (nth row ct-idx))
             trace-val
             (hm/rep-character ir sigma)]
            (< (Math/abs (- chi-val trace-val)) 1.0E-8)))
@@ -633,11 +623,11 @@
   (every? identity results)))
 
 
-(deftest t59_l419 (is (true? v58_l399)))
+(deftest t59_l418 (is (true? v58_l398)))
 
 
 (def
- v61_l425
+ v61_l424
  (let
   [results
    (for
@@ -667,11 +657,11 @@
   (every? identity results)))
 
 
-(deftest t62_l441 (is (true? v61_l425)))
+(deftest t62_l440 (is (true? v61_l424)))
 
 
 (def
- v64_l447
+ v64_l446
  (let
   [results
    (for
@@ -700,11 +690,11 @@
   (every? identity results)))
 
 
-(deftest t65_l462 (is (true? v64_l447)))
+(deftest t65_l461 (is (true? v64_l446)))
 
 
 (def
- v67_l466
+ v67_l465
  (let
   [results
    (for
@@ -723,7 +713,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__117651#] (coloring (mod (+ p1__117651# (long g)) n)))
+        (fn* [p1__93706#] (coloring (mod (+ p1__93706# (long g)) n)))
         (range n)))
       orbit-count
       (count (hm/orbits G act domain))
@@ -733,11 +723,11 @@
   (every? identity results)))
 
 
-(deftest t68_l480 (is (true? v67_l466)))
+(deftest t68_l479 (is (true? v67_l465)))
 
 
 (def
- v70_l484
+ v70_l483
  (let
   [results
    (for
@@ -762,7 +752,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__117652#] (coloring (mod (+ p1__117652# (long g)) n)))
+        (fn* [p1__93707#] (coloring (mod (+ p1__93707# (long g)) n)))
         (range n)))
       burnside
       (hm/burnside-count G act-coloring domain)]
@@ -770,11 +760,11 @@
   (every? identity results)))
 
 
-(deftest t71_l501 (is (true? v70_l484)))
+(deftest t71_l500 (is (true? v70_l483)))
 
 
 (def
- v73_l507
+ v73_l506
  (let
   [results
    (for
@@ -800,11 +790,11 @@
   (every? identity results)))
 
 
-(deftest t74_l525 (is (true? v73_l507)))
+(deftest t74_l524 (is (true? v73_l506)))
 
 
 (def
- v76_l529
+ v76_l528
  (let
   [results
    (for
@@ -814,11 +804,11 @@
   (every? identity results)))
 
 
-(deftest t77_l535 (is (true? v76_l529)))
+(deftest t77_l534 (is (true? v76_l528)))
 
 
 (def
- v79_l541
+ v79_l540
  (let
   [results
    (for
@@ -834,11 +824,11 @@
   (every? identity results)))
 
 
-(deftest t80_l550 (is (true? v79_l541)))
+(deftest t80_l549 (is (true? v79_l540)))
 
 
 (def
- v82_l554
+ v82_l553
  (let
   [results
    (for
@@ -858,11 +848,11 @@
   (every? identity results)))
 
 
-(deftest t83_l565 (is (true? v82_l554)))
+(deftest t83_l564 (is (true? v82_l553)))
 
 
 (def
- v85_l571
+ v85_l570
  (let
   [results
    (for
@@ -877,11 +867,11 @@
   (every? identity results)))
 
 
-(deftest t86_l581 (is (true? v85_l571)))
+(deftest t86_l580 (is (true? v85_l570)))
 
 
 (def
- v88_l585
+ v88_l584
  (let
   [results
    (for
@@ -898,11 +888,11 @@
   (every? identity results)))
 
 
-(deftest t89_l596 (is (true? v88_l585)))
+(deftest t89_l595 (is (true? v88_l584)))
 
 
 (def
- v91_l600
+ v91_l599
  (let
   [results
    (for
@@ -927,11 +917,11 @@
   (every? identity results)))
 
 
-(deftest t92_l617 (is (true? v91_l600)))
+(deftest t92_l616 (is (true? v91_l599)))
 
 
 (def
- v94_l623
+ v94_l622
  (let
   [results
    (for
@@ -963,11 +953,11 @@
   (every? identity results)))
 
 
-(deftest t95_l639 (is (true? v94_l623)))
+(deftest t95_l638 (is (true? v94_l622)))
 
 
 (def
- v97_l643
+ v97_l642
  (let
   [results
    (for
@@ -999,11 +989,11 @@
   (every? identity results)))
 
 
-(deftest t98_l659 (is (true? v97_l643)))
+(deftest t98_l658 (is (true? v97_l642)))
 
 
 (def
- v100_l663
+ v100_l662
  (let
   [results
    (for
@@ -1043,11 +1033,11 @@
   (every? identity results)))
 
 
-(deftest t101_l683 (is (true? v100_l663)))
+(deftest t101_l682 (is (true? v100_l662)))
 
 
 (def
- v103_l687
+ v103_l686
  (let
   [results
    (for
@@ -1067,4 +1057,4 @@
   (every? identity results)))
 
 
-(deftest t104_l699 (is (true? v103_l687)))
+(deftest t104_l698 (is (true? v103_l686)))

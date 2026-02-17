@@ -15,7 +15,8 @@
    and is designed to be extractable into a separate library."
   (:require [tech.v3.tensor :as tensor]
             [tech.v3.datatype :as dtype]
-            [tech.v3.datatype.functional :as dfn]))
+            [tech.v3.datatype.functional :as dfn]
+            [tech.v3.datatype.protocols :as dtype-proto]))
 
 ;; ---------------------------------------------------------------------------
 ;; Protocol
@@ -144,6 +145,11 @@
   clojure.lang.IFn
   (invoke [this i]
     (.nth this (int i)))
+  (applyTo [this args]
+    (let [n (clojure.lang.RT/boundedLength args 1)]
+      (case n
+        1 (.invoke this (first args))
+        (throw (clojure.lang.ArityException. n (str (class this)))))))
 
   clojure.lang.Seqable
   (seq [this]
@@ -175,14 +181,22 @@
      (complex-tensor re-data im-data) — from separate real and imaginary parts
 
    re-data and im-data can be: double arrays, seqs, dtype readers, or tensors.
-   They must have the same shape."
+   They must have the same shape.
+
+   When wrapping a 1-arg input whose last dimension is not 2 (e.g., a flat
+   reader from dfn operations on ComplexTensors), it is reshaped to [n/2 2]."
   ([tensor-or-re]
    (let [t (if (instance? ComplexTensor tensor-or-re)
              (.-tensor ^ComplexTensor tensor-or-re)
-             (tensor/ensure-tensor tensor-or-re))]
-     (assert (= 2 (last (dtype/shape t)))
-             (str "Last dimension must be 2, got shape " (vec (dtype/shape t))))
-     (->ComplexTensor t)))
+             (tensor/ensure-tensor tensor-or-re))
+         shape (vec (dtype/shape t))]
+     (if (= 2 (last shape))
+       (->ComplexTensor t)
+       ;; Flat input (e.g., from dfn ops on ComplexTensors) — reshape to [n/2, 2]
+       (let [n (long (reduce * shape))]
+         (assert (even? n)
+                 (str "Cannot interpret odd-length data as complex: " n))
+         (->ComplexTensor (tensor/reshape t [(/ n 2) 2]))))))
   ([re-data im-data]
    (let [re-t (tensor/ensure-tensor re-data)
          im-t (tensor/ensure-tensor im-data)
@@ -239,13 +253,23 @@
 ;; Complex arithmetic
 ;; ---------------------------------------------------------------------------
 
+(defn complex
+  "Create a scalar ComplexTensor from real and imaginary parts."
+  [re im]
+  (->ComplexTensor (tensor/->tensor [(double re) (double im)])))
+
 (defn cmul
   "Pointwise complex multiply: (a+bi)(c+di) = (ac-bd) + (ad+bc)i"
   [^ComplexTensor a ^ComplexTensor b]
   (let [ar (re a) ai (im a)
         br (re b) bi (im b)]
-    (complex-tensor (dfn/- (dfn/* ar br) (dfn/* ai bi))
-                    (dfn/+ (dfn/* ar bi) (dfn/* ai br)))))
+    (if (and (scalar? a) (scalar? b))
+      (let [ar (double ar) ai (double ai)
+            br (double br) bi (double bi)]
+        (complex (- (* ar br) (* ai bi))
+                 (+ (* ar bi) (* ai br))))
+      (complex-tensor (dfn/- (dfn/* ar br) (dfn/* ai bi))
+                      (dfn/+ (dfn/* ar bi) (dfn/* ai br))))))
 
 (defn cconj
   "Complex conjugate: negate imaginary part."
@@ -282,3 +306,47 @@
         br (re b) bi (im b)]
     [(+ (dfn/sum (dfn/* ar br)) (dfn/sum (dfn/* ai bi)))
      (- (dfn/sum (dfn/* ai br)) (dfn/sum (dfn/* ar bi)))]))
+
+(defn cadd
+  "Pointwise complex addition."
+  [^ComplexTensor a ^ComplexTensor b]
+  (if (and (scalar? a) (scalar? b))
+    (complex (+ (double (re a)) (double (re b)))
+             (+ (double (im a)) (double (im b))))
+    (complex-tensor (dfn/+ (re a) (re b))
+                    (dfn/+ (im a) (im b)))))
+
+(defn csub
+  "Pointwise complex subtraction."
+  [^ComplexTensor a ^ComplexTensor b]
+  (if (and (scalar? a) (scalar? b))
+    (complex (- (double (re a)) (double (re b)))
+             (- (double (im a)) (double (im b))))
+    (complex-tensor (dfn/- (re a) (re b))
+                    (dfn/- (im a) (im b)))))
+
+(defn csum
+  "Complex-aware summation. Returns a scalar ComplexTensor."
+  [^ComplexTensor ct]
+  (complex (dfn/sum (re ct)) (dfn/sum (im ct))))
+
+;; ---------------------------------------------------------------------------
+;; dtype-next protocol extensions
+;; ---------------------------------------------------------------------------
+;; Exposing the interleaved tensor as a dtype-next reader allows dfn/+, dfn/-
+;; to work directly on ComplexTensors. Note that dfn/* on two ComplexTensors
+;; does element-wise (not complex) multiply — use cmul for that.
+
+(extend-type ComplexTensor
+  dtype-proto/PElemwiseDatatype
+  (elemwise-datatype [ct] :float64)
+
+  dtype-proto/PECount
+  (ecount [ct] (dtype/ecount (->tensor ct)))
+
+  dtype-proto/PShape
+  (shape [ct] (dtype/shape (->tensor ct)))
+
+  dtype-proto/PToReader
+  (convertible-to-reader? [ct] true)
+  (->reader [ct] (dtype/->reader (->tensor ct))))

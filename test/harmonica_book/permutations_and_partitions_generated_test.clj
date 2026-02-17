@@ -351,7 +351,7 @@
       sum-sq
       (reduce
        +
-       (map (fn* [p1__113696#] (* p1__113696# p1__113696#)) dims))]
+       (map (fn* [p1__72918#] (* p1__72918# p1__72918#)) dims))]
      (= sum-sq (factorial n))))]
   (every? true? results)))
 

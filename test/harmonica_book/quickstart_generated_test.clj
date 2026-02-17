@@ -2,7 +2,7 @@
  harmonica-book.quickstart-generated-test
  (:require
   [scicloj.harmonica.core :as hm]
-  [fastmath.complex :as c]
+  [scicloj.harmonica.complex :as cx]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
@@ -40,8 +40,8 @@
 (def
  v16_l55
  (every?
-  (fn* [p1__113299#] (< (Math/abs (- (c/re p1__113299#) 1.0)) 1.0E-10))
-  ((:table ct) 0)))
+  (fn* [p1__90258#] (< (Math/abs (- (cx/re p1__90258#) 1.0)) 1.0E-10))
+  (seq ((:table ct) 0))))
 
 
 (deftest t17_l57 (is (true? v16_l55)))
@@ -58,7 +58,7 @@
    (:class-sizes ct)
    n
    24]
-  (c/abs (hm/character-inner-product chi-0 chi-1 sizes n))))
+  (cx/cabs (hm/character-inner-product chi-0 chi-1 sizes n))))
 
 
 (deftest t20_l68 (is ((fn [v] (< v 1.0E-10)) v19_l62)))
@@ -75,14 +75,10 @@
  v23_l80
  (def
   f-hat
-  (hm/fourier-transform
-   ct
-   (mapv
-    (fn* [p1__113300#] (c/complex (double p1__113300#)))
-    temperatures))))
+  (hm/fourier-transform ct (cx/complex-tensor-real temperatures))))
 
 
-(def v25_l84 (c/re (f-hat 0)))
+(def v25_l84 (cx/re (f-hat 0)))
 
 
 (deftest
@@ -93,10 +89,10 @@
 (def
  v28_l91
  (every?
-  (fn* [p1__113301#] (< (Math/abs (double p1__113301#)) 1.0E-10))
+  (fn* [p1__90259#] (< (Math/abs (double p1__90259#)) 1.0E-10))
   (map
    -
-   (mapv c/re (hm/inverse-fourier-transform ct f-hat))
+   (vec (cx/re (hm/inverse-fourier-transform ct f-hat)))
    temperatures)))
 
 
@@ -107,16 +103,14 @@
  v31_l103
  (let
   [f
-   (mapv
-    (fn* [p1__113302#] (c/complex (double p1__113302#)))
+   (cx/complex-tensor-real
     [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])
    h
-   (mapv
-    (fn* [p1__113303#] (c/complex (double p1__113303#)))
+   (cx/complex-tensor-real
     [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])]
   (mapv
-   (fn* [p1__113304#] (Math/round (c/re p1__113304#)))
-   (hm/convolve ct f h))))
+   (fn* [p1__90260#] (Math/round p1__90260#))
+   (vec (cx/re (hm/convolve ct f h))))))
 
 
 (deftest

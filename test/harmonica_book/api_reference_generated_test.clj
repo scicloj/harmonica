@@ -2,10 +2,10 @@
  harmonica-book.api-reference-generated-test
  (:require
   [scicloj.harmonica.core :as hm]
-  [scicloj.harmonica.representations :as rep]
-  [fastmath.complex :as c]
-  [fastmath.matrix :as fm]
   [scicloj.harmonica.complex :as cx]
+  [scicloj.harmonica.protocols :as p]
+  [scicloj.harmonica.representations :as rep]
+  [fastmath.matrix :as fm]
   [tech.v3.tensor :as tensor]
   [tech.v3.datatype :as dtype]
   [scicloj.kindly.v4.kind :as kind]
@@ -261,7 +261,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__119129#] (long (Math/round (c/re p1__119129#))))
+      (fn* [p1__94919#] (long (Math/round (cx/re p1__94919#))))
       row))
     (:table ct))]
   re-table))
@@ -282,7 +282,7 @@
    ct
    order
    (hm/order (:group ct))]
-  (c/re
+  (cx/re
    (hm/character-inner-product
     (nth table 0)
     (nth table 1)
@@ -518,7 +518,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__119130#] (coloring (mod (+ p1__119130# (long g)) 4)))
+     (fn* [p1__94920#] (coloring (mod (+ p1__94920# (long g)) 4)))
      (range 4)))
    domain
    [[0 0 0 0]
@@ -604,9 +604,7 @@
   [ct
    (hm/character-table (hm/cyclic-group 4))
    f
-   (mapv
-    (fn* [p1__119131#] (c/complex (double p1__119131#) 0.0))
-    [1 0 0 0])
+   (cx/complex-tensor-real [1 0 0 0])
    fhat
    (hm/fourier-transform ct f)]
   (count fhat)))
@@ -619,31 +617,23 @@
 
 
 (def
- v160_l384
+ v160_l383
  (let
   [ct
    (hm/character-table (hm/cyclic-group 4))
    f
-   (mapv
-    (fn* [p1__119132#] (c/complex (double p1__119132#) 0.0))
-    [1 2 3 4])
+   (cx/complex-tensor-real [1 2 3 4])
    fhat
    (hm/fourier-transform ct f)
    f-back
    (hm/inverse-fourier-transform ct fhat)
    max-err
-   (apply
-    max
-    (map
-     (fn*
-      [p1__119133# p2__119134#]
-      (c/abs (c/sub p1__119133# p2__119134#)))
-     f
-     f-back))]
+   (apply max (vec (cx/cabs (cx/csub f-back f))))]
+  (< max-err 1.0E-10)
   (< max-err 1.0E-10)))
 
 
-(deftest t161_l391 (is (true? v160_l384)))
+(deftest t161_l391 (is (true? v160_l383)))
 
 
 (def v162_l393 (kind/doc #'hm/convolve))
@@ -655,173 +645,169 @@
   [ct
    (hm/character-table (hm/cyclic-group 4))
    f
-   (mapv
-    (fn* [p1__119135#] (c/complex (double p1__119135#) 0.0))
-    [1 0 0 0])
+   (cx/complex-tensor-real [1 0 0 0])
    g
-   (mapv
-    (fn* [p1__119136#] (c/complex (double p1__119136#) 0.0))
-    [0 1 0 0])
+   (cx/complex-tensor-real [0 1 0 0])
    conv
    (hm/convolve ct f g)]
-  (long (Math/round (c/re (nth conv 1))))))
+  (long (Math/round (cx/re (conv 1))))))
 
 
-(deftest t164_l401 (is (= v163_l395 1)))
+(deftest t164_l400 (is (= v163_l395 1)))
 
 
-(def v165_l403 (kind/doc #'hm/total-variation-distance))
+(def v165_l402 (kind/doc #'hm/total-variation-distance))
 
 
 (def
- v166_l405
+ v166_l404
  (hm/total-variation-distance [0.5 0.5 0.0 0.0] [0.25 0.25 0.25 0.25]))
 
 
 (deftest
- t167_l407
- (is ((fn [v] (< (Math/abs (- v 0.5)) 1.0E-10)) v166_l405)))
+ t167_l406
+ (is ((fn [v] (< (Math/abs (- v 0.5)) 1.0E-10)) v166_l404)))
 
 
-(def v169_l412 (kind/doc #'hm/young-diagram-svg))
+(def v169_l410 (kind/doc #'hm/young-diagram-svg))
 
 
-(def v170_l414 (kind/hiccup (hm/young-diagram-svg [4 2 1])))
+(def v170_l412 (kind/hiccup (hm/young-diagram-svg [4 2 1])))
 
 
-(def v171_l416 (kind/doc #'hm/young-hooks-svg))
+(def v171_l414 (kind/doc #'hm/young-hooks-svg))
 
 
-(def v172_l418 (kind/hiccup (hm/young-hooks-svg [4 2 1])))
+(def v172_l416 (kind/hiccup (hm/young-hooks-svg [4 2 1])))
 
 
-(def v173_l420 (kind/doc #'hm/syt-svg))
+(def v173_l418 (kind/doc #'hm/syt-svg))
 
 
-(def v174_l422 (kind/hiccup (hm/syt-svg [[1 2 3 4] [5 6] [7]])))
+(def v174_l420 (kind/hiccup (hm/syt-svg [[1 2 3 4] [5 6] [7]])))
 
 
-(def v175_l424 (kind/doc #'hm/cycle-diagram-svg))
+(def v175_l422 (kind/doc #'hm/cycle-diagram-svg))
 
 
-(def v176_l426 (kind/hiccup (hm/cycle-diagram-svg [1 2 3 0])))
+(def v176_l424 (kind/hiccup (hm/cycle-diagram-svg [1 2 3 0])))
 
 
-(def v177_l428 (kind/doc #'hm/cayley-table-svg))
+(def v177_l426 (kind/doc #'hm/cayley-table-svg))
 
 
-(def v178_l430 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4))))
+(def v178_l428 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4))))
 
 
-(def v180_l441 (kind/doc #'cx/complex-tensor))
+(def v180_l438 (kind/doc #'cx/complex-tensor))
 
 
-(def v181_l443 (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0]))
+(def v181_l440 (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0]))
 
 
 (deftest
- t182_l445
- (is ((fn [v] (= [3] (cx/complex-shape v))) v181_l443)))
+ t182_l442
+ (is ((fn [v] (= [3] (cx/complex-shape v))) v181_l440)))
 
 
 (def
- v183_l447
+ v183_l444
  (cx/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]])))
 
 
 (deftest
- t184_l449
- (is ((fn [v] (= [2] (cx/complex-shape v))) v183_l447)))
+ t184_l446
+ (is ((fn [v] (= [2] (cx/complex-shape v))) v183_l444)))
 
 
-(def v185_l451 (kind/doc #'cx/complex-tensor-real))
+(def v185_l448 (kind/doc #'cx/complex-tensor-real))
 
 
-(def v186_l453 (cx/complex-tensor-real [5.0 6.0 7.0]))
+(def v186_l450 (cx/complex-tensor-real [5.0 6.0 7.0]))
 
 
 (deftest
- t187_l455
- (is ((fn [v] (= [0.0 0.0 0.0] (vec (cx/im v)))) v186_l453)))
+ t187_l452
+ (is ((fn [v] (= [0.0 0.0 0.0] (vec (cx/im v)))) v186_l450)))
 
 
-(def v189_l459 (kind/doc #'cx/re))
+(def v189_l456 (kind/doc #'cx/re))
 
 
-(def v190_l461 (vec (cx/re (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
+(def v190_l458 (vec (cx/re (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
 
 
-(deftest t191_l463 (is (= v190_l461 [1.0 2.0])))
+(deftest t191_l460 (is (= v190_l458 [1.0 2.0])))
 
 
-(def v192_l465 (kind/doc #'cx/im))
+(def v192_l462 (kind/doc #'cx/im))
 
 
-(def v193_l467 (vec (cx/im (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
+(def v193_l464 (vec (cx/im (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
 
 
-(deftest t194_l469 (is (= v193_l467 [3.0 4.0])))
+(deftest t194_l466 (is (= v193_l464 [3.0 4.0])))
 
 
-(def v196_l473 (kind/doc #'cx/complex-shape))
+(def v196_l470 (kind/doc #'cx/complex-shape))
 
 
 (def
- v197_l475
+ v197_l472
  (cx/complex-shape
   (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])))
 
 
-(deftest t198_l478 (is (= v197_l475 [2 2])))
+(deftest t198_l475 (is (= v197_l472 [2 2])))
 
 
-(def v199_l480 (kind/doc #'cx/scalar?))
+(def v199_l477 (kind/doc #'cx/scalar?))
 
 
 (def
- v200_l482
+ v200_l479
  (cx/scalar? (cx/complex-tensor (tensor/->tensor [3.0 4.0]))))
 
 
-(deftest t201_l484 (is (true? v200_l482)))
+(deftest t201_l481 (is (true? v200_l479)))
 
 
-(def v202_l486 (cx/scalar? (cx/complex-tensor [1.0 2.0] [3.0 4.0])))
+(def v202_l483 (cx/scalar? (cx/complex-tensor [1.0 2.0] [3.0 4.0])))
 
 
-(deftest t203_l488 (is ((fn [v] (not v)) v202_l486)))
+(deftest t203_l485 (is ((fn [v] (not v)) v202_l483)))
 
 
-(def v204_l490 (kind/doc #'cx/->tensor))
+(def v204_l487 (kind/doc #'cx/->tensor))
 
 
 (def
- v205_l492
+ v205_l489
  (vec
   (dtype/shape (cx/->tensor (cx/complex-tensor [1.0 2.0] [3.0 4.0])))))
 
 
-(deftest t206_l494 (is (= v205_l492 [2 2])))
+(deftest t206_l491 (is (= v205_l489 [2 2])))
 
 
-(def v207_l496 (kind/doc #'cx/->double-array))
+(def v207_l493 (kind/doc #'cx/->double-array))
 
 
 (def
- v208_l498
+ v208_l495
  (let
   [ct (cx/complex-tensor [1.0 2.0] [3.0 4.0])]
   (identical? (cx/->double-array ct) (cx/->double-array ct))))
 
 
-(deftest t209_l501 (is (true? v208_l498)))
+(deftest t209_l498 (is (true? v208_l495)))
 
 
-(def v211_l505 (kind/doc #'cx/cmul))
+(def v211_l502 (kind/doc #'cx/cmul))
 
 
 (def
- v213_l509
+ v213_l506
  (let
   [a
    (cx/complex-tensor [1.0] [3.0])
@@ -832,53 +818,53 @@
   [(cx/re (c 0)) (cx/im (c 0))]))
 
 
-(deftest t214_l514 (is (= v213_l509 [-16.0 22.0])))
+(deftest t214_l511 (is (= v213_l506 [-16.0 22.0])))
 
 
-(def v215_l516 (kind/doc #'cx/cconj))
+(def v215_l513 (kind/doc #'cx/cconj))
 
 
 (def
- v216_l518
+ v216_l515
  (let
   [ct (cx/cconj (cx/complex-tensor [1.0 2.0] [3.0 -4.0]))]
   (vec (cx/im ct))))
 
 
-(deftest t217_l521 (is (= v216_l518 [-3.0 4.0])))
+(deftest t217_l518 (is (= v216_l515 [-3.0 4.0])))
 
 
-(def v218_l523 (kind/doc #'cx/cscale))
+(def v218_l520 (kind/doc #'cx/cscale))
 
 
 (def
- v219_l525
+ v219_l522
  (let
   [ct (cx/cscale (cx/complex-tensor [1.0 2.0] [3.0 4.0]) 2.0)]
   [(vec (cx/re ct)) (vec (cx/im ct))]))
 
 
-(deftest t220_l528 (is (= v219_l525 [[2.0 4.0] [6.0 8.0]])))
+(deftest t220_l525 (is (= v219_l522 [[2.0 4.0] [6.0 8.0]])))
 
 
-(def v221_l530 (kind/doc #'cx/cabs))
+(def v221_l527 (kind/doc #'cx/cabs))
 
 
 (def
- v223_l534
+ v223_l531
  (let
   [m (cx/cabs (cx/complex-tensor [3.0] [4.0]))]
   (< (Math/abs (- (double (m 0)) 5.0)) 1.0E-10)))
 
 
-(deftest t224_l537 (is (true? v223_l534)))
+(deftest t224_l534 (is (true? v223_l531)))
 
 
-(def v226_l541 (kind/doc #'cx/cdot))
+(def v226_l538 (kind/doc #'cx/cdot))
 
 
 (def
- v228_l545
+ v228_l542
  (let
   [a
    (cx/complex-tensor [1.0 0.0] [0.0 1.0])
@@ -889,14 +875,14 @@
   (and (< (Math/abs re) 1.0E-10) (< (Math/abs (- im 2.0)) 1.0E-10))))
 
 
-(deftest t229_l551 (is (true? v228_l545)))
+(deftest t229_l548 (is (true? v228_l542)))
 
 
-(def v230_l553 (kind/doc #'cx/cdot-conj))
+(def v230_l550 (kind/doc #'cx/cdot-conj))
 
 
 (def
- v232_l557
+ v232_l554
  (let
   [a
    (cx/complex-tensor [3.0 1.0] [4.0 2.0])
@@ -905,14 +891,14 @@
   (and (< (Math/abs (- re 30.0)) 1.0E-10) (< (Math/abs im) 1.0E-10))))
 
 
-(deftest t233_l562 (is (true? v232_l557)))
+(deftest t233_l559 (is (true? v232_l554)))
 
 
 (def
- v235_l566
+ v235_l563
  (let
   [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
   [(count ct) (cx/scalar? (ct 0)) (cx/re (ct 1))]))
 
 
-(deftest t236_l569 (is (= v235_l566 [3 true 2.0])))
+(deftest t236_l566 (is (= v235_l563 [3 true 2.0])))

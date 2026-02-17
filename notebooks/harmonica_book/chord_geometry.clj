@@ -12,7 +12,7 @@
   (:require
    [scicloj.harmonica.core :as hm]
    [scicloj.harmonica.protocols :as p]
-   [fastmath.complex :as c]
+   [scicloj.harmonica.complex :as cx]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -260,13 +260,13 @@
 (let [G (hm/cyclic-group 12)
       ct (hm/character-table G)
       ;; C major = {0, 4, 7}
-      f-vals (mapv (fn [x] (c/complex (if (#{0 4 7} x) 1.0 0.0) 0.0)) (range 12))
+      f-vals (cx/complex-tensor-real (mapv (fn [x] (if (#{0 4 7} x) 1.0 0.0)) (range 12)))
       f-hat (hm/fourier-transform ct f-vals)]
   (kind/table
    {:column-names ["Frequency $k$" "$|\\hat{f}(k)|^2$"]
     :row-vectors (mapv (fn [k]
                          (let [fk (f-hat k)
-                               mag-sq (+ (* (fk 0) (fk 0)) (* (fk 1) (fk 1)))]
+                               mag-sq (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i)))]
                            [k (format "%.4f" mag-sq)]))
                        (range 12))}))
 
@@ -282,11 +282,11 @@
       ct (hm/character-table G)
       chord-a [0 4 7]
       chord-b [6 10 1]
-      f-a (mapv (fn [x] (c/complex (if ((set chord-a) x) 1.0 0.0) 0.0)) (range 12))
-      f-b (mapv (fn [x] (c/complex (if ((set chord-b) x) 1.0 0.0) 0.0)) (range 12))
+      f-a (cx/complex-tensor-real (mapv (fn [x] (if ((set chord-a) x) 1.0 0.0)) (range 12)))
+      f-b (cx/complex-tensor-real (mapv (fn [x] (if ((set chord-b) x) 1.0 0.0)) (range 12)))
       hat-a (hm/fourier-transform ct f-a)
       hat-b (hm/fourier-transform ct f-b)
-      mag-sq (fn [fk] (+ (* (fk 0) (fk 0)) (* (fk 1) (fk 1))))]
+      mag-sq (fn [fk] (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i))))]
   (every? (fn [k]
             (< (Math/abs (- (mag-sq (hat-a k)) (mag-sq (hat-b k)))) 1e-10))
           (range 12)))
