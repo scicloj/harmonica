@@ -65,7 +65,7 @@
 (def
  v22_l114
  (every?
-  (fn* [p1__68392#] (< (Math/abs (- (c/re p1__68392#) 1.0)) 1.0E-10))
+  (fn* [p1__113369#] (< (Math/abs (- (c/re p1__113369#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
@@ -100,7 +100,7 @@
  (def
   signal
   (mapv
-   (fn* [p1__68393#] (c/complex (double p1__68393#)))
+   (fn* [p1__113370#] (c/complex (double p1__113370#)))
    temperatures)))
 
 
@@ -214,7 +214,7 @@
  (def
   f-fn
   (mapv
-   (fn* [p1__68394#] (c/complex (double p1__68394#)))
+   (fn* [p1__113371#] (c/complex (double p1__113371#)))
    [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])))
 
 
@@ -223,7 +223,7 @@
  (def
   h-fn
   (mapv
-   (fn* [p1__68395#] (c/complex (double p1__68395#)))
+   (fn* [p1__113372#] (c/complex (double p1__113372#)))
    [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
@@ -232,7 +232,7 @@
 
 (def
  v51_l292
- (mapv (fn* [p1__68396#] (Math/round (c/re p1__68396#))) convolved))
+ (mapv (fn* [p1__113373#] (Math/round (c/re p1__113373#))) convolved))
 
 
 (deftest
@@ -269,14 +269,14 @@
    (reduce
     +
     (map
-     (fn* [p1__68397#] (let [m (c/abs p1__68397#)] (* m m)))
+     (fn* [p1__113374#] (let [m (c/abs p1__113374#)] (* m m)))
      signal))
    energy-freq
    (/
     (reduce
      +
      (map
-      (fn* [p1__68398#] (let [m (c/abs p1__68398#)] (* m m)))
+      (fn* [p1__113375#] (let [m (c/abs p1__113375#)] (* m m)))
       f-hat))
     (double (hm/order G)))]
   (< (Math/abs (- energy-time energy-freq)) 1.0E-8)))
@@ -344,12 +344,16 @@
   [group-conv
    (let
     [f
-     (mapv (fn* [p1__68399#] (c/complex (double p1__68399#))) f-real)
+     (mapv (fn* [p1__113376#] (c/complex (double p1__113376#))) f-real)
      h
-     (mapv (fn* [p1__68400#] (c/complex (double p1__68400#))) h-real)]
-    (mapv (fn* [p1__68401#] (c/re p1__68401#)) (hm/convolve ct f h)))]
+     (mapv
+      (fn* [p1__113377#] (c/complex (double p1__113377#)))
+      h-real)]
+    (mapv
+     (fn* [p1__113378#] (c/re p1__113378#))
+     (hm/convolve ct f h)))]
   (every?
-   (fn* [p1__68402#] (< (Math/abs (double p1__68402#)) 1.0E-10))
+   (fn* [p1__113379#] (< (Math/abs (double p1__113379#)) 1.0E-10))
    (map - cyclic-from-linear group-conv))))
 
 

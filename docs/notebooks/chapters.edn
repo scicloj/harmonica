@@ -5,7 +5,8 @@
                 "groups_and_structure"
                 "character_theory"
                 "representation_matrices"
-                "group_actions"]
+                "group_actions"
+                "complex_tensors"]
  "Applications" ["random_transpositions"
                  "riffle_shuffle"
                  "counting_necklaces"

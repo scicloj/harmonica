@@ -31,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__103914#] (Math/cos p1__103914#)) angles)
+    (mapv (fn* [p1__117102#] (Math/cos p1__117102#)) angles)
     ys
-    (mapv (fn* [p1__103915#] (Math/sin p1__103915#)) angles)
+    (mapv (fn* [p1__117103#] (Math/sin p1__117103#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -87,7 +87,7 @@
       [transposed
        (sort
         (mapv
-         (fn* [p1__103916#] (mod (+ p1__103916# (long k)) 12))
+         (fn* [p1__117104#] (mod (+ p1__117104# (long k)) 12))
          c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
@@ -219,7 +219,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__103917#] (contains? p1__103917# rep)) orbs-d)))
+     (filter (fn* [p1__117105#] (contains? p1__117105# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -253,13 +253,13 @@
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__103918#] (first (sort p1__103918#))) orbs)
+   (mapv (fn* [p1__117106#] (first (sort p1__117106#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
   (every?
-   (fn* [p1__103919#] (= 1 (count (val p1__103919#))))
+   (fn* [p1__117107#] (= 1 (count (val p1__117107#))))
    iv-groups)))
 
 

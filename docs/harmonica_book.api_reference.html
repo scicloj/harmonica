@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>18&nbsp; API Reference – reel</title>
+<title>19&nbsp; API Reference – harmonica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./reel_book.sympy_comparison.html" rel="prev">
+<link href="./harmonica_book.sympy_comparison.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -117,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./reel_book.api_reference.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./harmonica_book.api_reference.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="./index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">reel</a> 
+      <a href="./">harmonica</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -161,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.quickstart.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.quickstart.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quickstart</span></span></a>
   </div>
 </li>
@@ -178,44 +207,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.dft_as_group_fourier.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.dft_as_group_fourier.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The DFT as Fourier Transform on a Group</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.symmetric_groups.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.symmetric_groups.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.permutations_and_partitions.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.permutations_and_partitions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Permutations and Partitions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.groups_and_structure.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.groups_and_structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Groups and Structure</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.character_theory.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.character_theory.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Character Theory</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.representation_matrices.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.representation_matrices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Representation Matrices</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.group_actions.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.group_actions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Group Actions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
   </div>
 </li>
       </ul>
@@ -231,38 +266,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.random_transpositions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span></a>
+  <a href="./harmonica_book.random_transpositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.riffle_shuffle.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span></a>
+  <a href="./harmonica_book.riffle_shuffle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+  <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+  <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+  <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+  <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -278,20 +313,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+  <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./reel_book.api_reference.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+  <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -382,16 +417,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#convolve" id="toc-convolve" class="nav-link" data-scroll-target="#convolve"><code>convolve</code></a></li>
   <li><a href="#total-variation-distance" id="toc-total-variation-distance" class="nav-link" data-scroll-target="#total-variation-distance"><code>total-variation-distance</code></a></li>
   </ul></li>
-  <li><a href="#svg-visualizations" id="toc-svg-visualizations" class="nav-link" data-scroll-target="#svg-visualizations">SVG Visualizations</a></li>
+  <li><a href="#svg-visualizations" id="toc-svg-visualizations" class="nav-link" data-scroll-target="#svg-visualizations">SVG Visualizations</a>
+  <ul>
+  <li><a href="#young-diagram-svg" id="toc-young-diagram-svg" class="nav-link" data-scroll-target="#young-diagram-svg"><code>young-diagram-svg</code></a></li>
+  <li><a href="#young-hooks-svg" id="toc-young-hooks-svg" class="nav-link" data-scroll-target="#young-hooks-svg"><code>young-hooks-svg</code></a></li>
+  <li><a href="#syt-svg" id="toc-syt-svg" class="nav-link" data-scroll-target="#syt-svg"><code>syt-svg</code></a></li>
+  <li><a href="#cycle-diagram-svg" id="toc-cycle-diagram-svg" class="nav-link" data-scroll-target="#cycle-diagram-svg"><code>cycle-diagram-svg</code></a></li>
+  <li><a href="#cayley-table-svg" id="toc-cayley-table-svg" class="nav-link" data-scroll-target="#cayley-table-svg"><code>cayley-table-svg</code></a></li>
+  </ul></li>
+  <li><a href="#complex-tensors" id="toc-complex-tensors" class="nav-link" data-scroll-target="#complex-tensors">Complex Tensors</a>
+  <ul>
+  <li><a href="#constructors" id="toc-constructors" class="nav-link" data-scroll-target="#constructors">Constructors</a></li>
+  <li><a href="#complex-tensor" id="toc-complex-tensor" class="nav-link" data-scroll-target="#complex-tensor"><code>complex-tensor</code></a></li>
+  <li><a href="#complex-tensor-real" id="toc-complex-tensor-real" class="nav-link" data-scroll-target="#complex-tensor-real"><code>complex-tensor-real</code></a></li>
+  <li><a href="#real-and-imaginary-parts" id="toc-real-and-imaginary-parts" class="nav-link" data-scroll-target="#real-and-imaginary-parts">Real and imaginary parts</a></li>
+  <li><a href="#re" id="toc-re" class="nav-link" data-scroll-target="#re"><code>re</code></a></li>
+  <li><a href="#im" id="toc-im" class="nav-link" data-scroll-target="#im"><code>im</code></a></li>
+  <li><a href="#accessors" id="toc-accessors" class="nav-link" data-scroll-target="#accessors">Accessors</a></li>
+  <li><a href="#complex-shape" id="toc-complex-shape" class="nav-link" data-scroll-target="#complex-shape"><code>complex-shape</code></a></li>
+  <li><a href="#scalar" id="toc-scalar" class="nav-link" data-scroll-target="#scalar"><code>scalar?</code></a></li>
+  <li><a href="#tensor" id="toc-tensor" class="nav-link" data-scroll-target="#tensor"><code>-&gt;tensor</code></a></li>
+  <li><a href="#double-array" id="toc-double-array" class="nav-link" data-scroll-target="#double-array"><code>-&gt;double-array</code></a></li>
+  <li><a href="#arithmetic" id="toc-arithmetic" class="nav-link" data-scroll-target="#arithmetic">Arithmetic</a></li>
+  <li><a href="#cmul" id="toc-cmul" class="nav-link" data-scroll-target="#cmul"><code>cmul</code></a></li>
+  <li><a href="#cconj" id="toc-cconj" class="nav-link" data-scroll-target="#cconj"><code>cconj</code></a></li>
+  <li><a href="#cscale" id="toc-cscale" class="nav-link" data-scroll-target="#cscale"><code>cscale</code></a></li>
+  <li><a href="#cabs" id="toc-cabs" class="nav-link" data-scroll-target="#cabs"><code>cabs</code></a></li>
+  <li><a href="#inner-products" id="toc-inner-products" class="nav-link" data-scroll-target="#inner-products">Inner products</a></li>
+  <li><a href="#cdot" id="toc-cdot" class="nav-link" data-scroll-target="#cdot"><code>cdot</code></a></li>
+  <li><a href="#cdot-conj" id="toc-cdot-conj" class="nav-link" data-scroll-target="#cdot-conj"><code>cdot-conj</code></a></li>
+  <li><a href="#element-access" id="toc-element-access" class="nav-link" data-scroll-target="#element-access">Element access</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reel_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./reel_book.api_reference.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.algebraic_identities.html">Reference</a></li><li class="breadcrumb-item"><a href="./harmonica_book.api_reference.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">API Reference</span></h1>
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></h1>
 </div>
 
 
@@ -420,14 +485,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<p>Complete reference for <code>scicloj.reel.core</code> — the public API for computational group theory and representation theory.</p>
+<p>Complete reference for <code>scicloj.harmonica.core</code> — the public API for computational group theory and representation theory.</p>
 <section id="group-constructors" class="level2">
 <h2 class="anchored" data-anchor-id="group-constructors">Group Constructors</h2>
 <section id="cyclic-group" class="level3">
 <h3 class="anchored" data-anchor-id="cyclic-group"><code>cyclic-group</code></h3>
 <p>Create the cyclic group Z/nZ of order n. Elements are integers 0, 1, …, n-1. The group operation is addition mod n.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(reel/cyclic-group <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(hm/cyclic-group <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:n</span> <span class="dv">5</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -437,7 +502,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="symmetric-group"><code>symmetric-group</code></h3>
 <p>Create the symmetric group S_n — all permutations of {0, …, n-1}. Elements are 0-indexed one-line notation vectors. The group operation is composition (right-to-left).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(reel/symmetric-group <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(hm/symmetric-group <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:n</span> <span class="dv">3</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -447,7 +512,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="dihedral-group"><code>dihedral-group</code></h3>
 <p>Create the dihedral group D_n — symmetries of a regular n-gon. Order 2n. Elements are [:r k] (rotations) and [:s k] (reflections).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(reel/dihedral-group <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(hm/dihedral-group <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:n</span> <span class="dv">4</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -457,7 +522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="product-group"><code>product-group</code></h3>
 <p>Create the direct product G₁ × G₂ of two finite groups. Elements are pairs [g h].</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(reel/product-group (reel/cyclic-group <span class="dv">2</span>) (reel/cyclic-group <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(hm/product-group (hm/cyclic-group <span class="dv">2</span>) (hm/cyclic-group <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:G1</span> {<span class="at">:n</span> <span class="dv">2</span>}, <span class="at">:G2</span> {<span class="at">:n</span> <span class="dv">3</span>}}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -470,13 +535,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="op"><code>op</code></h3>
 <p>Group operation: combine two elements.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(reel/op (reel/cyclic-group <span class="dv">7</span>) <span class="dv">3</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(hm/op (hm/cyclic-group <span class="dv">7</span>) <span class="dv">3</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(reel/op (reel/symmetric-group <span class="dv">3</span>) [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(hm/op (hm/symmetric-group <span class="dv">3</span>) [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -486,13 +551,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="inv"><code>inv</code></h3>
 <p>Group inverse of an element.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(reel/inv (reel/cyclic-group <span class="dv">7</span>) <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(hm/inv (hm/cyclic-group <span class="dv">7</span>) <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(reel/inv (reel/symmetric-group <span class="dv">3</span>) [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(hm/inv (hm/symmetric-group <span class="dv">3</span>) [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -502,19 +567,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="id"><code>id</code></h3>
 <p>The identity element of a group.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(reel/id (reel/cyclic-group <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(hm/id (hm/cyclic-group <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(reel/id (reel/symmetric-group <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(hm/id (hm/symmetric-group <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(reel/id (reel/dihedral-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(hm/id (hm/dihedral-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>[<span class="at">:r</span> <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -524,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="elements"><code>elements</code></h3>
 <p>Sequence of all elements of a finite group.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (reel/elements (reel/cyclic-group <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (hm/elements (hm/cyclic-group <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -534,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="order"><code>order</code></h3>
 <p>Number of elements in a finite group.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(reel/order (reel/symmetric-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(hm/order (hm/symmetric-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dv">24</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -544,7 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="conjugacy-classes"><code>conjugacy-classes</code></h3>
 <p>Conjugacy classes of a finite group.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [classes (reel/conjugacy-classes (reel/symmetric-group <span class="dv">3</span>))]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [classes (hm/conjugacy-classes (hm/symmetric-group <span class="dv">3</span>))]</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">mapv</span> <span class="at">:size</span> classes))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -558,13 +623,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="cycles"><code>cycles</code></h3>
 <p>Cycle decomposition of a permutation. Returns a vector of cycles (each a vector), omitting fixed points.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(reel/cycles [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(reel/cycles [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">0</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">3</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -574,7 +639,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="cycle-type"><code>cycle-type</code></h3>
 <p>The cycle type of a permutation as a partition (descending sorted). Includes 1-cycles (fixed points).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(reel/cycle-type [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(hm/cycle-type [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -584,13 +649,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="sign"><code>sign</code></h3>
 <p>The sign of a permutation: +1 for even, -1 for odd.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(reel/sign [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(hm/sign [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(reel/sign [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(hm/sign [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -600,7 +665,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="identity-perm"><code>identity-perm</code></h3>
 <p>The identity permutation of size n: [0 1 2 … n-1].</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(reel/identity-perm <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(hm/identity-perm <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -610,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="transposition"><code>transposition</code></h3>
 <p>Create a transposition permutation that swaps positions i and j. (transposition n i j) returns a permutation of size n.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(reel/transposition <span class="dv">5</span> <span class="dv">1</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(hm/transposition <span class="dv">5</span> <span class="dv">1</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -620,7 +685,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="adjacent-transposition-decomposition"><code>adjacent-transposition-decomposition</code></h3>
 <p>Decompose a permutation into adjacent transpositions s_i = (i, i+1). Returns a vector of indices [i_1, i_2, …] such that sigma = s_{i_1} ∘ s_{i_2} ∘ … ∘ s_{i_k}.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(reel/adjacent-transposition-decomposition [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(hm/adjacent-transposition-decomposition [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span> <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -633,7 +698,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="partitions-1"><code>partitions</code></h3>
 <p>All partitions of n, as descending vectors.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(reel/partitions <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(hm/partitions <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">4</span>] [<span class="dv">3</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">2</span>] [<span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>] [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -643,7 +708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="partition-conjugate"><code>partition-conjugate</code></h3>
 <p>Conjugate (transpose) of a partition — swap rows and columns in the Young diagram.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(reel/partition-conjugate [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(hm/partition-conjugate [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -656,7 +721,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="standard-young-tableaux"><code>standard-young-tableaux</code></h3>
 <p>All standard Young tableaux of shape lambda (a partition). Each SYT is a vector of row vectors.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>(reel/standard-young-tableaux [<span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>(hm/standard-young-tableaux [<span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>[[[<span class="dv">1</span> <span class="dv">2</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span>] [<span class="dv">2</span>]]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -666,13 +731,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="hook-length-dimension"><code>hook-length-dimension</code></h3>
 <p>Dimension of the irrep of S_n for partition lambda, via the hook-length formula.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>(reel/hook-length-dimension [<span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>(hm/hook-length-dimension [<span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>(reel/hook-length-dimension [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>(hm/hook-length-dimension [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -685,14 +750,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="character-table"><code>character-table</code></h3>
 <p>Compute the character table of a finite group.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (reel/character-table (reel/cyclic-group <span class="dv">3</span>))]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/cyclic-group <span class="dv">3</span>))]</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (<span class="at">:table</span> ct)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (reel/character-table (reel/symmetric-group <span class="dv">3</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group <span class="dv">3</span>))</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>      re-table (<span class="kw">mapv</span> (<span class="kw">fn</span> [row] (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re <span class="va">%</span>))) row))</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                     (<span class="at">:table</span> ct))]</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  re-table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -705,10 +770,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="character-inner-product"><code>character-inner-product</code></h3>
 <p>Inner product of two class functions.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (reel/character-table (reel/symmetric-group <span class="dv">3</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group <span class="dv">3</span>))</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [table class-sizes]} ct</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>      order (reel/order (<span class="at">:group</span> ct))]</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  (c/re (reel/character-inner-product (<span class="kw">nth</span> table <span class="dv">0</span>) (<span class="kw">nth</span> table <span class="dv">1</span>) class-sizes order)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>      order (hm/order (<span class="at">:group</span> ct))]</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  (c/re (hm/character-inner-product (<span class="kw">nth</span> table <span class="dv">0</span>) (<span class="kw">nth</span> table <span class="dv">1</span>) class-sizes order)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -721,8 +786,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="irrep"><code>irrep</code></h3>
 <p>Construct an irreducible representation of S_n from a partition. Returns an opaque value to pass to rep-matrix, etc.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  (reel/rep-dimension ir))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  (hm/rep-dimension ir))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -732,8 +797,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="rep-matrix"><code>rep-matrix</code></h3>
 <p>Compute the representation matrix ρ(σ) for a group element.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  (fm/nrow (reel/rep-matrix ir [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  (fm/nrow (hm/rep-matrix ir [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -743,7 +808,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="rep-dimension"><code>rep-dimension</code></h3>
 <p>Dimension of a representation.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>(reel/rep-dimension (reel/irrep [<span class="dv">3</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>(hm/rep-dimension (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -753,8 +818,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="rep-character"><code>rep-character</code></h3>
 <p>Character value χ(σ) = tr(ρ(σ)).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  (reel/rep-character ir [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  (hm/rep-character ir [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fl">2.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -764,8 +829,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="rep-generators"><code>rep-generators</code></h3>
 <p>Generator matrices for adjacent transpositions s_1, …, s_{n-1}.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (reel/rep-generators ir)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])]</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (hm/rep-generators ir)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -775,10 +840,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="tensor-product"><code>tensor-product</code></h3>
 <p>Tensor product ρ₁ ⊗ ρ₂ of two representations. (ρ₁⊗ρ₂)(g) = ρ₁(g) ⊗ ρ₂(g) (Kronecker product).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>      ir2 (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>      tp (reel/tensor-product ir1 ir2)]</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  (reel/rep-dimension tp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>      tp (hm/tensor-product ir1 ir2)]</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  (hm/rep-dimension tp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -788,10 +853,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="direct-sum"><code>direct-sum</code></h3>
 <p>Direct sum ρ₁ ⊕ ρ₂ of two representations. (ρ₁⊕ρ₂)(g) is block-diagonal with ρ₁(g) and ρ₂(g).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>      ir2 (reel/irrep [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>])</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>      ds (reel/direct-sum ir1 ir2)]</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  (reel/rep-dimension ds))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>])</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>      ds (hm/direct-sum ir1 ir2)]</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  (hm/rep-dimension ds))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -802,7 +867,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Squared Frobenius norm: ||M||²_F = tr(M Mᵀ).</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [M (fm/rows-&gt;mat [[<span class="fl">1.0</span> <span class="fl">0.0</span>] [<span class="fl">0.0</span> <span class="fl">1.0</span>]])]</span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  (reel/frobenius-norm-sq M))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  (hm/frobenius-norm-sq M))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fl">2.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -813,7 +878,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Frobenius norm: ||M||_F = sqrt(tr(M Mᵀ)).</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [M (fm/rows-&gt;mat [[<span class="fl">3.0</span> <span class="fl">0.0</span>] [<span class="fl">0.0</span> <span class="fl">4.0</span>]])]</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  (reel/frobenius-norm M))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  (hm/frobenius-norm M))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb78"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fl">5.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -823,10 +888,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="matrix-fourier-transform"><code>matrix-fourier-transform</code></h3>
 <p>Matrix-valued Fourier transform: f̂(ρ) = Σ f(σ)·ρ(σ).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/symmetric-group <span class="dv">3</span>)</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>      ir (reel/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">zipmap</span> (reel/elements G) (<span class="kw">repeat</span> <span class="fl">1.0</span>))</span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>      fhat (reel/matrix-fourier-transform ir G f)]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">3</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>      ir (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">zipmap</span> (hm/elements G) (<span class="kw">repeat</span> <span class="fl">1.0</span>))</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>      fhat (hm/matrix-fourier-transform ir G f)]</span>
 <span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  (fm/nrow fhat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -840,13 +905,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="rising-sequences"><code>rising-sequences</code></h3>
 <p>Number of rising sequences of a permutation.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>(reel/rising-sequences [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>(hm/rising-sequences [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>(reel/rising-sequences [<span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>(hm/rising-sequences [<span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -856,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="gsr-probability"><code>gsr-probability</code></h3>
 <p>Probability of permutation σ after k riffle shuffles (GSR model). Q_a(σ) = C(a+n-r(σ), n) / a^n where a=2^k, r = rising sequences.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [p (reel/gsr-probability [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] <span class="dv">1</span>)]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [p (hm/gsr-probability [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] <span class="dv">1</span>)]</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&gt;</span> p <span class="fl">0.0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -870,9 +935,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="orbit"><code>orbit</code></h3>
 <p>The orbit of point x under the action of group G. act is a function (act g x) → x’.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">4</span>)</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">4</span>))]</span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  (reel/orbit G act <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  (hm/orbit G act <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb88"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>#{<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">2</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -882,9 +947,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="orbits"><code>orbits</code></h3>
 <p>Partition domain into orbits under the action of group G. Returns a vector of sets.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">3</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">3</span>)</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">3</span>))]</span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (reel/orbits G act (<span class="kw">range</span> <span class="dv">3</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (hm/orbits G act (<span class="kw">range</span> <span class="dv">3</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb90"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -895,7 +960,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The set of points in domain fixed by group element g. (fixed-points act g domain)</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb91"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">5</span>))]</span>
-<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  (reel/fixed-points act <span class="dv">0</span> (<span class="kw">range</span> <span class="dv">5</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  (hm/fixed-points act <span class="dv">0</span> (<span class="kw">range</span> <span class="dv">5</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb92"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>#{<span class="dv">0</span> <span class="dv">1</span> <span class="dv">4</span> <span class="dv">3</span> <span class="dv">2</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -905,9 +970,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="stabilizer"><code>stabilizer</code></h3>
 <p>The stabilizer of point x: group elements that fix x.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">4</span>)</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">4</span>))]</span>
-<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  (reel/stabilizer G act <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  (hm/stabilizer G act <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb94"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>#{<span class="dv">0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -917,13 +982,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="burnside-count"><code>burnside-count</code></h3>
 <p>Number of orbits via Burnside’s lemma: |orbits| = (1/|G|) Σ_{g∈G} |Fix(g)|</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">4</span>)</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g coloring] (<span class="kw">mapv</span> #(coloring (<span class="kw">mod</span> (<span class="kw">+</span> <span class="va">%</span> (<span class="kw">long</span> g)) <span class="dv">4</span>)) (<span class="kw">range</span> <span class="dv">4</span>)))</span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>      domain [[<span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>] [<span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>] [<span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span>] [<span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">1</span>]</span>
 <span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>]</span>
 <span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>] [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>] [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span>] [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">1</span>]</span>
 <span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span>] [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span>] [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span>] [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>]]]</span>
-<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>  (reel/burnside-count G act domain))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>  (hm/burnside-count G act domain))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb96"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -933,9 +998,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="cycle-index"><code>cycle-index</code></h3>
 <p>The cycle index of a group action. Returns a map from cycle-type partition to coefficient.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">3</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">3</span>)</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">3</span>))</span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>      ci (reel/cycle-index G act (<span class="kw">range</span> <span class="dv">3</span>))]</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>      ci (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">3</span>))]</span>
 <span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> <span class="dv">1</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">vals</span> ci))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -946,10 +1011,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="polya-count"><code>polya-count</code></h3>
 <p>Number of distinct colorings with k colors via Pólya enumeration.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (reel/cyclic-group <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">4</span>)</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">4</span>))</span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>      ci (reel/cycle-index G act (<span class="kw">range</span> <span class="dv">4</span>))]</span>
-<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>  (reel/polya-count ci <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>      ci (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">4</span>))]</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>  (hm/polya-count ci <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="dv">6N</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -960,7 +1025,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Induced action on k-element subsets of a domain. Returns {:act act-fn :domain all-subsets}.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb101"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [perm-act (<span class="kw">fn</span> [sigma x] (sigma x))</span>
-<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain]} (reel/subset-action perm-act (<span class="kw">range</span> <span class="dv">4</span>) <span class="dv">2</span>)]</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain]} (hm/subset-action perm-act (<span class="kw">range</span> <span class="dv">4</span>) <span class="dv">2</span>)]</span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> domain))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -974,9 +1039,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="fourier-transform"><code>fourier-transform</code></h3>
 <p>Fourier transform of a function on a finite group.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb103"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (reel/character-table (reel/cyclic-group <span class="dv">4</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb103"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/cyclic-group <span class="dv">4</span>))</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>) <span class="fl">0.0</span>) [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>])</span>
-<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>      fhat (reel/fourier-transform ct f)]</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>      fhat (hm/fourier-transform ct f)]</span>
 <span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> fhat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -987,10 +1052,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="inverse-fourier-transform"><code>inverse-fourier-transform</code></h3>
 <p>Recover a function from its Fourier coefficients.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (reel/character-table (reel/cyclic-group <span class="dv">4</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/cyclic-group <span class="dv">4</span>))</span>
 <span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>) <span class="fl">0.0</span>) [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span>])</span>
-<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>      fhat (reel/fourier-transform ct f)</span>
-<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>      f-back (reel/inverse-fourier-transform ct fhat)</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>      fhat (hm/fourier-transform ct f)</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>      f-back (hm/inverse-fourier-transform ct fhat)</span>
 <span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>      max-err (<span class="kw">apply</span> <span class="kw">max</span> (<span class="kw">map</span> #(c/abs (c/sub <span class="va">%1</span> <span class="va">%2</span>)) f f-back))]</span>
 <span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> max-err <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1002,10 +1067,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="convolve"><code>convolve</code></h3>
 <p>Convolve two functions on a finite group via the Fourier domain.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (reel/character-table (reel/cyclic-group <span class="dv">4</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/cyclic-group <span class="dv">4</span>))</span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>) <span class="fl">0.0</span>) [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>])</span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>      g (<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>) <span class="fl">0.0</span>) [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span>])</span>
-<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>      conv (reel/convolve ct f g)]</span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>      conv (hm/convolve ct f g)]</span>
 <span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">long</span> (Math/round (c/re (<span class="kw">nth</span> conv <span class="dv">1</span>)))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -1016,7 +1081,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="total-variation-distance"><code>total-variation-distance</code></h3>
 <p>Total variation distance between two distributions.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb109"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>(reel/total-variation-distance [<span class="fl">0.5</span> <span class="fl">0.5</span> <span class="fl">0.0</span> <span class="fl">0.0</span>] [<span class="fl">0.25</span> <span class="fl">0.25</span> <span class="fl">0.25</span> <span class="fl">0.25</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb109"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>(hm/total-variation-distance [<span class="fl">0.5</span> <span class="fl">0.5</span> <span class="fl">0.0</span> <span class="fl">0.0</span>] [<span class="fl">0.25</span> <span class="fl">0.25</span> <span class="fl">0.25</span> <span class="fl">0.25</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb110"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1025,41 +1090,270 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="svg-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="svg-visualizations">SVG Visualizations</h2>
+<section id="young-diagram-svg" class="level3">
+<h3 class="anchored" data-anchor-id="young-diagram-svg"><code>young-diagram-svg</code></h3>
+<p>Render a partition as an SVG Young diagram (hiccup). Options: :cell-size, :fill, :stroke.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>(kind/doc <span class="va">#'reel/young-diagram-svg</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/young-diagram-svg [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<svg height="86" width="114" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="85" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect></svg>
+</section>
+<section id="young-hooks-svg" class="level3">
+<h3 class="anchored" data-anchor-id="young-hooks-svg"><code>young-hooks-svg</code></h3>
+<p>Render a Young diagram with hook lengths in each cell (hiccup). Options: :cell-size.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb112"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/young-hooks-svg [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Syntax error compiling var at (/workspace/Dropbox/projects/daslu/reel/notebooks/dev.clj:409:1).
+<svg height="110" width="146" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="24">6</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="24">4</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="73" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="91" y="24">2</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="109" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="127" y="24">1</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="37"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="60">3</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="37"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="60">1</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="73"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="96">1</text></g></svg>
+</section>
+<section id="syt-svg" class="level3">
+<h3 class="anchored" data-anchor-id="syt-svg"><code>syt-svg</code></h3>
+<p>Render a standard Young tableau as SVG (hiccup). Options: :cell-size.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb113"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/syt-svg [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span>] [<span class="dv">5</span> <span class="dv">6</span>] [<span class="dv">7</span>]]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+<svg height="98" width="130" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="22">1</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="22">2</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="65" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="81" y="22">3</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="97" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="113" y="22">4</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="54">5</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="54">6</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="65"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="86">7</text></g></svg>
+</section>
+<section id="cycle-diagram-svg" class="level3">
+<h3 class="anchored" data-anchor-id="cycle-diagram-svg"><code>cycle-diagram-svg</code></h3>
+<p>Render a permutation as a cycle diagram SVG (hiccup). Options: :radius.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb114"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/cycle-diagram-svg [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
-<div class="callout-body-container callout-body">
-<p>Unable to resolve var: reel/young-diagram-svg in this context</p>
-<pre><code>clojure.core/eval  core.clj: 3232
-              ...               
-             java.lang.RuntimeException: Unable to resolve var: reel/young-diagram-svg in this context
-clojure.lang.Compiler$CompilerException: Syntax error compiling var at (/workspace/Dropbox/projects/daslu/reel/notebooks/dev.clj:409:1).
-    data: #:clojure.error{:phase :compile-syntax-check,
-                      :line 409,
-                      :column 1,
-                      :source
-                      "/workspace/Dropbox/projects/daslu/reel/notebooks/dev.clj",
-                      :symbol var}
-
-</code></pre>
+<svg height="220" width="220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead" markerheight="6" markerwidth="8" orient="auto" refx="7" refy="3"><polygon fill="#e74c3c" points="0 0, 8 3, 0 6"></polygon></marker></defs><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="121.31370849898477" x2="177.27207793864216" y1="41.31370849898476" y2="97.27207793864214"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="178.68629150101523" x2="122.72792206135786" y1="121.31370849898477" y2="177.27207793864216"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="98.68629150101523" x2="42.72792206135786" y1="178.68629150101523" y2="122.72792206135787"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="41.31370849898476" x2="97.27207793864214" y1="98.68629150101525" y2="42.72792206135786"></line><g><circle cx="110.0" cy="30.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="35.0">0</text></g><g><circle cx="190.0" cy="110.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="190.0" y="115.0">1</text></g><g><circle cx="110.0" cy="190.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="195.0">2</text></g><g><circle cx="30.0" cy="110.00000000000001" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="30.0" y="115.00000000000001">3</text></g></svg>
+</section>
+<section id="cayley-table-svg" class="level3">
+<h3 class="anchored" data-anchor-id="cayley-table-svg"><code>cayley-table-svg</code></h3>
+<p>Render a group Cayley table as an SVG grid with colored cells (hiccup). Options: :cell-size.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb115"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/cayley-table-svg (hm/cyclic-group <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<svg height="142" style="font-family: monospace; font-size: 11px;" width="142" xmlns="http://www.w3.org/2000/svg"><text fill="#555" font-size="9" text-anchor="middle" x="42" y="24">0</text><text fill="#555" font-size="9" text-anchor="middle" x="70" y="24">1</text><text fill="#555" font-size="9" text-anchor="middle" x="98" y="24">2</text><text fill="#555" font-size="9" text-anchor="middle" x="126" y="24">3</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="46">0</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="74">1</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="102">2</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="130">3</text><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="28"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="28"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="28"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="28"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="56"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="56"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="56"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="56"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="84"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="84"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="84"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="84"></rect><rect fill="hsl(270,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="112"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="112"></rect><rect fill="hsl(90,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="112"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="112"></rect></svg>
+</section>
+</section>
+<section id="complex-tensors" class="level2">
+<h2 class="anchored" data-anchor-id="complex-tensors">Complex Tensors</h2>
+<p>The <code>scicloj.harmonica.complex</code> namespace provides tensor-backed complex numbers. A ComplexTensor wraps a dtype-next tensor whose last dimension is 2 (interleaved real/imaginary pairs).</p>
+<section id="constructors" class="level3">
+<h3 class="anchored" data-anchor-id="constructors">Constructors</h3>
+</section>
+<section id="complex-tensor" class="level3">
+<h3 class="anchored" data-anchor-id="complex-tensor"><code>complex-tensor</code></h3>
+<p><code>[tensor-or-re]</code></p>
+<p><code>[re-data im-data]</code></p>
+<p>Create a ComplexTensor.</p>
+<p>Arities: (complex-tensor tensor) — wrap an existing tensor with last dim = 2 (complex-tensor re-data im-data) — from separate real and imaginary parts</p>
+<p>re-data and im-data can be: double arrays, seqs, dtype readers, or tensors. They must have the same shape.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb116"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>(cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span> <span class="fl">3.0</span>] [<span class="fl">4.0</span> <span class="fl">5.0</span> <span class="fl">6.0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb117"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">3</span>]</span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>[<span class="fl">1.0+4.0</span>i, <span class="fl">2.0+5.0</span>i, <span class="fl">3.0+6.0</span>i]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb118"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>(cx/complex-tensor (tensor/-&gt;tensor [[<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>]]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb119"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">2</span>]</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>[<span class="fl">1.0+2.0</span>i, <span class="fl">3.0+4.0</span>i]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="complex-tensor-real" class="level3">
+<h3 class="anchored" data-anchor-id="complex-tensor-real"><code>complex-tensor-real</code></h3>
+<p><code>[re-data]</code></p>
+<p>Create a ComplexTensor from real data only (imaginary parts = 0).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb120"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>(cx/complex-tensor-real [<span class="fl">5.0</span> <span class="fl">6.0</span> <span class="fl">7.0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb121"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">3</span>]</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>[<span class="fl">5.0</span>, <span class="fl">6.0</span>, <span class="fl">7.0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="real-and-imaginary-parts" class="level3">
+<h3 class="anchored" data-anchor-id="real-and-imaginary-parts">Real and imaginary parts</h3>
+</section>
+<section id="re" class="level3">
+<h3 class="anchored" data-anchor-id="re"><code>re</code></h3>
+<p><code>[x]</code></p>
+<p>Real part(s). Returns a tensor view (last dim removed) or a double for scalars.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb122"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (cx/re (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb123"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>[<span class="fl">1.0</span> <span class="fl">2.0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="im" class="level3">
+<h3 class="anchored" data-anchor-id="im"><code>im</code></h3>
+<p><code>[x]</code></p>
+<p>Imaginary part(s). Returns a tensor view (last dim removed) or a double for scalars.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb124"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (cx/im (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb125"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>[<span class="fl">3.0</span> <span class="fl">4.0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="accessors" class="level3">
+<h3 class="anchored" data-anchor-id="accessors">Accessors</h3>
+</section>
+<section id="complex-shape" class="level3">
+<h3 class="anchored" data-anchor-id="complex-shape"><code>complex-shape</code></h3>
+<p><code>[ct]</code></p>
+<p>The complex shape (underlying shape without trailing 2).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb126"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>(cx/complex-shape (cx/complex-tensor [[<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>]]</span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>                                     [[<span class="fl">5.0</span> <span class="fl">6.0</span>] [<span class="fl">7.0</span> <span class="fl">8.0</span>]]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb127"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="scalar" class="level3">
+<h3 class="anchored" data-anchor-id="scalar"><code>scalar?</code></h3>
+<p><code>[ct]</code></p>
+<p>True if this ComplexTensor represents a scalar complex number.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb128"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>(cx/scalar? (cx/complex-tensor (tensor/-&gt;tensor [<span class="fl">3.0</span> <span class="fl">4.0</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb129"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb130"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>(cx/scalar? (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb131"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="va">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="tensor" class="level3">
+<h3 class="anchored" data-anchor-id="tensor"><code>-&gt;tensor</code></h3>
+<p><code>[ct]</code></p>
+<p>Access the underlying [… 2] tensor.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb132"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (dtype/shape (cx/-&gt;tensor (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>]))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb133"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="double-array" class="level3">
+<h3 class="anchored" data-anchor-id="double-array"><code>-&gt;double-array</code></h3>
+<p><code>[ct]</code></p>
+<p>Access the underlying interleaved double[]. Returns the identical array object (zero-copy).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb134"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>])]</span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">identical?</span> (cx/-&gt;double-array ct) (cx/-&gt;double-array ct)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb135"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="arithmetic" class="level3">
+<h3 class="anchored" data-anchor-id="arithmetic">Arithmetic</h3>
+</section>
+<section id="cmul" class="level3">
+<h3 class="anchored" data-anchor-id="cmul"><code>cmul</code></h3>
+<p><code>[a b]</code></p>
+<p>Pointwise complex multiply: (a+bi)(c+di) = (ac-bd) + (ad+bc)i</p>
+<p><span class="math inline">\((1+3i)(5+7i) = -16+22i\)</span></p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb136"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [a (cx/complex-tensor [<span class="fl">1.0</span>] [<span class="fl">3.0</span>])</span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>      b (cx/complex-tensor [<span class="fl">5.0</span>] [<span class="fl">7.0</span>])</span>
+<span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a>      c (cx/cmul a b)]</span>
+<span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a>  [(cx/re (c <span class="dv">0</span>)) (cx/im (c <span class="dv">0</span>))])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb137"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>[-<span class="fl">16.0</span> <span class="fl">22.0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cconj" class="level3">
+<h3 class="anchored" data-anchor-id="cconj"><code>cconj</code></h3>
+<p><code>[ct]</code></p>
+<p>Complex conjugate: negate imaginary part.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb138"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (cx/cconj (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> -<span class="fl">4.0</span>]))]</span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">vec</span> (cx/im ct)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb139"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>[-<span class="fl">3.0</span> <span class="fl">4.0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cscale" class="level3">
+<h3 class="anchored" data-anchor-id="cscale"><code>cscale</code></h3>
+<p><code>[ct alpha]</code></p>
+<p>Scale by a real scalar.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb140"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (cx/cscale (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span>] [<span class="fl">3.0</span> <span class="fl">4.0</span>]) <span class="fl">2.0</span>)]</span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>  [(<span class="kw">vec</span> (cx/re ct)) (<span class="kw">vec</span> (cx/im ct))])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb141"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>[[<span class="fl">2.0</span> <span class="fl">4.0</span>] [<span class="fl">6.0</span> <span class="fl">8.0</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cabs" class="level3">
+<h3 class="anchored" data-anchor-id="cabs"><code>cabs</code></h3>
+<p><code>[ct]</code></p>
+<p>Element-wise complex magnitude: sqrt(re² + im²). Returns a real tensor (or double for scalar).</p>
+<p><span class="math inline">\(|3+4i| = 5\)</span></p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb142"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [m (cx/cabs (cx/complex-tensor [<span class="fl">3.0</span>] [<span class="fl">4.0</span>]))]</span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (<span class="kw">double</span> (m <span class="dv">0</span>)) <span class="fl">5.0</span>)) <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb143"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="inner-products" class="level3">
+<h3 class="anchored" data-anchor-id="inner-products">Inner products</h3>
+</section>
+<section id="cdot" class="level3">
+<h3 class="anchored" data-anchor-id="cdot"><code>cdot</code></h3>
+<p><code>[a b]</code></p>
+<p>Complex dot product: Σ a_i * b_i. Returns a [re im] pair.</p>
+<p><span class="math inline">\(\langle [1, i], [i, 1] \rangle = 1 \cdot i + i \cdot 1 = 2i\)</span></p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb144"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [a (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">0.0</span>] [<span class="fl">0.0</span> <span class="fl">1.0</span>])</span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>      b (cx/complex-tensor [<span class="fl">0.0</span> <span class="fl">1.0</span>] [<span class="fl">1.0</span> <span class="fl">0.0</span>])</span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>      [re im] (cx/cdot a b)]</span>
+<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">and</span> (<span class="kw">&lt;</span> (Math/abs re) <span class="fl">1e-10</span>)</span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> im <span class="fl">2.0</span>)) <span class="fl">1e-10</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb145"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cdot-conj" class="level3">
+<h3 class="anchored" data-anchor-id="cdot-conj"><code>cdot-conj</code></h3>
+<p><code>[a b]</code></p>
+<p>Hermitian inner product: Σ a_i * conj(b_i). Returns a [re im] pair.</p>
+<p><span class="math inline">\(\langle a, a \rangle = \|a\|^2\)</span> for the Hermitian inner product.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb146"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [a (cx/complex-tensor [<span class="fl">3.0</span> <span class="fl">1.0</span>] [<span class="fl">4.0</span> <span class="fl">2.0</span>])</span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>      [re im] (cx/cdot-conj a a)]</span>
+<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">and</span> (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> re <span class="fl">30.0</span>)) <span class="fl">1e-10</span>)</span>
+<span id="cb146-4"><a href="#cb146-4" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">&lt;</span> (Math/abs im) <span class="fl">1e-10</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb147"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="element-access" class="level3">
+<h3 class="anchored" data-anchor-id="element-access">Element access</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb148"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span> <span class="fl">3.0</span>] [<span class="fl">4.0</span> <span class="fl">5.0</span> <span class="fl">6.0</span>])]</span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>  [(<span class="kw">count</span> ct) (cx/scalar? (ct <span class="dv">0</span>)) (cx/re (ct <span class="dv">1</span>))])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb149"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="va">true</span> <span class="fl">2.0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div style="background-color:grey;height:2px;width:100%;"></div>
-<div><pre><small><small>source: <a href="https://github.com/scicloj/reel/blob/main/notebooks/reel_book/api_reference.clj">notebooks/reel_book/api_reference.clj</a></small></small></pre></div>
+<div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/api_reference.clj">notebooks/harmonica_book/api_reference.clj</a></small></small></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1465,8 +1759,8 @@ clojure.lang.Compiler$CompilerException: Syntax error compiling var at (/workspa
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./reel_book.sympy_comparison.html" class="pagination-link" aria-label="Cross-Validation with SymPy">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span>
+      <a href="./harmonica_book.sympy_comparison.html" class="pagination-link" aria-label="Cross-Validation with SymPy">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

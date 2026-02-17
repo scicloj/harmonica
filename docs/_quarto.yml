@@ -11,11 +11,11 @@ book:
   chapters:
   - index.qmd
   - part: Getting Started
-    chapters: [reel_book.quickstart.qmd]
+    chapters: [harmonica_book.quickstart.qmd]
   - part: Foundations
-    chapters: [reel_book.dft_as_group_fourier.qmd, reel_book.symmetric_groups.qmd, reel_book.permutations_and_partitions.qmd, reel_book.groups_and_structure.qmd, reel_book.character_theory.qmd, reel_book.representation_matrices.qmd, reel_book.group_actions.qmd]
+    chapters: [harmonica_book.dft_as_group_fourier.qmd, harmonica_book.symmetric_groups.qmd, harmonica_book.permutations_and_partitions.qmd, harmonica_book.groups_and_structure.qmd, harmonica_book.character_theory.qmd, harmonica_book.representation_matrices.qmd, harmonica_book.group_actions.qmd, harmonica_book.complex_tensors.qmd]
   - part: Applications
-    chapters: [reel_book.random_transpositions.qmd, reel_book.riffle_shuffle.qmd, reel_book.counting_necklaces.qmd, reel_book.chord_geometry.qmd, reel_book.hearing_symmetry.qmd, reel_book.symmetry_sketchpad.qmd]
+    chapters: [harmonica_book.random_transpositions.qmd, harmonica_book.riffle_shuffle.qmd, harmonica_book.counting_necklaces.qmd, harmonica_book.chord_geometry.qmd, harmonica_book.hearing_symmetry.qmd, harmonica_book.symmetry_sketchpad.qmd]
   - part: Reference
-    chapters: [reel_book.algebraic_identities.qmd, reel_book.sympy_comparison.qmd, reel_book.api_reference.qmd]
-  title: reel
+    chapters: [harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd, harmonica_book.api_reference.qmd]
+  title: harmonica
