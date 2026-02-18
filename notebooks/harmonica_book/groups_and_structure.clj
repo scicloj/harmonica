@@ -80,10 +80,8 @@
 ;; [counting bracelets](counting_necklaces.html), and
 ;; [classifying chords](chord_geometry.html).
 ;;
-;; Elements are tagged pairs:
-;;
-;; - $[:r\; k]$ — rotation by $2\pi k/n$
-;; - $[:s\; k]$ — reflection
+;; Elements are tagged pairs — rotation $r_k$ (by $2\pi k/n$)
+;; and reflection $s_k$ — represented in code as `[:r k]` and `[:s k]`.
 
 (def D4 (hm/dihedral-group 4))
 

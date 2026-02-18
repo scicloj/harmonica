@@ -48,8 +48,8 @@
 ;;
 ;; The dihedral group $D_n$ acts on vertices of a regular $n$-gon:
 ;;
-;; - Rotation $[:r\; k]$ sends vertex $x$ to $(x + k) \bmod n$
-;; - Reflection $[:s\; k]$ sends vertex $x$ to $(k - x) \bmod n$
+;; - Rotation $r_k$ (code: `[:r k]`) sends vertex $x$ to $(x + k) \bmod n$
+;; - Reflection $s_k$ (code: `[:s k]`) sends vertex $x$ to $(k - x) \bmod n$
 
 (defn dihedral-vertex-action [n]
   (fn [[t k] x]
