@@ -1,13 +1,13 @@
 ;; # API Reference
 ;;
-;; Complete reference for `scicloj.harmonica.core` — the public API for
+;; Complete reference for `scicloj.harmonica` — the public API for
 ;; computational group theory and representation theory.
 
 ^{:kindly/hide-code true
   :kindly/options {:kinds-that-hide-code #{:kind/doc}}}
 (ns harmonica-book.api-reference
   (:require
-   [scicloj.harmonica.core :as hm]
+   [scicloj.harmonica :as hm]
    [scicloj.harmonica.complex :as cx]
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.representations :as rep]

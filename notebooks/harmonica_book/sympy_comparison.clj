@@ -9,7 +9,7 @@
 
 (ns harmonica-book.sympy-comparison
   (:require
-   [scicloj.harmonica.core :as hm]
+   [scicloj.harmonica :as hm]
    [scicloj.harmonica.complex :as cx]
    [scicloj.kindly.v4.kind :as kind]
    [libpython-clj2.python :as py]

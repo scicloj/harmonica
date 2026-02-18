@@ -1,7 +1,7 @@
 (ns
  harmonica-book.dft-as-group-fourier-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.harmonica.complex :as cx]
   [fastmath.transform :as t]
   [tech.v3.datatype :as dtype]

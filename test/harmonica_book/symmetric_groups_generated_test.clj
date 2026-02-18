@@ -1,7 +1,7 @@
 (ns
  harmonica-book.symmetric-groups-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]

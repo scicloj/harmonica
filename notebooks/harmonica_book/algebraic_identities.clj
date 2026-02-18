@@ -7,7 +7,7 @@
 
 (ns harmonica-book.algebraic-identities
   (:require
-   [scicloj.harmonica.core :as hm]
+   [scicloj.harmonica :as hm]
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.representations :as rep]
    [scicloj.harmonica.complex :as cx]

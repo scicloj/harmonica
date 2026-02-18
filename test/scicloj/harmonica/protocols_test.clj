@@ -1,6 +1,6 @@
 (ns scicloj.harmonica.protocols-test
   (:require [clojure.test :refer [deftest testing is are]]
-            [scicloj.harmonica.core :as hm]
+            [scicloj.harmonica :as hm]
             [scicloj.harmonica.complex :as cx]))
 
 ;; ---------------------------------------------------------------------------

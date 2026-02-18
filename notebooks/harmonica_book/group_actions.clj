@@ -10,7 +10,7 @@
 
 (ns harmonica-book.group-actions
   (:require
-   [scicloj.harmonica.core :as hm]
+   [scicloj.harmonica :as hm]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Actions of cyclic groups

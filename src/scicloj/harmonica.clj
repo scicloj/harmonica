@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.core
+(ns scicloj.harmonica
   "Public API for harmonica — computational group theory and representation theory.
 
    Groups:

@@ -1,7 +1,7 @@
 (ns
  harmonica-book.hearing-symmetry-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.harmonica.protocols :as p]
   [scicloj.kindly.v4.kind :as kind]
   [tablecloth.api :as tc]

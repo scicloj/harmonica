@@ -1,6 +1,6 @@
 (ns scicloj.harmonica.characters-test
   (:require [clojure.test :refer [deftest testing is are]]
-            [scicloj.harmonica.core :as hm]
+            [scicloj.harmonica :as hm]
             [scicloj.harmonica.impl.murnaghan-nakayama :as mn]
             [scicloj.harmonica.impl.partition :as part]
             [scicloj.harmonica.complex :as cx]))

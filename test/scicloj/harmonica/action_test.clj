@@ -1,6 +1,6 @@
 (ns scicloj.harmonica.action-test
   (:require [clojure.test :refer [deftest testing is are]]
-            [scicloj.harmonica.core :as hm]
+            [scicloj.harmonica :as hm]
             [scicloj.harmonica.protocols :as p]
             [scicloj.harmonica.impl.dihedral :as dih]
             [scicloj.harmonica.impl.product :as prod]

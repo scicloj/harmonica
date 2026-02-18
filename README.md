@@ -66,7 +66,7 @@ See the [Harmonica book](https://scicloj.github.io/harmonica/) for tutorials:
 
 | Namespace | Purpose |
 |:----------|:--------|
-| `scicloj.harmonica.core` | Public API — groups, permutations, partitions, characters, Fourier |
+| `scicloj.harmonica` | Public API — groups, permutations, partitions, characters, Fourier |
 | `scicloj.harmonica.protocols` | Core protocols: Group, FiniteGroup, GroupStructure, GroupType |
 | `scicloj.harmonica.characters` | Character table computation (multimethod on group type) |
 | `scicloj.harmonica.fourier` | Fourier transform, inverse, convolution, total variation distance |

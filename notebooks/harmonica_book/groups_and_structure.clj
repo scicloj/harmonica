@@ -7,7 +7,7 @@
 
 (ns harmonica-book.groups-and-structure
   (:require
-   [scicloj.harmonica.core :as hm]
+   [scicloj.harmonica :as hm]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## The group types in the library

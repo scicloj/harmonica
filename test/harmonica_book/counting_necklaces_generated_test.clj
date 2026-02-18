@@ -1,7 +1,7 @@
 (ns
  harmonica-book.counting-necklaces-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.harmonica.protocols :as p]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]

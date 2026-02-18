@@ -1,7 +1,7 @@
 (ns
  harmonica-book.api-reference-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.harmonica.complex :as cx]
   [scicloj.harmonica.protocols :as p]
   [scicloj.harmonica.representations :as rep]

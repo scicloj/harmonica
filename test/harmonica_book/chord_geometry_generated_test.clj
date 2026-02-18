@@ -1,7 +1,7 @@
 (ns
  harmonica-book.chord-geometry-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.harmonica.protocols :as p]
   [scicloj.harmonica.complex :as cx]
   [tablecloth.api :as tc]

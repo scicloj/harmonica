@@ -1,6 +1,6 @@
 (ns scicloj.harmonica.symmetric-test
   (:require [clojure.test :refer [deftest testing is are]]
-            [scicloj.harmonica.core :as hm]
+            [scicloj.harmonica :as hm]
             [scicloj.harmonica.impl.permutation :as perm]
             [scicloj.harmonica.impl.partition :as part]))
 

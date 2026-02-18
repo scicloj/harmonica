@@ -1,7 +1,7 @@
 (ns
  harmonica-book.group-actions-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 

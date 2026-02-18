@@ -1,7 +1,7 @@
 (ns
  harmonica-book.riffle-shuffle-generated-test
  (:require
-  [scicloj.harmonica.core :as hm]
+  [scicloj.harmonica :as hm]
   [scicloj.harmonica.representations :as rep]
   [scicloj.harmonica.protocols :as p]
   [tablecloth.api :as tc]
