@@ -92,10 +92,8 @@
               (let [coeff (double (if (map? f) (get f sigma 0.0) (f sigma)))]
                 (if (zero? coeff)
                   acc
-                  (.add ^org.apache.commons.math3.linear.RealMatrix acc
-                        (.scalarMultiply ^org.apache.commons.math3.linear.RealMatrix
-                         (rep-matrix irrep sigma) coeff)))))
-            (fm/rows->mat (vec (repeat d (vec (repeat d 0.0)))))
+                  (fm/add acc (fm/muls (rep-matrix irrep sigma) coeff)))))
+            (fm/zero d true)
             elts)))
 
 (defn matrix-fourier-transform-all
@@ -153,24 +151,13 @@
    Returns a representation map with :dimension and a :matrix-fn."
   [rep1 rep2]
   (let [d1 (:dimension rep1)
-        d2 (:dimension rep2)
-        d (+ d1 d2)]
-    {:dimension d
+        d2 (:dimension rep2)]
+    {:dimension (+ d1 d2)
      :rep1 rep1
      :rep2 rep2
      :matrix-fn (fn [sigma]
-                  (let [^org.apache.commons.math3.linear.RealMatrix M1 (rep-matrix rep1 sigma)
-                        ^org.apache.commons.math3.linear.RealMatrix M2 (rep-matrix rep2 sigma)]
-                    (fm/rows->mat
-                     (vec (concat
-                           (mapv (fn [i]
-                                   (vec (concat (vec (.getRow M1 i))
-                                                (repeat d2 0.0))))
-                                 (range d1))
-                           (mapv (fn [i]
-                                   (vec (concat (repeat d1 0.0)
-                                                (vec (.getRow M2 i)))))
-                                 (range d2)))))))}))
+                  (fm/block-diagonal (rep-matrix rep1 sigma)
+                                     (rep-matrix rep2 sigma)))}))
 
 ;; ---------------------------------------------------------------------------
 ;; Restriction and Induction
@@ -260,32 +247,31 @@
         d (:dimension rep)
         D (* m d)
         ;; Precompute inverses of coset reps
-        inv-reps (mapv perm/inverse coset-reps)
-        ;; Zero block
-        zero-block (fm/rows->mat (vec (repeat d (vec (repeat d 0.0)))))]
+        inv-reps (mapv perm/inverse coset-reps)]
     {:dimension D
      :matrix-fn
      (fn [g]
-       ;; Build the D×D block matrix
-       (let [blocks
-             (vec (for [s-idx (range m)]
-                    (vec (for [t-idx (range m)]
-                           (let [sinv (inv-reps s-idx)
-                                 t (coset-reps t-idx)
-                                 ;; s⁻¹ · g · t
-                                 h (perm/compose (perm/compose sinv g) t)]
-                             (if (member-of-embedded-subgroup? h k)
-                               (rep-matrix rep (restrict-perm h k))
-                               zero-block))))))]
-         ;; Assemble into a single D×D matrix
-         (fm/rows->mat
-          (vec (for [s-idx (range m)
-                     row-in-block (range d)]
-                 (vec (for [t-idx (range m)
-                            col-in-block (range d)]
-                        (let [^org.apache.commons.math3.linear.RealMatrix blk
-                              ((blocks s-idx) t-idx)]
-                          (.getEntry blk row-in-block col-in-block)))))))))}))
+       ;; Compute blocks: m×m grid of d×d matrices (or nil for zero blocks)
+       (let [blocks (vec (for [s-idx (range m)]
+                           (vec (for [t-idx (range m)]
+                                  (let [sinv (inv-reps s-idx)
+                                        t (coset-reps t-idx)
+                                        h (perm/compose (perm/compose sinv g) t)]
+                                    (when (member-of-embedded-subgroup? h k)
+                                      (rep-matrix rep (restrict-perm h k))))))))
+             ;; Assemble into a single D×D matrix via double[][]
+             mat (make-array Double/TYPE D D)]
+         (dotimes [s-idx m]
+           (dotimes [t-idx m]
+             (when-let [^org.apache.commons.math3.linear.RealMatrix blk
+                        ((blocks s-idx) t-idx)]
+               (let [row-off (* s-idx d)
+                     col-off (* t-idx d)]
+                 (dotimes [i d]
+                   (dotimes [j d]
+                     (aset ^"[[D" mat (+ row-off i) (+ col-off j)
+                           (.getEntry blk i j))))))))
+         (fm/array2d->RealMatrix mat)))}))
 
 (defn class-of
   "Return the conjugacy class of element g in group G.

@@ -45,19 +45,21 @@
    f(g) = (1/n) * sum_k fhat(k) * chi_k(g)
    table-re and table-im are [k n] tensor views.
    fhat-re and fhat-im are [k] dtype buffers.
-   Returns [f-re f-im] as double arrays."
+   Returns [f-re f-im] as realized dtype buffers."
   [table-re table-im fhat-re fhat-im n]
-  (let [scale (/ 1.0 (double n))
-        f-re (double-array n)
-        f-im (double-array n)]
-    (dotimes [g n]
-      (let [col-re (tensor/select table-re :all g)
-            col-im (tensor/select table-im :all g)]
-        (aset f-re g (* scale (double (dfn/sum (dfn/- (dfn/* fhat-re col-re)
-                                                      (dfn/* fhat-im col-im))))))
-        (aset f-im g (* scale (double (dfn/sum (dfn/+ (dfn/* fhat-re col-im)
-                                                      (dfn/* fhat-im col-re))))))))
-    [f-re f-im]))
+  (let [scale (/ 1.0 (double n))]
+    [(dtype/clone
+      (dtype/make-reader :float64 n
+                         (let [col-re (tensor/select table-re :all idx)
+                               col-im (tensor/select table-im :all idx)]
+                           (* scale (dfn/sum (dfn/- (dfn/* fhat-re col-re)
+                                                    (dfn/* fhat-im col-im)))))))
+     (dtype/clone
+      (dtype/make-reader :float64 n
+                         (let [col-re (tensor/select table-re :all idx)
+                               col-im (tensor/select table-im :all idx)]
+                           (* scale (dfn/sum (dfn/+ (dfn/* fhat-re col-im)
+                                                    (dfn/* fhat-im col-re)))))))]))
 
 ;; ---------------------------------------------------------------------------
 ;; Public API
