@@ -50,12 +50,13 @@
 
 (defn burnside-count
   "Number of orbits via Burnside's lemma:
-   |orbits| = (1/|G|) Σ_{g∈G} |Fix(g)|"
+   |orbits| = (1/|G|) Σ_{g∈G} |Fix(g)|
+   Returns a long (always a non-negative integer)."
   [G act domain]
   (let [domain-set (set domain)
         total (reduce + (map #(count (fixed-points act % domain-set))
                              (p/elements G)))]
-    (/ total (p/order G))))
+    (long (/ total (p/order G)))))
 
 (defn- action-cycle-type
   "Compute the cycle type of group element g acting on domain.

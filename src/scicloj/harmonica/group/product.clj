@@ -7,8 +7,8 @@
 
 (defrecord ProductGroup [G1 G2]
   p/Group
-  (op [_ [g1 h1] [g2 h2]]
-    [(p/op G1 g1 g2) (p/op G2 h1 h2)])
+  (op [_ [g1 g2] [h1 h2]]
+    [(p/op G1 g1 h1) (p/op G2 g2 h2)])
   (inv [_ [g h]]
     [(p/inv G1 g) (p/inv G2 h)])
   (id [_]
@@ -25,15 +25,18 @@
   p/GroupStructure
   (conjugacy-classes [_]
     ;; Classes of G₁ × G₂ are products of classes from each factor.
+    ;; Only materialize :elements when both factors provide them
+    ;; (avoids expensive Cartesian products for large groups).
     (let [classes1 (p/conjugacy-classes G1)
           classes2 (p/conjugacy-classes G2)]
       (vec (for [c1 classes1
                  c2 classes2]
-             {:representative [(:representative c1) (:representative c2)]
-              :elements (set (for [g (:elements c1)
-                                   h (:elements c2)]
-                               [g h]))
-              :size (* (:size c1) (:size c2))}))))
+             (cond-> {:representative [(:representative c1) (:representative c2)]
+                      :size (* (:size c1) (:size c2))}
+               (and (:elements c1) (:elements c2))
+               (assoc :elements (set (for [g (:elements c1)
+                                           h (:elements c2)]
+                                       [g h]))))))))
 
   p/GroupType
   (group-type [_] :product))

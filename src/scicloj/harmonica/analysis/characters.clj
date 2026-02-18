@@ -123,12 +123,12 @@
                             (= row-idx 1) (if (= :r (first rep)) 1.0 -1.0)
                             ;; χ₃: (-1)^k on r^k, +1 on even-refl, -1 on odd-refl
                             (= row-idx 2) (cond
-                                            (= :r (first rep)) (Math/pow -1.0 (double (second rep)))
+                                            (= :r (first rep)) (if (even? (second rep)) 1.0 -1.0)
                                             (= rep [:s 0]) 1.0
                                             :else -1.0)
                             ;; χ₄: (-1)^k on r^k, -1 on even-refl, +1 on odd-refl
                             (= row-idx 3) (cond
-                                            (= :r (first rep)) (Math/pow -1.0 (double (second rep)))
+                                            (= :r (first rep)) (if (even? (second rep)) 1.0 -1.0)
                                             (= rep [:s 0]) -1.0
                                             :else 1.0)
                             ;; 2-dim irreps χ_m for m=1..(n/2-1)

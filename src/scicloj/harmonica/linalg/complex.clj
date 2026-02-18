@@ -194,16 +194,18 @@
        (->ComplexTensor t)
        ;; Flat input (e.g., from dfn ops on ComplexTensors) — reshape to [n/2, 2]
        (let [n (long (reduce * shape))]
-         (assert (even? n)
-                 (str "Cannot interpret odd-length data as complex: " n))
+         (when-not (even? n)
+           (throw (ex-info (str "Cannot interpret odd-length data as complex: " n)
+                           {:shape shape :n n})))
          (->ComplexTensor (tensor/reshape t [(/ n 2) 2]))))))
   ([re-data im-data]
    (let [re-t (tensor/ensure-tensor re-data)
          im-t (tensor/ensure-tensor im-data)
          re-shape (vec (dtype/shape re-t))
          im-shape (vec (dtype/shape im-t))]
-     (assert (= re-shape im-shape)
-             (str "Shape mismatch: re=" re-shape " im=" im-shape))
+     (when-not (= re-shape im-shape)
+       (throw (ex-info (str "Shape mismatch: re=" re-shape " im=" im-shape)
+                       {:re-shape re-shape :im-shape im-shape})))
      (let [full-shape (conj re-shape 2)
            n-elements (reduce * full-shape)
            backing (double-array n-elements)
