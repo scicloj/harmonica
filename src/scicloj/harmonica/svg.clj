@@ -232,7 +232,9 @@
         angle (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
         px (fn [i] (+ cx (* radius (Math/cos (angle i)))))
         py (fn [i] (+ cy (* radius (Math/sin (angle i)))))
-        label-fn (or labels str)
+        label-fn (if (map? labels)
+                   #(get labels % (str %))
+                   (or labels str))
         ;; Compute edges: [from-idx to-idx gen-idx]
         edges (for [[gi g] (map-indexed vector generators)
                     [xi x] (map-indexed vector elts)
@@ -272,7 +274,6 @@
                 :stroke color :stroke-width 1.5
                 :fill "none"
                 :marker-end (str "url(#arrow-" gi ")")}])
-      ;; Self-loops (generator is identity on this element — skip)
       ;; Nodes
       (for [[i x] (map-indexed vector elts)]
         [:g
@@ -281,4 +282,4 @@
          [:text {:x (px i) :y (+ (py i) 4)
                  :text-anchor "middle"
                  :font-size 11 :font-weight "bold" :fill "#2c3e50"}
-          (str (if (map? label-fn) (get label-fn x x) (label-fn x)))]])))))
+          (str (label-fn x))]])))))
