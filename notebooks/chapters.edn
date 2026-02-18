@@ -9,6 +9,7 @@
                 "complex_tensors"]
  "Applications" ["random_transpositions"
                  "riffle_shuffle"
+                 "product_group_dft"
                  "counting_necklaces"
                  "chord_geometry"
                  "hearing_symmetry"

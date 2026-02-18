@@ -161,6 +161,60 @@
                                     (mapv (fn [m] [:dim2 m]) (range 1 (inc num-2d)))))
          :table (cx/complex-tensor re-rows im-rows)}))))
 
+(defmethod character-table :product
+  [G]
+  (let [g1 (:G1 G)
+        g2 (:G2 G)
+        ct1 (character-table g1)
+        ct2 (character-table g2)
+        t1 (:table ct1) t2 (:table ct2)
+        n1 (count (:irrep-labels ct1))
+        n2 (count (:irrep-labels ct2))
+        c1 (count (:classes ct1))
+        c2 (count (:classes ct2))
+        num-irreps (* n1 n2)
+        num-classes (* c1 c2)
+        ;; Build rows via Kronecker product of character values
+        ;; chi_{(i,j)}((a,b)) = chi_i(a) * chi_j(b) (complex multiply)
+        re-rows (mapv (fn [ij]
+                        (let [i (quot ij n2)
+                              j (rem ij n2)
+                              row (double-array num-classes)]
+                          (dotimes [ab num-classes]
+                            (let [a (quot ab c2)
+                                  b (rem ab c2)
+                                  ;; chi_i(a)
+                                  r1 (cx/re ((t1 i) a))
+                                  m1 (cx/im ((t1 i) a))
+                                  ;; chi_j(b)
+                                  r2 (cx/re ((t2 j) b))
+                                  m2 (cx/im ((t2 j) b))
+                                  ;; complex product: (r1+m1*i)(r2+m2*i)
+                                  re (- (* r1 r2) (* m1 m2))]
+                              (aset row ab re)))
+                          row))
+                      (range num-irreps))
+        im-rows (mapv (fn [ij]
+                        (let [i (quot ij n2)
+                              j (rem ij n2)
+                              row (double-array num-classes)]
+                          (dotimes [ab num-classes]
+                            (let [a (quot ab c2)
+                                  b (rem ab c2)
+                                  r1 (cx/re ((t1 i) a))
+                                  m1 (cx/im ((t1 i) a))
+                                  r2 (cx/re ((t2 j) b))
+                                  m2 (cx/im ((t2 j) b))
+                                  im (+ (* r1 m2) (* m1 r2))]
+                              (aset row ab im)))
+                          row))
+                      (range num-irreps))]
+    {:group G
+     :classes (vec (for [a (:classes ct1) b (:classes ct2)] [a b]))
+     :class-sizes (vec (for [s1 (:class-sizes ct1) s2 (:class-sizes ct2)] (* s1 s2)))
+     :irrep-labels (vec (for [l1 (:irrep-labels ct1) l2 (:irrep-labels ct2)] [l1 l2]))
+     :table (cx/complex-tensor re-rows im-rows)}))
+
 ;; ---------------------------------------------------------------------------
 ;; Character inner product
 ;; ---------------------------------------------------------------------------

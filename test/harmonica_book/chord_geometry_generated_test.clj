@@ -31,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__90321#] (Math/cos p1__90321#)) angles)
+    (mapv (fn* [p1__11155#] (Math/cos p1__11155#)) angles)
     ys
-    (mapv (fn* [p1__90322#] (Math/sin p1__90322#)) angles)
+    (mapv (fn* [p1__11156#] (Math/sin p1__11156#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -87,7 +87,7 @@
       [transposed
        (sort
         (mapv
-         (fn* [p1__90323#] (mod (+ p1__90323# (long k)) 12))
+         (fn* [p1__11157#] (mod (+ p1__11157# (long k)) 12))
          c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
@@ -219,7 +219,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__90324#] (contains? p1__90324# rep)) orbs-d)))
+     (filter (fn* [p1__11158#] (contains? p1__11158# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -253,12 +253,12 @@
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__90325#] (first (sort p1__90325#))) orbs)
+   (mapv (fn* [p1__11159#] (first (sort p1__11159#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
-  (every? (fn* [p1__90326#] (= 1 (count (val p1__90326#)))) iv-groups)))
+  (every? (fn* [p1__11160#] (= 1 (count (val p1__11160#)))) iv-groups)))
 
 
 (deftest t22_l216 (is (true? v21_l204)))
@@ -384,3 +384,182 @@
 
 
 (def v34_l307 (chord-plot #{0 6 3} "Diminished triad"))
+
+
+(def
+ v36_l324
+ (defn
+  prime-form
+  "Compute the prime form of a pitch class set under TnI equivalence.\n  The prime form is the most compact representative: transpose all\n  rotations and inversions to start at 0, then pick the lexicographically\n  smallest."
+  [pcs]
+  (let
+   [pcs-vec
+    (vec (sort pcs))
+    n
+    12
+    transpositions
+    (for
+     [k (range n)]
+     (vec
+      (sort
+       (map (fn* [p1__11161#] (mod (+ p1__11161# k) n)) pcs-vec))))
+    inversions
+    (for
+     [k (range n)]
+     (vec
+      (sort
+       (map (fn* [p1__11162#] (mod (- k p1__11162#) n)) pcs-vec))))
+    normalize
+    (fn
+     [s]
+     (let
+      [base (first s)]
+      (mapv (fn* [p1__11163#] (mod (- p1__11163# base) n)) s)))
+    candidates
+    (map normalize (concat transpositions inversions))]
+   (first (sort candidates)))))
+
+
+(def
+ v38_l347
+ (let
+  [G
+   (hm/dihedral-group 12)
+   act
+   (fn
+    [[t k] x]
+    (case
+     t
+     :r
+     (mod (+ (long x) (long k)) 12)
+     :s
+     (mod (- (long k) (long x)) 12)))
+   {:keys [domain], act-sub :act}
+   (hm/subset-action act (range 12) 3)
+   orbs
+   (hm/orbits G act-sub domain)
+   primes
+   (sort (mapv (fn [orb] (prime-form (first orb))) orbs))
+   forte-catalog
+   [[0 1 2]
+    [0 1 3]
+    [0 1 4]
+    [0 1 5]
+    [0 1 6]
+    [0 2 4]
+    [0 2 5]
+    [0 2 6]
+    [0 2 7]
+    [0 3 6]
+    [0 3 7]
+    [0 4 8]]
+   forte-names
+   ["3-1"
+    "3-2"
+    "3-3"
+    "3-4"
+    "3-5"
+    "3-6"
+    "3-7"
+    "3-8"
+    "3-9"
+    "3-10"
+    "3-11"
+    "3-12"]
+   musical-names
+   ["chromatic cluster"
+    "—"
+    "—"
+    "—"
+    "Viennese trichord"
+    "whole-tone"
+    "—"
+    "—"
+    "stack of fifths"
+    "diminished"
+    "major/minor triad"
+    "augmented triad"]]
+  (kind/table
+   {:column-names
+    ["Forte number" "Prime form" "Interval vector" "Musical name"],
+    :row-vectors
+    (mapv
+     (fn
+      [forte pf name]
+      [forte (str pf) (str (interval-vector pf)) name])
+     forte-names
+     forte-catalog
+     musical-names)})))
+
+
+(def
+ v40_l375
+ (let
+  [G
+   (hm/dihedral-group 12)
+   act
+   (fn
+    [[t k] x]
+    (case
+     t
+     :r
+     (mod (+ (long x) (long k)) 12)
+     :s
+     (mod (- (long k) (long x)) 12)))
+   {:keys [domain], act-sub :act}
+   (hm/subset-action act (range 12) 3)
+   orbs
+   (hm/orbits G act-sub domain)
+   computed
+   (sort (mapv (fn [orb] (prime-form (first orb))) orbs))
+   catalog
+   [[0 1 2]
+    [0 1 3]
+    [0 1 4]
+    [0 1 5]
+    [0 1 6]
+    [0 2 4]
+    [0 2 5]
+    [0 2 6]
+    [0 2 7]
+    [0 3 6]
+    [0 3 7]
+    [0 4 8]]]
+  (= computed catalog)))
+
+
+(deftest t41_l388 (is (true? v40_l375)))
+
+
+(def
+ v43_l393
+ (let
+  [G
+   (hm/dihedral-group 12)
+   act
+   (fn
+    [[t k] x]
+    (case
+     t
+     :r
+     (mod (+ (long x) (long k)) 12)
+     :s
+     (mod (- (long k) (long x)) 12)))
+   {:keys [domain], act-sub :act}
+   (hm/subset-action act (range 12) 4)
+   orbs
+   (hm/orbits G act-sub domain)]
+  (count orbs)))
+
+
+(deftest t44_l402 (is (= v43_l393 29)))
+
+
+(def
+ v46_l409
+ (let
+  [z15 [0 1 4 6] z29 [0 1 3 7]]
+  (= (interval-vector z15) (interval-vector z29))))
+
+
+(deftest t47_l413 (is (true? v46_l409)))

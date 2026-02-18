@@ -427,6 +427,10 @@
 
 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4)))
 
+(kind/doc #'hm/cayley-graph-svg)
+
+(kind/hiccup (hm/cayley-graph-svg (hm/symmetric-group 3) [[1 0 2] [0 2 1]] :radius 100))
+
 ;; ## Complex Tensors
 ;;
 ;; The `scicloj.harmonica.complex` namespace provides tensor-backed complex

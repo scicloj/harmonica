@@ -76,7 +76,8 @@
      young-hooks-svg    - Young diagram with hook lengths
      syt-svg            - standard Young tableau as SVG
      cycle-diagram-svg  - permutation cycle diagram
-     cayley-table-svg   - group Cayley table"
+     cayley-table-svg   - group Cayley table
+     cayley-graph-svg   - Cayley graph with colored generator edges"
   (:require [scicloj.harmonica.protocols :as p]
             [scicloj.harmonica.impl.cyclic :as cyclic]
             [scicloj.harmonica.impl.symmetric :as symmetric]
@@ -407,3 +408,9 @@
   "Render a group Cayley table as an SVG grid with colored cells (hiccup).
    Options: :cell-size."
   svg/cayley-table-svg)
+
+(def cayley-graph-svg
+  "Render a Cayley graph as SVG (hiccup).
+   Vertices = group elements in a circle, directed edges colored by generator.
+   Options: :radius, :node-r, :labels, :colors."
+  svg/cayley-graph-svg)

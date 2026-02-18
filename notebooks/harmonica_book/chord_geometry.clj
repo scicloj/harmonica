@@ -311,6 +311,107 @@
 ;; 4 semitones returns the same chord). The major and minor triads are
 ;; related by inversion.
 
+
+;; ## Forte Numbers
+;;
+;; Allen Forte's catalog assigns a standard identifier to each set class
+;; under $D_{12}$ equivalence. The [Forte number](https://en.wikipedia.org/wiki/Forte_number) $k\text{-}m$ means the $m$-th
+;; set class of cardinality $k$ in Forte's ordering.
+;;
+;; We can compute prime forms and assign Forte numbers from first principles
+;; using the $D_{12}$ orbits we already have.
+
+(defn prime-form
+  "Compute the prime form of a pitch class set under TnI equivalence.
+  The prime form is the most compact representative: transpose all
+  rotations and inversions to start at 0, then pick the lexicographically
+  smallest."
+  [pcs]
+  (let [pcs-vec (vec (sort pcs))
+        n 12
+        ;; All transpositions
+        transpositions (for [k (range n)]
+                         (vec (sort (map #(mod (+ % k) n) pcs-vec))))
+        ;; All inversions followed by transpositions
+        inversions (for [k (range n)]
+                     (vec (sort (map #(mod (- k %) n) pcs-vec))))
+        ;; Normalize each to start at 0
+        normalize (fn [s] (let [base (first s)]
+                            (mapv #(mod (- % base) n) s)))
+        candidates (map normalize (concat transpositions inversions))]
+    (first (sort candidates))))
+
+;; The 12 trichord set classes under $D_{12}$, computed by harmonica
+;; and labeled with [Forte numbers](https://en.wikipedia.org/wiki/List_of_set_classes):
+
+(let [G (hm/dihedral-group 12)
+      act (fn [[t k] x]
+            (case t
+              :r (mod (+ (long x) (long k)) 12)
+              :s (mod (- (long k) (long x)) 12)))
+      {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
+      orbs (hm/orbits G act-sub domain)
+      primes (sort (mapv (fn [orb]
+                           (prime-form (first orb)))
+                         orbs))
+      ;; Forte's catalog order for trichords
+      forte-catalog [[0 1 2] [0 1 3] [0 1 4] [0 1 5] [0 1 6]
+                     [0 2 4] [0 2 5] [0 2 6] [0 2 7]
+                     [0 3 6] [0 3 7] [0 4 8]]
+      forte-names ["3-1" "3-2" "3-3" "3-4" "3-5"
+                   "3-6" "3-7" "3-8" "3-9"
+                   "3-10" "3-11" "3-12"]
+      musical-names ["chromatic cluster" "—" "—" "—" "Viennese trichord"
+                     "whole-tone" "—" "—" "stack of fifths"
+                     "diminished" "major/minor triad" "augmented triad"]]
+  (kind/table
+   {:column-names ["Forte number" "Prime form" "Interval vector" "Musical name"]
+    :row-vectors (mapv (fn [forte pf name]
+                         [forte (str pf) (str (interval-vector pf)) name])
+                       forte-names forte-catalog musical-names)}))
+
+;; Verify that our computed prime forms match the standard catalog exactly:
+
+(let [G (hm/dihedral-group 12)
+      act (fn [[t k] x]
+            (case t
+              :r (mod (+ (long x) (long k)) 12)
+              :s (mod (- (long k) (long x)) 12)))
+      {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
+      orbs (hm/orbits G act-sub domain)
+      computed (sort (mapv (fn [orb] (prime-form (first orb))) orbs))
+      catalog [[0 1 2] [0 1 3] [0 1 4] [0 1 5] [0 1 6]
+               [0 2 4] [0 2 5] [0 2 6] [0 2 7]
+               [0 3 6] [0 3 7] [0 4 8]]]
+  (= computed catalog))
+
+(kind/test-last [true?])
+
+;; The same approach works for tetrachords. There are 29 tetrachord
+;; set classes under $D_{12}$:
+
+(let [G (hm/dihedral-group 12)
+      act (fn [[t k] x]
+            (case t
+              :r (mod (+ (long x) (long k)) 12)
+              :s (mod (- (long k) (long x)) 12)))
+      {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 4)
+      orbs (hm/orbits G act-sub domain)]
+  (count orbs))
+
+(kind/test-last [= 29])
+
+;; Two of these — 4-Z15 and 4-Z29 — share the same interval vector
+;; $\langle111111\rangle$ despite being different set classes. This is
+;; the [Z-relation](https://en.wikipedia.org/wiki/Z-relation), the
+;; only instance among tetrachords:
+
+(let [z15 [0 1 4 6]
+      z29 [0 1 3 7]]
+  (= (interval-vector z15) (interval-vector z29)))
+
+(kind/test-last [true?])
+
 ;; ## Summary
 ;;
 ;; This notebook demonstrated:
@@ -321,6 +422,8 @@
 ;; - **Interval vectors**: a transposition-invariant fingerprint of a chord
 ;; - **Fourier magnitudes**: another invariant, connecting to representation theory
 ;; - **Inversional equivalence**: the dihedral group $D_{12}$ merges chord/inversion pairs
+;; - **Forte numbers**: standard catalog of set classes, computed from $D_{12}$ orbits
+;; - **Z-relation**: distinct set classes sharing the same interval vector
 
 ;; For another perspective on music and group theory — transforming
 ;; melodies via the Klein four-group — see
