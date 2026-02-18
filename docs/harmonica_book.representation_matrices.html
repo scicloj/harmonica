@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -400,20 +406,20 @@ window.Quarto = {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<p>An irreducible representation <span class="math inline">\(\rho_\lambda : S_n \to GL(d_\lambda)\)</span> assigns a matrix to each permutation. For the symmetric group, harmonica uses <strong>Young’s orthogonal form</strong> — an explicit construction based on standard Young tableaux.</p>
+<p>An irreducible representation <span class="math inline">\(\rho_\lambda : S_n \to [GL(d_\lambda)](https://en.wikipedia.org/wiki/General_linear_group)\)</span> assigns a matrix to each permutation. For the symmetric group, harmonica uses <strong><a href="https://en.wikipedia.org/wiki/Young%27s_orthogonal_representation">Young’s orthogonal form</a></strong> — an explicit construction based on standard Young tableaux.</p>
 <p>This notebook verifies the deep algebraic properties of these matrices and explores tensor products and direct sums.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.representation-matrices</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.representations <span class="at">:as</span> rep]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [fastmath.complex <span class="at">:as</span> c]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.complex <span class="at">:as</span> cx]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [fastmath.matrix <span class="at">:as</span> fm]</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="building-an-irrep" class="level2">
 <h2 class="anchored" data-anchor-id="building-an-irrep">Building an irrep</h2>
-<p>An irreducible representation is constructed from a partition <span class="math inline">\(\lambda\)</span>. The dimension <span class="math inline">\(d_\lambda\)</span> equals the number of standard Young tableaux of shape <span class="math inline">\(\lambda\)</span>.</p>
+<p>An irreducible representation is constructed from a partition <span class="math inline">\(\lambda\)</span>. The dimension <span class="math inline">\(d_\lambda\)</span> equals the number of <a href="https://en.wikipedia.org/wiki/Young_tableau#Standard_Young_tableaux">standard Young tableaux</a> of shape <span class="math inline">\(\lambda\)</span>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ir-21 </span>(hm/irrep [<span class="dv">2</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -527,7 +533,7 @@ window.Quarto = {
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                          row (<span class="kw">nth</span> (<span class="at">:table</span> ct) row-idx)]</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">every?</span> (<span class="kw">fn</span> [sigma]</span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                                (<span class="kw">let</span> [ct-idx (class-idx (hm/cycle-type sigma))</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                                      chi-val (c/re (<span class="kw">nth</span> row ct-idx))</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                                      chi-val (cx/re (row ct-idx))</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                                      trace-val (hm/rep-character ir sigma)]</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                                  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> chi-val trace-val)) <span class="fl">1e-8</span>)))</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                              (hm/elements G)))))))]</span>
@@ -655,7 +661,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="tensor-product" class="level2">
-<h2 class="anchored" data-anchor-id="tensor-product">Tensor product</h2>
+<h2 class="anchored" data-anchor-id="tensor-product"><a href="https://en.wikipedia.org/wiki/Tensor_product_of_representations">Tensor product</a></h2>
 <p>The tensor product <span class="math inline">\(\rho_1 \otimes \rho_2\)</span> has dimension <span class="math inline">\(d_1 \cdot d_2\)</span> and character <span class="math inline">\(\chi_1(g) \cdot \chi_2(g)\)</span>.</p>
 <section id="dimension" class="level3">
 <h3 class="anchored" data-anchor-id="dimension">Dimension</h3>
@@ -730,7 +736,7 @@ window.Quarto = {
 </section>
 </section>
 <section id="direct-sum" class="level2">
-<h2 class="anchored" data-anchor-id="direct-sum">Direct sum</h2>
+<h2 class="anchored" data-anchor-id="direct-sum"><a href="https://en.wikipedia.org/wiki/Direct_sum_of_modules">Direct sum</a></h2>
 <p>The direct sum <span class="math inline">\(\rho_1 \oplus \rho_2\)</span> has dimension <span class="math inline">\(d_1 + d_2\)</span> and character <span class="math inline">\(\chi_1(g) + \chi_2(g)\)</span>.</p>
 <section id="dimension-1" class="level3">
 <h3 class="anchored" data-anchor-id="dimension-1">Dimension</h3>
@@ -776,7 +782,7 @@ window.Quarto = {
 </section>
 </section>
 <section id="schur-orthogonality-relations-matrix-entries" class="level2">
-<h2 class="anchored" data-anchor-id="schur-orthogonality-relations-matrix-entries">Schur orthogonality relations (matrix entries)</h2>
+<h2 class="anchored" data-anchor-id="schur-orthogonality-relations-matrix-entries"><a href="https://en.wikipedia.org/wiki/Schur_orthogonality_relations">Schur orthogonality relations</a> (matrix entries)</h2>
 <p>For distinct irreps <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\rho'\)</span>:</p>
 <p><span class="math display">\[\frac{1}{|G|} \sum_{\sigma \in G} \rho(\sigma)_{ij} \, \rho'(\sigma)_{kl} = 0\]</span></p>
 <p>For the same irrep:</p>

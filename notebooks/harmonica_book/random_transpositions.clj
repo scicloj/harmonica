@@ -348,3 +348,13 @@
 ;;   Statistics*. IMS Lecture Notes.
 ;;
 ;; - Sagan, B. (2001). *The Symmetric Group*. Springer GTM 203.
+
+;; ## Where to go next
+;;
+;; - For **non-class-function** analysis (riffle shuffles require
+;;   matrix-valued Fourier transforms): [Riffle Shuffles](riffle_shuffle.html)
+;; - For the **character theory** behind these computations:
+;;   [Character Theory](character_theory.html)
+;; - For the **1D DFT** on cyclic groups:
+;;   [The DFT as Group Fourier Transform](dft_as_group_fourier.html)
+

@@ -31,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__11155#] (Math/cos p1__11155#)) angles)
+    (mapv (fn* [p1__63997#] (Math/cos p1__63997#)) angles)
     ys
-    (mapv (fn* [p1__11156#] (Math/sin p1__11156#)) angles)
+    (mapv (fn* [p1__63998#] (Math/sin p1__63998#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -87,7 +87,7 @@
       [transposed
        (sort
         (mapv
-         (fn* [p1__11157#] (mod (+ p1__11157# (long k)) 12))
+         (fn* [p1__63999#] (mod (+ p1__63999# (long k)) 12))
          c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
@@ -219,7 +219,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__11158#] (contains? p1__11158# rep)) orbs-d)))
+     (filter (fn* [p1__64000#] (contains? p1__64000# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -253,12 +253,12 @@
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__11159#] (first (sort p1__11159#))) orbs)
+   (mapv (fn* [p1__64001#] (first (sort p1__64001#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
-  (every? (fn* [p1__11160#] (= 1 (count (val p1__11160#)))) iv-groups)))
+  (every? (fn* [p1__64002#] (= 1 (count (val p1__64002#)))) iv-groups)))
 
 
 (deftest t22_l216 (is (true? v21_l204)))
@@ -402,19 +402,19 @@
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__11161#] (mod (+ p1__11161# k) n)) pcs-vec))))
+       (map (fn* [p1__64003#] (mod (+ p1__64003# k) n)) pcs-vec))))
     inversions
     (for
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__11162#] (mod (- k p1__11162#) n)) pcs-vec))))
+       (map (fn* [p1__64004#] (mod (- k p1__64004#) n)) pcs-vec))))
     normalize
     (fn
      [s]
      (let
       [base (first s)]
-      (mapv (fn* [p1__11163#] (mod (- p1__11163# base) n)) s)))
+      (mapv (fn* [p1__64005#] (mod (- p1__64005# base) n)) s)))
     candidates
     (map normalize (concat transpositions inversions))]
    (first (sort candidates)))))

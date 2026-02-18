@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -412,11 +418,11 @@ window.Quarto = {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<p>A <strong>group</strong> <span class="math inline">\((G, \cdot)\)</span> is a set <span class="math inline">\(G\)</span> with an operation satisfying closure, associativity, identity, and inverses. This notebook systematically verifies these axioms and explores the structural properties of every group type in the library.</p>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Group_(mathematics)">group</a></strong> <span class="math inline">\((G, \cdot)\)</span> is a set <span class="math inline">\(G\)</span> with an operation satisfying closure, associativity, identity, and inverses. This notebook systematically verifies these axioms and explores the structural properties of every group type in the library.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.groups-and-structure</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="the-group-types-in-the-library" class="level2">
@@ -424,13 +430,13 @@ window.Quarto = {
 <p>The library provides four families of groups. The first two — <strong>cyclic groups</strong> and <strong>symmetric groups</strong> — were introduced in <a href="dft_as_group_fourier.html">The DFT as Group Fourier Transform</a> and <a href="symmetric_groups.html">Symmetric Groups</a>. Here we introduce the remaining two.</p>
 <section id="dihedral-groups" class="level3">
 <h3 class="anchored" data-anchor-id="dihedral-groups">Dihedral groups</h3>
-<p>The <strong>dihedral group</strong> <span class="math inline">\(D_n\)</span> is the symmetry group of a regular <span class="math inline">\(n\)</span>-gon: <span class="math inline">\(n\)</span> rotations and <span class="math inline">\(n\)</span> reflections, for a total of <span class="math inline">\(2n\)</span> elements.</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Dihedral_group">dihedral group</a></strong> <span class="math inline">\(D_n\)</span> is the symmetry group of a regular <span class="math inline">\(n\)</span>-gon: <span class="math inline">\(n\)</span> rotations and <span class="math inline">\(n\)</span> reflections, for a total of <span class="math inline">\(2n\)</span> elements.</p>
 <p>Elements are represented as tagged pairs:</p>
 <ul>
 <li><span class="math inline">\([:r\; k]\)</span> — rotation by <span class="math inline">\(2\pi k/n\)</span> (for <span class="math inline">\(k = 0, \ldots, n{-}1\)</span>)</li>
 <li><span class="math inline">\([:s\; k]\)</span> — reflection (for <span class="math inline">\(k = 0, \ldots, n{-}1\)</span>)</li>
 </ul>
-<p>The group is defined by the <strong>presentation</strong> <span class="math inline">\(r^n = s^2 = e\)</span> and <span class="math inline">\(s r s = r^{-1}\)</span>: rotating then reflecting then rotating again is the same as reflecting in a different axis.</p>
+<p>The group is defined by the <strong><a href="https://en.wikipedia.org/wiki/Presentation_of_a_group">presentation</a></strong> <span class="math inline">\(r^n = s^2 = e\)</span> and <span class="math inline">\(s r s = r^{-1}\)</span>: rotating then reflecting then rotating again is the same as reflecting in a different axis.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/dihedral-group <span class="dv">4</span>)]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:order</span> (hm/order G)</span>
@@ -453,8 +459,8 @@ window.Quarto = {
 </section>
 <section id="product-groups" class="level3">
 <h3 class="anchored" data-anchor-id="product-groups">Product groups</h3>
-<p>The <strong>product group</strong> <span class="math inline">\(G_1 \times G_2\)</span> has elements that are pairs <span class="math inline">\([g, h]\)</span> with <span class="math inline">\(g \in G_1\)</span>, <span class="math inline">\(h \in G_2\)</span>. All operations act componentwise: <span class="math inline">\((g_1, h_1) \cdot (g_2, h_2) = (g_1 g_2,\; h_1 h_2)\)</span>.</p>
-<p>The simplest non-trivial example is the <strong>Klein four-group</strong> <span class="math inline">\(V_4 = \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}\)</span>, which has 4 elements and is the smallest non-cyclic group:</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Direct_product_of_groups">direct product</a></strong> <span class="math inline">\(G_1 \times G_2\)</span> has elements that are pairs <span class="math inline">\([g, h]\)</span> with <span class="math inline">\(g \in G_1\)</span>, <span class="math inline">\(h \in G_2\)</span>. All operations act componentwise: <span class="math inline">\((g_1, h_1) \cdot (g_2, h_2) = (g_1 g_2,\; h_1 h_2)\)</span>.</p>
+<p>The simplest non-trivial example is the <strong><a href="https://en.wikipedia.org/wiki/Klein_four-group">Klein four-group</a></strong> <span class="math inline">\(V_4 = \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}\)</span>, which has 4 elements and is the smallest non-cyclic group:</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [V4 (hm/product-group (hm/cyclic-group <span class="dv">2</span>) (hm/cyclic-group <span class="dv">2</span>))]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:order</span> (hm/order V4)</span>

@@ -8,12 +8,8 @@
 ;; matters. This non-commutativity is precisely what makes $S_n$ rich enough to
 ;; model shuffling, symmetry breaking, and the combinatorics of partitions.
 ;;
-;; This notebook introduces $S_n$ through harmonica's permutation and partition
-;; machinery. For deeper exploration of permutation algebra, see
-;; [Permutations and Partitions](permutations_and_partitions.html). For
-;; character theory and representations, see
-;; [Character Theory](character_theory.html) and
-;; [Representation Matrices](representation_matrices.html).
+;; For the general group concept and other group families, see
+;; [Groups and Structure](groups_and_structure.html).
 
 (ns harmonica-book.symmetric-groups
   (:require
@@ -84,9 +80,9 @@
 (kind/test-last
  [(fn [v] (not= (first v) (second v)))])
 
-;; ## [Cycle notation](https://en.wikipedia.org/wiki/Permutation#Cycle_notation)
+;; ## Cycle notation
 ;;
-;; Cycle notation reveals the structure of a permutation more clearly
+;; [Cycle notation](https://en.wikipedia.org/wiki/Permutation#Cycle_notation) reveals the structure of a permutation more clearly
 ;; than one-line notation. The permutation `[1 2 3 0]` sends
 ;; $0 \to 1 \to 2 \to 3 \to 0$, which is the single 4-cycle $(0\;1\;2\;3)$.
 
@@ -115,6 +111,21 @@
 
 (kind/test-last
  [= [[0 1] [2 3]]])
+
+;; ### Cycle diagrams
+;;
+;; A cycle diagram draws elements around a circle with arrows showing
+;; where each element maps. Here is the 4-cycle $(0\;1\;2\;3)$:
+
+(kind/hiccup (hm/cycle-diagram-svg [1 2 3 0]))
+
+;; Two disjoint 2-cycles $(0\;1)(2\;3)$:
+
+(kind/hiccup (hm/cycle-diagram-svg [1 0 3 2]))
+
+;; A permutation with a fixed point — $(0\;2\;4)(1\;3)$, where $5$ is fixed:
+
+(kind/hiccup (hm/cycle-diagram-svg [2 3 4 1 0 5]))
 
 ;; ## Cycle type and the sign of a permutation
 ;;
@@ -182,6 +193,121 @@
   :row-vectors (mapv (fn [n] [n (count (hm/partitions n))])
                      (range 1 11))})
 
+;; ## Young diagrams
+;;
+;; A partition is visualized as a **[Young diagram](https://en.wikipedia.org/wiki/Young_diagram)**: a left-justified array
+;; of boxes where row $i$ has $\lambda_i$ boxes.
+
+;; The partitions of 5 and their Young diagrams:
+
+(kind/hiccup
+ (into [:div {:style "display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end;"}]
+       (for [p (hm/partitions 5)]
+         [:div {:style "text-align: center;"}
+          (hm/young-diagram-svg p)
+          [:div {:style "margin-top: 4px; font-family: monospace; font-size: 13px;"}
+           (str p)]])))
+
+;; ### Conjugate partition
+;;
+;; The **conjugate** $\lambda'$ of a partition $\lambda$ is obtained by
+;; reflecting the Young diagram along the main diagonal — swapping rows
+;; and columns.
+
+(hm/partition-conjugate [4 2 1])
+
+(kind/test-last [= [3 2 1 1]])
+
+(hm/partition-conjugate [3 3])
+
+(kind/test-last [= [2 2 2]])
+
+;; A partition and its conjugate, side by side:
+
+(kind/hiccup
+ (let [p [4 2 1]
+       pc (hm/partition-conjugate p)]
+   [:div {:style "display: flex; gap: 40px; align-items: flex-end;"}
+    [:div {:style "text-align: center;"}
+     (hm/young-diagram-svg p)
+     [:div {:style "margin-top: 4px; font-family: monospace;"} (str "λ = " p)]]
+    [:div {:style "text-align: center; font-size: 24px; align-self: center;"} "↔"]
+    [:div {:style "text-align: center;"}
+     (hm/young-diagram-svg pc :fill "#e67e22")
+     [:div {:style "margin-top: 4px; font-family: monospace;"} (str "λ' = " pc)]]]))
+
+;; Conjugation is an involution: $(\lambda')' = \lambda$.
+
+(= [4 2 1] (hm/partition-conjugate (hm/partition-conjugate [4 2 1])))
+
+(kind/test-last [true?])
+
+;; ## Hook lengths and the hook-length formula
+;;
+;; For each cell $(i, j)$ in a Young diagram, the **[hook length](https://en.wikipedia.org/wiki/Hook_length_formula)** $h(i,j)$
+;; counts the cells directly to the right and directly below, plus the cell
+;; itself.
+;;
+;; The **[hook-length formula](https://en.wikipedia.org/wiki/Hook_length_formula)** gives the number of standard Young tableaux
+;; of shape $\lambda$:
+;;
+;; $$f^\lambda = \frac{n!}{\prod_{(i,j) \in \lambda} h(i,j)}$$
+;;
+;; This equals the dimension of the irreducible representation of $S_n$
+;; indexed by $\lambda$.
+
+;; Hook lengths for $[4, 2, 1]$:
+
+(kind/hiccup (hm/young-hooks-svg [4 2 1]))
+
+;; Hook lengths for $[3, 2, 2]$:
+
+(kind/hiccup (hm/young-hooks-svg [3 2 2]))
+
+;; Verify: the hook-length dimension matches explicit tableau enumeration.
+
+(let [results
+      (for [lambda (hm/partitions 5)]
+        (= (hm/hook-length-dimension lambda)
+           (count (hm/standard-young-tableaux lambda))))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; Dimension table for partitions of 5:
+
+(kind/table
+ {:column-names ["$\\lambda$" "$f^\\lambda$ (hook-length)" "# SYT (enumerated)"]
+  :row-vectors
+  (mapv (fn [lambda]
+          [(str lambda)
+           (hm/hook-length-dimension lambda)
+           (count (hm/standard-young-tableaux lambda))])
+        (hm/partitions 5))})
+
+;; ## Standard Young Tableaux
+;;
+;; A **[standard Young tableau](https://en.wikipedia.org/wiki/Young_tableau#Standard_Young_tableaux)** (SYT) of shape $\lambda$ is a filling of the
+;; Young diagram with $1, 2, \ldots, n$ such that entries increase along each
+;; row and down each column. SYTs form the basis for
+;; [Young's orthogonal representation](https://en.wikipedia.org/wiki/Young%27s_orthogonal_representation).
+
+(hm/standard-young-tableaux [2 1])
+
+(kind/test-last [= [[[1 2] [3]] [[1 3] [2]]]])
+
+(count (hm/standard-young-tableaux [3 2]))
+
+(kind/test-last [= 5])
+
+;; The 5 standard Young tableaux of shape $[3, 2]$:
+
+(kind/hiccup
+ (into [:div {:style "display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;"}]
+       (for [t (hm/standard-young-tableaux [3 2])]
+         [:div {:style "text-align: center;"}
+          (hm/syt-svg t)])))
+
 ;; ## Conjugacy classes
 ;;
 ;; Two permutations are **[conjugate](https://en.wikipedia.org/wiki/Conjugacy_class)** if one can be obtained from the
@@ -209,6 +335,19 @@
 
 (kind/test-last
  [= (count (hm/partitions 4))])
+
+;; ## The dimension-squared sum
+;;
+;; A beautiful identity: the sum of squared dimensions of all irreps
+;; equals $|S_n| = n!$:
+;;
+;; $$\sum_{\lambda \vdash n} (f^\lambda)^2 = n!$$
+
+(let [n 5
+      dims (mapv hm/hook-length-dimension (hm/partitions n))]
+  (reduce + (map #(* % %) dims)))
+
+(kind/test-last [= 120])
 
 ;; ## Growth of $S_n$
 ;;
@@ -247,17 +386,13 @@
 
 ;; ## What comes next
 ;;
-;; With the symmetric group in hand, the next steps are:
+;; With permutations, partitions, and Young diagrams in hand:
 ;;
-;; - **Character tables** — computed by the Murnaghan-Nakayama rule, these
-;;   encode all irreducible representations as a square matrix.
-;;   See [Character Theory](character_theory.html).
-;;
-;; - **Fourier analysis on $S_n$** — class functions can be transformed
-;;   using just the character table; general functions need matrix
-;;   representations. See [Random Transpositions](random_transpositions.html)
-;;   and [Riffle Shuffles](riffle_shuffle.html).
-;;
-;; - **Representation matrices** — Young's orthogonal form gives explicit
-;;   matrices for each irrep. See [Representation Matrices](representation_matrices.html).
-
+;; - **[Character Theory](character_theory.html)** — the character table
+;;   encodes all irreducible representations. For $S_n$ it is computed by
+;;   the Murnaghan-Nakayama rule.
+;; - **[Representation Matrices](representation_matrices.html)** — Young's
+;;   orthogonal form gives explicit matrices for each irrep.
+;; - **[Random Transpositions](random_transpositions.html)** and
+;;   **[Riffle Shuffles](riffle_shuffle.html)** — Fourier analysis on $S_n$
+;;   applied to card shuffling.

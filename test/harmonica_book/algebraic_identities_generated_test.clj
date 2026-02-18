@@ -285,7 +285,7 @@
        dim-sq-sum
        (reduce
         +
-        (map (fn* [p1__93703#] (* p1__93703# p1__93703#)) dims))]
+        (map (fn* [p1__64663#] (* p1__64663# p1__64663#)) dims))]
       {:group label,
        :pass?
        (<
@@ -438,14 +438,14 @@
        lhs
        (apply
         +
-        (map (fn* [p1__93704#] (* p1__93704# p1__93704#)) (vec mag-f)))
+        (map (fn* [p1__64664#] (* p1__64664# p1__64664#)) (vec mag-f)))
        rhs
        (*
         (/ 1.0 (double n))
         (apply
          +
          (map
-          (fn* [p1__93705#] (* p1__93705# p1__93705#))
+          (fn* [p1__64665#] (* p1__64665# p1__64665#))
           (vec mag-fh))))]
       {:group label, :pass? (< (Math/abs (- lhs rhs)) 1.0E-8)}))
     abelian-groups)]
@@ -713,7 +713,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__93706#] (coloring (mod (+ p1__93706# (long g)) n)))
+        (fn* [p1__64666#] (coloring (mod (+ p1__64666# (long g)) n)))
         (range n)))
       orbit-count
       (count (hm/orbits G act domain))
@@ -752,7 +752,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__93707#] (coloring (mod (+ p1__93707# (long g)) n)))
+        (fn* [p1__64667#] (coloring (mod (+ p1__64667# (long g)) n)))
         (range n)))
       burnside
       (hm/burnside-count G act-coloring domain)]
@@ -1058,3 +1058,282 @@
 
 
 (deftest t104_l698 (is (true? v103_l686)))
+
+
+(def
+ v106_l704
+ (let
+  [results
+   (mapv
+    (fn
+     [{:keys [label group]}]
+     (let
+      [elt-set (set (hm/elements group))]
+      {:group label,
+       :pass?
+       (every?
+        (fn
+         [g]
+         (every?
+          (fn [h] (contains? elt-set (hm/op group g h)))
+          (hm/elements group)))
+        (hm/elements group))}))
+    test-groups)]
+  (every? :pass? results)))
+
+
+(deftest t107_l716 (is (true? v106_l704)))
+
+
+(def
+ v109_l720
+ (let
+  [results
+   (mapv
+    (fn
+     [{:keys [label group]}]
+     (let
+      [elt-set (set (hm/elements group))]
+      {:group label,
+       :pass?
+       (every?
+        (fn [g] (contains? elt-set (hm/inv group g)))
+        (hm/elements group))}))
+    test-groups)]
+  (every? :pass? results)))
+
+
+(deftest t110_l730 (is (true? v109_l720)))
+
+
+(def
+ v112_l734
+ (let
+  [results
+   (for [n (range 1 25)] (= (hm/order (hm/dihedral-group n)) (* 2 n)))]
+  (every? true? results)))
+
+
+(deftest t113_l739 (is (true? v112_l734)))
+
+
+(def
+ v115_l745
+ (let
+  [results
+   (for
+    [n (range 1 13)]
+    (every?
+     (fn [p] (and (every? pos-int? p) (apply >= p) (= n (reduce + p))))
+     (hm/partitions n)))]
+  (every? true? results)))
+
+
+(deftest t116_l754 (is (true? v115_l745)))
+
+
+(def
+ v118_l758
+ (let
+  [results
+   (for
+    [n (range 1 11) p (hm/partitions n)]
+    (= p (hm/partition-conjugate (hm/partition-conjugate p))))]
+  (every? true? results)))
+
+
+(deftest t119_l764 (is (true? v118_l758)))
+
+
+(def
+ v121_l768
+ (let
+  [results
+   (for
+    [n (range 1 11) p (hm/partitions n)]
+    (= (reduce + p) (reduce + (hm/partition-conjugate p))))]
+  (every? true? results)))
+
+
+(deftest t122_l774 (is (true? v121_l768)))
+
+
+(def
+ v124_l778
+ (let
+  [results
+   (for
+    [n (range 1 8) lambda (hm/partitions n)]
+    (let
+     [hlf
+      (hm/hook-length-dimension lambda)
+      syt
+      (count (hm/standard-young-tableaux lambda))
+      rep
+      (hm/rep-dimension (hm/irrep lambda))]
+     (= hlf syt rep)))]
+  (every? true? results)))
+
+
+(deftest t125_l787 (is (true? v124_l778)))
+
+
+(def
+ v127_l791
+ (defn
+  class-size-formula
+  "Conjugacy class size from the partition formula."
+  [n mu]
+  (let
+   [fact (fn [m] (reduce *' (range 1 (inc m)))) freq (frequencies mu)]
+   (/
+    (fact n)
+    (reduce
+     *'
+     (map
+      (fn [[k ak]] (*' (reduce *' (repeat ak k)) (fact ak)))
+      freq))))))
+
+
+(def
+ v128_l802
+ (let
+  [results
+   (for
+    [n (range 2 8)]
+    (let
+     [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
+     (every?
+      (fn
+       [cls]
+       (let
+        [ct (hm/cycle-type (:representative cls))]
+        (= (:size cls) (class-size-formula n ct))))
+      classes)))]
+  (every? true? results)))
+
+
+(deftest t129_l812 (is (true? v128_l802)))
+
+
+(def
+ v131_l816
+ (let
+  [G (hm/symmetric-group 5) e (hm/id G)]
+  (every?
+   (fn
+    [sigma]
+    (let
+     [ct
+      (hm/cycle-type sigma)
+      expected
+      (reduce
+       (fn
+        [a b]
+        (/ (* a b) (biginteger (.gcd (biginteger a) (biginteger b)))))
+       (map biginteger ct))
+      actual
+      (loop
+       [k 1 current sigma]
+       (if (= current e) k (recur (inc k) (hm/op G current sigma))))]
+     (= actual (long expected))))
+   (hm/elements G))))
+
+
+(deftest t132_l829 (is (true? v131_l816)))
+
+
+(def
+ v134_l835
+ (let
+  [results
+   (for
+    [n [3 4 5 6] lambda (hm/partitions n)]
+    (let
+     [ir
+      (hm/irrep lambda)
+      d
+      (hm/rep-dimension ir)
+      I
+      (fm/rows->mat
+       (mapv
+        (fn [i] (mapv (fn [j] (if (= i j) 1.0 0.0)) (range d)))
+        (range d)))
+      rho-e
+      (hm/rep-matrix ir (hm/identity-perm n))
+      diff
+      (fm/sub rho-e I)
+      err
+      (Math/sqrt (fm/trace (fm/mulm diff (fm/transpose diff))))]
+     (< err 1.0E-10)))]
+  (every? true? results)))
+
+
+(deftest t135_l850 (is (true? v134_l835)))
+
+
+(def
+ v137_l854
+ (let
+  [results
+   (for
+    [n [3 4 5] lambda (hm/partitions n)]
+    (let
+     [G (hm/symmetric-group n) ir (hm/irrep lambda)]
+     (every?
+      (fn
+       [sigma]
+       (let
+        [rho-inv
+         (hm/rep-matrix ir (hm/inv G sigma))
+         rho-t
+         (fm/transpose (hm/rep-matrix ir sigma))
+         diff
+         (fm/sub rho-inv rho-t)
+         err
+         (Math/sqrt (fm/trace (fm/mulm diff (fm/transpose diff))))]
+        (< err 1.0E-10)))
+      (hm/elements G))))]
+  (every? true? results)))
+
+
+(deftest t138_l868 (is (true? v137_l854)))
+
+
+(def
+ v140_l872
+ (let
+  [results
+   (for
+    [n [3 4 5]]
+    (let
+     [G
+      (hm/symmetric-group n)
+      ct
+      (hm/character-table G)
+      {:keys [table class-sizes]}
+      ct
+      order
+      (hm/order G)
+      k
+      (count table)]
+     (every?
+      identity
+      (for
+       [i (range k) j (range k)]
+       (let
+        [ip
+         (hm/character-inner-product
+          (nth table i)
+          (nth table j)
+          class-sizes
+          order)
+         expected
+         (if (= i j) 1.0 0.0)]
+        (<
+         (cx/cabs (cx/csub ip (cx/complex expected 0.0)))
+         1.0E-8))))))]
+  (every? true? results)))
+
+
+(deftest t141_l887 (is (true? v140_l872)))

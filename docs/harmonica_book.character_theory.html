@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -401,18 +407,18 @@ window.Quarto = {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<p>The <strong>character table</strong> of a finite group encodes every irreducible representation as a single row of complex numbers. This notebook explores character tables and their deep orthogonality properties across all group types in the library: cyclic, symmetric, and dihedral.</p>
-<p>The properties verified here are not just mathematical curiosities — they are the <strong>structural backbone</strong> that makes Fourier analysis on finite groups work.</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Character_table">character table</a></strong> of a finite group encodes every <a href="https://en.wikipedia.org/wiki/Irreducible_representation">irreducible representation</a> as a single row of complex numbers. This notebook explores character tables and their deep orthogonality properties across all group types in the library: cyclic, symmetric, and dihedral.</p>
+<p>The properties verified here are not just mathematical curiosities — they are the <strong>structural backbone</strong> that makes <a href="https://en.wikipedia.org/wiki/Fourier_analysis_on_finite_groups">Fourier analysis on finite groups</a> work.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.character-theory</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [fastmath.complex <span class="at">:as</span> c]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.complex <span class="at">:as</span> cx]</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="character-tables-by-group-type" class="level2">
 <h2 class="anchored" data-anchor-id="character-tables-by-group-type">Character tables by group type</h2>
-<p>A character table is a square matrix indexed by irreducible representations (rows) and conjugacy classes (columns). The entry <span class="math inline">\(\chi_\rho(C)\)</span> is the trace of the representation matrix <span class="math inline">\(\rho(g)\)</span> for any <span class="math inline">\(g \in C\)</span>.</p>
+<p>A character table is a square matrix indexed by irreducible representations (rows) and conjugacy classes (columns). The entry <span class="math inline">\(\chi_\rho(C)\)</span> is the <a href="https://en.wikipedia.org/wiki/Trace_(linear_algebra)">trace</a> of the representation matrix <span class="math inline">\(\rho(g)\)</span> for any <span class="math inline">\(g \in C\)</span>.</p>
 <section id="cyclic-groups" class="level3">
 <h3 class="anchored" data-anchor-id="cyclic-groups">Cyclic groups</h3>
 <p>For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, the character table is the DFT matrix: <span class="math inline">\(\chi_k(g) = \omega^{kg}\)</span> where <span class="math inline">\(\omega = e^{2\pi i/n}\)</span>.</p>
@@ -427,7 +433,7 @@ window.Quarto = {
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/cyclic-group <span class="dv">8</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      entries (<span class="kw">for</span> [row (<span class="at">:table</span> ct) v row] v)]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (c/abs <span class="va">%</span>) <span class="fl">1.0</span>)) <span class="fl">1e-10</span>) entries))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (cx/cabs <span class="va">%</span>) <span class="fl">1.0</span>)) <span class="fl">1e-10</span>) entries))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -435,13 +441,13 @@ window.Quarto = {
 </section>
 <section id="symmetric-groups" class="level3">
 <h3 class="anchored" data-anchor-id="symmetric-groups">Symmetric groups</h3>
-<p>For <span class="math inline">\(S_n\)</span>, the character table is computed by the Murnaghan-Nakayama rule. All entries are real integers.</p>
+<p>For <span class="math inline">\(S_n\)</span>, the character table is computed by the <a href="https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule">Murnaghan-Nakayama rule</a>. All entries are real integers.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group <span class="dv">4</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      entries (<span class="kw">for</span> [row (<span class="at">:table</span> ct) v row] v)]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [v]</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">and</span> (<span class="kw">&lt;</span> (Math/abs (c/im v)) <span class="fl">1e-10</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                 (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (c/re v) (Math/round (c/re v)))) <span class="fl">1e-10</span>)))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">and</span> (<span class="kw">&lt;</span> (Math/abs (cx/im v)) <span class="fl">1e-10</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                 (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (cx/re v) (Math/round (cx/re v)))) <span class="fl">1e-10</span>)))</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>          entries))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -469,7 +475,7 @@ window.Quarto = {
 </section>
 <section id="row-orthogonality" class="level2">
 <h2 class="anchored" data-anchor-id="row-orthogonality">Row orthogonality</h2>
-<p>The central identity: different irreps are orthogonal as class functions.</p>
+<p>The central identity (<a href="https://en.wikipedia.org/wiki/Schur_orthogonality_relations">Schur orthogonality</a>): different irreps are orthogonal as class functions.</p>
 <p><span class="math display">\[\sum_C |C| \, \chi_i(C) \, \overline{\chi_j(C)} = |G| \, \delta_{ij}\]</span></p>
 <p>This is verified across all group families with diverse sizes.</p>
 <div class="sourceClojure">
@@ -486,8 +492,8 @@ window.Quarto = {
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                                   (<span class="kw">let</span> [ci (<span class="kw">nth</span> (<span class="kw">nth</span> table i) k)</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                                         cj (<span class="kw">nth</span> (<span class="kw">nth</span> table j) k)]</span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                                     (<span class="kw">*</span> (<span class="kw">double</span> sz)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>                                        (<span class="kw">+</span> (<span class="kw">*</span> (c/re ci) (c/re cj))</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                                           (<span class="kw">*</span> (c/im ci) (c/im cj))))))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>                                        (<span class="kw">+</span> (<span class="kw">*</span> (cx/re ci) (cx/re cj))</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                                           (<span class="kw">*</span> (cx/im ci) (cx/im cj))))))</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                                 class-sizes))</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                   expected (<span class="kw">if</span> (<span class="kw">=</span> i j) (<span class="kw">double</span> order) <span class="fl">0.0</span>)]</span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>               (Math/abs (<span class="kw">-</span> ip expected)))))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -541,8 +547,8 @@ window.Quarto = {
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">for</span> [i (<span class="kw">range</span> n) j (<span class="kw">range</span> n)]</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">let</span> [ip (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [row]</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                                       (<span class="kw">let</span> [ci (<span class="kw">nth</span> row i) cj (<span class="kw">nth</span> row j)]</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                                         (<span class="kw">+</span> (<span class="kw">*</span> (c/re ci) (c/re cj))</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>                                            (<span class="kw">*</span> (c/im ci) (c/im cj)))))</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                                         (<span class="kw">+</span> (<span class="kw">*</span> (cx/re ci) (cx/re cj))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>                                            (<span class="kw">*</span> (cx/im ci) (cx/im cj)))))</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>                                     table))</span>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                   expected (<span class="kw">if</span> (<span class="kw">=</span> i j)</span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">/</span> (<span class="kw">double</span> order) (<span class="kw">double</span> (<span class="kw">nth</span> class-sizes i)))</span>
@@ -578,7 +584,7 @@ window.Quarto = {
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  [ct]</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [{<span class="at">:keys</span> [table]} ct</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        order (hm/order (<span class="at">:group</span> ct))</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        dims (<span class="kw">map</span> #(c/re (<span class="kw">first</span> <span class="va">%</span>)) table)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        dims (<span class="kw">map</span> #(cx/re (<span class="va">%</span> <span class="dv">0</span>)) table)</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        sum-sq (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(<span class="kw">*</span> <span class="va">%</span> <span class="va">%</span>) dims))]</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> sum-sq (<span class="kw">double</span> order))) <span class="fl">1e-8</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -632,15 +638,15 @@ window.Quarto = {
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">concat</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [n [<span class="dv">2</span> <span class="dv">5</span> <span class="dv">12</span>]]</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">let</span> [ct (hm/character-table (hm/cyclic-group n))]</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (c/abs (c/sub <span class="va">%</span> (c/complex <span class="fl">1.0</span> <span class="fl">0.0</span>))) <span class="fl">1e-10</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (cx/cabs (cx/csub <span class="va">%</span> (cx/complex <span class="fl">1.0</span> <span class="fl">0.0</span>))) <span class="fl">1e-10</span>)</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">first</span> (<span class="at">:table</span> ct)))))</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [n [<span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>]]</span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group n))]</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (c/abs (c/sub <span class="va">%</span> (c/complex <span class="fl">1.0</span> <span class="fl">0.0</span>))) <span class="fl">1e-10</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (cx/cabs (cx/csub <span class="va">%</span> (cx/complex <span class="fl">1.0</span> <span class="fl">0.0</span>))) <span class="fl">1e-10</span>)</span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">first</span> (<span class="at">:table</span> ct)))))</span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [n [<span class="dv">3</span> <span class="dv">5</span> <span class="dv">6</span> <span class="dv">8</span>]]</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">let</span> [ct (hm/character-table (hm/dihedral-group n))]</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (c/abs (c/sub <span class="va">%</span> (c/complex <span class="fl">1.0</span> <span class="fl">0.0</span>))) <span class="fl">1e-10</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (cx/cabs (cx/csub <span class="va">%</span> (cx/complex <span class="fl">1.0</span> <span class="fl">0.0</span>))) <span class="fl">1e-10</span>)</span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">first</span> (<span class="at">:table</span> ct))))))]</span>
 <span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -664,7 +670,7 @@ window.Quarto = {
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">let</span> [ip (hm/character-inner-product</span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">nth</span> table i) (<span class="kw">nth</span> table j) class-sizes order)</span>
 <span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>                          expected (<span class="kw">if</span> (<span class="kw">=</span> i j) <span class="fl">1.0</span> <span class="fl">0.0</span>)]</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">&lt;</span> (c/abs (c/sub ip (c/complex expected <span class="fl">0.0</span>))) <span class="fl">1e-8</span>))))))]</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">&lt;</span> (cx/cabs (cx/csub ip (cx/complex expected <span class="fl">0.0</span>))) <span class="fl">1e-8</span>))))))]</span>
 <span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -708,7 +714,7 @@ window.Quarto = {
 </table>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group <span class="dv">3</span>))</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      re-table (<span class="kw">mapv</span> (<span class="kw">fn</span> [row] (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re <span class="va">%</span>))) row))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      re-table (<span class="kw">mapv</span> (<span class="kw">fn</span> [row] (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (cx/re <span class="va">%</span>))) row))</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                     (<span class="at">:table</span> ct))]</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  re-table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -720,7 +726,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="s_4-character-table"><span class="math inline">\(S_4\)</span> character table</h3>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group <span class="dv">4</span>))</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      re-table (<span class="kw">mapv</span> (<span class="kw">fn</span> [row] (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re <span class="va">%</span>))) row))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      re-table (<span class="kw">mapv</span> (<span class="kw">fn</span> [row] (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (cx/re <span class="va">%</span>))) row))</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                     (<span class="at">:table</span> ct))]</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  re-table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -733,9 +739,9 @@ window.Quarto = {
 <p><span class="math inline">\(D_3 \cong S_3\)</span>, so the tables should match (up to class ordering).</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct-d3 (hm/character-table (hm/dihedral-group <span class="dv">3</span>))</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>      dims (<span class="kw">sort</span> (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re (<span class="kw">first</span> <span class="va">%</span>)))) (<span class="at">:table</span> ct-d3)))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>      dims (<span class="kw">sort</span> (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (cx/re (<span class="va">%</span> <span class="dv">0</span>)))) (<span class="at">:table</span> ct-d3)))</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      ct-s3 (hm/character-table (hm/symmetric-group <span class="dv">3</span>))</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      dims-s3 (<span class="kw">sort</span> (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re (<span class="kw">first</span> <span class="va">%</span>)))) (<span class="at">:table</span> ct-s3)))]</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      dims-s3 (<span class="kw">sort</span> (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (cx/re (<span class="va">%</span> <span class="dv">0</span>)))) (<span class="at">:table</span> ct-s3)))]</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> dims dims-s3))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
@@ -754,7 +760,7 @@ window.Quarto = {
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group n))</span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>              classes (<span class="at">:classes</span> ct)</span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>              idx (.indexOf classes mu)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>              <span class="kw">val</span> (c/re (<span class="kw">nth</span> (<span class="kw">first</span> (<span class="at">:table</span> ct)) idx))]</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>              <span class="kw">val</span> (cx/re (((<span class="at">:table</span> ct) <span class="dv">0</span>) idx))]</span>
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> <span class="fl">1.0</span> <span class="kw">val</span>)))]</span>
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -772,7 +778,7 @@ window.Quarto = {
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>              labels (<span class="at">:irrep-labels</span> ct)</span>
 <span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>              row-idx (.indexOf labels sign-label)</span>
 <span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>              col-idx (.indexOf classes mu)</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>              <span class="kw">val</span> (<span class="kw">long</span> (Math/round (c/re (<span class="kw">nth</span> (<span class="kw">nth</span> (<span class="at">:table</span> ct) row-idx) col-idx))))</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>              <span class="kw">val</span> (<span class="kw">long</span> (Math/round (cx/re (((<span class="at">:table</span> ct) row-idx) col-idx))))</span>
 <span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>              <span class="co">;; sign of cycle type: (-1)^(n - number of parts)</span></span>
 <span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>              expected (<span class="kw">long</span> (Math/pow -<span class="dv">1</span> (<span class="kw">-</span> n (<span class="kw">count</span> mu))))]</span>
 <span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> <span class="kw">val</span> expected)))]</span>
@@ -798,7 +804,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">21</span>)]</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [ct (hm/character-table (hm/dihedral-group n))</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>              dims (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re (<span class="kw">first</span> <span class="va">%</span>)))) (<span class="at">:table</span> ct))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>              dims (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (cx/re (<span class="va">%</span> <span class="dv">0</span>)))) (<span class="at">:table</span> ct))</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>              one-dims (<span class="kw">count</span> (<span class="kw">filter</span> #(<span class="kw">=</span> <span class="dv">1</span> <span class="va">%</span>) dims))</span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>              two-dims (<span class="kw">count</span> (<span class="kw">filter</span> #(<span class="kw">=</span> <span class="dv">2</span> <span class="va">%</span>) dims))</span>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>              expected<span class="dv">-1</span>d (<span class="kw">if</span> (<span class="kw">odd?</span> n) <span class="dv">2</span> <span class="dv">4</span>)</span>
@@ -821,7 +827,7 @@ window.Quarto = {
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> (<span class="kw">into</span> [<span class="st">""</span>] (<span class="kw">mapv</span> <span class="kw">str</span> classes))</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [label row]</span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">into</span> [(<span class="kw">str</span> label)]</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                               (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (c/re <span class="va">%</span>))) row)))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                               (<span class="kw">mapv</span> #(<span class="kw">long</span> (Math/round (cx/re <span class="va">%</span>))) row)))</span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                       irrep-labels table)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="clay-table">

@@ -295,3 +295,10 @@
 ;; - The **Plancherel identity** as a verification tool
 ;; - The **cutoff phenomenon**: a sharp transition from "far from random" to
 ;;   "nearly uniform" at $k \approx \tfrac{3}{2}\log_2(n)$
+
+;; For the theory behind random transpositions — where character-level analysis
+;; suffices — see [Random Transpositions](random_transpositions.html).
+;;
+;; For the representation matrices used here, see
+;; [Representation Matrices](representation_matrices.html).
+

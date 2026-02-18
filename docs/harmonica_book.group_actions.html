@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -400,12 +406,12 @@ window.Quarto = {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<p>A <strong>group action</strong> is a way for a group to act on a set — each group element becomes a transformation of the set, and group multiplication corresponds to composition of transformations.</p>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Group_action">group action</a></strong> is a way for a group to act on a set — each group element becomes a transformation of the set, and group multiplication corresponds to composition of transformations.</p>
 <p>This notebook covers the orbit-stabilizer theorem, Burnside’s lemma, the cycle index, and Pólya enumeration, with thorough algebraic verification.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.group-actions</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="actions-of-cyclic-groups" class="level2">
@@ -459,7 +465,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="orbit-stabilizer-theorem" class="level2">
-<h2 class="anchored" data-anchor-id="orbit-stabilizer-theorem">Orbit-stabilizer theorem</h2>
+<h2 class="anchored" data-anchor-id="orbit-stabilizer-theorem"><a href="https://en.wikipedia.org/wiki/Orbit%E2%80%93stabilizer_theorem">Orbit-stabilizer theorem</a></h2>
 <p>For any group <span class="math inline">\(G\)</span> acting on a set <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[|G| = |\text{Orb}(x)| \cdot |\text{Stab}(x)|\]</span></p>
 <p>We verify this for dihedral groups acting on vertices.</p>
@@ -556,7 +562,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="burnsides-lemma" class="level2">
-<h2 class="anchored" data-anchor-id="burnsides-lemma">Burnside’s lemma</h2>
+<h2 class="anchored" data-anchor-id="burnsides-lemma"><a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma">Burnside’s lemma</a></h2>
 <p><span class="math display">\[|\text{orbits}| = \frac{1}{|G|} \sum_{g \in G} |\text{Fix}(g)|\]</span></p>
 <p>We verify that Burnside’s count matches the actual orbit count for colorings of beads under cyclic and dihedral groups.</p>
 <p>The library provides <code>coloring-action</code> to generate all <span class="math inline">\(k\)</span>-colorings and lift a point action to colorings — analogous to <code>subset-action</code> for <span class="math inline">\(k\)</span>-element subsets.</p>
@@ -628,7 +634,7 @@ window.Quarto = {
 </section>
 </section>
 <section id="cycle-index" class="level2">
-<h2 class="anchored" data-anchor-id="cycle-index">Cycle index</h2>
+<h2 class="anchored" data-anchor-id="cycle-index"><a href="https://en.wikipedia.org/wiki/Cycle_index">Cycle index</a></h2>
 <p>The <strong>cycle index</strong> of a group action is a polynomial that encodes the cycle structure of every group element’s permutation of the domain:</p>
 <p><span class="math display">\[Z(G) = \frac{1}{|G|} \sum_{g \in G} \prod_i p_i^{c_i(g)}\]</span></p>
 <p>Coefficients are rational numbers summing to 1.</p>
@@ -662,7 +668,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="pólya-enumeration" class="level2">
-<h2 class="anchored" data-anchor-id="pólya-enumeration">Pólya enumeration</h2>
+<h2 class="anchored" data-anchor-id="pólya-enumeration"><a href="https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem">Pólya enumeration</a></h2>
 <p>Evaluating the cycle index with <span class="math inline">\(p_i = k\)</span> counts the number of distinct <span class="math inline">\(k\)</span>-colorings: <span class="math inline">\(|colorings| = Z(G; p_1 = k, p_2 = k, \ldots)\)</span>.</p>
 <section id="pólya-burnside-for-cyclic-colorings" class="level3">
 <h3 class="anchored" data-anchor-id="pólya-burnside-for-cyclic-colorings">Pólya = Burnside for cyclic colorings</h3>

@@ -40,7 +40,7 @@
 (def
  v16_l55
  (every?
-  (fn* [p1__90258#] (< (Math/abs (- (cx/re p1__90258#) 1.0)) 1.0E-10))
+  (fn* [p1__11165#] (< (Math/abs (- (cx/re p1__11165#) 1.0)) 1.0E-10))
   (seq ((:table ct) 0))))
 
 
@@ -89,7 +89,7 @@
 (def
  v28_l91
  (every?
-  (fn* [p1__90259#] (< (Math/abs (double p1__90259#)) 1.0E-10))
+  (fn* [p1__11166#] (< (Math/abs (double p1__11166#)) 1.0E-10))
   (map
    -
    (vec (cx/re (hm/inverse-fourier-transform ct f-hat)))
@@ -109,7 +109,7 @@
    (cx/complex-tensor-real
     [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])]
   (mapv
-   (fn* [p1__90260#] (Math/round p1__90260#))
+   (fn* [p1__11167#] (Math/round p1__11167#))
    (vec (cx/re (hm/convolve ct f h))))))
 
 

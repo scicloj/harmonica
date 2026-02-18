@@ -302,3 +302,10 @@
 ;; - **Visual difference**: $C_n$ preserves handedness, $D_n$ doesn't
 ;; - **Homomorphism verification**: the action respects group composition
 ;; - **Symmetry order**: higher $n$ creates more intricate patterns
+
+;; For the algebraic theory behind group actions, see
+;; [Group Actions](group_actions.html).
+;;
+;; For orbit counting using the same dihedral groups, see
+;; [Counting Necklaces](counting_necklaces.html).
+

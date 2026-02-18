@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -391,14 +397,14 @@ window.Quarto = {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.20.0/plotly.min.js" type="text/javascript"></script>
-<p>The Discrete Fourier Transform (DFT) is one of the most important algorithms in computing. It decomposes a signal into “frequencies” — but what are these frequencies, really?</p>
-<p>The answer comes from group theory: the DFT is the <strong>Fourier transform on the cyclic group</strong> <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>. The “frequencies” are the <strong>irreducible representations</strong> (characters) of this group. The DFT matrix <strong>is</strong> the character table.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Discrete_Fourier_transform">Discrete Fourier Transform</a> (DFT) is one of the most important algorithms in computing. It decomposes a signal into “frequencies” — but what are these frequencies, really?</p>
+<p>The answer comes from group theory: the DFT is the <strong>Fourier transform on the <a href="https://en.wikipedia.org/wiki/Cyclic_group">cyclic group</a></strong> <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>. The “frequencies” are the <strong><a href="https://en.wikipedia.org/wiki/Irreducible_representation">irreducible representations</a></strong> (characters) of this group. The DFT matrix <strong>is</strong> the <a href="https://en.wikipedia.org/wiki/Character_table">character table</a>.</p>
 <p>This notebook makes the connection explicit, step by step.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.dft-as-group-fourier</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [fastmath.complex <span class="at">:as</span> c]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.complex <span class="at">:as</span> cx]</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [fastmath.transform <span class="at">:as</span> t]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [tech.v3.datatype <span class="at">:as</span> dtype]</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [tech.v3.datatype.functional <span class="at">:as</span> dfn]</span>
@@ -449,16 +455,16 @@ window.Quarto = {
 </section>
 <section id="characters-rotations-at-different-speeds" class="level2">
 <h2 class="anchored" data-anchor-id="characters-rotations-at-different-speeds">Characters: rotations at different speeds</h2>
-<p>A <strong>character</strong> of <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span> is a homomorphism from the group to the complex numbers of magnitude 1 — that is, a mapping that preserves the group operation and lands on the unit circle.</p>
+<p>A <strong>character</strong> of <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span> is a <a href="https://en.wikipedia.org/wiki/Group_homomorphism">homomorphism</a> from the group to the complex numbers of magnitude 1 — that is, a mapping that preserves the group operation and lands on the unit circle.</p>
 <p>For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, the characters are:</p>
 <p><span class="math display">\[\chi_k(g) = \omega^{kg}\]</span></p>
-<p>where <span class="math inline">\(\omega = e^{2\pi i/n}\)</span> is the primitive <span class="math inline">\(n\)</span>-th root of unity and <span class="math inline">\(k = 0, 1, \ldots, n-1\)</span>.</p>
+<p>where <span class="math inline">\(\omega = e^{2\pi i/n}\)</span> is the primitive <span class="math inline">\(n\)</span>-th <a href="https://en.wikipedia.org/wiki/Root_of_unity">root of unity</a> and <span class="math inline">\(k = 0, 1, \ldots, n-1\)</span>.</p>
 <p>Each character <span class="math inline">\(\chi_k\)</span> is a “rotation at speed <span class="math inline">\(k\)</span>” — it goes around the unit circle <span class="math inline">\(k\)</span> times as <span class="math inline">\(g\)</span> goes from 0 to <span class="math inline">\(n-1\)</span>. This is exactly the “rotations at different speeds” intuition from signal processing.</p>
 </section>
 <section id="the-character-table-is-the-dft-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="the-character-table-is-the-dft-matrix">The character table is the DFT matrix</h2>
 <p>The <strong>character table</strong> collects all characters into a matrix. Row <span class="math inline">\(k\)</span> gives the values of character <span class="math inline">\(\chi_k\)</span> at each group element.</p>
-<p>Why are characters the “right” basis? Consider the <strong>shift operator</strong> <span class="math inline">\(T_1 f(g) = f(g - 1)\)</span>, which translates a signal by one step. A character <span class="math inline">\(\chi_k\)</span> is an <strong>eigenvector</strong> of every shift: <span class="math inline">\(T_a \chi_k(g) = \chi_k(g - a)
+<p>Why are characters the “right” basis? Consider the <strong>shift operator</strong> <span class="math inline">\(T_1 f(g) = f(g - 1)\)</span>, which translates a signal by one step. A character <span class="math inline">\(\chi_k\)</span> is an <strong><a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenvector</a></strong> of every shift: <span class="math inline">\(T_a \chi_k(g) = \chi_k(g - a)
 = \omega^{-ka} \chi_k(g)\)</span>. The eigenvalue <span class="math inline">\(\omega^{-ka}\)</span> depends on the shift amount but not on <span class="math inline">\(g\)</span> — this is what makes characters “pure frequencies.” Decomposing into characters diagonalizes all shifts simultaneously.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ct </span>(hm/character-table G))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -467,7 +473,7 @@ window.Quarto = {
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [table (<span class="at">:table</span> ct)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      n (hm/order G)]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [v] (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (c/abs v) <span class="fl">1.0</span>)) <span class="fl">1e-10</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [v] (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (cx/cabs v) <span class="fl">1.0</span>)) <span class="fl">1e-10</span>))</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">for</span> [k (<span class="kw">range</span> n) g (<span class="kw">range</span> n)]</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            ((table k) g))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -476,7 +482,7 @@ window.Quarto = {
 </div>
 <p>The first row (<span class="math inline">\(k = 0\)</span>) is the <strong>trivial character</strong> — all ones.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">every?</span> #(<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (c/re <span class="va">%</span>) <span class="fl">1.0</span>)) <span class="fl">1e-10</span>) ((<span class="at">:table</span> ct) <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">every?</span> #(<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> (cx/re <span class="va">%</span>) <span class="fl">1.0</span>)) <span class="fl">1e-10</span>) ((<span class="at">:table</span> ct) <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -488,7 +494,7 @@ window.Quarto = {
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [k [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>             g (<span class="kw">range</span> <span class="dv">24</span>)]</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>         {<span class="at">:month</span> g</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">:real-part</span> (c/re ((table k) g))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">:real-part</span> (cx/re ((table k) g))</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">:character</span> (<span class="kw">str</span> <span class="st">"chi_"</span> k)})))</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    (plotly/base {:=x <span class="at">:month</span></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                  :=y <span class="at">:real-part</span></span>
@@ -509,14 +515,14 @@ window.Quarto = {
 <p><span class="math display">\[\hat{f}(k) = \sum_{g \in G} f(g) \cdot \overline{\chi_k(g)}\]</span></p>
 <p>This is an inner product: “how much does <span class="math inline">\(f\)</span> align with character <span class="math inline">\(\chi_k\)</span>?” For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, this is exactly the DFT formula.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> signal </span>(<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>)) temperatures))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> signal </span>(cx/complex-tensor-real temperatures))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> f-hat </span>(hm/fourier-transform ct signal))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <span class="math inline">\(k = 0\)</span> coefficient is the sum of all values (the DC component).</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(c/re (f-hat <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(cx/re (f-hat <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fl">320.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -525,7 +531,7 @@ window.Quarto = {
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tc/dataset</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>     {<span class="at">:frequency</span> (<span class="kw">range</span> <span class="dv">24</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">:magnitude</span> (<span class="kw">mapv</span> c/abs f-hat)})</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">:magnitude</span> (<span class="kw">vec</span> (cx/cabs f-hat))})</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    (plotly/base {:=x <span class="at">:frequency</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                  :=y <span class="at">:magnitude</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                  :=x-title <span class="st">"Frequency k (character index)"</span></span>
@@ -541,20 +547,19 @@ window.Quarto = {
 </section>
 <section id="comparison-with-the-standard-fft" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-with-the-standard-fft">Comparison with the standard FFT</h2>
-<p>Let’s verify that our group-theoretic Fourier transform gives the same result as the standard FFT from fastmath.</p>
+<p>Let’s verify that our group-theoretic Fourier transform gives the same result as the standard FFT from <a href="https://github.com/generateme/fastmath">fastmath</a>.</p>
 <p>The fastmath FFT returns interleaved <code>[re_0, im_0, re_1, im_1, ...]</code> for the first <span class="math inline">\(N/2\)</span> coefficients (exploiting Hermitian symmetry). We extract them and compare magnitudes with our full result.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [fft-result (t/forward<span class="dv">-1</span>d (t/transformer <span class="at">:real</span> <span class="at">:fft</span>) temperatures)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>      fft-coefficients (<span class="kw">let</span> [data (<span class="kw">vec</span> fft-result)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                             n (<span class="kw">/</span> (<span class="kw">count</span> data) <span class="dv">2</span>)]</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">mapv</span> (<span class="kw">fn</span> [k]</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                 (c/complex (data (<span class="kw">*</span> <span class="dv">2</span> k))</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                            (data (<span class="kw">inc</span> (<span class="kw">*</span> <span class="dv">2</span> k)))))</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                               (<span class="kw">range</span> n)))]</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">map</span> (<span class="kw">fn</span> [a b] (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> a b)) <span class="fl">1e-8</span>))</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">mapv</span> c/abs (<span class="kw">take</span> <span class="dv">12</span> f-hat))</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">mapv</span> c/abs fft-coefficients))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                         (cx/complex-tensor</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">mapv</span> (<span class="kw">fn</span> [k] (data (<span class="kw">*</span> <span class="dv">2</span> k))) (<span class="kw">range</span> n))</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">mapv</span> (<span class="kw">fn</span> [k] (data (<span class="kw">inc</span> (<span class="kw">*</span> <span class="dv">2</span> k)))) (<span class="kw">range</span> n))))]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">map</span> (<span class="kw">fn</span> [a b] (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> a b)) <span class="fl">1e-8</span>))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">take</span> <span class="dv">12</span> (<span class="kw">vec</span> (cx/cabs f-hat)))</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">vec</span> (cx/cabs fft-coefficients)))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -563,7 +568,7 @@ window.Quarto = {
 </section>
 <section id="character-orthogonality" class="level2">
 <h2 class="anchored" data-anchor-id="character-orthogonality">Character orthogonality</h2>
-<p>The characters of a finite group satisfy beautiful orthogonality relations. These are not just mathematical curiosities — they are what make the Fourier transform invertible.</p>
+<p>The characters of a finite group satisfy beautiful <a href="https://en.wikipedia.org/wiki/Schur_orthogonality_relations">orthogonality relations</a>. These are not just mathematical curiosities — they are what make the Fourier transform invertible.</p>
 <p><strong>Row orthogonality</strong>: different characters are orthogonal.</p>
 <p><span class="math display">\[\frac{1}{|G|} \sum_{g \in G} \chi_j(g) \overline{\chi_k(g)} = \delta_{jk}\]</span></p>
 <div class="sourceClojure">
@@ -575,8 +580,8 @@ window.Quarto = {
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>          k (<span class="kw">range</span> <span class="dv">4</span>)]</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:j</span> j <span class="at">:k</span> k</span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">:inner-product-magnitude</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>       (c/abs (hm/character-inner-product</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>               (table j) (table k) sizes n))})))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>       (cx/cabs (hm/character-inner-product</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                 (table j) (table k) sizes n))})))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(kind/table</span>
@@ -698,10 +703,7 @@ window.Quarto = {
 <p><span class="math display">\[f(g) = \frac{1}{|G|} \sum_{k} \hat{f}(k) \cdot \chi_k(g)\]</span></p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [reconstructed (hm/inverse-fourier-transform ct f-hat)]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">apply</span> <span class="kw">max</span> (<span class="kw">map</span> (<span class="kw">fn</span> [orig recon]</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                    (c/abs (c/sub recon orig)))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                  signal</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                  reconstructed)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  (dfn/reduce-max (cx/cabs (cx/csub reconstructed signal))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fl">2.904348053629478E-14</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -713,21 +715,21 @@ window.Quarto = {
 <p><span class="math display">\[(f * h)(g) = \sum_{x \in G} f(x) \cdot h(x^{-1}g)\]</span></p>
 <p>In the Fourier domain:</p>
 <p><span class="math display">\[\widehat{f * h}(k) = \hat{f}(k) \cdot \hat{h}(k)\]</span></p>
-<p>For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, this is the familiar <strong>cyclic convolution theorem</strong>. It is the reason fast convolution is possible: instead of <span class="math inline">\(O(n^2)\)</span> direct summation, we can compute forward FFT, pointwise multiply, and inverse FFT in <span class="math inline">\(O(n \log n)\)</span>.</p>
+<p>For <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span>, this is the familiar <strong><a href="https://en.wikipedia.org/wiki/Convolution_theorem">cyclic convolution theorem</a></strong>. It is the reason fast convolution is possible: instead of <span class="math inline">\(O(n^2)\)</span> direct summation, we can compute forward FFT, pointwise multiply, and inverse FFT in <span class="math inline">\(O(n \log n)\)</span>.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> f-fn </span>(<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>))</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">3</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> f-fn </span>(cx/complex-tensor-real</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>           [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">3</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> h-fn </span>(<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> h-fn </span>(cx/complex-tensor-real</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>           [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Convolve via the library (which uses the Fourier domain internally).</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> convolved </span>(hm/convolve ct f-fn h-fn))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">mapv</span> #(Math/round (c/re <span class="va">%</span>)) convolved)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">mapv</span> #(Math/round <span class="va">%</span>) (<span class="kw">vec</span> (cx/re convolved)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="dv">4</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -737,25 +739,25 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [f-fn-hat (hm/fourier-transform ct f-fn)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>      h-fn-hat (hm/fourier-transform ct h-fn)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>      convolved-hat (hm/fourier-transform ct convolved)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      pointwise-product (<span class="kw">mapv</span> c/mult f-fn-hat h-fn-hat)]</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">map</span> (<span class="kw">fn</span> [a b] (<span class="kw">&lt;</span> (c/abs (c/sub a b)) <span class="fl">1e-8</span>))</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>               convolved-hat</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>               pointwise-product)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      pointwise-product (cx/cmul f-fn-hat h-fn-hat)]</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (dfn/reduce-max (cx/cabs (cx/csub convolved-hat pointwise-product))) <span class="fl">1e-8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="parsevals-theorem-energy-conservation" class="level2">
-<h2 class="anchored" data-anchor-id="parsevals-theorem-energy-conservation">Parseval’s theorem (energy conservation)</h2>
+<h2 class="anchored" data-anchor-id="parsevals-theorem-energy-conservation"><a href="https://en.wikipedia.org/wiki/Parseval%27s_theorem">Parseval’s theorem</a> (energy conservation)</h2>
 <p>The total “energy” of a signal is preserved under the Fourier transform. This guarantees that the transform is an isometry — no information is lost or amplified when changing between the time and frequency domains.</p>
 <p><span class="math display">\[\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2\]</span></p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [energy-time (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(<span class="kw">let</span> [m (c/abs <span class="va">%</span>)] (<span class="kw">*</span> m m)) signal))</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>      energy-freq (<span class="kw">/</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(<span class="kw">let</span> [m (c/abs <span class="va">%</span>)] (<span class="kw">*</span> m m)) f-hat))</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">double</span> (hm/order G)))]</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> energy-time energy-freq)) <span class="fl">1e-8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [mag-s (cx/cabs signal)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>      mag-f (cx/cabs f-hat)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>      energy-time (dfn/sum (dfn/* mag-s mag-s))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>      energy-freq (<span class="kw">/</span> (dfn/sum (dfn/* mag-f mag-f))</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">double</span> (hm/order G)))]</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> energy-time energy-freq)) <span class="fl">1e-8</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> energy-time energy-freq)) <span class="fl">1e-8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -763,7 +765,7 @@ window.Quarto = {
 </section>
 <section id="connection-to-dtype-next-convolution" class="level2">
 <h2 class="anchored" data-anchor-id="connection-to-dtype-next-convolution">Connection to dtype-next convolution</h2>
-<p>The dtype-next library provides <code>convolve1d</code> for efficient real-valued linear convolution. For signals on cyclic groups, <strong>cyclic</strong> convolution can be obtained from a full linear convolution by folding the overflow back around.</p>
+<p>The <a href="https://github.com/cnuernber/dtype-next">dtype-next</a> library provides <code>convolve1d</code> for efficient real-valued linear convolution. For signals on cyclic groups, <strong>cyclic</strong> convolution can be obtained from a full linear convolution by folding the overflow back around.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> f-real</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -825,9 +827,9 @@ window.Quarto = {
 </div>
 <p>This matches our group-theoretic convolution exactly.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [group-conv (<span class="kw">let</span> [f (<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>)) f-real)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                       h (<span class="kw">mapv</span> #(c/complex (<span class="kw">double</span> <span class="va">%</span>)) h-real)]</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">mapv</span> #(c/re <span class="va">%</span>) (hm/convolve ct f h)))]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [group-conv (<span class="kw">let</span> [f (cx/complex-tensor-real f-real)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                       h (cx/complex-tensor-real h-real)]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">vec</span> (cx/re (hm/convolve ct f h))))]</span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> #(<span class="kw">&lt;</span> (Math/abs (<span class="kw">double</span> <span class="va">%</span>)) <span class="fl">1e-10</span>)</span>
 <span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">map</span> <span class="kw">-</span> cyclic-from-linear group-conv)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

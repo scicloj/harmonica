@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -388,20 +394,20 @@ window.Quarto = {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.20.0/plotly.min.js" type="text/javascript"></script>
-<p>The <strong>symmetric group</strong> <span class="math inline">\(S_n\)</span> is the group of all permutations of <span class="math inline">\(n\)</span> objects. It has <span class="math inline">\(n!\)</span> elements — the most classical object in group theory.</p>
-<p>Where cyclic groups are abelian and predictable, <span class="math inline">\(S_n\)</span> is wild: for <span class="math inline">\(n \geq 3\)</span> it is non-abelian, meaning the order in which you compose permutations matters. This non-commutativity is precisely what makes <span class="math inline">\(S_n\)</span> rich enough to model shuffling, symmetry breaking, and the combinatorics of partitions.</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Symmetric_group">symmetric group</a></strong> <span class="math inline">\(S_n\)</span> is the group of all <a href="https://en.wikipedia.org/wiki/Permutation">permutations</a> of <span class="math inline">\(n\)</span> objects. It has <span class="math inline">\(n!\)</span> elements — the most classical object in group theory.</p>
+<p>Where cyclic groups are <a href="https://en.wikipedia.org/wiki/Abelian_group">abelian</a> and predictable, <span class="math inline">\(S_n\)</span> is wild: for <span class="math inline">\(n \geq 3\)</span> it is non-abelian, meaning the order in which you compose permutations matters. This non-commutativity is precisely what makes <span class="math inline">\(S_n\)</span> rich enough to model shuffling, symmetry breaking, and the combinatorics of partitions.</p>
 <p>This notebook introduces <span class="math inline">\(S_n\)</span> through harmonica’s permutation and partition machinery. For deeper exploration of permutation algebra, see <a href="permutations_and_partitions.html">Permutations and Partitions</a>. For character theory and representations, see <a href="character_theory.html">Character Theory</a> and <a href="representation_matrices.html">Representation Matrices</a>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.symmetric-groups</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [tablecloth.api <span class="at">:as</span> tc]</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.tableplot.v1.plotly <span class="at">:as</span> plotly]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="permutations-as-vectors" class="level2">
 <h2 class="anchored" data-anchor-id="permutations-as-vectors">Permutations as vectors</h2>
-<p>A permutation of <span class="math inline">\(\{0, 1, \ldots, n{-}1\}\)</span> is stored as a vector in <strong>one-line notation</strong>: the entry at position <span class="math inline">\(i\)</span> is the image of <span class="math inline">\(i\)</span> under the permutation. This representation makes composition natural — it’s just function composition on vectors.</p>
+<p>A permutation of <span class="math inline">\(\{0, 1, \ldots, n{-}1\}\)</span> is stored as a vector in <strong><a href="https://en.wikipedia.org/wiki/Permutation#One-line_notation">one-line notation</a></strong>: the entry at position <span class="math inline">\(i\)</span> is the image of <span class="math inline">\(i\)</span> under the permutation. This representation makes composition natural — it’s just function composition on vectors.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> G </span>(hm/symmetric-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -460,7 +466,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="cycle-notation" class="level2">
-<h2 class="anchored" data-anchor-id="cycle-notation">Cycle notation</h2>
+<h2 class="anchored" data-anchor-id="cycle-notation"><a href="https://en.wikipedia.org/wiki/Permutation#Cycle_notation">Cycle notation</a></h2>
 <p>Cycle notation reveals the structure of a permutation more clearly than one-line notation. The permutation <code>[1 2 3 0]</code> sends <span class="math inline">\(0 \to 1 \to 2 \to 3 \to 0\)</span>, which is the single 4-cycle <span class="math inline">\((0\;1\;2\;3)\)</span>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -492,7 +498,7 @@ window.Quarto = {
 </section>
 <section id="cycle-type-and-the-sign-of-a-permutation" class="level2">
 <h2 class="anchored" data-anchor-id="cycle-type-and-the-sign-of-a-permutation">Cycle type and the sign of a permutation</h2>
-<p>The <strong>cycle type</strong> records the lengths of all cycles (including fixed points) as a partition — a descending sequence of positive integers summing to <span class="math inline">\(n\)</span>. Two permutations are conjugate in <span class="math inline">\(S_n\)</span> if and only if they share the same cycle type.</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Cycle_type">cycle type</a></strong> records the lengths of all cycles (including fixed points) as a partition — a descending sequence of positive integers summing to <span class="math inline">\(n\)</span>. Two permutations are conjugate in <span class="math inline">\(S_n\)</span> if and only if they share the same cycle type.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(hm/cycle-type [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -511,7 +517,7 @@ window.Quarto = {
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The <strong>sign</strong> of a permutation is <span class="math inline">\(+1\)</span> (even) or <span class="math inline">\(-1\)</span> (odd), determined by the parity of the number of transpositions needed to express it. The sign is a group homomorphism: <span class="math inline">\(\operatorname{sign}(\sigma\tau) =
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Parity_of_a_permutation">sign</a></strong> of a permutation is <span class="math inline">\(+1\)</span> (even) or <span class="math inline">\(-1\)</span> (odd), determined by the parity of the number of transpositions needed to express it. The sign is a group homomorphism: <span class="math inline">\(\operatorname{sign}(\sigma\tau) =
 \operatorname{sign}(\sigma) \cdot \operatorname{sign}(\tau)\)</span>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(hm/sign [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -537,7 +543,7 @@ window.Quarto = {
 </section>
 <section id="partitions" class="level2">
 <h2 class="anchored" data-anchor-id="partitions">Partitions</h2>
-<p>A <strong>partition</strong> of <span class="math inline">\(n\)</span> is a way to write <span class="math inline">\(n\)</span> as a sum of positive integers in descending order. Partitions play a double role in <span class="math inline">\(S_n\)</span>: they index both the <strong>conjugacy classes</strong> (via cycle type) and the <strong>irreducible representations</strong> (via Young diagrams). This duality is at the heart of the representation theory of symmetric groups.</p>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Partition_(number_theory)">partition</a></strong> of <span class="math inline">\(n\)</span> is a way to write <span class="math inline">\(n\)</span> as a sum of positive integers in descending order. Partitions play a double role in <span class="math inline">\(S_n\)</span>: they index both the <strong>conjugacy classes</strong> (via cycle type) and the <strong>irreducible representations</strong> (via <a href="https://en.wikipedia.org/wiki/Young_diagram">Young diagrams</a>). This duality is at the heart of the representation theory of symmetric groups.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(hm/partitions <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -608,7 +614,7 @@ window.Quarto = {
 </section>
 <section id="conjugacy-classes" class="level2">
 <h2 class="anchored" data-anchor-id="conjugacy-classes">Conjugacy classes</h2>
-<p>Two permutations are <strong>conjugate</strong> if one can be obtained from the other by relabeling elements: <span class="math inline">\(\sigma \sim \tau\)</span> iff there exists <span class="math inline">\(g\)</span> with <span class="math inline">\(g\sigma g^{-1} = \tau\)</span>. The conjugacy class of a permutation is determined entirely by its cycle type.</p>
+<p>Two permutations are <strong><a href="https://en.wikipedia.org/wiki/Conjugacy_class">conjugate</a></strong> if one can be obtained from the other by relabeling elements: <span class="math inline">\(\sigma \sim \tau\)</span> iff there exists <span class="math inline">\(g\)</span> with <span class="math inline">\(g\sigma g^{-1} = \tau\)</span>. The conjugacy class of a permutation is determined entirely by its cycle type.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> classes </span>(hm/conjugacy-classes G))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

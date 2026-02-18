@@ -295,3 +295,8 @@
 
 ;; For a complementary perspective on music and group theory — classifying
 ;; chords via group actions — see [Chord Geometry](chord_geometry.html).
+
+;; $V_4$ is a product group ($\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$) —
+;; for the Fourier transform on product groups, see
+;; [Product Group DFT](product_group_dft.html).
+

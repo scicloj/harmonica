@@ -11,7 +11,8 @@
  {:dev {:extra-paths ["notebooks" "test"]
         :extra-deps {org.scicloj/clay {:mvn/version "2.0.9"}
                      org.scicloj/noj {:mvn/version "2-beta19.1"}
-                     org.slf4j/slf4j-simple {:mvn/version "2.0.16"}}}
+                     org.slf4j/slf4j-simple {:mvn/version "2.0.16"}
+                     org.ejml/ejml-zdense {:mvn/version "0.44.0"}}}
 
   :test {:extra-paths ["notebooks" "test"]
          :extra-deps {io.github.cognitect-labs/test-runner

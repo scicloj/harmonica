@@ -279,26 +279,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,19 +321,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -401,12 +407,12 @@ window.Quarto = {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<p>This notebook is a deep dive into the algebraic properties of <strong>permutations</strong> and <strong>partitions</strong> — the two foundational data types in the representation theory of symmetric groups. We verify identities systematically and visualize partitions as Young diagrams.</p>
+<p>This notebook is a deep dive into the algebraic properties of <strong>permutations</strong> and <strong>partitions</strong> — the two foundational data types in the <a href="https://en.wikipedia.org/wiki/Representation_theory_of_the_symmetric_group">representation theory of symmetric groups</a>. We verify identities systematically and visualize partitions as Young diagrams.</p>
 <p>For a narrative introduction to permutations, cycles, and the symmetric group, see <a href="symmetric_groups.html">Symmetric Groups</a>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.permutations-and-partitions</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.core <span class="at">:as</span> hm]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="permutation-identities" class="level2">
@@ -449,7 +455,7 @@ window.Quarto = {
 </section>
 <section id="adjacent-transposition-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="adjacent-transposition-decomposition">Adjacent transposition decomposition</h3>
-<p>Every permutation can be written as a product of adjacent transpositions <span class="math inline">\(s_i = (i, i{+}1)\)</span>. We verify the decomposition reconstructs the original for all of <span class="math inline">\(S_6\)</span>.</p>
+<p>Every permutation can be written as a product of <a href="https://en.wikipedia.org/wiki/Transposition_(mathematics)">adjacent transpositions</a> <span class="math inline">\(s_i = (i, i{+}1)\)</span>. We verify the decomposition reconstructs the original for all of <span class="math inline">\(S_6\)</span>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">7</span>)]</span>
@@ -651,7 +657,7 @@ window.Quarto = {
 </section>
 <section id="young-diagrams-as-svg" class="level3">
 <h3 class="anchored" data-anchor-id="young-diagrams-as-svg">Young diagrams as SVG</h3>
-<p>A partition is visualized as a <strong>Young diagram</strong>: a left-justified array of boxes where row <span class="math inline">\(i\)</span> has <span class="math inline">\(\lambda_i\)</span> boxes.</p>
+<p>A partition is visualized as a <strong><a href="https://en.wikipedia.org/wiki/Young_diagram">Young diagram</a></strong>: a left-justified array of boxes where row <span class="math inline">\(i\)</span> has <span class="math inline">\(\lambda_i\)</span> boxes.</p>
 <p>The library provides <code>hm/young-diagram-svg</code> to render these:</p>
 <p>The partitions of 5 and their Young diagrams:</p>
 <div class="sourceClojure">
@@ -726,8 +732,8 @@ window.Quarto = {
 </section>
 <section id="hook-lengths-and-the-hook-length-formula" class="level3">
 <h3 class="anchored" data-anchor-id="hook-lengths-and-the-hook-length-formula">Hook lengths and the hook-length formula</h3>
-<p>For each cell <span class="math inline">\((i, j)\)</span> in a Young diagram, the <strong>hook length</strong> <span class="math inline">\(h(i,j)\)</span> counts the cells directly to the right and directly below, plus the cell itself.</p>
-<p>The <strong>hook-length formula</strong> gives the number of standard Young tableaux (SYT) of shape <span class="math inline">\(\lambda\)</span>:</p>
+<p>For each cell <span class="math inline">\((i, j)\)</span> in a Young diagram, the <strong><a href="https://en.wikipedia.org/wiki/Hook_length_formula">hook length</a></strong> <span class="math inline">\(h(i,j)\)</span> counts the cells directly to the right and directly below, plus the cell itself.</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Hook_length_formula">hook-length formula</a></strong> gives the number of standard Young tableaux (SYT) of shape <span class="math inline">\(\lambda\)</span>:</p>
 <p><span class="math display">\[f^\lambda = \frac{n!}{\prod_{(i,j) \in \lambda} h(i,j)}\]</span></p>
 <p>This equals the dimension of the irreducible representation of <span class="math inline">\(S_n\)</span> indexed by <span class="math inline">\(\lambda\)</span>.</p>
 <div class="sourceClojure">
@@ -866,7 +872,7 @@ window.Quarto = {
 </section>
 <section id="standard-young-tableaux" class="level3">
 <h3 class="anchored" data-anchor-id="standard-young-tableaux">Standard Young Tableaux</h3>
-<p>A <strong>standard Young tableau</strong> (SYT) of shape <span class="math inline">\(\lambda\)</span> is a filling of the Young diagram with <span class="math inline">\(1, 2, \ldots, n\)</span> such that entries increase along each row and down each column. SYTs form the basis for Young’s orthogonal representation.</p>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Young_tableau#Standard_Young_tableaux">standard Young tableau</a></strong> (SYT) of shape <span class="math inline">\(\lambda\)</span> is a filling of the Young diagram with <span class="math inline">\(1, 2, \ldots, n\)</span> such that entries increase along each row and down each column. SYTs form the basis for Young’s orthogonal representation.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(hm/standard-young-tableaux [<span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

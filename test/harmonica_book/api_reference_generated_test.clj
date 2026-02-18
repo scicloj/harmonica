@@ -261,7 +261,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__94919#] (long (Math/round (cx/re p1__94919#))))
+      (fn* [p1__66602#] (long (Math/round (cx/re p1__66602#))))
       row))
     (:table ct))]
   re-table))
@@ -518,7 +518,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__94920#] (coloring (mod (+ p1__94920# (long g)) 4)))
+     (fn* [p1__66603#] (coloring (mod (+ p1__66603# (long g)) 4)))
      (range 4)))
    domain
    [[0 0 0 0]
@@ -699,115 +699,128 @@
 (def v178_l428 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4))))
 
 
-(def v180_l438 (kind/doc #'cx/complex-tensor))
-
-
-(def v181_l440 (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0]))
-
-
-(deftest
- t182_l442
- (is ((fn [v] (= [3] (cx/complex-shape v))) v181_l440)))
+(def v179_l430 (kind/doc #'hm/cayley-graph-svg))
 
 
 (def
- v183_l444
- (cx/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]])))
+ v180_l432
+ (kind/hiccup
+  (hm/cayley-graph-svg
+   (hm/symmetric-group 3)
+   [[1 0 2] [0 2 1]]
+   :radius
+   100)))
+
+
+(def v182_l442 (kind/doc #'cx/complex-tensor))
+
+
+(def v183_l444 (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0]))
 
 
 (deftest
  t184_l446
- (is ((fn [v] (= [2] (cx/complex-shape v))) v183_l444)))
-
-
-(def v185_l448 (kind/doc #'cx/complex-tensor-real))
-
-
-(def v186_l450 (cx/complex-tensor-real [5.0 6.0 7.0]))
-
-
-(deftest
- t187_l452
- (is ((fn [v] (= [0.0 0.0 0.0] (vec (cx/im v)))) v186_l450)))
-
-
-(def v189_l456 (kind/doc #'cx/re))
-
-
-(def v190_l458 (vec (cx/re (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
-
-
-(deftest t191_l460 (is (= v190_l458 [1.0 2.0])))
-
-
-(def v192_l462 (kind/doc #'cx/im))
-
-
-(def v193_l464 (vec (cx/im (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
-
-
-(deftest t194_l466 (is (= v193_l464 [3.0 4.0])))
-
-
-(def v196_l470 (kind/doc #'cx/complex-shape))
+ (is ((fn [v] (= [3] (cx/complex-shape v))) v183_l444)))
 
 
 (def
- v197_l472
+ v185_l448
+ (cx/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]])))
+
+
+(deftest
+ t186_l450
+ (is ((fn [v] (= [2] (cx/complex-shape v))) v185_l448)))
+
+
+(def v187_l452 (kind/doc #'cx/complex-tensor-real))
+
+
+(def v188_l454 (cx/complex-tensor-real [5.0 6.0 7.0]))
+
+
+(deftest
+ t189_l456
+ (is ((fn [v] (= [0.0 0.0 0.0] (vec (cx/im v)))) v188_l454)))
+
+
+(def v191_l460 (kind/doc #'cx/re))
+
+
+(def v192_l462 (vec (cx/re (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
+
+
+(deftest t193_l464 (is (= v192_l462 [1.0 2.0])))
+
+
+(def v194_l466 (kind/doc #'cx/im))
+
+
+(def v195_l468 (vec (cx/im (cx/complex-tensor [1.0 2.0] [3.0 4.0]))))
+
+
+(deftest t196_l470 (is (= v195_l468 [3.0 4.0])))
+
+
+(def v198_l474 (kind/doc #'cx/complex-shape))
+
+
+(def
+ v199_l476
  (cx/complex-shape
   (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])))
 
 
-(deftest t198_l475 (is (= v197_l472 [2 2])))
+(deftest t200_l479 (is (= v199_l476 [2 2])))
 
 
-(def v199_l477 (kind/doc #'cx/scalar?))
+(def v201_l481 (kind/doc #'cx/scalar?))
 
 
 (def
- v200_l479
+ v202_l483
  (cx/scalar? (cx/complex-tensor (tensor/->tensor [3.0 4.0]))))
 
 
-(deftest t201_l481 (is (true? v200_l479)))
+(deftest t203_l485 (is (true? v202_l483)))
 
 
-(def v202_l483 (cx/scalar? (cx/complex-tensor [1.0 2.0] [3.0 4.0])))
+(def v204_l487 (cx/scalar? (cx/complex-tensor [1.0 2.0] [3.0 4.0])))
 
 
-(deftest t203_l485 (is ((fn [v] (not v)) v202_l483)))
+(deftest t205_l489 (is ((fn [v] (not v)) v204_l487)))
 
 
-(def v204_l487 (kind/doc #'cx/->tensor))
+(def v206_l491 (kind/doc #'cx/->tensor))
 
 
 (def
- v205_l489
+ v207_l493
  (vec
   (dtype/shape (cx/->tensor (cx/complex-tensor [1.0 2.0] [3.0 4.0])))))
 
 
-(deftest t206_l491 (is (= v205_l489 [2 2])))
+(deftest t208_l495 (is (= v207_l493 [2 2])))
 
 
-(def v207_l493 (kind/doc #'cx/->double-array))
+(def v209_l497 (kind/doc #'cx/->double-array))
 
 
 (def
- v208_l495
+ v210_l499
  (let
   [ct (cx/complex-tensor [1.0 2.0] [3.0 4.0])]
   (identical? (cx/->double-array ct) (cx/->double-array ct))))
 
 
-(deftest t209_l498 (is (true? v208_l495)))
+(deftest t211_l502 (is (true? v210_l499)))
 
 
-(def v211_l502 (kind/doc #'cx/cmul))
+(def v213_l506 (kind/doc #'cx/cmul))
 
 
 (def
- v213_l506
+ v215_l510
  (let
   [a
    (cx/complex-tensor [1.0] [3.0])
@@ -818,53 +831,53 @@
   [(cx/re (c 0)) (cx/im (c 0))]))
 
 
-(deftest t214_l511 (is (= v213_l506 [-16.0 22.0])))
+(deftest t216_l515 (is (= v215_l510 [-16.0 22.0])))
 
 
-(def v215_l513 (kind/doc #'cx/cconj))
+(def v217_l517 (kind/doc #'cx/cconj))
 
 
 (def
- v216_l515
+ v218_l519
  (let
   [ct (cx/cconj (cx/complex-tensor [1.0 2.0] [3.0 -4.0]))]
   (vec (cx/im ct))))
 
 
-(deftest t217_l518 (is (= v216_l515 [-3.0 4.0])))
+(deftest t219_l522 (is (= v218_l519 [-3.0 4.0])))
 
 
-(def v218_l520 (kind/doc #'cx/cscale))
+(def v220_l524 (kind/doc #'cx/cscale))
 
 
 (def
- v219_l522
+ v221_l526
  (let
   [ct (cx/cscale (cx/complex-tensor [1.0 2.0] [3.0 4.0]) 2.0)]
   [(vec (cx/re ct)) (vec (cx/im ct))]))
 
 
-(deftest t220_l525 (is (= v219_l522 [[2.0 4.0] [6.0 8.0]])))
+(deftest t222_l529 (is (= v221_l526 [[2.0 4.0] [6.0 8.0]])))
 
 
-(def v221_l527 (kind/doc #'cx/cabs))
+(def v223_l531 (kind/doc #'cx/cabs))
 
 
 (def
- v223_l531
+ v225_l535
  (let
   [m (cx/cabs (cx/complex-tensor [3.0] [4.0]))]
   (< (Math/abs (- (double (m 0)) 5.0)) 1.0E-10)))
 
 
-(deftest t224_l534 (is (true? v223_l531)))
+(deftest t226_l538 (is (true? v225_l535)))
 
 
-(def v226_l538 (kind/doc #'cx/cdot))
+(def v228_l542 (kind/doc #'cx/cdot))
 
 
 (def
- v228_l542
+ v230_l546
  (let
   [a
    (cx/complex-tensor [1.0 0.0] [0.0 1.0])
@@ -875,14 +888,14 @@
   (and (< (Math/abs re) 1.0E-10) (< (Math/abs (- im 2.0)) 1.0E-10))))
 
 
-(deftest t229_l548 (is (true? v228_l542)))
+(deftest t231_l552 (is (true? v230_l546)))
 
 
-(def v230_l550 (kind/doc #'cx/cdot-conj))
+(def v232_l554 (kind/doc #'cx/cdot-conj))
 
 
 (def
- v232_l554
+ v234_l558
  (let
   [a
    (cx/complex-tensor [3.0 1.0] [4.0 2.0])
@@ -891,14 +904,14 @@
   (and (< (Math/abs (- re 30.0)) 1.0E-10) (< (Math/abs im) 1.0E-10))))
 
 
-(deftest t233_l559 (is (true? v232_l554)))
+(deftest t235_l563 (is (true? v234_l558)))
 
 
 (def
- v235_l563
+ v237_l567
  (let
   [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
   [(count ct) (cx/scalar? (ct 0)) (cx/re (ct 1))]))
 
 
-(deftest t236_l566 (is (= v235_l563 [3 true 2.0])))
+(deftest t238_l570 (is (= v237_l567 [3 true 2.0])))

@@ -697,22 +697,215 @@
 
 (kind/test-last [true?])
 
+;; ## Additional Group Axioms
+
+;; ### Closure: products stay in the group
+
+(let [results
+      (mapv (fn [{:keys [label group]}]
+              (let [elt-set (set (hm/elements group))]
+                {:group label
+                 :pass? (every? (fn [g]
+                                  (every? (fn [h]
+                                            (contains? elt-set (hm/op group g h)))
+                                          (hm/elements group)))
+                                (hm/elements group))}))
+            test-groups)]
+  (every? :pass? results))
+
+(kind/test-last [true?])
+
+;; ### Inverse is in the group
+
+(let [results
+      (mapv (fn [{:keys [label group]}]
+              (let [elt-set (set (hm/elements group))]
+                {:group label
+                 :pass? (every? (fn [g]
+                                  (contains? elt-set (hm/inv group g)))
+                                (hm/elements group))}))
+            test-groups)]
+  (every? :pass? results))
+
+(kind/test-last [true?])
+
+;; ### Dihedral order: $|D_n| = 2n$
+
+(let [results
+      (for [n (range 1 25)]
+        (= (hm/order (hm/dihedral-group n)) (* 2 n)))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ## Partition Properties
+
+;; ### All parts are positive, descending, and sum to $n$
+
+(let [results
+      (for [n (range 1 13)]
+        (every? (fn [p]
+                  (and (every? pos-int? p)
+                       (apply >= p)
+                       (= n (reduce + p))))
+                (hm/partitions n)))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Conjugate is an involution: $(\lambda')' = \lambda$
+
+(let [results
+      (for [n (range 1 11)
+            p (hm/partitions n)]
+        (= p (hm/partition-conjugate (hm/partition-conjugate p))))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Conjugate preserves sum: $|\lambda'| = |\lambda|$
+
+(let [results
+      (for [n (range 1 11)
+            p (hm/partitions n)]
+        (= (reduce + p) (reduce + (hm/partition-conjugate p))))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Hook-length formula matches SYT enumeration and rep dimension
+
+(let [results
+      (for [n (range 1 8)
+            lambda (hm/partitions n)]
+        (let [hlf (hm/hook-length-dimension lambda)
+              syt (count (hm/standard-young-tableaux lambda))
+              rep (hm/rep-dimension (hm/irrep lambda))]
+          (= hlf syt rep)))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Conjugacy class size formula: $|C_\mu| = n! / \prod_k k^{a_k} a_k!$
+
+(defn class-size-formula
+  "Conjugacy class size from the partition formula."
+  [n mu]
+  (let [fact (fn [m] (reduce *' (range 1 (inc m))))
+        freq (frequencies mu)]
+    (/ (fact n)
+       (reduce *' (map (fn [[k ak]]
+                         (*' (reduce *' (repeat ak k))
+                             (fact ak)))
+                       freq)))))
+
+(let [results
+      (for [n (range 2 8)]
+        (let [G (hm/symmetric-group n)
+              classes (hm/conjugacy-classes G)]
+          (every? (fn [cls]
+                    (let [ct (hm/cycle-type (:representative cls))]
+                      (= (:size cls) (class-size-formula n ct))))
+                  classes)))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Permutation order equals LCM of cycle lengths
+
+(let [G (hm/symmetric-group 5)
+      e (hm/id G)]
+  (every? (fn [sigma]
+            (let [ct (hm/cycle-type sigma)
+                  expected (reduce (fn [a b]
+                                     (/ (* a b) (biginteger (.gcd (biginteger a) (biginteger b)))))
+                                   (map biginteger ct))
+                  actual (loop [k 1 current sigma]
+                           (if (= current e) k
+                               (recur (inc k) (hm/op G current sigma))))]
+              (= actual (long expected))))
+          (hm/elements G)))
+
+(kind/test-last [true?])
+
+;; ## Additional Representation Properties
+
+;; ### Identity maps to identity matrix: $\rho(e) = I$
+
+(let [results
+      (for [n [3 4 5 6]
+            lambda (hm/partitions n)]
+        (let [ir (hm/irrep lambda)
+              d (hm/rep-dimension ir)
+              I (fm/rows->mat (mapv (fn [i]
+                                      (mapv (fn [j] (if (= i j) 1.0 0.0))
+                                            (range d)))
+                                    (range d)))
+              rho-e (hm/rep-matrix ir (hm/identity-perm n))
+              diff (fm/sub rho-e I)
+              err (Math/sqrt (fm/trace (fm/mulm diff (fm/transpose diff))))]
+          (< err 1e-10)))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Inverse maps to transpose: $\rho(\sigma^{-1}) = \rho(\sigma)^T$
+
+(let [results
+      (for [n [3 4 5]
+            lambda (hm/partitions n)]
+        (let [G (hm/symmetric-group n)
+              ir (hm/irrep lambda)]
+          (every? (fn [sigma]
+                    (let [rho-inv (hm/rep-matrix ir (hm/inv G sigma))
+                          rho-t (fm/transpose (hm/rep-matrix ir sigma))
+                          diff (fm/sub rho-inv rho-t)
+                          err (Math/sqrt (fm/trace (fm/mulm diff (fm/transpose diff))))]
+                      (< err 1e-10)))
+                  (hm/elements G))))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
+;; ### Character inner product: $\langle \chi_i, \chi_j \rangle = \delta_{ij}$
+
+(let [results
+      (for [n [3 4 5]]
+        (let [G (hm/symmetric-group n)
+              ct (hm/character-table G)
+              {:keys [table class-sizes]} ct
+              order (hm/order G)
+              k (count table)]
+          (every? identity
+                  (for [i (range k) j (range k)]
+                    (let [ip (hm/character-inner-product
+                              (nth table i) (nth table j) class-sizes order)
+                          expected (if (= i j) 1.0 0.0)]
+                      (< (cx/cabs (cx/csub ip (cx/complex expected 0.0))) 1e-8))))))]
+  (every? true? results))
+
+(kind/test-last [true?])
+
 ;; ## Summary
 ;;
 ;; This notebook verified:
 ;;
-;; - **Group axioms**: identity, inverses, associativity for 15 groups
+;; - **Group axioms**: identity, inverses, associativity, closure, inverse membership
+;;   for 15 groups
 ;; - **Conjugacy classes**: partition the group, sizes sum correctly
 ;; - **Character table**: row orthogonality, column orthogonality, dimension
-;;   sum formula, irrep count = class count, trivial character, integer dimensions
+;;   sum formula, irrep count = class count, trivial character, integer dimensions,
+;;   character inner product = Kronecker delta
 ;; - **Fourier transform**: round-trip, Parseval's theorem, convolution theorem
-;; - **Representations**: homomorphism property, orthogonal matrices, trace = character,
-;;   Plancherel identity
+;; - **Representations**: homomorphism, orthogonal matrices, trace = character,
+;;   Plancherel identity, identity maps to $I$, inverse maps to transpose
 ;; - **Tensor product**: character multiplicativity, homomorphism, dimension formula
 ;; - **Direct sum**: character additivity, dimension formula
 ;; - **Group actions**: orbit-stabilizer theorem, Burnside = orbit count,
 ;;   Pólya = Burnside
-;; - **Dihedral groups**: presentation relations, character orthogonality for n up to 20
+;; - **Dihedral groups**: presentation relations, character orthogonality, order = $2n$
 ;; - **Product groups**: order formula, class count formula
 ;; - **Permutations**: sign homomorphism, cycle type determines class,
-;;   decomposition round-trip
+;;   decomposition round-trip, order = LCM of cycle lengths
+;; - **Partitions**: validity, conjugate involution, conjugate preserves sum,
+;;   hook-length formula, class size formula

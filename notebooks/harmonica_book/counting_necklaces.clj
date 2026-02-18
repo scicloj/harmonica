@@ -268,3 +268,7 @@
 
 ;; For the algebraic foundations behind group actions, see
 ;; [Group Actions](group_actions.html).
+
+;; For another orbit-counting story — classifying musical chords via
+;; dihedral group actions — see [Chord Geometry](chord_geometry.html).
+

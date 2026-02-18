@@ -2,12 +2,9 @@
 ;;
 ;; The **[character table](https://en.wikipedia.org/wiki/Character_table)** of a finite group encodes every [irreducible
 ;; representation](https://en.wikipedia.org/wiki/Irreducible_representation) as a single row of complex numbers. This notebook
-;; explores character tables and their deep orthogonality properties
-;; across all group types in the library: cyclic, symmetric, and dihedral.
-;;
-;; The properties verified here are not just mathematical curiosities —
-;; they are the **structural backbone** that makes [Fourier analysis on
-;; finite groups](https://en.wikipedia.org/wiki/Fourier_analysis_on_finite_groups) work.
+;; introduces character tables and their key properties. For exhaustive
+;; verification across many groups, see
+;; [Algebraic Identities](algebraic_identities.html).
 
 (ns harmonica-book.character-theory
   (:require
@@ -15,23 +12,30 @@
    [scicloj.harmonica.complex :as cx]
    [scicloj.kindly.v4.kind :as kind]))
 
-;; ## Character tables by group type
+;; ## What is a character table?
 ;;
-;; A character table is a square matrix indexed by irreducible representations
-;; (rows) and conjugacy classes (columns). The entry $\chi_\rho(C)$ is
-;; the [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of the representation matrix $\rho(g)$ for any $g \in C$.
+;; A character table is a square matrix indexed by **irreducible
+;; representations** (rows) and **conjugacy classes** (columns). The entry
+;; $\chi_\rho(C)$ is the [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of the representation matrix $\rho(g)$
+;; for any $g \in C$.
+;;
+;; The character table completely determines the representation theory of
+;; the group. It is the Fourier-analytic backbone: characters are
+;; to group Fourier analysis what sines and cosines are to classical
+;; Fourier analysis.
 
-;; ### Cyclic groups
+;; ## Cyclic groups — the DFT matrix
 ;;
 ;; For $\mathbb{Z}/n\mathbb{Z}$, the character table is the DFT matrix:
 ;; $\chi_k(g) = \omega^{kg}$ where $\omega = e^{2\pi i/n}$.
+;; All entries lie on the unit circle.
 
-(let [ct (hm/character-table (hm/cyclic-group 4))]
+(let [ct (hm/character-table (hm/cyclic-group 6))]
   (count (:table ct)))
 
-(kind/test-last [= 4])
+(kind/test-last [= 6])
 
-;; All entries lie on the unit circle.
+;; Every entry has magnitude 1:
 
 (let [ct (hm/character-table (hm/cyclic-group 8))
       entries (for [row (:table ct) v row] v)]
@@ -39,10 +43,10 @@
 
 (kind/test-last [true?])
 
-;; ### Symmetric groups
+;; ## Symmetric groups — integer entries
 ;;
 ;; For $S_n$, the character table is computed by the [Murnaghan-Nakayama
-;; rule](https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule). All entries are real integers.
+;; rule](https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule). All entries are **real integers**.
 
 (let [ct (hm/character-table (hm/symmetric-group 4))
       entries (for [row (:table ct) v row] v)]
@@ -53,11 +57,10 @@
 
 (kind/test-last [true?])
 
-;; ### Dihedral groups
+;; ## Dihedral groups
 ;;
 ;; For $D_n$, the character table has $\lfloor n/2 \rfloor + 3$ rows for
-;; even $n$ and $(n+3)/2$ rows for odd $n$. Two-dimensional characters
-;; are $2\cos(2\pi mk/n)$ on rotation classes and $0$ on reflections.
+;; even $n$ and $(n+3)/2$ rows for odd $n$.
 
 (let [ct (hm/character-table (hm/dihedral-group 5))]
   (count (:table ct)))
@@ -71,60 +74,37 @@
 
 ;; ## Row orthogonality
 ;;
-;; The central identity ([Schur orthogonality](https://en.wikipedia.org/wiki/Schur_orthogonality_relations)): different irreps are orthogonal as class functions.
+;; The central identity ([Schur orthogonality](https://en.wikipedia.org/wiki/Schur_orthogonality_relations)):
+;; different irreps are orthogonal as class functions.
 ;;
 ;; $$\sum_C |C| \, \chi_i(C) \, \overline{\chi_j(C)} = |G| \, \delta_{ij}$$
 ;;
-;; This is verified across all group families with diverse sizes.
+;; Let's verify for $S_4$ — a $5 \times 5$ character table.
 
-(defn check-row-orthogonality
-  "Check row orthogonality for a character table. Returns max absolute error."
-  [ct]
-  (let [{:keys [table class-sizes]} ct
-        order (hm/order (:group ct))
-        n (count table)]
-    (apply max
-           (for [i (range n) j (range n)]
-             (let [ip (reduce + (map-indexed
-                                 (fn [k sz]
-                                   (let [ci (nth (nth table i) k)
-                                         cj (nth (nth table j) k)]
-                                     (* (double sz)
-                                        (+ (* (cx/re ci) (cx/re cj))
-                                           (* (cx/im ci) (cx/im cj))))))
-                                 class-sizes))
-                   expected (if (= i j) (double order) 0.0)]
-               (Math/abs (- ip expected)))))))
-
-;; Cyclic groups:
-
-(let [results
-      (for [n [2 3 5 7 11 13 16 24]]
-        (< (check-row-orthogonality (hm/character-table (hm/cyclic-group n)))
-           1e-8))]
-  (every? true? results))
+(let [ct (hm/character-table (hm/symmetric-group 4))
+      {:keys [table class-sizes]} ct
+      order (hm/order (:group ct))
+      n (count table)
+      inner (fn [i j]
+              (reduce + (map-indexed
+                         (fn [k sz]
+                           (let [ci ((table i) k) cj ((table j) k)]
+                             (* (double sz)
+                                (+ (* (cx/re ci) (cx/re cj))
+                                   (* (cx/im ci) (cx/im cj))))))
+                         class-sizes)))
+      max-err (apply max
+                     (for [i (range n) j (range n)]
+                       (Math/abs (- (inner i j)
+                                    (if (= i j) (double order) 0.0)))))]
+  (< max-err 1e-8))
 
 (kind/test-last [true?])
 
-;; Symmetric groups:
-
-(let [results
-      (for [n [2 3 4 5 6]]
-        (< (check-row-orthogonality (hm/character-table (hm/symmetric-group n)))
-           1e-8))]
-  (every? true? results))
-
-(kind/test-last [true?])
-
-;; Dihedral groups:
-
-(let [results
-      (for [n [3 4 5 6 7 8 9 10 12 15 16 20 24]]
-        (< (check-row-orthogonality (hm/character-table (hm/dihedral-group n)))
-           1e-8))]
-  (every? true? results))
-
-(kind/test-last [true?])
+;; The result: the inner product matrix is $|G| \cdot I$. Row $i$ dotted
+;; with row $j$ (weighted by class sizes) gives 0 when $i \neq j$ and
+;; $|G|$ when $i = j$. This is what makes the Fourier inversion formula
+;; work.
 
 ;; ## Column orthogonality
 ;;
@@ -132,144 +112,28 @@
 ;;
 ;; $$\sum_\rho \chi_\rho(C_i) \, \overline{\chi_\rho(C_j)} = \frac{|G|}{|C_i|} \, \delta_{ij}$$
 
-(defn check-column-orthogonality
-  "Check column orthogonality. Returns max absolute error."
-  [ct]
-  (let [{:keys [table class-sizes]} ct
-        order (hm/order (:group ct))
-        n (count class-sizes)]
-    (apply max
-           (for [i (range n) j (range n)]
-             (let [ip (reduce + (map (fn [row]
-                                       (let [ci (nth row i) cj (nth row j)]
-                                         (+ (* (cx/re ci) (cx/re cj))
-                                            (* (cx/im ci) (cx/im cj)))))
-                                     table))
-                   expected (if (= i j)
-                              (/ (double order) (double (nth class-sizes i)))
-                              0.0)]
-               (Math/abs (- ip expected)))))))
-
-;; All group families:
-
-(let [results
-      (concat
-       (for [n [3 5 7 12 16]]
-         (< (check-column-orthogonality (hm/character-table (hm/cyclic-group n)))
-            1e-8))
-       (for [n [3 4 5 6]]
-         (< (check-column-orthogonality (hm/character-table (hm/symmetric-group n)))
-            1e-8))
-       (for [n [3 4 5 6 8 10 12 15]]
-         (< (check-column-orthogonality (hm/character-table (hm/dihedral-group n)))
-            1e-8)))]
-  (every? true? results))
-
-(kind/test-last [true?])
-
-;; ## Dimension-squared sum
-;;
-;; $$\sum_\rho d_\rho^2 = |G|$$
-;;
-;; where $d_\rho = \chi_\rho(e)$ is the dimension (the character value at
-;; the identity element, which is always the first class).
-
-(defn dim-sq-sum-check
-  "Verify dimension-squared sum equals group order."
-  [ct]
-  (let [{:keys [table]} ct
-        order (hm/order (:group ct))
-        dims (map #(cx/re (% 0)) table)
-        sum-sq (reduce + (map #(* % %) dims))]
-    (< (Math/abs (- sum-sq (double order))) 1e-8)))
-
-(let [results
-      (concat
-       (for [n [2 3 5 7 11 16 24]]
-         (dim-sq-sum-check (hm/character-table (hm/cyclic-group n))))
-       (for [n [2 3 4 5 6 7]]
-         (dim-sq-sum-check (hm/character-table (hm/symmetric-group n))))
-       (for [n [3 4 5 6 7 8 10 12 15 20]]
-         (dim-sq-sum-check (hm/character-table (hm/dihedral-group n)))))]
-  (every? true? results))
-
-(kind/test-last [true?])
-
-;; ## Number of irreps equals number of classes
-;;
-;; The character table is always square: the number of irreducible
-;; representations equals the number of conjugacy classes.
-
-(let [results
-      (concat
-       (for [n [2 3 5 7 12 24]]
-         (let [G (hm/cyclic-group n)
-               ct (hm/character-table G)]
-           (= (count (:table ct))
-              (count (hm/conjugacy-classes G)))))
-       (for [n [2 3 4 5 6 7]]
-         (let [G (hm/symmetric-group n)
-               ct (hm/character-table G)]
-           (= (count (:table ct))
-              (count (hm/conjugacy-classes G)))))
-       (for [n [3 4 5 6 8 10 12]]
-         (let [G (hm/dihedral-group n)
-               ct (hm/character-table G)]
-           (= (count (:table ct))
-              (count (hm/conjugacy-classes G))))))]
-  (every? true? results))
-
-(kind/test-last [true?])
-
-;; ## Trivial character
-;;
-;; Every group has a trivial representation (the first row) with all
-;; character values equal to 1.
-
-(let [results
-      (concat
-       (for [n [2 5 12]]
-         (let [ct (hm/character-table (hm/cyclic-group n))]
-           (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
-                   (first (:table ct)))))
-       (for [n [3 4 5]]
-         (let [ct (hm/character-table (hm/symmetric-group n))]
-           (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
-                   (first (:table ct)))))
-       (for [n [3 5 6 8]]
-         (let [ct (hm/character-table (hm/dihedral-group n))]
-           (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
-                   (first (:table ct))))))]
-  (every? true? results))
-
-(kind/test-last [true?])
-
-;; ## Character inner product
-;;
-;; The character inner product $\langle \chi_i, \chi_j \rangle$ equals
-;; the Kronecker delta $\delta_{ij}$. This is a reformulation of row
-;; orthogonality normalized by $|G|$.
-
-(let [results
-      (for [n [3 4 5]]
-        (let [G (hm/symmetric-group n)
-              ct (hm/character-table G)
-              {:keys [table class-sizes]} ct
-              order (hm/order G)
-              n-irreps (count table)]
-          (every? identity
-                  (for [i (range n-irreps) j (range n-irreps)]
-                    (let [ip (hm/character-inner-product
-                              (nth table i) (nth table j) class-sizes order)
-                          expected (if (= i j) 1.0 0.0)]
-                      (< (cx/cabs (cx/csub ip (cx/complex expected 0.0))) 1e-8))))))]
-  (every? true? results))
+(let [ct (hm/character-table (hm/symmetric-group 4))
+      {:keys [table class-sizes]} ct
+      order (hm/order (:group ct))
+      n (count class-sizes)
+      max-err (apply max
+                     (for [i (range n) j (range n)]
+                       (let [ip (reduce + (map (fn [row]
+                                                 (let [ci (row i) cj (row j)]
+                                                   (+ (* (cx/re ci) (cx/re cj))
+                                                      (* (cx/im ci) (cx/im cj)))))
+                                               table))
+                             expected (if (= i j)
+                                        (/ (double order) (double (nth class-sizes i)))
+                                        0.0)]
+                         (Math/abs (- ip expected)))))]
+  (< max-err 1e-8))
 
 (kind/test-last [true?])
 
 ;; ## Known character tables
 ;;
-;; We verify specific entries against known values.
+;; We verify specific entries against standard references.
 
 ;; ### $S_3$ character table
 ;;
@@ -300,9 +164,10 @@
      [3 -1 -1 0 1]
      [1 -1 1 1 -1]]])
 
-;; ### $D_3$ character table
+;; ### $D_3 \cong S_3$
 ;;
-;; $D_3 \cong S_3$, so the tables should match (up to class ordering).
+;; The dihedral group $D_3$ is isomorphic to $S_3$, so their character
+;; table dimensions should match.
 
 (let [ct-d3 (hm/character-table (hm/dihedral-group 3))
       dims (sort (mapv #(long (Math/round (cx/re (% 0)))) (:table ct-d3)))
@@ -312,60 +177,43 @@
 
 (kind/test-last [true?])
 
-;; ## Murnaghan-Nakayama rule: spot checks
+;; ## Murnaghan-Nakayama spot checks
 ;;
-;; The Murnaghan-Nakayama rule computes $\chi_\lambda(\mu)$ recursively
-;; by summing over rim hook removals. We verify specific values.
+;; The trivial character $\chi_{[n]}$ has value 1 for every conjugacy class.
 
-;; $\chi_{[n]}(\mu) = 1$ for all $\mu$ (trivial representation).
-
-(let [results
-      (for [n (range 2 8)
-            mu (hm/partitions n)]
-        (let [ct (hm/character-table (hm/symmetric-group n))
-              classes (:classes ct)
-              idx (.indexOf classes mu)
-              val (cx/re (((:table ct) 0) idx))]
-          (= 1.0 val)))]
-  (every? true? results))
+(let [ct (hm/character-table (hm/symmetric-group 5))
+      trivial-row (first (:table ct))]
+  (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
+          trivial-row))
 
 (kind/test-last [true?])
 
-;; $\chi_{[1^n]}(\mu) = \text{sign}(\mu)$ (sign representation).
-;; The sign of a cycle type $\mu = [\mu_1, \ldots, \mu_k]$ is
-;; $(-1)^{n - k}$ where $k$ is the number of parts.
+;; The sign character $\chi_{[1^n]}(\mu) = (-1)^{n-k}$ where $k$ is
+;; the number of parts of $\mu$.
 
-(let [results
-      (for [n (range 2 8)
-            mu (hm/partitions n)]
-        (let [ct (hm/character-table (hm/symmetric-group n))
-              sign-label (vec (repeat n 1))
-              classes (:classes ct)
-              labels (:irrep-labels ct)
-              row-idx (.indexOf labels sign-label)
-              col-idx (.indexOf classes mu)
-              val (long (Math/round (cx/re (((:table ct) row-idx) col-idx))))
-              ;; sign of cycle type: (-1)^(n - number of parts)
-              expected (long (Math/pow -1 (- n (count mu))))]
-          (= val expected)))]
-  (every? true? results))
+(let [ct (hm/character-table (hm/symmetric-group 5))
+      sign-label [1 1 1 1 1]
+      labels (:irrep-labels ct)
+      row-idx (.indexOf labels sign-label)
+      sign-row (nth (:table ct) row-idx)
+      classes (:classes ct)]
+  (every? identity
+          (map-indexed (fn [i mu]
+                         (let [expected (Math/pow -1 (- 5 (count mu)))
+                               actual (cx/re (nth sign-row i))]
+                           (< (Math/abs (- actual expected)) 1e-10)))
+                       classes)))
 
 (kind/test-last [true?])
 
 ;; ## Dihedral character table structure
 ;;
-;; For $D_n$ with $n$ odd:
+;; For $D_n$ with odd $n$: 2 one-dimensional irreps + $(n-1)/2$ two-dimensional.
 ;;
-;; - 2 one-dimensional irreps (trivial and sign)
-;; - $(n-1)/2$ two-dimensional irreps
-;;
-;; For $D_n$ with $n$ even:
-;;
-;; - 4 one-dimensional irreps
-;; - $(n/2 - 1)$ two-dimensional irreps
+;; For $D_n$ with even $n$: 4 one-dimensional irreps + $(n/2 - 1)$ two-dimensional.
 
 (let [results
-      (for [n (range 3 21)]
+      (for [n (range 3 13)]
         (let [ct (hm/character-table (hm/dihedral-group n))
               dims (mapv #(long (Math/round (cx/re (% 0)))) (:table ct))
               one-dims (count (filter #(= 1 %) dims))
@@ -380,7 +228,7 @@
 
 ;; ## Character table visualization
 ;;
-;; Display the character table of $S_5$ as a formatted table.
+;; The character table of $S_5$:
 
 (let [ct (hm/character-table (hm/symmetric-group 5))
       {:keys [table classes irrep-labels]} ct]
@@ -391,21 +239,14 @@
                                (mapv #(long (Math/round (cx/re %))) row)))
                        irrep-labels table)}))
 
-;; ## Summary of verified identities
+;; ## What comes next
 ;;
-;; This notebook verified:
+;; Characters are the "scalars" of representation theory. The full picture
+;; includes the actual **matrices**:
 ;;
-;; - **Row orthogonality** for cyclic ($n$ up to 24), symmetric ($n$ up to 6),
-;;   dihedral ($n$ up to 24) groups
-;; - **Column orthogonality** for all three families
-;; - **Dimension-squared sum** $= |G|$ for all three families
-;; - **Number of irreps** $=$ number of conjugacy classes
-;; - **Trivial character** is all ones
-;; - **Character inner product** gives Kronecker delta for $S_3, S_4, S_5$
-;; - **Known character tables** for $S_3$, $S_4$, $D_3 \cong S_3$
-;; - **MN trivial character**: $\chi_{[n]}(\mu) = 1$ for all $\mu$
-;; - **MN sign character**: $\chi_{[1^n]}(\mu) = (-1)^{n-k}$ for all $\mu$
-;; - **Dihedral structure**: correct count of 1D and 2D irreps for $n = 3, \ldots, 20$
-
-;; For applications of character tables to random walks, see
-;; [Random Transpositions](random_transpositions.html).
+;; - **[Representation Matrices](representation_matrices.html)** — Young's
+;;   orthogonal form, Coxeter relations, Schur orthogonality at the matrix level
+;; - **[Random Transpositions](random_transpositions.html)** — using
+;;   characters to analyze the cutoff phenomenon in card shuffling
+;; - **[Riffle Shuffles](riffle_shuffle.html)** — when characters aren't
+;;   enough and you need the full matrix Fourier transform

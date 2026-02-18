@@ -428,3 +428,7 @@
 ;; For another perspective on music and group theory — transforming
 ;; melodies via the Klein four-group — see
 ;; [Hearing Symmetry](hearing_symmetry.html).
+
+;; For the general framework of Burnside counting and Pólya enumeration, see
+;; [Counting Necklaces](counting_necklaces.html).
+
