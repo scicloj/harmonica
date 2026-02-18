@@ -13,7 +13,7 @@
 
 ;; ## Group Actions on the Plane
 ;;
-;; A **rosette pattern** has rotational symmetry around a central point.
+;; A **[rosette pattern](https://en.wikipedia.org/wiki/Rosette_(design))** has rotational symmetry around a central point.
 ;; The symmetry group is either:
 ;;
 ;; - $C_n$ (cyclic): rotations only — like a pinwheel

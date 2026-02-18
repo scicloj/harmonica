@@ -1,10 +1,10 @@
 ;; # Quickstart
 ;;
-;; A minimal introduction to harmonica — a library for computational group
-;; theory and representation theory in Clojure.
+;; A minimal introduction to [harmonica](https://github.com/scicloj/harmonica) — a library for computational [group
+;; theory](https://en.wikipedia.org/wiki/Group_theory) and [representation theory](https://en.wikipedia.org/wiki/Representation_theory) in Clojure.
 ;;
-;; The central idea: the Discrete Fourier Transform that every programmer
-;; knows is secretly the Fourier transform on the cyclic group. This library
+;; The central idea: the [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) that every programmer
+;; knows is secretly the Fourier transform on the [cyclic group](https://en.wikipedia.org/wiki/Cyclic_group). This library
 ;; makes that connection explicit and generalizes it.
 ;;
 ;; For the full story, see [The DFT as Group Fourier Transform](dft_as_group_fourier.html).
@@ -114,11 +114,11 @@
 ;; This quickstart showed cyclic groups and abelian Fourier transforms.
 ;; The library also provides:
 ;;
-;; - **Symmetric groups** ($S_n$) with character tables via the Murnaghan-Nakayama rule
-;; - **Dihedral groups** ($D_n$) — symmetries of regular polygons
+;; - **[Symmetric groups](https://en.wikipedia.org/wiki/Symmetric_group)** ($S_n$) with [character tables](https://en.wikipedia.org/wiki/Character_table) via the [Murnaghan-Nakayama rule](https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule)
+;; - **[Dihedral groups](https://en.wikipedia.org/wiki/Dihedral_group)** ($D_n$) — symmetries of regular polygons
 ;; - **Product groups** ($G_1 \times G_2$)
-;; - **Irreducible representations** via Young's orthogonal form
-;; - **Group actions**, Burnside's lemma, and Pólya enumeration
+;; - **[Irreducible representations](https://en.wikipedia.org/wiki/Irreducible_representation)** via [Young's orthogonal form](https://en.wikipedia.org/wiki/Young%27s_orthogonal_representation)
+;; - **[Group actions](https://en.wikipedia.org/wiki/Group_action)**, [Burnside's lemma](https://en.wikipedia.org/wiki/Burnside%27s_lemma), and [Pólya enumeration](https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem)
 ;; - **Matrix-valued Fourier transforms** for non-abelian groups
 ;;
 ;; See the other notebooks for applications:

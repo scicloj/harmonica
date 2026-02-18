@@ -254,7 +254,7 @@
   (testing "direct sum decomposes into its components"
     (let [G (hm/symmetric-group 4)
           decomp (hm/irrep-multiplicities G
-                   (hm/direct-sum (hm/irrep [3 1]) (hm/irrep [2 2])))]
+                                          (hm/direct-sum (hm/irrep [3 1]) (hm/irrep [2 2])))]
       (is (= decomp {[3 1] 1, [2 2] 1})))))
 
 (deftest irrep-decomp-tensor-product
@@ -267,3 +267,83 @@
                                    (* m (hm/hook-length-dimension lam)))
                                  decomp))]
       (is (= dim-sum (:dimension tp))))))
+
+;; ---------------------------------------------------------------------------
+;; Restriction and Induction
+;; ---------------------------------------------------------------------------
+
+(deftest restrict-rep-homomorphism
+  (testing "restricted representation is still a homomorphism"
+    (let [rep (hm/irrep [3 1])
+          restricted (rep/restrict-rep rep 4 3)
+          G3 (hm/symmetric-group 3)
+          elts (vec (p/elements G3))]
+      (doseq [g elts
+              h elts]
+        (let [gh (perm/compose g h)
+              rho-gh (rep/rep-matrix restricted gh)
+              product (fm/mulm (rep/rep-matrix restricted g)
+                               (rep/rep-matrix restricted h))]
+          (is (< (matrix-diff-norm rho-gh product) 1e-10)
+              (str "restrict homomorphism fails: " g " " h)))))))
+
+(deftest restrict-rep-dimension-preserved
+  (testing "restriction preserves dimension"
+    (let [rep (hm/irrep [3 1])
+          restricted (rep/restrict-rep rep 4 3)]
+      (is (= 3 (:dimension restricted))))))
+
+(deftest embed-perm-roundtrip
+  (testing "embed then restrict is identity"
+    (doseq [sigma (p/elements (hm/symmetric-group 3))]
+      (let [embedded (rep/embed-perm sigma 5)
+            back (rep/restrict-perm embedded 3)]
+        (is (= sigma back))))))
+
+(deftest branching-rule-s4-to-s3
+  (testing "branching rule for S_4 irreps restricted to S_3"
+    ;; [4] (trivial) restricts to [3] (trivial of S_3)
+    (is (= {[3] 1} (rep/branching-rule [4])))
+    ;; [3,1] (standard) restricts to [3] + [2,1]
+    (is (= {[3] 1, [2 1] 1} (rep/branching-rule [3 1])))
+    ;; [2,2] restricts to [2,1]
+    (is (= {[2 1] 1} (rep/branching-rule [2 2])))
+    ;; [2,1,1] restricts to [2,1] + [1,1,1]
+    (is (= {[2 1] 1, [1 1 1] 1} (rep/branching-rule [2 1 1])))
+    ;; [1,1,1,1] (sign) restricts to [1,1,1] (sign of S_3)
+    (is (= {[1 1 1] 1} (rep/branching-rule [1 1 1 1])))))
+
+(deftest induce-rep-dimension
+  (testing "induced representation has correct dimension"
+    (let [rep (hm/irrep [2 1]) ;; dim 2 of S_3
+          induced (rep/induce-rep rep 3 4)]
+      ;; [S_4:S_3] = 4!/3! = 4, so dim = 4 * 2 = 8
+      (is (= 8 (:dimension induced))))))
+
+(deftest induce-rep-homomorphism
+  (testing "induced representation is a homomorphism on S_4"
+    (let [rep (hm/irrep [2]) ;; trivial rep of S_2
+          induced (rep/induce-rep rep 2 3)
+          G3 (hm/symmetric-group 3)
+          elts (vec (p/elements G3))]
+      (doseq [g elts
+              h elts]
+        (let [gh (perm/compose g h)
+              rho-gh (rep/rep-matrix induced gh)
+              product (fm/mulm (rep/rep-matrix induced g)
+                               (rep/rep-matrix induced h))]
+          (is (< (matrix-diff-norm rho-gh product) 1e-10)
+              (str "induce homomorphism fails: " g " " h)))))))
+
+(deftest frobenius-reciprocity-dimension
+  (testing "Frobenius reciprocity: dim check for Ind(trivial of S_2) to S_3"
+    ;; Ind^{S_3}_{S_2}(trivial) has dim 3. It should decompose as [3] + [2,1]
+    ;; since trivial of S_2 appears in Res^{S_3}_{S_2} of [3] and [2,1]
+    (let [rep (hm/irrep [2]) ;; trivial of S_2
+          induced (rep/induce-rep rep 2 3)
+          G3 (hm/symmetric-group 3)
+          decomp (hm/irrep-multiplicities G3 induced)
+          dim-sum (reduce + (map (fn [[lam m]]
+                                   (* m (hm/hook-length-dimension lam)))
+                                 decomp))]
+      (is (= dim-sum (:dimension induced))))))

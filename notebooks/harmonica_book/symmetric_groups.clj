@@ -1,9 +1,9 @@
 ;; # Symmetric Groups
 ;;
-;; The **symmetric group** $S_n$ is the group of all permutations of $n$ objects.
+;; The **[symmetric group](https://en.wikipedia.org/wiki/Symmetric_group)** $S_n$ is the group of all [permutations](https://en.wikipedia.org/wiki/Permutation) of $n$ objects.
 ;; It has $n!$ elements — the most classical object in group theory.
 ;;
-;; Where cyclic groups are abelian and predictable, $S_n$ is wild: for $n \geq 3$
+;; Where cyclic groups are [abelian](https://en.wikipedia.org/wiki/Abelian_group) and predictable, $S_n$ is wild: for $n \geq 3$
 ;; it is non-abelian, meaning the order in which you compose permutations
 ;; matters. This non-commutativity is precisely what makes $S_n$ rich enough to
 ;; model shuffling, symmetry breaking, and the combinatorics of partitions.
@@ -24,8 +24,8 @@
 
 ;; ## Permutations as vectors
 ;;
-;; A permutation of $\{0, 1, \ldots, n{-}1\}$ is stored as a vector in **one-line
-;; notation**: the entry at position $i$ is the image of $i$ under the
+;; A permutation of $\{0, 1, \ldots, n{-}1\}$ is stored as a vector in **[one-line
+;; notation](https://en.wikipedia.org/wiki/Permutation#One-line_notation)**: the entry at position $i$ is the image of $i$ under the
 ;; permutation. This representation makes composition natural — it's just
 ;; function composition on vectors.
 
@@ -84,7 +84,7 @@
 (kind/test-last
  [(fn [v] (not= (first v) (second v)))])
 
-;; ## Cycle notation
+;; ## [Cycle notation](https://en.wikipedia.org/wiki/Permutation#Cycle_notation)
 ;;
 ;; Cycle notation reveals the structure of a permutation more clearly
 ;; than one-line notation. The permutation `[1 2 3 0]` sends
@@ -118,7 +118,7 @@
 
 ;; ## Cycle type and the sign of a permutation
 ;;
-;; The **cycle type** records the lengths of all cycles (including
+;; The **[cycle type](https://en.wikipedia.org/wiki/Cycle_type)** records the lengths of all cycles (including
 ;; fixed points) as a partition — a descending sequence of positive
 ;; integers summing to $n$. Two permutations are conjugate in $S_n$
 ;; if and only if they share the same cycle type.
@@ -138,7 +138,7 @@
 (kind/test-last
  [= [2 1 1]])
 
-;; The **sign** of a permutation is $+1$ (even) or $-1$ (odd), determined
+;; The **[sign](https://en.wikipedia.org/wiki/Parity_of_a_permutation)** of a permutation is $+1$ (even) or $-1$ (odd), determined
 ;; by the parity of the number of transpositions needed to express it.
 ;; The sign is a group homomorphism: $\operatorname{sign}(\sigma\tau) =
 ;; \operatorname{sign}(\sigma) \cdot \operatorname{sign}(\tau)$.
@@ -164,10 +164,10 @@
 
 ;; ## Partitions
 ;;
-;; A **partition** of $n$ is a way to write $n$ as a sum of positive integers
+;; A **[partition](https://en.wikipedia.org/wiki/Partition_(number_theory))** of $n$ is a way to write $n$ as a sum of positive integers
 ;; in descending order. Partitions play a double role in $S_n$: they index
 ;; both the **conjugacy classes** (via cycle type) and the **irreducible
-;; representations** (via Young diagrams). This duality is at the heart of
+;; representations** (via [Young diagrams](https://en.wikipedia.org/wiki/Young_diagram)). This duality is at the heart of
 ;; the representation theory of symmetric groups.
 
 (hm/partitions 4)
@@ -184,7 +184,7 @@
 
 ;; ## Conjugacy classes
 ;;
-;; Two permutations are **conjugate** if one can be obtained from the
+;; Two permutations are **[conjugate](https://en.wikipedia.org/wiki/Conjugacy_class)** if one can be obtained from the
 ;; other by relabeling elements: $\sigma \sim \tau$ iff there exists $g$
 ;; with $g\sigma g^{-1} = \tau$. The conjugacy class of a permutation
 ;; is determined entirely by its cycle type.

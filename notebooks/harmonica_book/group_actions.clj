@@ -1,6 +1,6 @@
 ;; # Group Actions
 ;;
-;; A **group action** is a way for a group to act on a set — each group
+;; A **[group action](https://en.wikipedia.org/wiki/Group_action)** is a way for a group to act on a set — each group
 ;; element becomes a transformation of the set, and group multiplication
 ;; corresponds to composition of transformations.
 ;;
@@ -59,7 +59,7 @@
 
 (kind/test-last [= 1])
 
-;; ## Orbit-stabilizer theorem
+;; ## [Orbit-stabilizer theorem](https://en.wikipedia.org/wiki/Orbit%E2%80%93stabilizer_theorem)
 ;;
 ;; For any group $G$ acting on a set $X$:
 ;;
@@ -151,7 +151,7 @@
 
 (kind/test-last [true?])
 
-;; ## Burnside's lemma
+;; ## [Burnside's lemma](https://en.wikipedia.org/wiki/Burnside%27s_lemma)
 ;;
 ;; $$|\text{orbits}| = \frac{1}{|G|} \sum_{g \in G} |\text{Fix}(g)|$$
 ;;
@@ -216,7 +216,7 @@
 
 (kind/test-last [true?])
 
-;; ## Cycle index
+;; ## [Cycle index](https://en.wikipedia.org/wiki/Cycle_index)
 ;;
 ;; The **cycle index** of a group action is a polynomial that encodes the
 ;; cycle structure of every group element's permutation of the domain:
@@ -250,7 +250,7 @@
 
 (kind/test-last [true?])
 
-;; ## Pólya enumeration
+;; ## [Pólya enumeration](https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem)
 ;;
 ;; Evaluating the cycle index with $p_i = k$ counts the number of distinct
 ;; $k$-colorings: $|colorings| = Z(G; p_1 = k, p_2 = k, \ldots)$.

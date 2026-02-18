@@ -1,13 +1,13 @@
 ;; # Character Theory
 ;;
-;; The **character table** of a finite group encodes every irreducible
-;; representation as a single row of complex numbers. This notebook
+;; The **[character table](https://en.wikipedia.org/wiki/Character_table)** of a finite group encodes every [irreducible
+;; representation](https://en.wikipedia.org/wiki/Irreducible_representation) as a single row of complex numbers. This notebook
 ;; explores character tables and their deep orthogonality properties
 ;; across all group types in the library: cyclic, symmetric, and dihedral.
 ;;
 ;; The properties verified here are not just mathematical curiosities —
-;; they are the **structural backbone** that makes Fourier analysis on
-;; finite groups work.
+;; they are the **structural backbone** that makes [Fourier analysis on
+;; finite groups](https://en.wikipedia.org/wiki/Fourier_analysis_on_finite_groups) work.
 
 (ns harmonica-book.character-theory
   (:require
@@ -19,7 +19,7 @@
 ;;
 ;; A character table is a square matrix indexed by irreducible representations
 ;; (rows) and conjugacy classes (columns). The entry $\chi_\rho(C)$ is
-;; the trace of the representation matrix $\rho(g)$ for any $g \in C$.
+;; the [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of the representation matrix $\rho(g)$ for any $g \in C$.
 
 ;; ### Cyclic groups
 ;;
@@ -41,8 +41,8 @@
 
 ;; ### Symmetric groups
 ;;
-;; For $S_n$, the character table is computed by the Murnaghan-Nakayama
-;; rule. All entries are real integers.
+;; For $S_n$, the character table is computed by the [Murnaghan-Nakayama
+;; rule](https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule). All entries are real integers.
 
 (let [ct (hm/character-table (hm/symmetric-group 4))
       entries (for [row (:table ct) v row] v)]
@@ -71,7 +71,7 @@
 
 ;; ## Row orthogonality
 ;;
-;; The central identity: different irreps are orthogonal as class functions.
+;; The central identity ([Schur orthogonality](https://en.wikipedia.org/wiki/Schur_orthogonality_relations)): different irreps are orthogonal as class functions.
 ;;
 ;; $$\sum_C |C| \, \chi_i(C) \, \overline{\chi_j(C)} = |G| \, \delta_{ij}$$
 ;;

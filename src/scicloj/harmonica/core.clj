@@ -44,6 +44,10 @@
      matrix-fourier-transform-all - transform for all irreps
      class-of             - conjugacy class of an element
      irrep-multiplicities - decompose a representation into irreducibles
+     restrict-rep         - restrict a representation to S_k ⊆ S_n
+     induce-rep           - induce a representation from S_k to S_n
+     branching-rule       - decompose Res^{S_n}_{S_{n-1}} into irreps
+     embed-perm           - embed S_k permutation into S_n
 
    Riffle shuffles:
      gsr-probability      - GSR probability of a permutation after k shuffles
@@ -271,6 +275,25 @@
   "Decompose a representation into irreducible components.
    Returns a map from partition (irrep label) to multiplicity."
   rep/irrep-multiplicities)
+
+(def restrict-rep
+  "Restrict a representation of S_n to the subgroup S_k (fixing points >= k).
+   (restrict-rep rep n k) returns a representation of S_k."
+  rep/restrict-rep)
+
+(def induce-rep
+  "Induce a representation of S_k to S_n (standard embedding).
+   (induce-rep rep k n) returns a representation of S_n with dimension (n!/k!)·d."
+  rep/induce-rep)
+
+(def branching-rule
+  "Compute how an irrep of S_n decomposes when restricted to S_{n-1}.
+   Returns a map from partition of (n-1) to multiplicity."
+  rep/branching-rule)
+
+(def embed-perm
+  "Embed a permutation of S_k into S_n by fixing points >= k."
+  rep/embed-perm)
 
 ;; ---------------------------------------------------------------------------
 ;; Riffle shuffles

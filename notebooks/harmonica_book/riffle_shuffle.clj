@@ -1,6 +1,6 @@
 ;; # Riffle Shuffles and the "Seven Shuffles" Theorem
 ;;
-;; How many times should you riffle-shuffle a deck of cards?
+;; How many times should you [riffle-shuffle](https://en.wikipedia.org/wiki/Riffle_shuffle_permutation) a deck of cards?
 ;;
 ;; In 1992, **Bayer and Diaconis** proved a remarkable result: for a standard
 ;; 52-card deck, the distribution after $k$ riffle shuffles stays far from
@@ -11,7 +11,7 @@
 ;; shuffle distribution is **not** a class function — it depends on the
 ;; specific permutation, not just its cycle type. Analyzing it requires
 ;; the full machinery of **matrix representations** and the
-;; **matrix-valued Fourier transform**.
+;; **[matrix-valued Fourier transform](https://en.wikipedia.org/wiki/Fourier_analysis_on_finite_groups)**.
 ;;
 ;; In this notebook we:
 ;;
@@ -84,7 +84,7 @@
      (= 120 (reduce + (map #(let [d (hm/hook-length-dimension %)]
                                (* d d))
                             parts)))))])
-;; ## The Gilbert-Shannon-Reeds Riffle Shuffle
+;; ## The [Gilbert-Shannon-Reeds](https://en.wikipedia.org/wiki/Gilbert%E2%80%93Shannon%E2%80%93Reeds_model) Riffle Shuffle
 ;;
 ;; The GSR model for a single riffle shuffle:
 ;;

@@ -2,7 +2,7 @@
 ;;
 ;; This notebook is a deep dive into the algebraic properties of
 ;; **permutations** and **partitions** — the two foundational data types
-;; in the representation theory of symmetric groups. We verify identities
+;; in the [representation theory of symmetric groups](https://en.wikipedia.org/wiki/Representation_theory_of_the_symmetric_group). We verify identities
 ;; systematically and visualize partitions as Young diagrams.
 ;;
 ;; For a narrative introduction to permutations, cycles, and the symmetric
@@ -54,7 +54,7 @@
 
 ;; ### Adjacent transposition decomposition
 ;;
-;; Every permutation can be written as a product of adjacent transpositions
+;; Every permutation can be written as a product of [adjacent transpositions](https://en.wikipedia.org/wiki/Transposition_(mathematics))
 ;; $s_i = (i, i{+}1)$. We verify the decomposition reconstructs the
 ;; original for all of $S_6$.
 
@@ -173,7 +173,7 @@
 
 ;; ### Young diagrams as SVG
 ;;
-;; A partition is visualized as a **Young diagram**: a left-justified array
+;; A partition is visualized as a **[Young diagram](https://en.wikipedia.org/wiki/Young_diagram)**: a left-justified array
 ;; of boxes where row $i$ has $\lambda_i$ boxes.
 
 ;; The library provides `hm/young-diagram-svg` to render these:
@@ -242,11 +242,11 @@
 
 ;; ### Hook lengths and the hook-length formula
 ;;
-;; For each cell $(i, j)$ in a Young diagram, the **hook length** $h(i,j)$
+;; For each cell $(i, j)$ in a Young diagram, the **[hook length](https://en.wikipedia.org/wiki/Hook_length_formula)** $h(i,j)$
 ;; counts the cells directly to the right and directly below, plus the cell
 ;; itself.
 ;;
-;; The **hook-length formula** gives the number of standard Young tableaux
+;; The **[hook-length formula](https://en.wikipedia.org/wiki/Hook_length_formula)** gives the number of standard Young tableaux
 ;; (SYT) of shape $\lambda$:
 ;;
 ;; $$f^\lambda = \frac{n!}{\prod_{(i,j) \in \lambda} h(i,j)}$$
@@ -327,7 +327,7 @@
 
 ;; ### Standard Young Tableaux
 ;;
-;; A **standard Young tableau** (SYT) of shape $\lambda$ is a filling of the
+;; A **[standard Young tableau](https://en.wikipedia.org/wiki/Young_tableau#Standard_Young_tableaux)** (SYT) of shape $\lambda$ is a filling of the
 ;; Young diagram with $1, 2, \ldots, n$ such that entries increase along each
 ;; row and down each column. SYTs form the basis for Young's orthogonal
 ;; representation.

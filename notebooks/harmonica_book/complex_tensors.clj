@@ -1,6 +1,6 @@
 ;; # Complex Tensors
 ;;
-;; **ComplexTensor** is a dtype-next tensor-backed complex number type.
+;; **ComplexTensor** is a [dtype-next](https://github.com/cnuernber/dtype-next) tensor-backed complex number type.
 ;; It wraps a real tensor whose **last dimension is 2** — interleaved
 ;; real/imaginary pairs — providing zero-copy access to real and
 ;; imaginary parts as strided tensor views.

@@ -11,6 +11,9 @@
    - rep-matrix: compute ρ(σ) for a group element σ
    - rep-dimension: dimension of the representation
    - rep-character: character value χ(σ) = tr(ρ(σ))
+   - restrict-rep: restrict a representation to a subgroup
+   - induce-rep: induce a representation from a subgroup
+   - tensor-product, direct-sum: combine representations
    - frobenius-norm-sq: ||M||²_F = tr(M Mᵀ)
    - class-of: find the conjugacy class of an element
    - irrep-multiplicities: decompose a representation into irreducibles"
@@ -169,6 +172,122 @@
                                                 (vec (.getRow M2 i)))))
                                  (range d2)))))))}))
 
+;; ---------------------------------------------------------------------------
+;; Restriction and Induction
+;; ---------------------------------------------------------------------------
+
+(defn embed-perm
+  "Embed a permutation of {0, ..., k-1} into {0, ..., n-1} by fixing points >= k.
+   This is the standard embedding S_k ↪ S_n."
+  [sigma n]
+  (let [k (count sigma)]
+    (into sigma (range k n))))
+
+(defn restrict-perm
+  "Given a permutation in S_n that fixes all points >= k,
+   return the corresponding permutation in S_k."
+  [sigma k]
+  (subvec sigma 0 k))
+
+(defn- member-of-embedded-subgroup?
+  "True if sigma in S_n fixes all points >= k (i.e., belongs to the embedded S_k)."
+  [sigma k]
+  (let [n (count sigma)]
+    (loop [i k]
+      (if (< i n)
+        (if (= (sigma i) i)
+          (recur (inc i))
+          false)
+        true))))
+
+(defn- left-coset-representatives
+  "Compute left coset representatives of S_k in S_n.
+   Returns a vector of [G:H] = n!/k! permutations, one per coset.
+   Each representative t_i satisfies: S_n = ⊔ t_i · S_k."
+  [n k]
+  (let [all-elts (p/elements (scicloj.harmonica.impl.symmetric/->SymmetricGroup n))
+        ;; Group elements by which coset they belong to.
+        ;; Two permutations σ, τ are in the same left coset of S_k iff
+        ;; σ⁻¹τ ∈ S_k, i.e., σ⁻¹τ fixes all points >= k.
+        ;; Equivalently, σ and τ agree on {k, k+1, ..., n-1}.
+        coset-key (fn [sigma] (subvec sigma k (count sigma)))
+        seen (volatile! {})
+        reps (volatile! [])]
+    (doseq [sigma all-elts]
+      (let [key (coset-key sigma)]
+        (when-not (contains? @seen key)
+          (vswap! seen assoc key sigma)
+          (vswap! reps conj sigma))))
+    @reps))
+
+(defn restrict-rep
+  "Restrict a representation ρ of S_n to the subgroup S_k (embedded via fixing points >= k).
+
+   Res^{S_n}_{S_k} ρ: for each h in S_k, compute ρ(embed(h, n)).
+
+   Parameters:
+   - rep: a representation of S_n
+   - n: degree of the parent group
+   - k: degree of the subgroup (k <= n)
+
+   Returns a representation of S_k."
+  [rep n k]
+  {:pre [(<= k n)]}
+  {:dimension (:dimension rep)
+   :matrix-fn (fn [h]
+                (rep-matrix rep (embed-perm h n)))})
+
+(defn induce-rep
+  "Induce a representation ρ of S_k to S_n (using the standard embedding).
+
+   Ind^{S_n}_{S_k} ρ has dimension [S_n:S_k] · dim(ρ) = (n!/k!) · d.
+
+   The matrix of Ind(ρ)(g) is a block matrix indexed by left coset
+   representatives s, t:
+     block(s,t) = ρ(s⁻¹·g·t)  if s⁻¹·g·t ∈ S_k
+                  0             otherwise
+
+   Parameters:
+   - rep: a representation of S_k
+   - k: degree of the subgroup
+   - n: degree of the target group (n >= k)
+
+   Returns a representation of S_n."
+  [rep k n]
+  {:pre [(<= k n)]}
+  (let [coset-reps (left-coset-representatives n k)
+        m (count coset-reps)
+        d (:dimension rep)
+        D (* m d)
+        ;; Precompute inverses of coset reps
+        inv-reps (mapv perm/inverse coset-reps)
+        ;; Zero block
+        zero-block (fm/rows->mat (vec (repeat d (vec (repeat d 0.0)))))]
+    {:dimension D
+     :matrix-fn
+     (fn [g]
+       ;; Build the D×D block matrix
+       (let [blocks
+             (vec (for [s-idx (range m)]
+                    (vec (for [t-idx (range m)]
+                           (let [sinv (inv-reps s-idx)
+                                 t (coset-reps t-idx)
+                                 ;; s⁻¹ · g · t
+                                 h (perm/compose (perm/compose sinv g) t)]
+                             (if (member-of-embedded-subgroup? h k)
+                               (rep-matrix rep (restrict-perm h k))
+                               zero-block))))))]
+         ;; Assemble into a single D×D matrix
+         (fm/rows->mat
+          (vec (for [s-idx (range m)
+                     row-in-block (range d)]
+                 (vec (for [t-idx (range m)
+                            col-in-block (range d)]
+                        (let [^org.apache.commons.math3.linear.RealMatrix blk
+                              ((blocks s-idx) t-idx)]
+                          (.getEntry blk row-in-block col-in-block)))))))))}))
+
+
 (defn class-of
   "Return the conjugacy class of element g in group G.
    The result is a map with :representative, :size, :cycle-type, and
@@ -233,3 +352,18 @@
                     (when (pos? m)
                       [label m])))
                 (range (count irrep-labels))))))
+
+(defn branching-rule
+  "Compute how an irrep of S_n decomposes when restricted to S_{n-1}.
+   Returns a map from partition of (n-1) to multiplicity.
+
+   By the branching rule for symmetric groups, Res^{S_n}_{S_{n-1}} V_λ
+   decomposes as the direct sum of V_μ where μ is obtained from λ by
+   removing one box."
+  [lambda]
+  (let [n (reduce + lambda)
+        k (dec n)
+        rep (irrep lambda)
+        restricted (restrict-rep rep n k)
+        subgroup (scicloj.harmonica.impl.symmetric/->SymmetricGroup k)]
+    (irrep-multiplicities subgroup restricted)))

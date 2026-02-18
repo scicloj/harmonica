@@ -9,9 +9,9 @@
 ;; **Diaconis and Shahshahani (1981)** proved a remarkable result: the
 ;; distribution stays far from uniform until approximately $\tfrac{1}{2}n\ln n$
 ;; steps, then rapidly converges. This sharp transition is called the
-;; **cutoff phenomenon**.
+;; **[cutoff phenomenon](https://en.wikipedia.org/wiki/Cutoff_(Markov_chains))**.
 ;;
-;; The analysis uses **Fourier analysis on the symmetric group** — exactly
+;; The analysis uses **[Fourier analysis on the symmetric group](https://en.wikipedia.org/wiki/Fourier_analysis_on_finite_groups)** — exactly
 ;; the character tables we computed via the Murnaghan-Nakayama rule.
 
 (ns harmonica-book.random-transpositions

@@ -1,6 +1,6 @@
 ;; # Groups and Structure
 ;;
-;; A **group** $(G, \cdot)$ is a set $G$ with an operation satisfying
+;; A **[group](https://en.wikipedia.org/wiki/Group_(mathematics))** $(G, \cdot)$ is a set $G$ with an operation satisfying
 ;; closure, associativity, identity, and inverses. This notebook
 ;; systematically verifies these axioms and explores the structural
 ;; properties of every group type in the library.
@@ -20,7 +20,7 @@
 ;;
 ;; ### Dihedral groups
 ;;
-;; The **dihedral group** $D_n$ is the symmetry group of a regular $n$-gon:
+;; The **[dihedral group](https://en.wikipedia.org/wiki/Dihedral_group)** $D_n$ is the symmetry group of a regular $n$-gon:
 ;; $n$ rotations and $n$ reflections, for a total of $2n$ elements.
 ;;
 ;; Elements are represented as tagged pairs:
@@ -28,7 +28,7 @@
 ;; - $[:r\; k]$ — rotation by $2\pi k/n$ (for $k = 0, \ldots, n{-}1$)
 ;; - $[:s\; k]$ — reflection (for $k = 0, \ldots, n{-}1$)
 ;;
-;; The group is defined by the **presentation** $r^n = s^2 = e$ and
+;; The group is defined by the **[presentation](https://en.wikipedia.org/wiki/Presentation_of_a_group)** $r^n = s^2 = e$ and
 ;; $s r s = r^{-1}$: rotating then reflecting then rotating again
 ;; is the same as reflecting in a different axis.
 
@@ -44,11 +44,11 @@
 
 ;; ### Product groups
 ;;
-;; The **product group** $G_1 \times G_2$ has elements that are pairs
+;; The **[direct product](https://en.wikipedia.org/wiki/Direct_product_of_groups)** $G_1 \times G_2$ has elements that are pairs
 ;; $[g, h]$ with $g \in G_1$, $h \in G_2$. All operations act
 ;; componentwise: $(g_1, h_1) \cdot (g_2, h_2) = (g_1 g_2,\; h_1 h_2)$.
 ;;
-;; The simplest non-trivial example is the **Klein four-group**
+;; The simplest non-trivial example is the **[Klein four-group](https://en.wikipedia.org/wiki/Klein_four-group)**
 ;; $V_4 = \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$, which
 ;; has 4 elements and is the smallest non-cyclic group:
 

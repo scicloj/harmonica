@@ -1,8 +1,8 @@
 ;; # Representation Matrices
 ;;
-;; An irreducible representation $\rho_\lambda : S_n \to GL(d_\lambda)$
+;; An irreducible representation $\rho_\lambda : S_n \to [GL(d_\lambda)](https://en.wikipedia.org/wiki/General_linear_group)$
 ;; assigns a matrix to each permutation. For the symmetric group, harmonica
-;; uses **Young's orthogonal form** — an explicit construction based on
+;; uses **[Young's orthogonal form](https://en.wikipedia.org/wiki/Young%27s_orthogonal_representation)** — an explicit construction based on
 ;; standard Young tableaux.
 ;;
 ;; This notebook verifies the deep algebraic properties of these matrices
@@ -19,7 +19,7 @@
 ;; ## Building an irrep
 ;;
 ;; An irreducible representation is constructed from a partition $\lambda$.
-;; The dimension $d_\lambda$ equals the number of standard Young tableaux
+;; The dimension $d_\lambda$ equals the number of [standard Young tableaux](https://en.wikipedia.org/wiki/Young_tableau#Standard_Young_tableaux)
 ;; of shape $\lambda$.
 
 (def ir-21 (hm/irrep [2 1]))
@@ -245,7 +245,7 @@
 
 (kind/test-last [true?])
 
-;; ## Tensor product
+;; ## [Tensor product](https://en.wikipedia.org/wiki/Tensor_product_of_representations)
 ;;
 ;; The tensor product $\rho_1 \otimes \rho_2$ has dimension
 ;; $d_1 \cdot d_2$ and character $\chi_1(g) \cdot \chi_2(g)$.
@@ -313,7 +313,7 @@
 
 (kind/test-last [true?])
 
-;; ## Direct sum
+;; ## [Direct sum](https://en.wikipedia.org/wiki/Direct_sum_of_modules)
 ;;
 ;; The direct sum $\rho_1 \oplus \rho_2$ has dimension $d_1 + d_2$ and
 ;; character $\chi_1(g) + \chi_2(g)$.
@@ -355,7 +355,7 @@
 
 (kind/test-last [true?])
 
-;; ## Schur orthogonality relations (matrix entries)
+;; ## [Schur orthogonality relations](https://en.wikipedia.org/wiki/Schur_orthogonality_relations) (matrix entries)
 ;;
 ;; For distinct irreps $\rho$ and $\rho'$:
 ;;

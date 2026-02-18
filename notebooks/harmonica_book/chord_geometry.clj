@@ -1,7 +1,7 @@
 ;; # Chord Geometry — Music Theory as Group Action
 ;;
-;; Western music's 12 pitch classes form the cyclic group $\mathbb{Z}/12\mathbb{Z}$.
-;; Chords are subsets. Two chords related by **transposition** — shifting all
+;; Western music's 12 [pitch classes](https://en.wikipedia.org/wiki/Pitch_class) form the cyclic group $\mathbb{Z}/12\mathbb{Z}$.
+;; Chords are subsets. Two chords related by **[transposition](https://en.wikipedia.org/wiki/Transposition_(music))** — shifting all
 ;; notes by the same interval — are the "same type": C major and D major are both
 ;; "major." Chord types are orbits under the group action.
 ;;
@@ -138,7 +138,7 @@
 
 ;; ## Adding Inversion: The Dihedral Group
 ;;
-;; **Inversion** maps pitch class $x$ to $-x \pmod{12}$ — it flips intervals
+;; **[Inversion](https://en.wikipedia.org/wiki/Inversion_(music)#Pitch_class_inversion)** maps pitch class $x$ to $-x \pmod{12}$ — it flips intervals
 ;; upside down. Combined with transposition, the symmetry group becomes the
 ;; dihedral group $D_{12}$ (order 24).
 ;;
@@ -195,9 +195,9 @@
 
 ;; ## Interval Vectors and the Z-Relation
 ;;
-;; The **interval vector** counts how many of each interval class a chord
+;; The **[interval vector](https://en.wikipedia.org/wiki/Interval_vector)** counts how many of each interval class a chord
 ;; contains. Most chord types have unique interval vectors, but occasionally
-;; two different types share the same one — the **Z-relation**.
+;; two different types share the same one — the **[Z-relation](https://en.wikipedia.org/wiki/Z-relation)**.
 ;;
 ;; For trichords under $D_{12}$, no Z-relation occurs. Let's verify:
 

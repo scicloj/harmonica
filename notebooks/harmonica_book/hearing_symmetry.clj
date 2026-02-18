@@ -1,8 +1,8 @@
 ;; # Hearing Symmetry — Permutation Music
 ;;
 ;; Apply group elements to a musical motif and hear the result. Different
-;; group actions produce different musical transformations — retrograde,
-;; inversion, transposition — that musicians have used for centuries.
+;; group actions produce different musical transformations — [retrograde](https://en.wikipedia.org/wiki/Retrograde_(music)),
+;; [inversion](https://en.wikipedia.org/wiki/Inversion_(music)), [transposition](https://en.wikipedia.org/wiki/Transposition_(music)) — that musicians have used for centuries.
 ;;
 ;; Bach was doing group theory. Schoenberg made it explicit.
 
@@ -171,7 +171,7 @@
 
 ;; ## Twelve-Tone Rows
 ;;
-;; In Schoenberg's twelve-tone technique, a **tone row** is an ordering
+;; In Schoenberg's [twelve-tone technique](https://en.wikipedia.org/wiki/Twelve-tone_technique), a **[tone row](https://en.wikipedia.org/wiki/Tone_row)** is an ordering
 ;; of all 12 pitch classes. The composer then derives all material from
 ;; the row and its transformations.
 ;;

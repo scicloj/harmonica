@@ -1,10 +1,10 @@
 ;; # Counting Necklaces — Burnside's Lemma Visualized
 ;;
-;; How many distinct necklaces can you make with $n$ beads and $k$ colors,
+;; How many distinct [necklaces](https://en.wikipedia.org/wiki/Necklace_(combinatorics)) can you make with $n$ beads and $k$ colors,
 ;; if two necklaces that differ only by rotation are considered the same?
 ;; What if flipping the necklace over also counts as "the same"?
 ;;
-;; The answers come from **Burnside's lemma** and the **cycle index polynomial**
+;; The answers come from **[Burnside's lemma](https://en.wikipedia.org/wiki/Burnside%27s_lemma)** and the **[cycle index polynomial](https://en.wikipedia.org/wiki/Cycle_index)**
 ;; — tools from group theory that turn symmetry into a counting formula.
 
 (ns harmonica-book.counting-necklaces

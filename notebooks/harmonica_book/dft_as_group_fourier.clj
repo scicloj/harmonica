@@ -1,13 +1,13 @@
 ;; # The DFT as Fourier Transform on a Group
 ;;
-;; The Discrete Fourier Transform (DFT) is one of the most important algorithms
+;; The [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) (DFT) is one of the most important algorithms
 ;; in computing. It decomposes a signal into "frequencies" — but what are these
 ;; frequencies, really?
 ;;
 ;; The answer comes from group theory: the DFT is the **Fourier transform on
-;; the cyclic group** $\mathbb{Z}/n\mathbb{Z}$. The "frequencies" are the **irreducible
-;; representations** (characters) of this group. The DFT matrix **is** the
-;; character table.
+;; the [cyclic group](https://en.wikipedia.org/wiki/Cyclic_group)** $\mathbb{Z}/n\mathbb{Z}$. The "frequencies" are the **[irreducible
+;; representations](https://en.wikipedia.org/wiki/Irreducible_representation)** (characters) of this group. The DFT matrix **is** the
+;; [character table](https://en.wikipedia.org/wiki/Character_table).
 ;;
 ;; This notebook makes the connection explicit, step by step.
 
@@ -69,7 +69,7 @@
 
 ;; ## Characters: rotations at different speeds
 
-;; A **character** of $\mathbb{Z}/n\mathbb{Z}$ is a homomorphism from the group to the complex
+;; A **character** of $\mathbb{Z}/n\mathbb{Z}$ is a [homomorphism](https://en.wikipedia.org/wiki/Group_homomorphism) from the group to the complex
 ;; numbers of magnitude 1 — that is, a mapping that preserves the group
 ;; operation and lands on the unit circle.
 ;;
@@ -77,7 +77,7 @@
 ;;
 ;; $$\chi_k(g) = \omega^{kg}$$
 ;;
-;; where $\omega = e^{2\pi i/n}$ is the primitive $n$-th root of unity and
+;; where $\omega = e^{2\pi i/n}$ is the primitive $n$-th [root of unity](https://en.wikipedia.org/wiki/Root_of_unity) and
 ;; $k = 0, 1, \ldots, n-1$.
 ;;
 ;; Each character $\chi_k$ is a "rotation at speed $k$" — it goes around the
@@ -91,7 +91,7 @@
 
 ;; Why are characters the "right" basis? Consider the **shift operator**
 ;; $T_1 f(g) = f(g - 1)$, which translates a signal by one step. A character
-;; $\chi_k$ is an **eigenvector** of every shift: $T_a \chi_k(g) = \chi_k(g - a)
+;; $\chi_k$ is an **[eigenvector](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors)** of every shift: $T_a \chi_k(g) = \chi_k(g - a)
 ;; = \omega^{-ka} \chi_k(g)$. The eigenvalue $\omega^{-ka}$ depends on the
 ;; shift amount but not on $g$ — this is what makes characters "pure frequencies."
 ;; Decomposing into characters diagonalizes all shifts simultaneously.
@@ -186,7 +186,7 @@
 ;; ## Comparison with the standard FFT
 
 ;; Let's verify that our group-theoretic Fourier transform gives the same
-;; result as the standard FFT from fastmath.
+;; result as the standard FFT from [fastmath](https://github.com/generateme/fastmath).
 ;;
 ;; The fastmath FFT returns interleaved `[re_0, im_0, re_1, im_1, ...]` for
 ;; the first $N/2$ coefficients (exploiting Hermitian symmetry). We extract
@@ -211,7 +211,7 @@
 
 ;; ## Character orthogonality
 
-;; The characters of a finite group satisfy beautiful orthogonality relations.
+;; The characters of a finite group satisfy beautiful [orthogonality relations](https://en.wikipedia.org/wiki/Schur_orthogonality_relations).
 ;; These are not just mathematical curiosities — they are what make the
 ;; Fourier transform invertible.
 ;;
@@ -269,7 +269,7 @@
 ;;
 ;; $$\widehat{f * h}(k) = \hat{f}(k) \cdot \hat{h}(k)$$
 ;;
-;; For $\mathbb{Z}/n\mathbb{Z}$, this is the familiar **cyclic convolution theorem**.
+;; For $\mathbb{Z}/n\mathbb{Z}$, this is the familiar **[cyclic convolution theorem](https://en.wikipedia.org/wiki/Convolution_theorem)**.
 ;; It is the reason fast convolution is possible: instead of $O(n^2)$
 ;; direct summation, we can compute forward FFT, pointwise multiply, and
 ;; inverse FFT in $O(n \log n)$.
@@ -299,7 +299,7 @@
 (kind/test-last
  [true?])
 
-;; ## Parseval's theorem (energy conservation)
+;; ## [Parseval's theorem](https://en.wikipedia.org/wiki/Parseval%27s_theorem) (energy conservation)
 
 ;; The total "energy" of a signal is preserved under the Fourier transform.
 ;; This guarantees that the transform is an isometry — no information is
@@ -319,7 +319,7 @@
 
 ;; ## Connection to dtype-next convolution
 ;;
-;; The dtype-next library provides `convolve1d` for efficient real-valued
+;; The [dtype-next](https://github.com/cnuernber/dtype-next) library provides `convolve1d` for efficient real-valued
 ;; linear convolution. For signals on cyclic groups, **cyclic** convolution
 ;; can be obtained from a full linear convolution by folding the overflow
 ;; back around.
