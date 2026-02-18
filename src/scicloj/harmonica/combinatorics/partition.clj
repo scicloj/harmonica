@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.partition
+(ns scicloj.harmonica.combinatorics.partition
   "Integer partitions.
 
    A partition of n is a vector of positive integers in descending order

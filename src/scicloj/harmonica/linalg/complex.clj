@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.complex
+(ns scicloj.harmonica.linalg.complex
   "Complex tensors backed by dtype-next.
 
    A ComplexTensor wraps a real tensor whose last dimension is 2

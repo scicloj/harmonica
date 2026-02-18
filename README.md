@@ -68,8 +68,8 @@ See the [Harmonica book](https://scicloj.github.io/harmonica/) for tutorials:
 |:----------|:--------|
 | `scicloj.harmonica` | Public API — groups, permutations, partitions, characters, Fourier |
 | `scicloj.harmonica.protocols` | Core protocols: Group, FiniteGroup, GroupStructure, GroupType |
-| `scicloj.harmonica.characters` | Character table computation (multimethod on group type) |
-| `scicloj.harmonica.fourier` | Fourier transform, inverse, convolution, total variation distance |
+| `scicloj.harmonica.analysis.characters` | Character table computation (multimethod on group type) |
+| `scicloj.harmonica.analysis.fourier` | Fourier transform, inverse, convolution, total variation distance |
 
 ## Development
 

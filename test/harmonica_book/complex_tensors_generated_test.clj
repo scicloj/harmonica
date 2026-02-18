@@ -1,7 +1,7 @@
 (ns
  harmonica-book.complex-tensors-generated-test
  (:require
-  [scicloj.harmonica.complex :as cx]
+  [scicloj.harmonica.linalg.complex :as cx]
   [tech.v3.tensor :as tensor]
   [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]

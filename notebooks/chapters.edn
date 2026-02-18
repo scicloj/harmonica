@@ -15,4 +15,5 @@
  "Reference" ["algebraic_identities"
               "sympy_comparison"
               "complex_tensors"
+              "ejml_integration"
               "api_reference"]}

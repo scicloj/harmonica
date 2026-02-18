@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.permutation
+(ns scicloj.harmonica.combinatorics.permutation
   "Permutation utilities using 0-indexed one-line notation.
 
    A permutation of n elements is a vector [σ(0) σ(1) ... σ(n-1)]

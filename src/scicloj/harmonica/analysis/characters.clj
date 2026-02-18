@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.characters
+(ns scicloj.harmonica.analysis.characters
   "Character tables for finite groups.
 
    A character table is a value (map) containing:
@@ -14,9 +14,9 @@
    For symmetric groups S_n, the character table is computed via the
    Murnaghan-Nakayama rule. All entries are real integers."
   (:require [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.murnaghan-nakayama :as mn]
-            [scicloj.harmonica.impl.partition :as part]
-            [scicloj.harmonica.complex :as cx]
+            [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
+            [scicloj.harmonica.combinatorics.partition :as part]
+            [scicloj.harmonica.linalg.complex :as cx]
             [tech.v3.datatype.functional :as dfn]))
 
 ;; ---------------------------------------------------------------------------

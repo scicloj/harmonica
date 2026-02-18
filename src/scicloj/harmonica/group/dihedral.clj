@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.dihedral
+(ns scicloj.harmonica.group.dihedral
   "Dihedral group D_n — the group of symmetries of a regular n-gon.
 
    Order 2n. Presentation: r^n = s^2 = e, s·r·s = r^{-1}.
@@ -8,15 +8,10 @@
      [:s k] — reflection (r^k composed with base reflection s)
 
    The group operation follows from the presentation:
-     r^a · r^b = r^{a+b mod n}
-     r^a · (r^b s) = r^{a+b mod n} s
-     (r^a s) · r^b = r^{a-b mod n} s
-     (r^a s) · (r^b s) = r^{a-b mod n}
-
-   Conjugacy classes depend on the parity of n:
-     n odd:  {e}, {r^k, r^{-k}} for k=1..⌊(n-1)/2⌋, {all reflections}
-     n even: {e}, {r^{n/2}}, {r^k, r^{-k}} for k=1..n/2-1,
-             {even reflections}, {odd reflections}"
+     r^a · r^b = r^{(a+b) mod n}
+     r^a · s^b = s^{(a+b) mod n}    (i.e. rotation then reflection)
+     s^a · r^b = s^{(a-b) mod n}    (conjugation reverses rotation)
+     s^a · s^b = r^{(a-b) mod n}    (two reflections give a rotation)"
   (:require [scicloj.harmonica.protocols :as p]))
 
 (defn- dihedral-op
@@ -33,7 +28,7 @@
   [n [t k]]
   (case t
     :r [:r (mod (- n (long k)) n)]
-    :s [t k]))  ;; reflections are involutions
+    :s [t k])) ;; reflections are involutions
 
 (defn- dihedral-conjugacy-classes
   "Conjugacy classes of D_n."

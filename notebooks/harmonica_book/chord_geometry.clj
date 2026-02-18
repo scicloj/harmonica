@@ -12,7 +12,7 @@
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.protocols :as p]
-   [scicloj.harmonica.complex :as cx]
+   [scicloj.harmonica.linalg.complex :as cx]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))

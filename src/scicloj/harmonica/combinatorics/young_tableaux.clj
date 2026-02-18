@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.young-tableaux
+(ns scicloj.harmonica.combinatorics.young-tableaux
   "Standard Young Tableaux (SYT) for integer partitions.
 
    A Standard Young Tableau of shape λ is a filling of the Young diagram
@@ -8,14 +8,11 @@
    SYTs index the basis vectors of the irreducible representations of S_n
    in Young's orthogonal form.
 
-   Representation: a SYT is stored as a vector of row vectors, e.g.
-   [[1 3 5] [2 4] [6]] for partition [3 2 1].
-
-   We also provide:
-   - position-of: inverse lookup (value → [row, col])
-   - axial-distance: content difference between positions of two values
-   - hook-length-dimension: dimension of irrep via hook-length formula"
-  (:require [scicloj.harmonica.impl.partition :as part]))
+   Includes:
+   - standard-young-tableaux: enumerate all SYTs of a given shape
+   - hook-length-dimension: count SYTs using the hook-length formula
+   - hook-lengths: compute the hook length at each cell"
+  (:require [scicloj.harmonica.combinatorics.partition :as part]))
 
 (defn addable-cells
   "Return the cells (as [row, col] pairs, 0-indexed) where a new entry

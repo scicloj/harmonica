@@ -9,7 +9,7 @@
 (ns harmonica-book.character-theory
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.complex :as cx]
+   [scicloj.harmonica.linalg.complex :as cx]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## What is a character table?

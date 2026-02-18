@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.riffle
+(ns scicloj.harmonica.combinatorics.riffle
   "Gilbert-Shannon-Reeds (GSR) riffle shuffle distribution.
 
    The GSR model: cut the deck binomially, then interleave the two packets
@@ -9,15 +9,12 @@
 
      Q_a(σ) = C(a + n - r(σ), n) / a^n
 
-   where a = 2^k and r(σ) is the number of rising sequences of σ.
+   where a = 2^k and r(σ) = 1 + number of descents in σ^{-1}.
 
-   A rising sequence of σ is a maximal consecutive increasing run in the
-   sequence σ(1), σ(2), ..., σ(n). Equivalently,
-   r(σ) = 1 + |{i : σ⁻¹(i) > σ⁻¹(i+1)}| = 1 + descents(σ⁻¹).
-
-   Reference: Bayer & Diaconis, 'Trailing the Dovetail Shuffle to its Lair'
-   (Annals of Applied Probability, 1992)."
-  (:require [scicloj.harmonica.impl.permutation :as perm]))
+   References:
+   - Bayer & Diaconis (1992), 'Trailing the dovetail shuffle to its lair'
+   - Diaconis (1988), 'Group representations in probability and statistics'"
+  (:require [scicloj.harmonica.combinatorics.permutation :as perm]))
 
 (defn descents
   "Number of descents of a permutation σ.

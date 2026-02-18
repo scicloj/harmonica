@@ -2,12 +2,12 @@
   (:require [clojure.test :refer [deftest testing is are]]
             [scicloj.harmonica :as hm]
             [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.dihedral :as dih]
-            [scicloj.harmonica.impl.product :as prod]
-            [scicloj.harmonica.impl.cyclic :as cyc]
-            [scicloj.harmonica.characters :as ch]
+            [scicloj.harmonica.group.dihedral :as dih]
+            [scicloj.harmonica.group.product :as prod]
+            [scicloj.harmonica.group.cyclic :as cyc]
+            [scicloj.harmonica.analysis.characters :as ch]
             [scicloj.harmonica.action :as action]
-            [scicloj.harmonica.complex :as cx]))
+            [scicloj.harmonica.linalg.complex :as cx]))
 
 ;; ---------------------------------------------------------------------------
 ;; DihedralGroup axioms

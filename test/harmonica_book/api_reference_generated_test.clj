@@ -2,9 +2,9 @@
  harmonica-book.api-reference-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.complex :as cx]
+  [scicloj.harmonica.linalg.complex :as cx]
   [scicloj.harmonica.protocols :as p]
-  [scicloj.harmonica.representations :as rep]
+  [scicloj.harmonica.analysis.representations :as rep]
   [fastmath.matrix :as fm]
   [tech.v3.tensor :as tensor]
   [tech.v3.datatype :as dtype]

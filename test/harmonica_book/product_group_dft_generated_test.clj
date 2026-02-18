@@ -2,7 +2,7 @@
  harmonica-book.product-group-dft-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.complex :as cx]
+  [scicloj.harmonica.linalg.complex :as cx]
   [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]

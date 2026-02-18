@@ -28,68 +28,40 @@
 
    Characters:
      character-table  - compute the character table
-     character-inner-product - inner product of class functions
-
-   Representations:
-     irrep            - irreducible representation of S_n
-     rep-matrix       - representation matrix for a group element
-     rep-dimension    - dimension of a representation
-     rep-character    - character value (trace of matrix)
-     rep-generators   - generator matrices for adjacent transpositions
-     tensor-product   - tensor product of representations
-     direct-sum       - direct sum of representations
-     frobenius-norm-sq - squared Frobenius norm
-     frobenius-norm   - Frobenius norm
-     matrix-fourier-transform     - f̂(ρ) = Σ f(σ)·ρ(σ)
-     matrix-fourier-transform-all - transform for all irreps
-     class-of             - conjugacy class of an element
-     irrep-multiplicities - decompose a representation into irreducibles
-     restrict-rep         - restrict a representation to S_k ⊆ S_n
-     induce-rep           - induce a representation from S_k to S_n
-     branching-rule       - decompose Res^{S_n}_{S_{n-1}} into irreps
-     embed-perm           - embed S_k permutation into S_n
-
-   Riffle shuffles:
-     gsr-probability      - GSR probability of a permutation after k shuffles
-     rising-sequences     - number of rising sequences of a permutation
-     gsr-distribution-vec - GSR distribution as double array
-
-   Group actions:
-     orbit            - orbit of a point under a group action
-     orbits           - partition a domain into orbits
-     fixed-points     - points fixed by a group element
-     stabilizer       - elements that fix a point
-     burnside-count   - number of orbits via Burnside's lemma
-     cycle-index      - cycle index of a permutation action
-     polya-count      - colorings via Pólya enumeration
-     subset-action    - induced action on k-element subsets
-     coloring-action  - induced action on k-colorings of n positions
 
    Fourier analysis:
-     fourier-transform         - transform a function on a group
-     inverse-fourier-transform - recover function from coefficients
-     convolve                  - convolution via Fourier domain
-     total-variation-distance  - distance between distributions
+     fourier-transform        - transform a function on the group
+     inverse-fourier-transform - recover a function from Fourier coefficients
+     convolve                 - convolution via pointwise multiply in Fourier domain
 
-   SVG visualizations:
-     young-diagram-svg  - Young diagram as SVG hiccup
-     young-hooks-svg    - Young diagram with hook lengths
-     syt-svg            - standard Young tableau as SVG
-     cycle-diagram-svg  - permutation cycle diagram
-     cayley-table-svg   - group Cayley table
-     cayley-graph-svg   - Cayley graph with colored generator edges"
+   Representations:
+     irrep, rep-matrix, rep-dimension, rep-character
+     tensor-product, direct-sum, restrict-rep, induce-rep
+
+   Group actions:
+     orbit, orbits, stabilizer, fixed-points
+     burnside-count, cycle-index, polya-count
+     subset-action, coloring-action
+
+   Visualization:
+     young-diagram-svg, hook-diagram-svg, syt-svg
+     cycle-diagram-svg, cayley-table-svg, cayley-graph-svg
+
+   Riffle shuffles:
+     riffle-shuffle-distribution - GSR distribution for k shuffles of n cards
+     total-variation-distance    - TV distance to uniform"
   (:require [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.cyclic :as cyclic]
-            [scicloj.harmonica.impl.symmetric :as symmetric]
-            [scicloj.harmonica.impl.dihedral :as dihedral]
-            [scicloj.harmonica.impl.product :as product]
-            [scicloj.harmonica.impl.permutation :as perm]
-            [scicloj.harmonica.impl.partition :as part]
-            [scicloj.harmonica.impl.young-tableaux :as yt]
-            [scicloj.harmonica.impl.riffle :as riffle]
-            [scicloj.harmonica.characters :as ch]
-            [scicloj.harmonica.representations :as rep]
-            [scicloj.harmonica.fourier :as fourier]
+            [scicloj.harmonica.group.cyclic :as cyclic]
+            [scicloj.harmonica.group.symmetric :as symmetric]
+            [scicloj.harmonica.group.dihedral :as dihedral]
+            [scicloj.harmonica.group.product :as product]
+            [scicloj.harmonica.combinatorics.permutation :as perm]
+            [scicloj.harmonica.combinatorics.partition :as part]
+            [scicloj.harmonica.combinatorics.young-tableaux :as yt]
+            [scicloj.harmonica.combinatorics.riffle :as riffle]
+            [scicloj.harmonica.analysis.characters :as ch]
+            [scicloj.harmonica.analysis.representations :as rep]
+            [scicloj.harmonica.analysis.fourier :as fourier]
             [scicloj.harmonica.action :as action]
             [scicloj.harmonica.svg :as svg]))
 

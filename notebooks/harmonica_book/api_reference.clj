@@ -8,9 +8,9 @@
 (ns harmonica-book.api-reference
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.complex :as cx]
+   [scicloj.harmonica.linalg.complex :as cx]
    [scicloj.harmonica.protocols :as p]
-   [scicloj.harmonica.representations :as rep]
+   [scicloj.harmonica.analysis.representations :as rep]
    [fastmath.matrix :as fm]
    [tech.v3.tensor :as tensor]
    [tech.v3.datatype :as dtype]
@@ -433,7 +433,7 @@
 
 ;; ## Complex Tensors
 ;;
-;; The `scicloj.harmonica.complex` namespace provides tensor-backed complex
+;; The `scicloj.harmonica.linalg.complex` namespace provides tensor-backed complex
 ;; numbers. A ComplexTensor wraps a dtype-next tensor whose last dimension
 ;; is 2 (interleaved real/imaginary pairs).
 

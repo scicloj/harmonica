@@ -7,8 +7,8 @@
             [clojure.test.check.properties :as prop]
             [clojure.test.check.clojure-test :refer [defspec]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.complex :as cx]
-            [scicloj.harmonica.characters :as ch]
+            [scicloj.harmonica.linalg.complex :as cx]
+            [scicloj.harmonica.analysis.characters :as ch]
             [fastmath.matrix :as fm]))
 
 ;; ---------------------------------------------------------------------------

@@ -13,8 +13,8 @@
 (ns harmonica-book.representation-matrices
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.representations :as rep]
-   [scicloj.harmonica.complex :as cx]
+   [scicloj.harmonica.analysis.representations :as rep]
+   [scicloj.harmonica.linalg.complex :as cx]
    [fastmath.matrix :as fm]
    [scicloj.kindly.v4.kind :as kind]))
 

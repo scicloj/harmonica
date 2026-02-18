@@ -1,12 +1,12 @@
-(ns scicloj.harmonica.impl.symmetric
+(ns scicloj.harmonica.group.symmetric
   "Symmetric group S_n — the group of all permutations of {0, ..., n-1}.
 
    Elements are 0-indexed one-line notation vectors: [σ(0) σ(1) ... σ(n-1)].
    The group operation is composition (right-to-left):
    (op G σ τ) = σ∘τ where (σ∘τ)(i) = σ(τ(i))."
   (:require [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.permutation :as perm]
-            [scicloj.harmonica.impl.partition :as part]))
+            [scicloj.harmonica.combinatorics.permutation :as perm]
+            [scicloj.harmonica.combinatorics.partition :as part]))
 
 (defn- all-permutations
   "All permutations of [0 .. n-1] as vectors."

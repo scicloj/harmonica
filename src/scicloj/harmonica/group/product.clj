@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.product
+(ns scicloj.harmonica.group.product
   "Direct product of two finite groups G₁ × G₂.
 
    Elements are pairs [g h] where g ∈ G₁ and h ∈ G₂.

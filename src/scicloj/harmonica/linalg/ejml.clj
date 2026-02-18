@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.ejml
+(ns scicloj.harmonica.linalg.ejml
   "Zero-copy interop between ComplexTensor and EJML's ZMatrixRMaj.
 
    Both structures use the same memory layout: row-major interleaved
@@ -14,8 +14,8 @@
    ## Usage
 
    ```clojure
-   (require '[scicloj.harmonica.complex :as cx])
-   (require '[scicloj.harmonica.ejml :as ejml])
+   (require '[scicloj.harmonica.linalg.complex :as cx])
+   (require '[scicloj.harmonica.linalg.ejml :as ejml])
 
    ;; Zero-copy ComplexTensor -> ZMatrixRMaj
    (def ct (cx/complex-tensor [[1 0] [0 0]] [[0 0] [0 1]]))
@@ -29,7 +29,7 @@
    ;; Zero-copy back to ComplexTensor
    (def result (ejml/zmat->ct product))
    ```"
-  (:require [scicloj.harmonica.complex :as cx]
+  (:require [scicloj.harmonica.linalg.complex :as cx]
             [tech.v3.tensor :as tensor])
   (:import [org.ejml.data ZMatrixRMaj Complex_F64]
            [org.ejml.dense.row CommonOps_ZDRM NormOps_ZDRM]))
@@ -39,12 +39,16 @@
 ;; ---------------------------------------------------------------------------
 
 (defn ct->zmat
-  "Zero-copy: ComplexTensor [r c] -> ZMatrixRMaj sharing the same double[].
+  "Zero-copy: ComplexTensor -> ZMatrixRMaj sharing the same double[].
 
-   The ComplexTensor must have complex-shape [r c] (a matrix).
+   For a matrix ComplexTensor [r c], creates an r×c ZMatrixRMaj.
+   For a vector ComplexTensor [n], creates an n×1 column vector.
    Mutations through either view are visible in the other."
   ^ZMatrixRMaj [ct]
-  (let [[r c] (cx/complex-shape ct)
+  (let [shape (cx/complex-shape ct)
+        [r c] (if (= 1 (count shape))
+                [(first shape) 1]
+                shape)
         arr (cx/->double-array ct)
         zm (ZMatrixRMaj. (int r) (int c))]
     (.setData zm arr)

@@ -1,14 +1,14 @@
 (ns scicloj.harmonica.representations-test
   (:require [clojure.test :refer [deftest testing is are]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.impl.permutation :as perm]
-            [scicloj.harmonica.impl.partition :as part]
-            [scicloj.harmonica.impl.young-tableaux :as yt]
-            [scicloj.harmonica.impl.young-orthogonal :as yo]
-            [scicloj.harmonica.impl.riffle :as riffle]
-            [scicloj.harmonica.representations :as rep]
+            [scicloj.harmonica.combinatorics.permutation :as perm]
+            [scicloj.harmonica.combinatorics.partition :as part]
+            [scicloj.harmonica.combinatorics.young-tableaux :as yt]
+            [scicloj.harmonica.combinatorics.young-orthogonal :as yo]
+            [scicloj.harmonica.combinatorics.riffle :as riffle]
+            [scicloj.harmonica.analysis.representations :as rep]
             [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.murnaghan-nakayama :as mn]
+            [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
             [fastmath.matrix :as fm]))
 
 ;; ---------------------------------------------------------------------------

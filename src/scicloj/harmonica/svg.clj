@@ -9,7 +9,7 @@
   - Cayley tables
   - Cayley graphs"
   (:require [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.partition :as part]))
+            [scicloj.harmonica.combinatorics.partition :as part]))
 
 (defn young-diagram-svg
   "Render a partition as an SVG Young diagram.

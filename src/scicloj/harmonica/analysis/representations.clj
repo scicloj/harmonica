@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.representations
+(ns scicloj.harmonica.analysis.representations
   "Representations of finite groups.
 
    A representation ρ : G → GL(V) is a group homomorphism from a group G
@@ -18,11 +18,11 @@
    - class-of: find the conjugacy class of an element
    - irrep-multiplicities: decompose a representation into irreducibles"
   (:require [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.impl.young-orthogonal :as yo]
-            [scicloj.harmonica.impl.young-tableaux :as yt]
-            [scicloj.harmonica.impl.permutation :as perm]
-            [scicloj.harmonica.characters :as ch]
-            [scicloj.harmonica.complex :as cx]
+            [scicloj.harmonica.combinatorics.young-orthogonal :as yo]
+            [scicloj.harmonica.combinatorics.young-tableaux :as yt]
+            [scicloj.harmonica.combinatorics.permutation :as perm]
+            [scicloj.harmonica.analysis.characters :as ch]
+            [scicloj.harmonica.linalg.complex :as cx]
             [fastmath.matrix :as fm]))
 
 (defn irrep
@@ -205,7 +205,7 @@
    Returns a vector of [G:H] = n!/k! permutations, one per coset.
    Each representative t_i satisfies: S_n = ⊔ t_i · S_k."
   [n k]
-  (let [all-elts (p/elements (scicloj.harmonica.impl.symmetric/->SymmetricGroup n))
+  (let [all-elts (p/elements (scicloj.harmonica.group.symmetric/->SymmetricGroup n))
         ;; Group elements by which coset they belong to.
         ;; Two permutations σ, τ are in the same left coset of S_k iff
         ;; σ⁻¹τ ∈ S_k, i.e., σ⁻¹τ fixes all points >= k.
@@ -287,7 +287,6 @@
                               ((blocks s-idx) t-idx)]
                           (.getEntry blk row-in-block col-in-block)))))))))}))
 
-
 (defn class-of
   "Return the conjugacy class of element g in group G.
    The result is a map with :representative, :size, :cycle-type, and
@@ -295,7 +294,7 @@
   [G g]
   (let [classes (p/conjugacy-classes G)]
     ;; For S_n, use cycle type for O(n) lookup
-    (if (instance? scicloj.harmonica.impl.symmetric.SymmetricGroup G)
+    (if (instance? scicloj.harmonica.group.symmetric.SymmetricGroup G)
       (let [ct (perm/cycle-type g)]
         (first (filter #(= (:cycle-type %) ct) classes)))
       ;; For general groups, check membership via elements or conjugacy
@@ -365,5 +364,5 @@
         k (dec n)
         rep (irrep lambda)
         restricted (restrict-rep rep n k)
-        subgroup (scicloj.harmonica.impl.symmetric/->SymmetricGroup k)]
+        subgroup (scicloj.harmonica.group.symmetric/->SymmetricGroup k)]
     (irrep-multiplicities subgroup restricted)))

@@ -23,7 +23,7 @@
 (ns harmonica-book.riffle-shuffle
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.representations :as rep]
+   [scicloj.harmonica.analysis.representations :as rep]
    [scicloj.harmonica.protocols :as p]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]

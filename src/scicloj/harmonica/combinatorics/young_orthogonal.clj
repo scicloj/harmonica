@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.young-orthogonal
+(ns scicloj.harmonica.combinatorics.young-orthogonal
   "Young's orthogonal form for irreducible representations of S_n.
 
    For each partition λ of n, we construct the irreducible representation
@@ -8,16 +8,9 @@
    generators s_i = (i, i+1) for i = 1, ..., n-1.
 
    For each s_i, the matrix in the SYT basis has a simple structure determined
-   by the axial distances in the tableaux:
-   - If swapping values i and i+1 in tableau T leaves T invalid (same row or column),
-     the diagonal entry is 1/ρ where ρ is the axial distance.
-   - If the swap produces another valid SYT T', we get a 2×2 Givens-like block:
-     [[1/ρ, √(1-1/ρ²)], [√(1-1/ρ²), -1/ρ]]
-
-   Reference: James & Kerber, 'The Representation Theory of the Symmetric Group';
-   Vershik & Okounkov (2005) for a modern treatment."
-  (:require [scicloj.harmonica.impl.young-tableaux :as yt]
-            [scicloj.harmonica.impl.permutation :as perm]
+   by the axial distances of the values i and i+1 in each tableau."
+  (:require [scicloj.harmonica.combinatorics.young-tableaux :as yt]
+            [scicloj.harmonica.combinatorics.permutation :as perm]
             [fastmath.matrix :as fm]))
 
 (defn- syt-index

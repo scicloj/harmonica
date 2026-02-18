@@ -1,9 +1,9 @@
 (ns scicloj.harmonica.characters-test
   (:require [clojure.test :refer [deftest testing is are]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.impl.murnaghan-nakayama :as mn]
-            [scicloj.harmonica.impl.partition :as part]
-            [scicloj.harmonica.complex :as cx]))
+            [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
+            [scicloj.harmonica.combinatorics.partition :as part]
+            [scicloj.harmonica.linalg.complex :as cx]))
 
 ;; ---------------------------------------------------------------------------
 ;; Murnaghan-Nakayama rule: known character tables

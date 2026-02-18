@@ -1,8 +1,8 @@
 (ns scicloj.harmonica.symmetric-test
   (:require [clojure.test :refer [deftest testing is are]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.impl.permutation :as perm]
-            [scicloj.harmonica.impl.partition :as part]))
+            [scicloj.harmonica.combinatorics.permutation :as perm]
+            [scicloj.harmonica.combinatorics.partition :as part]))
 
 ;; ---------------------------------------------------------------------------
 ;; Permutation utilities

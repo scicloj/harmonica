@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.fourier
+(ns scicloj.harmonica.analysis.fourier
   "Fourier analysis on finite groups.
 
    For abelian groups, the Fourier transform of a function f: G -> C is:
@@ -12,7 +12,7 @@
    Convolution in the group domain corresponds to pointwise multiplication
    in the Fourier domain."
   (:require [scicloj.harmonica.protocols :as p]
-            [scicloj.harmonica.complex :as cx]
+            [scicloj.harmonica.linalg.complex :as cx]
             [tech.v3.datatype :as dtype]
             [tech.v3.datatype.functional :as dfn]))
 

@@ -2,7 +2,7 @@
  harmonica-book.sympy-comparison-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.complex :as cx]
+  [scicloj.harmonica.linalg.complex :as cx]
   [scicloj.kindly.v4.kind :as kind]
   [libpython-clj2.python :as py]
   [libpython-clj2.require :refer [require-python]]

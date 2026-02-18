@@ -14,7 +14,7 @@
 (ns harmonica-book.dft-as-group-fourier
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.complex :as cx]
+   [scicloj.harmonica.linalg.complex :as cx]
    [fastmath.transform :as t]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]

@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.cyclic
+(ns scicloj.harmonica.group.cyclic
   "Cyclic group Z/nZ.
 
    Elements are integers 0, 1, ..., n-1.

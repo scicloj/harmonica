@@ -1,7 +1,7 @@
 (ns scicloj.harmonica.protocols-test
   (:require [clojure.test :refer [deftest testing is are]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.complex :as cx]))
+            [scicloj.harmonica.linalg.complex :as cx]))
 
 ;; ---------------------------------------------------------------------------
 ;; Group axioms for cyclic groups

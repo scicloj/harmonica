@@ -1,4 +1,4 @@
-(ns scicloj.harmonica.impl.murnaghan-nakayama
+(ns scicloj.harmonica.combinatorics.murnaghan-nakayama
   "Murnaghan-Nakayama rule for computing characters of symmetric groups.
 
    Computes χ_λ(μ) — the character of the irreducible representation
@@ -9,11 +9,10 @@
    Dan Bernstein, 'The computational complexity of rules for the
    character table of Sn', J. Symbolic Computation 37(6), 2004.
 
-   A partition is encoded as a boolean vector by tracing the lower
-   contour of its Young diagram from left to right: true for each
-   horizontal step, false for each vertical step. Rim hooks of length k
-   at position i exist when seq[i]=true and seq[i+k]=false. Removing a
-   rim hook is a swap of those two entries.")
+   The key insight: a border-strip of length r corresponds to a
+   contiguous substring of the partition sequence containing exactly
+   one 1-bit and one 0-bit transition. The height of the strip is
+   determined by the number of 1-bits in the substring minus 1.")
 
 (defn partition-seq
   "Encode a partition as a boolean vector (partition sequence).
