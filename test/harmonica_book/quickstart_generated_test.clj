@@ -3,17 +3,20 @@
  (:require
   [scicloj.harmonica :as hm]
   [scicloj.harmonica.linalg.complex :as cx]
+  [tablecloth.api :as tc]
+  [scicloj.tableplot.v1.plotly :as plotly]
+  [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
 (def
- v3_l28
+ v3_l31
  (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
 
 
 (def
- v4_l31
+ v4_l34
  (let
   [G
    (hm/cyclic-group 8)
@@ -22,11 +25,11 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t5_l35 (is (= v4_l31 834)))
+(deftest t5_l38 (is (= v4_l34 834)))
 
 
 (def
- v7_l41
+ v7_l44
  (defn
   dihedral-action
   [n]
@@ -41,7 +44,7 @@
 
 
 (def
- v8_l47
+ v8_l50
  (let
   [G
    (hm/dihedral-group 8)
@@ -50,51 +53,89 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t9_l51 (is (= v8_l47 498)))
+(deftest t9_l54 (is (= v8_l50 498)))
 
 
-(def v11_l65 (def G (hm/cyclic-group 24)))
+(def v11_l68 (def G (hm/cyclic-group 24)))
 
 
-(def v12_l66 (def ct (hm/character-table G)))
+(def v12_l69 (def ct (hm/character-table G)))
 
 
 (def
- v14_l70
+ v14_l73
  (def
   temperatures
   [2 3 7 12 17 22 25 24 19 13 7 3 3 4 8 13 18 23 26 25 20 14 8 4]))
 
 
 (def
- v15_l74
+ v15_l77
  (def
   f-hat
   (hm/fourier-transform ct (cx/complex-tensor-real temperatures))))
 
 
-(def v17_l79 (cx/re (f-hat 0)))
+(def
+ v17_l81
+ (let
+  [n
+   24
+   magnitudes
+   (mapv
+    (fn [k] {:k k, :magnitude (cx/cabs (f-hat k))})
+    (range (inc (/ n 2))))]
+  (->
+   (tc/dataset magnitudes)
+   (plotly/base {:=x :k, :=y :magnitude})
+   (plotly/layer-bar)
+   (plotly/update-data
+    (fn
+     [d]
+     (assoc
+      d
+      :=layout
+      {:title "Fourier magnitudes |f̂(k)|",
+       :xaxis {:title "frequency k", :dtick 1},
+       :yaxis {:title "|f̂(k)|"},
+       :width 500,
+       :height 300})))
+   plotly/plot)))
+
+
+(def v19_l98 (cx/re (f-hat 0)))
 
 
 (deftest
- t18_l81
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v17_l79)))
+ t20_l100
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v19_l98)))
 
 
 (def
- v20_l86
+ v22_l105
  (let
-  [recovered (hm/inverse-fourier-transform ct f-hat)]
-  (every?
-   (fn* [p1__85588#] (< (Math/abs (double p1__85588#)) 1.0E-10))
-   (map - (vec (cx/re recovered)) temperatures))))
+  [mags
+   (mapv (fn [k] [k (cx/cabs (f-hat k))]) (range 1 (inc (/ 24 2))))]
+  (first (apply max-key second mags))))
 
 
-(deftest t21_l90 (is (true? v20_l86)))
+(deftest t23_l108 (is (= v22_l105 2)))
 
 
 (def
- v23_l101
+ v25_l112
+ (let
+  [recovered (cx/re (hm/inverse-fourier-transform ct f-hat))]
+  (<
+   (dfn/reduce-max (dfn/abs (dfn/- recovered temperatures)))
+   1.0E-10)))
+
+
+(deftest t26_l115 (is (true? v25_l112)))
+
+
+(def
+ v28_l126
  (defn
   make-rosette
   [n motif]
@@ -119,7 +160,7 @@
 
 
 (def
- v24_l117
+ v29_l142
  (let
   [motif
    (mapv

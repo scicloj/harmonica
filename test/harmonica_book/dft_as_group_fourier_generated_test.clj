@@ -65,7 +65,7 @@
 (def
  v22_l114
  (every?
-  (fn* [p1__40467#] (< (Math/abs (- (cx/re p1__40467#) 1.0)) 1.0E-10))
+  (fn* [p1__85918#] (< (Math/abs (- (cx/re p1__85918#) 1.0)) 1.0E-10))
   ((:table ct) 0)))
 
 
@@ -221,7 +221,7 @@
 (def
  v51_l286
  (mapv
-  (fn* [p1__40468#] (Math/round p1__40468#))
+  (fn* [p1__85919#] (Math/round p1__85919#))
   (vec (cx/re convolved))))
 
 
@@ -331,7 +331,7 @@
      (cx/complex-tensor-real h-real)]
     (vec (cx/re (hm/convolve ct f h))))]
   (every?
-   (fn* [p1__40469#] (< (Math/abs (double p1__40469#)) 1.0E-10))
+   (fn* [p1__85920#] (< (Math/abs (double p1__85920#)) 1.0E-10))
    (map - cyclic-from-linear group-conv))))
 
 

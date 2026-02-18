@@ -285,7 +285,7 @@
        dim-sq-sum
        (reduce
         +
-        (map (fn* [p1__75549#] (* p1__75549# p1__75549#)) dims))]
+        (map (fn* [p1__88408#] (* p1__88408# p1__88408#)) dims))]
       {:group label,
        :pass?
        (<
@@ -438,14 +438,14 @@
        lhs
        (apply
         +
-        (map (fn* [p1__75550#] (* p1__75550# p1__75550#)) (vec mag-f)))
+        (map (fn* [p1__88409#] (* p1__88409# p1__88409#)) (vec mag-f)))
        rhs
        (*
         (/ 1.0 (double n))
         (apply
          +
          (map
-          (fn* [p1__75551#] (* p1__75551# p1__75551#))
+          (fn* [p1__88410#] (* p1__88410# p1__88410#))
           (vec mag-fh))))]
       {:group label, :pass? (< (Math/abs (- lhs rhs)) 1.0E-8)}))
     abelian-groups)]
@@ -713,7 +713,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__75552#] (coloring (mod (+ p1__75552# (long g)) n)))
+        (fn* [p1__88411#] (coloring (mod (+ p1__88411# (long g)) n)))
         (range n)))
       orbit-count
       (count (hm/orbits G act domain))
@@ -752,7 +752,7 @@
       (fn
        [g coloring]
        (mapv
-        (fn* [p1__75553#] (coloring (mod (+ p1__75553# (long g)) n)))
+        (fn* [p1__88412#] (coloring (mod (+ p1__88412# (long g)) n)))
         (range n)))
       burnside
       (hm/burnside-count G act-coloring domain)]

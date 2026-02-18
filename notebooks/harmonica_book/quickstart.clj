@@ -12,6 +12,9 @@
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.linalg.complex :as cx]
+   [tablecloth.api :as tc]
+   [scicloj.tableplot.v1.plotly :as plotly]
+   [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Counting necklaces
@@ -73,19 +76,41 @@
 
 (def f-hat (hm/fourier-transform ct (cx/complex-tensor-real temperatures)))
 
-;; The dominant component is $k = 2$ — two cycles in 24 months, the
-;; annual cycle. The DC component ($k = 0$) is the sum of all values:
+;; The Fourier magnitudes reveal which frequencies carry the signal's energy:
+
+(let [n 24
+      magnitudes (mapv (fn [k] {:k k :magnitude (cx/cabs (f-hat k))})
+                       (range (inc (/ n 2))))]
+  (-> (tc/dataset magnitudes)
+      (plotly/base {:=x :k :=y :magnitude})
+      (plotly/layer-bar)
+      (plotly/update-data
+       (fn [d] (assoc d :=layout
+                      {:title "Fourier magnitudes |f̂(k)|"
+                       :xaxis {:title "frequency k" :dtick 1}
+                       :yaxis {:title "|f̂(k)|"}
+                       :width 500 :height 300})))
+      plotly/plot))
+
+;; The DC component ($k = 0$) is the sum of all values. The dominant
+;; non-DC component is $k = 2$ — two cycles in 24 months, the annual cycle:
 
 (cx/re (f-hat 0))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 320.0)) 1e-10))])
 
+;; Verify $k = 2$ dominates: its magnitude exceeds all other non-DC components.
+
+(let [mags (mapv (fn [k] [k (cx/cabs (f-hat k))]) (range 1 (inc (/ 24 2))))]
+  (first (apply max-key second mags)))
+
+(kind/test-last [= 2])
+
 ;; Inverse transform recovers the original signal exactly:
 
-(let [recovered (hm/inverse-fourier-transform ct f-hat)]
-  (every? #(< (Math/abs (double %)) 1e-10)
-          (map - (vec (cx/re recovered)) temperatures)))
+(let [recovered (cx/re (hm/inverse-fourier-transform ct f-hat))]
+  (< (dfn/reduce-max (dfn/abs (dfn/- recovered temperatures))) 1e-10))
 
 (kind/test-last [true?])
 

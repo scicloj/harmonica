@@ -185,7 +185,7 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__77090#] (long (py/py. p1__77090# __len__)))
+     (fn* [p1__89949#] (long (py/py. p1__89949# __len__)))
      classes)))))
 
 
@@ -198,7 +198,7 @@
   (let
    [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
    (sort
-    (mapv (fn* [p1__77091#] (count (:elements p1__77091#))) classes)))))
+    (mapv (fn* [p1__89950#] (count (:elements p1__89950#))) classes)))))
 
 
 (def
@@ -237,7 +237,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__77092#] (long (py/py. p1__77092# __len__)))
+      (fn* [p1__89951#] (long (py/py. p1__89951# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
@@ -254,7 +254,7 @@
     (hm/conjugacy-classes G)
     sizes
     (sort
-     (mapv (fn* [p1__77093#] (count (:elements p1__77093#))) classes))]
+     (mapv (fn* [p1__89952#] (count (:elements p1__89952#))) classes))]
    {:order (hm/order G),
     :num-classes (count classes),
     :class-sizes sizes})))
@@ -409,7 +409,7 @@
      (fn
       [row]
       (mapv
-       (fn* [p1__77094#] (long (Math/round (cx/re p1__77094#))))
+       (fn* [p1__89953#] (long (Math/round (cx/re p1__89953#))))
        row))
      table)})))
 
@@ -497,8 +497,8 @@
       +
       (map
        (fn*
-        [p1__77095#]
-        (let [d (hm/hook-length-dimension p1__77095#)] (* d d)))
+        [p1__89954#]
+        (let [d (hm/hook-length-dimension p1__89954#)] (* d d)))
        parts))]
     (= total (reduce * (range 1 (inc n))))))
   (range 2 8)))
@@ -516,7 +516,7 @@
   (let
    [divisors
     (filter
-     (fn* [p1__77096#] (zero? (mod n p1__77096#)))
+     (fn* [p1__89955#] (zero? (mod n p1__89955#)))
      (range 1 (inc n)))
     euler-phi
     (fn
@@ -524,13 +524,13 @@
      (count
       (filter
        (fn*
-        [p1__77097#]
+        [p1__89956#]
         (=
          1
          (long
           (.gcd
            (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__77097#)))))
+           (BigInteger/valueOf p1__89956#)))))
        (range 1 (inc m)))))]
    (/
     (reduce
