@@ -17,20 +17,28 @@
    {:column-names
     (into
      ["Irrep $\\lambda$"]
-     (map (fn* [p1__91363#] (str p1__91363#)) (:classes ct))),
+     (map (fn* [p1__61686#] (str p1__61686#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__91364#] (long (cx/re p1__91364#))) row)))
+       (map (fn* [p1__61687#] (long (cx/re p1__61687#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
 
 (def
- v5_l51
+ v5_l43
+ (count (:irrep-labels (hm/character-table (hm/symmetric-group 5)))))
+
+
+(deftest t6_l45 (is (= v5_l43 7)))
+
+
+(def
+ v8_l55
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -64,7 +72,38 @@
 
 
 (def
- v7_l105
+ v10_l72
+ (let
+  [ct
+   (hm/character-table (hm/symmetric-group 5))
+   table
+   (:table ct)
+   sizes
+   (:class-sizes ct)
+   k
+   (count (:irrep-labels ct))]
+  (every?
+   (fn
+    [i]
+    (every?
+     (fn
+      [j]
+      (let
+       [ip
+        (cx/re
+         (hm/character-inner-product (table i) (table j) sizes 120))
+        expected
+        (if (= i j) 1.0 0.0)]
+       (< (Math/abs (- ip expected)) 1.0E-10)))
+     (range k)))
+   (range k))))
+
+
+(deftest t11_l85 (is (true? v10_l72)))
+
+
+(def
+ v13_l124
  (defn
   n-stat
   "n(lambda) = sum_i C(lambda_i, 2) = sum_i lambda_i*(lambda_i-1)/2."
@@ -73,7 +112,7 @@
 
 
 (def
- v8_l110
+ v14_l129
  (defn
   eigenvalue
   "Eigenvalue of the random transposition operator on irrep lambda of S_n."
@@ -90,7 +129,7 @@
 
 
 (def
- v9_l117
+ v15_l136
  (defn
   hook-length-dim
   "Dimension of irrep lambda via the hook-length formula: n! / prod h(i,j)."
@@ -110,7 +149,7 @@
 
 
 (def
- v11_l134
+ v17_l153
  (let
   [n
    5
@@ -149,7 +188,7 @@
 
 
 (deftest
- t12_l151
+ t18_l170
  (is
   ((fn
     [_]
@@ -178,11 +217,25 @@
          (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ chi-t d))) M)]
         (< (Math/abs (- from-table (eigenvalue n lam))) 1.0E-10)))
       (range (count table)))))
-   v11_l134)))
+   v17_l153)))
+
+
+(def v20_l192 (eigenvalue 5 [5]))
+
+
+(deftest t21_l194 (is (= v20_l192 1.0)))
+
+
+(def v23_l198 (eigenvalue 5 [1 1 1 1 1]))
+
+
+(deftest
+ t24_l200
+ (is ((fn [v] (< (Math/abs (- v (/ -9.0 11.0))) 1.0E-10)) v23_l198)))
 
 
 (def
- v14_l183
+ v26_l214
  (defn
   tv-upper-bound
   "Upper bound on ||Q^{*k} - U||_TV via Diaconis's Upper Bound Lemma."
@@ -200,7 +253,7 @@
 
 
 (def
- v16_l196
+ v28_l227
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -243,7 +296,45 @@
 
 
 (def
- v18_l224
+ v30_l252
+ (let
+  [n
+   10
+   parts
+   (hm/partitions n)
+   data
+   (mapv
+    (fn
+     [p]
+     {:dim (double (hook-length-dim p)), :eigenvalue (eigenvalue n p)})
+    (rest parts))]
+  (> (tv-upper-bound data 1) 0.5)))
+
+
+(deftest t31_l259 (is (true? v30_l252)))
+
+
+(def
+ v33_l263
+ (let
+  [n
+   10
+   parts
+   (hm/partitions n)
+   data
+   (mapv
+    (fn
+     [p]
+     {:dim (double (hook-length-dim p)), :eigenvalue (eigenvalue n p)})
+    (rest parts))]
+  (< (tv-upper-bound data 100) 0.01)))
+
+
+(deftest t34_l270 (is (true? v33_l263)))
+
+
+(def
+ v36_l277
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -288,7 +379,7 @@
 
 
 (def
- v20_l250
+ v38_l303
  (kind/table
   {:column-names
    ["$n$" "$|S_n|$" "$\\tfrac{1}{2}n\\ln n$" "# partitions"],

@@ -39,6 +39,22 @@
   [(+ (* a x) (* b y))
    (+ (* c x) (* d y))])
 
+;;  Rotation matrices have determinant 1 (distance-preserving):
+
+(let [theta 1.23
+      [[a b] [c d]] (rotation-matrix theta)]
+  (< (Math/abs (- (- (* a d) (* b c)) 1.0)) 1e-14))
+
+(kind/test-last [true?])
+
+;; Reflection matrices have determinant -1:
+
+(let [theta 0.7
+      [[a b] [c d]] (reflection-matrix theta)]
+  (< (Math/abs (- (- (* a d) (* b c)) -1.0)) 1e-14))
+
+(kind/test-last [true?])
+
 ;; The dihedral group $D_n$ acts on points: rotations by multiples of
 ;; $2\pi/n$, and reflections across $n$ axes.
 
@@ -113,6 +129,12 @@
              :yaxis {:visible false}
              :width 400 :height 400}}))
 
+;;  $C_n$ produces exactly $n$ copies of the motif:
+
+(count (make-rosette-cn 5 simple-motif))
+
+(kind/test-last [= 5])
+
 ;; ## $D_5$: Rotational + Reflective Symmetry
 ;;
 ;; Like a snowflake or a flower — the motif repeats by rotation AND
@@ -135,6 +157,12 @@
              :xaxis {:visible false :scaleanchor "y"}
              :yaxis {:visible false}
              :width 400 :height 400}}))
+
+;;  $D_n$ produces exactly $2n$ copies (rotations + reflections):
+
+(count (make-rosette-dn 5 simple-motif))
+
+(kind/test-last [= 10])
 
 ;; ## Comparing Symmetry Orders
 ;;

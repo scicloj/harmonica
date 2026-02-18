@@ -46,11 +46,28 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__76309#] (first (sort p1__76309#))) orbs))})))
+     (sort-by (fn* [p1__11161#] (first (sort p1__11161#))) orbs))})))
 
 
 (def
- v8_l65
+ v8_l56
+ (let
+  [n
+   4
+   G
+   (hm/cyclic-group n)
+   {:keys [domain act]}
+   (hm/coloring-action (rotation-action n) n 2)
+   orbs
+   (hm/orbits G act domain)]
+  (count orbs)))
+
+
+(deftest t9_l62 (is (= v8_l56 6)))
+
+
+(def
+ v11_l73
  (let
   [n
    6
@@ -73,7 +90,7 @@
 
 
 (def
- v10_l80
+ v13_l88
  (let
   [n
    6
@@ -84,11 +101,11 @@
   (hm/burnside-count G act domain)))
 
 
-(deftest t11_l85 (is (= v10_l80 14)))
+(deftest t14_l93 (is (= v13_l88 14)))
 
 
 (def
- v13_l94
+ v16_l102
  (let
   [n
    6
@@ -105,7 +122,22 @@
 
 
 (def
- v15_l106
+ v18_l114
+ (let
+  [n
+   6
+   G
+   (hm/cyclic-group n)
+   ci
+   (hm/cycle-index G (rotation-action n) (range n))]
+  (reduce + (vals ci))))
+
+
+(deftest t19_l119 (is (= v18_l114 1)))
+
+
+(def
+ v21_l124
  (let
   [n
    6
@@ -120,7 +152,37 @@
 
 
 (def
- v17_l119
+ v23_l134
+ (let
+  [n
+   6
+   G
+   (hm/cyclic-group n)
+   ci
+   (hm/cycle-index G (rotation-action n) (range n))]
+  (hm/polya-count ci 2)))
+
+
+(deftest t24_l139 (is (= v23_l134 14)))
+
+
+(def
+ v25_l141
+ (let
+  [n
+   6
+   G
+   (hm/cyclic-group n)
+   ci
+   (hm/cycle-index G (rotation-action n) (range n))]
+  (hm/polya-count ci 3)))
+
+
+(deftest t26_l146 (is (= v25_l141 130)))
+
+
+(def
+ v28_l153
  (let
   [results
    (mapv
@@ -150,7 +212,22 @@
 
 
 (def
- v19_l144
+ v30_l171
+ (let
+  [n
+   6
+   G-d
+   (hm/dihedral-group n)
+   {domain-d :domain, act-d :act}
+   (hm/coloring-action (dihedral-vertex-action n) n 2)]
+  (hm/burnside-count G-d act-d domain-d)))
+
+
+(deftest t31_l176 (is (= v30_l171 13)))
+
+
+(def
+ v33_l187
  (let
   [data
    (vec
@@ -190,7 +267,7 @@
 
 
 (def
- v21_l177
+ v35_l220
  (let
   [G
    (hm/symmetric-group 4)
@@ -206,3 +283,21 @@
     (mapv
      (fn [k] [k (hm/polya-count cube-cycle-index k)])
      (range 1 8))})))
+
+
+(def
+ v36_l242
+ (let
+  [cube-cycle-index
+   {[1 1 1 1 1 1] 1/24,
+    [1 1 4] 1/4,
+    [1 1 2 2] 1/8,
+    [3 3] 1/3,
+    [2 2 2] 1/4}]
+  [(hm/polya-count cube-cycle-index 1)
+   (hm/polya-count cube-cycle-index 2)
+   (hm/polya-count cube-cycle-index 3)
+   (hm/polya-count cube-cycle-index 6)]))
+
+
+(deftest t37_l252 (is (= v36_l242 [1 10 57 2226])))

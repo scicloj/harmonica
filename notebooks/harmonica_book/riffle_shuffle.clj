@@ -46,6 +46,14 @@
 
 (hm/hook-length-dimension [3 1])
 
+(kind/test-last [= 3])
+
+;; This matches the number of standard Young tableaux:
+
+(count (hm/standard-young-tableaux [3 1]))
+
+(kind/test-last [= 3])
+
 ;; The representation matrices for the generators $s_1, s_2, s_3$ (adjacent
 ;; transpositions swapping values $i$ and $i+1$):
 
@@ -107,10 +115,25 @@
 
 (kind/test-last [= 2])
 
+;;  The identity always has exactly 1 rising sequence:
+
+(hm/rising-sequences (hm/identity-perm 6))
+
+(kind/test-last [= 1])
+
 ;; The identity permutation always has $r = 1$ (one rising sequence),
 ;; making it the most likely outcome:
 
 (hm/gsr-probability (hm/identity-perm 4) 1)
+
+;;  GSR probabilities sum to 1 over all permutations:
+
+(let [G (hm/symmetric-group 4)
+      elts (vec (hm/elements G))
+      probs (hm/gsr-distribution-vec elts 2)]
+  (< (Math/abs (- (reduce + (map #(aget ^doubles probs (int %)) (range (count elts)))) 1.0)) 1e-10))
+
+(kind/test-last [true?])
 
 ;; ## Total Variation Distance: Exact Computation
 ;;
@@ -141,6 +164,32 @@
                                 :yaxis {:title "Total variation distance"
                                         :range [0 1.05]}})))
       plotly/plot))
+
+;;  After 1 shuffle, distribution is far from uniform:
+
+(let [n 5
+      G (hm/symmetric-group n)
+      elts (vec (hm/elements G))
+      n-elts (count elts)
+      uniform (/ 1.0 n-elts)
+      probs (hm/gsr-distribution-vec elts 1)
+      tv (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform)) (range n-elts))))]
+  (> tv 0.5))
+
+(kind/test-last [true?])
+
+;; After many shuffles, distribution converges to uniform:
+
+(let [n 5
+      G (hm/symmetric-group n)
+      elts (vec (hm/elements G))
+      n-elts (count elts)
+      uniform (/ 1.0 n-elts)
+      probs (hm/gsr-distribution-vec elts 14)
+      tv (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform)) (range n-elts))))]
+  (< tv 0.01))
+
+(kind/test-last [true?])
 
 ;; The cutoff is at $k \approx \tfrac{3}{2}\log_2(n)$. For $n = 5$,
 ;; that is $\approx 3.5$ shuffles.

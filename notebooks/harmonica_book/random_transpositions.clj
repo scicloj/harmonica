@@ -40,6 +40,10 @@
 ;; Each entry $\chi_\lambda(\mu)$ is an integer. The first column (identity
 ;; class) gives the **dimension** $d_\lambda$ of each irrep.
 
+(count (:irrep-labels (hm/character-table (hm/symmetric-group 5))))
+
+(kind/test-last [= 7])
+
 ;; ## Row orthogonality
 
 ;; The character table satisfies a fundamental orthogonality relation:
@@ -64,6 +68,21 @@
                        (range (count table)))}))
 
 ;; The result is the identity matrix — each irrep is orthonormal.
+
+(let [ct (hm/character-table (hm/symmetric-group 5))
+      table (:table ct)
+      sizes (:class-sizes ct)
+      k (count (:irrep-labels ct))]
+  (every? (fn [i]
+            (every? (fn [j]
+                      (let [ip (cx/re (hm/character-inner-product
+                                        (table i) (table j) sizes 120))
+                            expected (if (= i j) 1.0 0.0)]
+                        (< (Math/abs (- ip expected)) 1e-10)))
+                    (range k)))
+          (range k)))
+
+(kind/test-last [true?])
 
 ;; ## The random transposition walk
 
@@ -168,6 +187,18 @@
 
 ;; The two columns match exactly.
 
+;; The trivial representation $[n]$ always has eigenvalue 1:
+
+(eigenvalue 5 [5])
+
+(kind/test-last [= 1.0])
+
+;; The sign representation $[1,1,1,1,1]$ has the smallest eigenvalue:
+
+(eigenvalue 5 [1 1 1 1 1])
+
+(kind/test-last [(fn [v] (< (Math/abs (- v (/ -9.0 11.0))) 1e-10))])
+
 ;; ## The Upper Bound Lemma
 
 ;; **Diaconis's Upper Bound Lemma** bounds the total variation distance
@@ -215,6 +246,28 @@
 
 ;; All curves show the cutoff shape: near 1 for a while, then a sharp
 ;; drop. The larger the deck, the sharper the transition.
+
+;; Verify: after 1 step, the walk is far from uniform (TV bound > 0.5):
+
+(let [n 10
+      parts (hm/partitions n)
+      data (mapv (fn [p] {:dim (double (hook-length-dim p))
+                          :eigenvalue (eigenvalue n p)})
+                 (rest parts))]
+  (> (tv-upper-bound data 1) 0.5))
+
+(kind/test-last [true?])
+
+;; After many steps, the bound approaches 0:
+
+(let [n 10
+      parts (hm/partitions n)
+      data (mapv (fn [p] {:dim (double (hook-length-dim p))
+                          :eigenvalue (eigenvalue n p)})
+                 (rest parts))]
+  (< (tv-upper-bound data 100) 0.01))
+
+(kind/test-last [true?])
 
 ;; ## Cutoff in normalized time
 

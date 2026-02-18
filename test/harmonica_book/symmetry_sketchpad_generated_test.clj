@@ -37,7 +37,27 @@
 
 
 (def
- v7_l45
+ v7_l44
+ (let
+  [theta 1.23 [[a b] [c d]] (rotation-matrix theta)]
+  (< (Math/abs (- (- (* a d) (* b c)) 1.0)) 1.0E-14)))
+
+
+(deftest t8_l48 (is (true? v7_l44)))
+
+
+(def
+ v10_l52
+ (let
+  [theta 0.7 [[a b] [c d]] (reflection-matrix theta)]
+  (< (Math/abs (- (- (* a d) (* b c)) -1.0)) 1.0E-14)))
+
+
+(deftest t11_l56 (is (true? v10_l52)))
+
+
+(def
+ v13_l61
  (defn
   dihedral-action
   "Action of D_n on a 2D point."
@@ -53,7 +73,7 @@
 
 
 (def
- v8_l53
+ v14_l69
  (defn
   cyclic-action
   "Action of C_n on a 2D point."
@@ -64,7 +84,7 @@
 
 
 (def
- v10_l64
+ v16_l80
  (def
   simple-motif
   "A leaf-like curve in the first wedge."
@@ -80,7 +100,7 @@
 
 
 (def
- v12_l80
+ v18_l96
  (defn
   make-rosette-cn
   "Replicate a motif under C_n."
@@ -91,7 +111,7 @@
 
 
 (def
- v13_l87
+ v19_l103
  (defn
   make-rosette-dn
   "Replicate a motif under D_n."
@@ -104,7 +124,7 @@
 
 
 (def
- v15_l99
+ v21_l115
  (let
   [n
    5
@@ -134,8 +154,14 @@
      :height 400}})))
 
 
+(def v23_l134 (count (make-rosette-cn 5 simple-motif)))
+
+
+(deftest t24_l136 (is (= v23_l134 5)))
+
+
 (def
- v17_l121
+ v26_l143
  (let
   [n
    5
@@ -175,8 +201,14 @@
      :height 400}})))
 
 
+(def v28_l163 (count (make-rosette-dn 5 simple-motif)))
+
+
+(deftest t29_l165 (is (= v28_l163 10)))
+
+
 (def
- v19_l144
+ v31_l172
  (let
   [plots
    (mapv
@@ -229,7 +261,7 @@
 
 
 (def
- v21_l173
+ v33_l201
  (let
   [results
    (for
@@ -263,11 +295,11 @@
   (every? identity results)))
 
 
-(deftest t22_l188 (is (true? v21_l173)))
+(deftest t34_l216 (is (true? v33_l201)))
 
 
 (def
- v24_l196
+ v36_l224
  (def
   asymmetric-motif
   "A clearly asymmetric hook shape."
@@ -301,7 +333,7 @@
 
 
 (def
- v25_l219
+ v37_l247
  (let
   [n
    6
@@ -359,7 +391,7 @@
 
 
 (def
- v27_l256
+ v39_l284
  (let
   [n
    7
@@ -376,4 +408,4 @@
   (count (set orbit-pts))))
 
 
-(deftest t28_l264 (is (= v27_l256 14)))
+(deftest t40_l292 (is (= v39_l284 14)))

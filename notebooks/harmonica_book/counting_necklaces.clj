@@ -53,6 +53,14 @@
 
 ;; There are 6 distinct necklaces — down from 16 colorings.
 
+(let [n 4
+      G (hm/cyclic-group n)
+      {:keys [domain act]} (hm/coloring-action (rotation-action n) n 2)
+      orbs (hm/orbits G act domain)]
+  (count orbs))
+
+(kind/test-last [= 6])
+
 ;; ## Burnside's Lemma
 ;;
 ;; Enumerating all orbits is expensive. Burnside's lemma gives us a formula:
@@ -100,6 +108,16 @@
                          [(str ct) (str coeff)])
                        (sort-by (comp count first) ci))}))
 
+;;  The cycle index coefficients sum to 1 (it's a probability distribution
+;; over cycle types):
+
+(let [n 6
+      G (hm/cyclic-group n)
+      ci (hm/cycle-index G (rotation-action n) (range n))]
+  (reduce + (vals ci)))
+
+(kind/test-last [= 1])
+
 ;; Substituting $p_i = k$ in the cycle index gives the number of
 ;; necklaces with $k$ colors — this is **Pólya enumeration**:
 
@@ -110,6 +128,22 @@
    {:column-names ["$k$ (colors)" "Necklaces"]
     :row-vectors (mapv (fn [k] [k (hm/polya-count ci k)])
                        (range 2 8))}))
+
+;;  Pólya gives the same answer as Burnside — verify for a few cases:
+
+(let [n 6
+      G (hm/cyclic-group n)
+      ci (hm/cycle-index G (rotation-action n) (range n))]
+  (hm/polya-count ci 2))
+
+(kind/test-last [= 14])
+
+(let [n 6
+      G (hm/cyclic-group n)
+      ci (hm/cycle-index G (rotation-action n) (range n))]
+  (hm/polya-count ci 3))
+
+(kind/test-last [= 130])
 
 ;; ## Bracelets: Adding Reflections
 ;;
@@ -131,6 +165,15 @@
     :row-vectors (mapv (fn [{:keys [n necklaces bracelets]}]
                          [n necklaces bracelets])
                        results)}))
+
+;;  Verify known values for binary bracelets (OEIS A000029):
+
+(let [n 6
+      G-d (hm/dihedral-group n)
+      {domain-d :domain act-d :act} (hm/coloring-action (dihedral-vertex-action n) n 2)]
+  (hm/burnside-count G-d act-d domain-d))
+
+(kind/test-last [= 13])
 
 ;; The difference between necklaces and bracelets grows: some necklaces
 ;; that look different from above are the same when you can flip them.
@@ -195,6 +238,18 @@
     :row-vectors (mapv (fn [k]
                          [k (hm/polya-count cube-cycle-index k)])
                        (range 1 8))}))
+
+(let [cube-cycle-index {[1 1 1 1 1 1] 1/24
+                        [1 1 4]        6/24
+                        [1 1 2 2]      3/24
+                        [3 3]          8/24
+                        [2 2 2]        6/24}]
+  [(hm/polya-count cube-cycle-index 1)
+   (hm/polya-count cube-cycle-index 2)
+   (hm/polya-count cube-cycle-index 3)
+   (hm/polya-count cube-cycle-index 6)])
+
+(kind/test-last [= [1 10 57 2226]])
 
 ;; With 2 colors, there are 10 distinct cubes. With 6 colors (one per face),
 ;; there are 1800 — meaning only $6!/1800 = 720/1800$ of all arrangements

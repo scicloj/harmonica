@@ -17,8 +17,17 @@
 (def v5_l47 (hm/hook-length-dimension [3 1]))
 
 
+(deftest t6_l49 (is (= v5_l47 3)))
+
+
+(def v8_l53 (count (hm/standard-young-tableaux [3 1])))
+
+
+(deftest t9_l55 (is (= v8_l53 3)))
+
+
 (def
- v7_l52
+ v11_l60
  (let
   [ir (hm/irrep [3 1]) gens (hm/rep-generators ir)]
   (kind/table
@@ -28,7 +37,7 @@
 
 
 (def
- v9_l68
+ v13_l76
  (let
   [n 5 parts (hm/partitions n)]
   (kind/table
@@ -46,13 +55,13 @@
        +
        (map
         (fn*
-         [p1__76213#]
-         (let [d (hm/hook-length-dimension p1__76213#)] (* d d)))
+         [p1__61682#]
+         (let [d (hm/hook-length-dimension p1__61682#)] (* d d)))
         parts))])})))
 
 
 (deftest
- t10_l81
+ t14_l89
  (is
   ((fn
     [_]
@@ -64,23 +73,53 @@
        +
        (map
         (fn*
-         [p1__76214#]
-         (let [d (hm/hook-length-dimension p1__76214#)] (* d d)))
+         [p1__61683#]
+         (let [d (hm/hook-length-dimension p1__61683#)] (* d d)))
         parts)))))
-   v9_l68)))
+   v13_l76)))
 
 
-(def v12_l106 (hm/rising-sequences [2 0 3 1]))
+(def v16_l114 (hm/rising-sequences [2 0 3 1]))
 
 
-(deftest t13_l108 (is (= v12_l106 2)))
+(deftest t17_l116 (is (= v16_l114 2)))
 
 
-(def v15_l113 (hm/gsr-probability (hm/identity-perm 4) 1))
+(def v19_l120 (hm/rising-sequences (hm/identity-perm 6)))
+
+
+(deftest t20_l122 (is (= v19_l120 1)))
+
+
+(def v22_l127 (hm/gsr-probability (hm/identity-perm 4) 1))
 
 
 (def
- v17_l122
+ v24_l131
+ (let
+  [G
+   (hm/symmetric-group 4)
+   elts
+   (vec (hm/elements G))
+   probs
+   (hm/gsr-distribution-vec elts 2)]
+  (<
+   (Math/abs
+    (-
+     (reduce
+      +
+      (map
+       (fn* [p1__61684#] (aget probs (int p1__61684#)))
+       (range (count elts))))
+     1.0))
+   1.0E-10)))
+
+
+(deftest t25_l136 (is (true? v24_l131)))
+
+
+(def
+ v27_l145
  (let
   [n
    5
@@ -106,8 +145,8 @@
          +
          (map
           (fn*
-           [p1__76215#]
-           (Math/abs (- (aget probs (int p1__76215#)) uniform)))
+           [p1__61685#]
+           (Math/abs (- (aget probs (int p1__61685#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -129,7 +168,69 @@
 
 
 (def
- v19_l153
+ v29_l170
+ (let
+  [n
+   5
+   G
+   (hm/symmetric-group n)
+   elts
+   (vec (hm/elements G))
+   n-elts
+   (count elts)
+   uniform
+   (/ 1.0 n-elts)
+   probs
+   (hm/gsr-distribution-vec elts 1)
+   tv
+   (*
+    0.5
+    (reduce
+     +
+     (map
+      (fn*
+       [p1__61686#]
+       (Math/abs (- (aget probs (int p1__61686#)) uniform)))
+      (range n-elts))))]
+  (> tv 0.5)))
+
+
+(deftest t30_l179 (is (true? v29_l170)))
+
+
+(def
+ v32_l183
+ (let
+  [n
+   5
+   G
+   (hm/symmetric-group n)
+   elts
+   (vec (hm/elements G))
+   n-elts
+   (count elts)
+   uniform
+   (/ 1.0 n-elts)
+   probs
+   (hm/gsr-distribution-vec elts 14)
+   tv
+   (*
+    0.5
+    (reduce
+     +
+     (map
+      (fn*
+       [p1__61687#]
+       (Math/abs (- (aget probs (int p1__61687#)) uniform)))
+      (range n-elts))))]
+  (< tv 0.01)))
+
+
+(deftest t33_l192 (is (true? v32_l183)))
+
+
+(def
+ v35_l202
  (let
   [n
    4
@@ -161,7 +262,7 @@
 
 
 (def
- v21_l175
+ v37_l224
  (let
   [n
    4
@@ -183,12 +284,12 @@
 
 
 (deftest
- t22_l185
- (is ((fn [result] (< (:difference result) 1.0E-10)) v21_l175)))
+ t38_l234
+ (is ((fn [result] (< (:difference result) 1.0E-10)) v37_l224)))
 
 
 (def
- v24_l193
+ v40_l242
  (let
   [tv-data
    (vec
@@ -212,8 +313,8 @@
          +
          (map
           (fn*
-           [p1__76216#]
-           (Math/abs (- (aget probs (int p1__76216#)) uniform)))
+           [p1__61688#]
+           (Math/abs (- (aget probs (int p1__61688#)) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->
