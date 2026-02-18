@@ -188,6 +188,10 @@
   "Schoenberg's Op. 25 row (pitch classes)."
   [4 5 7 1 6 3 8 2 11 0 9 10])
 
+(let [pc-name {0 "C" 1 "C#" 2 "D" 3 "Eb" 4 "E" 5 "F" 6 "F#"
+               7 "G" 8 "Ab" 9 "A" 10 "Bb" 11 "B"}]
+  (mapv pc-name schoenberg-row))
+
 ;; The 48 forms come from combining:
 ;;
 ;; - 12 transpositions (add k mod 12)

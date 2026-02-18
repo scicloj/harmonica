@@ -75,6 +75,17 @@
    0.0 0.0 3.0
    1.0 1.0 1.0])
 
+(kind/plotly
+ {:data [{:type "heatmap"
+          :z (partition 3 image-data)
+          :colorscale "Viridis"
+          :showscale true}]
+  :layout {:title "4×3 image"
+           :xaxis {:title "column" :dtick 1}
+           :yaxis {:title "row" :autorange "reversed" :dtick 1}
+           :width 300 :height 300
+           :margin {:t 40 :b 40 :l 40 :r 40}}})
+
 ;; We flatten this into a function on the product group.
 ;; The group elements are ordered by `hm/elements`, so we need a map
 ;; from group elements to pixel values.

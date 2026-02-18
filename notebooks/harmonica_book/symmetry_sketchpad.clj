@@ -92,6 +92,18 @@
                (* r (Math/sin angle))]))
           (range (inc steps)))))
 
+(kind/plotly
+ {:data [{:type "scatter" :mode "lines"
+          :x (mapv first simple-motif)
+          :y (mapv second simple-motif)
+          :line {:color "#e74c3c" :width 2}
+          :showlegend false}]
+  :layout {:title "The motif — one leaf-like curve"
+           :xaxis {:visible false :scaleanchor "y"}
+           :yaxis {:visible false}
+           :width 300 :height 300
+           :margin {:t 40 :b 10 :l 10 :r 10}}})
+
 ;; ## Generating a Rosette
 ;;
 ;; To create a rosette, we apply every group element to every point of

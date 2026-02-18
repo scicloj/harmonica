@@ -31,6 +31,14 @@
   [2 3 7 12 17 22 25 24 19 13 7 3
    3 4 8 13 18 23 26 25 20 14 8 4])
 
+(-> (tc/dataset {:month (range 24) :temp temperatures})
+    (plotly/base {:=x :month :=y :temp
+                  :=title "Monthly temperatures — two years of data"
+                  :=x-title "month" :=y-title "°C"})
+    (plotly/layer-line)
+    (plotly/layer-point {:=mark-size 5})
+    plotly/plot)
+
 ;; These 24 numbers implicitly define a periodic pattern — after month 23,
 ;; the cycle repeats. The clear seasonal pattern (cold winters, warm summers)
 ;; repeats twice.

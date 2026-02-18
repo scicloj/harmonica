@@ -58,7 +58,7 @@
    [inverted
     (if
      (= i 1)
-     (mapv (fn* [p1__86804#] (- (* 2 pivot) p1__86804#)) melody)
+     (mapv (fn* [p1__111421#] (- (* 2 pivot) p1__111421#)) melody)
      melody)
     retrograded
     (if (= r 1) (vec (reverse inverted)) inverted)]
@@ -91,8 +91,8 @@
        (str
         (mapv
          (fn*
-          [p1__86805#]
-          (get note-names p1__86805# (str p1__86805#)))
+          [p1__111422#]
+          (get note-names p1__111422# (str p1__111422#)))
          result))}))
     (hm/elements V4))]
   (kind/table
@@ -168,7 +168,7 @@
   transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv (fn* [p1__86806#] (+ p1__86806# (long k))) melody)))
+  (mapv (fn* [p1__111423#] (+ p1__111423# (long k))) melody)))
 
 
 (def
@@ -184,10 +184,10 @@
        (str
         (mapv
          (fn*
-          [p1__86807#]
-          (get note-names (mod p1__86807# 12) (str p1__86807#)))
+          [p1__111424#]
+          (get note-names (mod p1__111424# 12) (str p1__111424#)))
          (mapv
-          (fn* [p1__86808#] (+ 60 (mod (- p1__86808# 60) 12)))
+          (fn* [p1__111425#] (+ 60 (mod (- p1__111425# 60) 12)))
           transposed)))]))
     (range 12))]
   (kind/table
@@ -213,7 +213,26 @@
 
 
 (def
- v33_l196
+ v32_l191
+ (let
+  [pc-name
+   {0 "C",
+    7 "G",
+    1 "C#",
+    4 "E",
+    6 "F#",
+    3 "Eb",
+    2 "D",
+    11 "B",
+    9 "A",
+    5 "F",
+    10 "Bb",
+    8 "Ab"}]
+  (mapv pc-name schoenberg-row)))
+
+
+(def
+ v34_l200
  (defn
   row-forms
   "Generate the 48 forms of a tone row."
@@ -226,7 +245,7 @@
     pivot
     (first row)
     inversion
-    (mapv (fn* [p1__86809#] (mod (- (* 2 pivot) p1__86809#) 12)) row)
+    (mapv (fn* [p1__111426#] (mod (- (* 2 pivot) p1__111426#) 12)) row)
     ri
     (vec (reverse inversion))
     base-forms
@@ -238,25 +257,25 @@
       :form-type form-name,
       :transposition k,
       :row
-      (mapv (fn* [p1__86810#] (mod (+ p1__86810# k) 12)) form)})))))
+      (mapv (fn* [p1__111427#] (mod (+ p1__111427# k) 12)) form)})))))
 
 
-(def v34_l213 (let [forms (row-forms schoenberg-row)] (count forms)))
+(def v35_l217 (let [forms (row-forms schoenberg-row)] (count forms)))
 
 
-(deftest t35_l216 (is (= v34_l213 48)))
+(deftest t36_l220 (is (= v35_l217 48)))
 
 
 (def
- v37_l220
+ v38_l224
  (let
   [forms
    (row-forms schoenberg-row)
    selected
    (filterv
     (fn*
-     [p1__86811#]
-     (contains? #{0 6 3 9} (:transposition p1__86811#)))
+     [p1__111428#]
+     (contains? #{0 6 3 9} (:transposition p1__111428#)))
     forms)
    selected
    (take 16 (sort-by (juxt :form-type :transposition) selected))]
@@ -267,17 +286,17 @@
 
 
 (def
- v39_l231
+ v40_l235
  (let
   [forms (row-forms schoenberg-row)]
   (every? (fn [{:keys [row]}] (= (set row) (set (range 12)))) forms)))
 
 
-(deftest t40_l236 (is (true? v39_l231)))
+(deftest t41_l240 (is (true? v40_l235)))
 
 
 (def
- v42_l243
+ v43_l247
  (let
   [forms
    (row-forms schoenberg-row)
@@ -286,14 +305,14 @@
   (count distinct-rows)))
 
 
-(deftest t43_l247 (is (= v42_l243 48)))
+(deftest t44_l251 (is (= v43_l247 48)))
 
 
-(def v45_l254 (def all-interval-row [0 11 7 4 2 9 3 8 10 1 5 6]))
+(def v46_l258 (def all-interval-row [0 11 7 4 2 9 3 8 10 1 5 6]))
 
 
 (def
- v47_l258
+ v48_l262
  (let
   [intervals
    (mapv
@@ -304,11 +323,11 @@
   (= (set intervals) (set (range 1 12)))))
 
 
-(deftest t48_l265 (is (true? v47_l258)))
+(deftest t49_l269 (is (true? v48_l262)))
 
 
 (def
- v50_l272
+ v51_l276
  (let
   [elts
    (vec (hm/elements V4))

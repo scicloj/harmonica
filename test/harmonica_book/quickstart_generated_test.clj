@@ -71,13 +71,28 @@
 
 (def
  v15_l77
+ (->
+  (tc/dataset {:month (range 24), :temp temperatures})
+  (plotly/base
+   {:=x :month,
+    :=y :temp,
+    :=title "Monthly temperatures (°C)",
+    :=x-title "month",
+    :=y-title "°C"})
+  (plotly/layer-line)
+  (plotly/layer-point {:=mark-size 5})
+  plotly/plot))
+
+
+(def
+ v16_l85
  (def
   f-hat
   (hm/fourier-transform ct (cx/complex-tensor-real temperatures))))
 
 
 (def
- v17_l81
+ v18_l89
  (let
   [n
    24
@@ -103,27 +118,27 @@
    plotly/plot)))
 
 
-(def v19_l98 (cx/re (f-hat 0)))
+(def v20_l106 (cx/re (f-hat 0)))
 
 
 (deftest
- t20_l100
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v19_l98)))
+ t21_l108
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v20_l106)))
 
 
 (def
- v22_l105
+ v23_l113
  (let
   [mags
    (mapv (fn [k] [k (cx/cabs (f-hat k))]) (range 1 (inc (/ 24 2))))]
   (first (apply max-key second mags))))
 
 
-(deftest t23_l108 (is (= v22_l105 2)))
+(deftest t24_l116 (is (= v23_l113 2)))
 
 
 (def
- v25_l112
+ v26_l120
  (let
   [recovered (cx/re (hm/inverse-fourier-transform ct f-hat))]
   (<
@@ -131,11 +146,11 @@
    1.0E-10)))
 
 
-(deftest t26_l115 (is (true? v25_l112)))
+(deftest t27_l123 (is (true? v26_l120)))
 
 
 (def
- v28_l126
+ v29_l134
  (defn
   make-rosette
   [n motif]
@@ -160,7 +175,7 @@
 
 
 (def
- v29_l142
+ v30_l150
  (let
   [motif
    (mapv

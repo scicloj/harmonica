@@ -100,7 +100,26 @@
 
 
 (def
- v18_l100
+ v17_l95
+ (kind/plotly
+  {:data
+   [{:type "scatter",
+     :mode "lines",
+     :x (mapv first simple-motif),
+     :y (mapv second simple-motif),
+     :line {:color "#e74c3c", :width 2},
+     :showlegend false}],
+   :layout
+   {:title "The motif — one leaf-like curve",
+    :xaxis {:visible false, :scaleanchor "y"},
+    :yaxis {:visible false},
+    :width 300,
+    :height 300,
+    :margin {:t 40, :b 10, :l 10, :r 10}}}))
+
+
+(def
+ v19_l112
  (defn
   make-rosette-cn
   "Replicate a motif under C_n."
@@ -111,7 +130,7 @@
 
 
 (def
- v19_l107
+ v20_l119
  (defn
   make-rosette-dn
   "Replicate a motif under D_n."
@@ -124,7 +143,7 @@
 
 
 (def
- v21_l119
+ v22_l131
  (let
   [n
    5
@@ -154,14 +173,14 @@
      :height 400}})))
 
 
-(def v23_l138 (count (make-rosette-cn 5 simple-motif)))
+(def v24_l150 (count (make-rosette-cn 5 simple-motif)))
 
 
-(deftest t24_l140 (is (= v23_l138 5)))
+(deftest t25_l152 (is (= v24_l150 5)))
 
 
 (def
- v26_l147
+ v27_l159
  (let
   [n
    5
@@ -201,14 +220,14 @@
      :height 400}})))
 
 
-(def v28_l167 (count (make-rosette-dn 5 simple-motif)))
+(def v29_l179 (count (make-rosette-dn 5 simple-motif)))
 
 
-(deftest t29_l169 (is (= v28_l167 10)))
+(deftest t30_l181 (is (= v29_l179 10)))
 
 
 (def
- v31_l176
+ v32_l188
  (let
   [plots
    (mapv
@@ -261,7 +280,7 @@
 
 
 (def
- v33_l205
+ v34_l217
  (let
   [results
    (for
@@ -295,11 +314,11 @@
   (every? identity results)))
 
 
-(deftest t34_l220 (is (true? v33_l205)))
+(deftest t35_l232 (is (true? v34_l217)))
 
 
 (def
- v36_l228
+ v37_l240
  (def
   asymmetric-motif
   "A clearly asymmetric hook shape."
@@ -333,7 +352,7 @@
 
 
 (def
- v37_l251
+ v38_l263
  (let
   [n
    6
@@ -391,7 +410,7 @@
 
 
 (def
- v39_l288
+ v40_l300
  (let
   [n
    7
@@ -408,4 +427,4 @@
   (count (set orbit-pts))))
 
 
-(deftest t40_l296 (is (= v39_l288 14)))
+(deftest t41_l308 (is (= v40_l300 14)))
