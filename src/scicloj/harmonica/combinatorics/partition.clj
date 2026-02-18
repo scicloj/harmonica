@@ -48,12 +48,14 @@
 
    Formula: n! / (1^{a_1} * a_1! * 2^{a_2} * a_2! * ... * n^{a_n} * a_n!)
 
-   where a_k is the number of parts equal to k."
+   where a_k is the number of parts equal to k.
+   Returns a long."
   [n p]
   (let [factorial (fn [m] (reduce *' (range 1 (inc m))))
         freq (frequencies p)]
-    (/ (factorial n)
-       (reduce *' (map (fn [[k ak]]
-                         (*' (reduce *' (repeat ak k))
-                             (factorial ak)))
-                       freq)))))
+    (long
+     (/ (factorial n)
+        (reduce *' (map (fn [[k ak]]
+                          (*' (reduce *' (repeat ak k))
+                              (factorial ak)))
+                        freq))))))

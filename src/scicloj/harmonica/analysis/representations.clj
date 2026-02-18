@@ -105,7 +105,7 @@
    - group: the symmetric group S_n
    - f: a map from permutations to real values, or a function σ → f(σ)
    - irreps: vector of irrep objects (from irrep-generators)
-
+  
    Returns a vector of d_λ × d_λ matrices, one per irrep."
   [group f irreps]
   (mapv (fn [ir] (matrix-fourier-transform ir group f)) irreps))

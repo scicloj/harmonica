@@ -24,6 +24,17 @@
               after (subvec perm i)]
           (into (conj before (dec n)) after))))))
 
+(defn- representative-from-partition
+  "Build a canonical permutation with the given cycle type.
+   Lays out consecutive cycles: partition [3 2 1] on n=6 gives (0 1 2)(3 4)(5)."
+  [n partition]
+  (let [[_ cycles] (reduce (fn [[pos cs] part-len]
+                             (let [cycle (vec (range pos (+ pos part-len)))]
+                               [(+ pos part-len) (conj cs cycle)]))
+                           [0 []]
+                           partition)]
+    (perm/from-cycles n cycles)))
+
 (defn- compute-conjugacy-classes
   "Compute conjugacy classes of S_n indexed by cycle type (partition)."
   [n]
@@ -39,7 +50,9 @@
                   (group-by perm/cycle-type (all-permutations n)))]
       (mapv (fn [partition]
               (let [elts (when enumerate? (set (get by-ct partition)))]
-                {:representative (when elts (first elts))
+                {:representative (if elts
+                                   (first elts)
+                                   (representative-from-partition n partition))
                  :elements elts
                  :size (part/partition-class-size n partition)
                  :cycle-type partition}))

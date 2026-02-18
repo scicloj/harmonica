@@ -131,7 +131,7 @@
 (let [G (hm/symmetric-group 4)
       elts (vec (hm/elements G))
       probs (hm/gsr-distribution-vec elts 2)]
-  (< (Math/abs (- (reduce + (map #(aget ^doubles probs (int %)) (range (count elts)))) 1.0)) 1e-10))
+  (< (Math/abs (- (reduce + (map #(probs %) (range (count elts)))) 1.0)) 1e-10))
 
 (kind/test-last [true?])
 
@@ -149,7 +149,7 @@
       uniform (/ 1.0 n-elts)
       tv-data (mapv (fn [k]
                       (let [probs (hm/gsr-distribution-vec elts k)
-                            tv (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform))
+                            tv (* 0.5 (reduce + (map #(Math/abs (- (probs %) uniform))
                                                      (range n-elts))))]
                         {:k k :tv tv}))
                     (range 1 15))]
@@ -173,7 +173,7 @@
       n-elts (count elts)
       uniform (/ 1.0 n-elts)
       probs (hm/gsr-distribution-vec elts 1)
-      tv (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform)) (range n-elts))))]
+      tv (* 0.5 (reduce + (map #(Math/abs (- (probs %) uniform)) (range n-elts))))]
   (> tv 0.5))
 
 (kind/test-last [true?])
@@ -186,7 +186,7 @@
       n-elts (count elts)
       uniform (/ 1.0 n-elts)
       probs (hm/gsr-distribution-vec elts 14)
-      tv (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform)) (range n-elts))))]
+      tv (* 0.5 (reduce + (map #(Math/abs (- (probs %) uniform)) (range n-elts))))]
   (< tv 0.01))
 
 (kind/test-last [true?])
@@ -247,7 +247,7 @@
                        n-elts (count elts)
                        uniform (/ 1.0 n-elts)
                        probs (hm/gsr-distribution-vec elts k)
-                       tv (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform))
+                       tv (* 0.5 (reduce + (map #(Math/abs (- (probs %) uniform))
                                                 (range n-elts))))]
                    {:k k :tv tv :n (str "n=" n)})))]
   (-> (tc/dataset tv-data)

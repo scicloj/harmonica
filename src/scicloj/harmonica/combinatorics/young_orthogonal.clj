@@ -72,7 +72,7 @@
                 (aset ^"[[D" mat t t2 off-diag)
                 (aset ^"[[D" mat t2 t off-diag)
                 (aset ^"[[D" mat t2 t2 (- inv-rho))))))))
-    (fm/rows->mat (mapv vec mat))))
+    (fm/array2d->RealMatrix mat)))
 
 (defn irrep-generators
   "Compute all generator matrices for the irrep of S_n indexed by partition lambda.
@@ -107,12 +107,8 @@
         generators (:generators irrep)
         adj-indices (perm/adjacent-transposition-decomposition sigma)]
     (if (empty? adj-indices)
-      ;; Identity permutation → identity matrix (as RealMatrix for type consistency)
-      (fm/rows->mat (mapv (fn [i]
-                            (let [row (double-array d)]
-                              (aset row (int i) 1.0)
-                              (vec row)))
-                          (range d)))
+      ;; Identity permutation → identity matrix
+      (fm/eye d true)
       ;; sigma = s_{i_1} ∘ s_{i_2} ∘ ... ∘ s_{i_k}
       ;; adj-indices are 0-indexed: index j means swap positions j,j+1
       ;; generators[j] is the matrix for s_{j+1} (1-indexed) = swap of positions j,j+1

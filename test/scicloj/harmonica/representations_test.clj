@@ -183,7 +183,7 @@
       (let [G (hm/symmetric-group n)
             elts (vec (p/elements G))
             probs (riffle/gsr-distribution-vec elts k)
-            total (reduce + (map #(aget ^doubles probs (int %)) (range (count elts))))]
+            total (reduce + (map #(probs %) (range (count elts))))]
         (is (< (Math/abs (- total 1.0)) 1e-10)
             (str "probabilities don't sum to 1 for n=" n " k=" k))))))
 
@@ -205,7 +205,7 @@
           uniform (/ 1.0 n-elts)]
       (let [tvs (mapv (fn [k]
                         (let [probs (riffle/gsr-distribution-vec elts k)]
-                          (* 0.5 (reduce + (map #(Math/abs (- (aget ^doubles probs (int %)) uniform))
+                          (* 0.5 (reduce + (map #(Math/abs (- (probs %) uniform))
                                                 (range n-elts))))))
                       (range 1 8))]
         (doseq [i (range (dec (count tvs)))]

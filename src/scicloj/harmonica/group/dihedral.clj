@@ -96,5 +96,5 @@
   "Create the dihedral group D_n — symmetries of a regular n-gon.
    Order 2n. Elements are [:r k] (rotations) and [:s k] (reflections)."
   [n]
-  {:pre [(and (pos-int? n) (>= n 1))]}
+  {:pre [(pos-int? n)]}
   (->DihedralGroup n))

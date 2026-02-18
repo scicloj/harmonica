@@ -14,7 +14,8 @@
    References:
    - Bayer & Diaconis (1992), 'Trailing the dovetail shuffle to its lair'
    - Diaconis (1988), 'Group representations in probability and statistics'"
-  (:require [scicloj.harmonica.combinatorics.permutation :as perm]))
+  (:require [scicloj.harmonica.combinatorics.permutation :as perm]
+            [tech.v3.datatype :as dtype]))
 
 (defn descents
   "Number of descents of a permutation σ.
@@ -67,6 +68,6 @@
 
 (defn gsr-distribution-vec
   "Compute GSR probabilities for a given vector of permutations.
-   Returns a double array of probabilities in the same order."
+   Returns a dtype buffer of probabilities in the same order."
   [perms k]
-  (double-array (map #(gsr-probability % k) perms)))
+  (dtype/emap (fn [p] (gsr-probability p k)) :float64 perms))
