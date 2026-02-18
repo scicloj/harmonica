@@ -18,6 +18,7 @@
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.linalg.complex :as cx]
+   [harmonica-book.book-helpers :refer [allclose?]]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -72,15 +73,13 @@
 (let [ct (hm/character-table (hm/symmetric-group 5))
       table (:table ct)
       sizes (:class-sizes ct)
-      k (count (:irrep-labels ct))]
-  (every? (fn [i]
-            (every? (fn [j]
-                      (let [ip (cx/re (hm/character-inner-product
-                                        (table i) (table j) sizes 120))
-                            expected (if (= i j) 1.0 0.0)]
-                        (< (Math/abs (- ip expected)) 1e-10)))
-                    (range k)))
-          (range k)))
+      k (count (:irrep-labels ct))
+      errors (double-array
+              (for [i (range k) j (range k)]
+                (- (cx/re (hm/character-inner-product
+                           (table i) (table j) sizes 120))
+                   (if (= i j) 1.0 0.0))))]
+  (allclose? errors 0.0))
 
 (kind/test-last [true?])
 

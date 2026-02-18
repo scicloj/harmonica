@@ -3,58 +3,49 @@
  (:require
   [scicloj.harmonica :as hm]
   [scicloj.harmonica.linalg.complex :as cx]
+  [harmonica-book.book-helpers :refer [allclose?]]
+  [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
 (def
- v3_l54
+ v3_l56
  (let
   [ct (hm/character-table (hm/cyclic-group 6))]
   (count (:table ct))))
 
 
-(deftest t4_l57 (is (= v3_l54 6)))
+(deftest t4_l59 (is (= v3_l56 6)))
 
 
 (def
- v6_l61
- (let
-  [ct
-   (hm/character-table (hm/cyclic-group 8))
-   entries
-   (for [row (:table ct) v row] v)]
-  (every?
-   (fn*
-    [p1__87189#]
-    (< (Math/abs (- (cx/cabs p1__87189#) 1.0)) 1.0E-10))
-   entries)))
+ v6_l63
+ (allclose?
+  (cx/cabs (:table (hm/character-table (hm/cyclic-group 8))))
+  1.0))
 
 
-(deftest t7_l65 (is (true? v6_l61)))
+(deftest t7_l65 (is (true? v6_l63)))
 
 
 (def
  v9_l74
  (let
-  [ct
-   (hm/character-table (hm/symmetric-group 4))
-   entries
-   (for [row (:table ct) v row] v)]
-  (every?
-   (fn
-    [v]
-    (and
-     (< (Math/abs (cx/im v)) 1.0E-10)
-     (< (Math/abs (- (cx/re v) (Math/round (cx/re v)))) 1.0E-10)))
-   entries)))
+  [table
+   (:table (hm/character-table (hm/symmetric-group 4)))
+   re-vals
+   (cx/re table)]
+  (and
+   (allclose? (cx/im table) 0.0)
+   (allclose? re-vals (dfn/rint re-vals)))))
 
 
-(deftest t10_l81 (is (true? v9_l74)))
+(deftest t10_l79 (is (true? v9_l74)))
 
 
 (def
- v12_l97
+ v12_l95
  (let
   [ct
    (hm/character-table (hm/symmetric-group 3))
@@ -63,17 +54,17 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__87190#] (long (Math/round (cx/re p1__87190#))))
+      (fn* [p1__113939#] (long (Math/round (cx/re p1__113939#))))
       row))
     (:table ct))]
   re-table))
 
 
-(deftest t13_l102 (is (= v12_l97 [[1 1 1] [2 0 -1] [1 -1 1]])))
+(deftest t13_l100 (is (= v12_l95 [[1 1 1] [2 0 -1] [1 -1 1]])))
 
 
 (def
- v15_l110
+ v15_l108
  (let
   [ct
    (hm/character-table (hm/symmetric-group 4))
@@ -82,17 +73,17 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__87191#] (long (Math/round (cx/re p1__87191#))))
+      (fn* [p1__113940#] (long (Math/round (cx/re p1__113940#))))
       row))
     (:table ct))]
   re-table))
 
 
 (deftest
- t16_l115
+ t16_l113
  (is
   (=
-   v15_l110
+   v15_l108
    [[1 1 1 1 1]
     [3 1 -1 0 -1]
     [2 0 2 -1 0]
@@ -101,7 +92,7 @@
 
 
 (def
- v18_l136
+ v18_l134
  (let
   [ct
    (hm/character-table (hm/symmetric-group 4))
@@ -134,11 +125,11 @@
   (< max-err 1.0E-8)))
 
 
-(deftest t19_l154 (is (true? v18_l136)))
+(deftest t19_l152 (is (true? v18_l134)))
 
 
 (def
- v21_l165
+ v21_l163
  (let
   [ct
    (hm/character-table (hm/symmetric-group 4))
@@ -173,51 +164,45 @@
   (< max-err 1.0E-8)))
 
 
-(deftest t22_l182 (is (true? v21_l165)))
+(deftest t22_l180 (is (true? v21_l163)))
 
 
 (def
- v24_l194
+ v24_l192
  (let
   [ct-d3
    (hm/character-table (hm/dihedral-group 3))
    dims
    (sort
     (mapv
-     (fn* [p1__87192#] (long (Math/round (cx/re (p1__87192# 0)))))
+     (fn* [p1__113941#] (long (Math/round (cx/re (p1__113941# 0)))))
      (:table ct-d3)))
    ct-s3
    (hm/character-table (hm/symmetric-group 3))
    dims-s3
    (sort
     (mapv
-     (fn* [p1__87193#] (long (Math/round (cx/re (p1__87193# 0)))))
+     (fn* [p1__113942#] (long (Math/round (cx/re (p1__113942# 0)))))
      (:table ct-s3)))]
   (= dims dims-s3)))
 
 
-(deftest t25_l200 (is (true? v24_l194)))
+(deftest t25_l198 (is (true? v24_l192)))
 
 
 (def
- v27_l209
+ v27_l207
  (let
-  [ct
-   (hm/character-table (hm/symmetric-group 5))
-   trivial-row
-   (first (:table ct))]
-  (every?
-   (fn*
-    [p1__87194#]
-    (< (cx/cabs (cx/csub p1__87194# (cx/complex 1.0 0.0))) 1.0E-10))
-   trivial-row)))
+  [trivial-row
+   (first (:table (hm/character-table (hm/symmetric-group 5))))]
+  (allclose? (cx/re trivial-row) 1.0)))
 
 
-(deftest t28_l214 (is (true? v27_l209)))
+(deftest t28_l210 (is (true? v27_l207)))
 
 
 (def
- v30_l219
+ v30_l215
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -230,26 +215,17 @@
    sign-row
    (nth (:table ct) row-idx)
    classes
-   (:classes ct)]
-  (every?
-   identity
-   (map-indexed
-    (fn
-     [i mu]
-     (let
-      [expected
-       (Math/pow -1 (- 5 (count mu)))
-       actual
-       (cx/re (nth sign-row i))]
-      (< (Math/abs (- actual expected)) 1.0E-10)))
-    classes))))
+   (:classes ct)
+   expected
+   (mapv (fn [mu] (Math/pow -1 (- 5 (count mu)))) classes)]
+  (allclose? (cx/re sign-row) expected)))
 
 
-(deftest t31_l232 (is (true? v30_l219)))
+(deftest t31_l224 (is (true? v30_l215)))
 
 
 (def
- v33_l236
+ v33_l228
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -264,7 +240,7 @@
       (into
        [(str label)]
        (mapv
-        (fn* [p1__87195#] (long (Math/round (cx/re p1__87195#))))
+        (fn* [p1__113943#] (long (Math/round (cx/re p1__113943#))))
         row)))
      irrep-labels
      table)})))

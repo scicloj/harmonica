@@ -322,7 +322,7 @@
 ;; Notice that the Cayley table of $\mathbb{Z}/4\mathbb{Z}$ is symmetric
 ;; across the diagonal (abelian), while $D_3$'s is not (non-abelian).
 
-;; ## The four group families
+;; ## Group families in the library
 ;;
 ;; | Family | Notation | Order | Abelian? |
 ;; |:-------|:---------|:------|:---------|

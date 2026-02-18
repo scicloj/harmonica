@@ -15,6 +15,7 @@
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.linalg.complex :as cx]
+   [harmonica-book.book-helpers :refer [allclose?]]
    [fastmath.transform :as t]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
@@ -108,18 +109,14 @@
 
 ;; All entries have magnitude 1 (they lie on the unit circle).
 
-(let [table (:table ct)
-      n (hm/order G)]
-  (every? (fn [v] (< (Math/abs (- (cx/cabs v) 1.0)) 1e-10))
-          (for [k (range n) g (range n)]
-            ((table k) g))))
+(allclose? (cx/cabs (:table ct)) 1.0)
 
 (kind/test-last
  [true?])
 
 ;; The first row ($k = 0$) is the **trivial character** — all ones.
 
-(every? #(< (Math/abs (- (cx/re %) 1.0)) 1e-10) ((:table ct) 0))
+(allclose? (cx/re ((:table ct) 0)) 1.0)
 
 (kind/test-last
  [true?])
@@ -206,10 +203,9 @@
                          (cx/complex-tensor
                           (mapv (fn [k] (data (* 2 k))) (range n))
                           (mapv (fn [k] (data (inc (* 2 k)))) (range n))))]
-  (every? true?
-          (map (fn [a b] (< (Math/abs (- a b)) 1e-8))
-               (take 12 (vec (cx/cabs f-hat)))
-               (vec (cx/cabs fft-coefficients)))))
+  (allclose? (dtype/sub-buffer (cx/cabs f-hat) 0 12)
+             (cx/cabs fft-coefficients)
+             1e-8))
 (kind/test-last
  [true?])
 
@@ -365,11 +361,10 @@ cyclic-from-linear
 
 ;; This matches our group-theoretic convolution exactly.
 
-(let [group-conv (let [f (cx/complex-tensor-real f-real)
-                       h (cx/complex-tensor-real h-real)]
-                   (vec (cx/re (hm/convolve ct f h))))]
-  (every? #(< (Math/abs (double %)) 1e-10)
-          (map - cyclic-from-linear group-conv)))
+(let [group-conv (cx/re (hm/convolve ct
+                                     (cx/complex-tensor-real f-real)
+                                     (cx/complex-tensor-real h-real)))]
+  (allclose? cyclic-from-linear group-conv))
 
 (kind/test-last
  [true?])

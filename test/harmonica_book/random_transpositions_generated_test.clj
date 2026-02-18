@@ -3,6 +3,7 @@
  (:require
   [scicloj.harmonica :as hm]
   [scicloj.harmonica.linalg.complex :as cx]
+  [harmonica-book.book-helpers :refer [allclose?]]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -10,35 +11,35 @@
 
 
 (def
- v3_l31
+ v3_l32
  (let
   [ct (hm/character-table (hm/symmetric-group 5))]
   (kind/table
    {:column-names
     (into
      ["Irrep $\\lambda$"]
-     (map (fn* [p1__87382#] (str p1__87382#)) (:classes ct))),
+     (map (fn* [p1__114360#] (str p1__114360#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__87383#] (long (cx/re p1__87383#))) row)))
+       (map (fn* [p1__114361#] (long (cx/re p1__114361#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
 
 (def
- v5_l43
+ v5_l44
  (count (:irrep-labels (hm/character-table (hm/symmetric-group 5)))))
 
 
-(deftest t6_l45 (is (= v5_l43 7)))
+(deftest t6_l46 (is (= v5_l44 7)))
 
 
 (def
- v8_l55
+ v8_l56
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -72,7 +73,7 @@
 
 
 (def
- v10_l72
+ v10_l73
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -81,29 +82,23 @@
    sizes
    (:class-sizes ct)
    k
-   (count (:irrep-labels ct))]
-  (every?
-   (fn
-    [i]
-    (every?
-     (fn
-      [j]
-      (let
-       [ip
-        (cx/re
-         (hm/character-inner-product (table i) (table j) sizes 120))
-        expected
-        (if (= i j) 1.0 0.0)]
-       (< (Math/abs (- ip expected)) 1.0E-10)))
-     (range k)))
-   (range k))))
+   (count (:irrep-labels ct))
+   errors
+   (double-array
+    (for
+     [i (range k) j (range k)]
+     (-
+      (cx/re
+       (hm/character-inner-product (table i) (table j) sizes 120))
+      (if (= i j) 1.0 0.0))))]
+  (allclose? errors 0.0)))
 
 
-(deftest t11_l85 (is (true? v10_l72)))
+(deftest t11_l84 (is (true? v10_l73)))
 
 
 (def
- v13_l124
+ v13_l123
  (defn
   n-stat
   "n(lambda) = sum_i C(lambda_i, 2) = sum_i lambda_i*(lambda_i-1)/2."
@@ -112,7 +107,7 @@
 
 
 (def
- v14_l129
+ v14_l128
  (defn
   eigenvalue
   "Eigenvalue of the random transposition operator on irrep lambda of S_n."
@@ -129,7 +124,7 @@
 
 
 (def
- v15_l136
+ v15_l135
  (defn
   hook-length-dim
   "Dimension of irrep lambda via the hook-length formula: n! / prod h(i,j)."
@@ -149,7 +144,7 @@
 
 
 (def
- v17_l153
+ v17_l152
  (let
   [n
    5
@@ -188,7 +183,7 @@
 
 
 (deftest
- t18_l170
+ t18_l169
  (is
   ((fn
     [_]
@@ -217,25 +212,25 @@
          (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ chi-t d))) M)]
         (< (Math/abs (- from-table (eigenvalue n lam))) 1.0E-10)))
       (range (count table)))))
-   v17_l153)))
+   v17_l152)))
 
 
-(def v20_l192 (eigenvalue 5 [5]))
+(def v20_l191 (eigenvalue 5 [5]))
 
 
-(deftest t21_l194 (is (= v20_l192 1.0)))
+(deftest t21_l193 (is (= v20_l191 1.0)))
 
 
-(def v23_l198 (eigenvalue 5 [1 1 1 1 1]))
+(def v23_l197 (eigenvalue 5 [1 1 1 1 1]))
 
 
 (deftest
- t24_l200
- (is ((fn [v] (< (Math/abs (- v (/ -9.0 11.0))) 1.0E-10)) v23_l198)))
+ t24_l199
+ (is ((fn [v] (< (Math/abs (- v (/ -9.0 11.0))) 1.0E-10)) v23_l197)))
 
 
 (def
- v26_l214
+ v26_l213
  (defn
   tv-upper-bound
   "Upper bound on ||Q^{*k} - U||_TV via Diaconis's Upper Bound Lemma."
@@ -253,7 +248,7 @@
 
 
 (def
- v28_l227
+ v28_l226
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -296,7 +291,7 @@
 
 
 (def
- v30_l252
+ v30_l251
  (let
   [n
    10
@@ -311,11 +306,11 @@
   (> (tv-upper-bound data 1) 0.5)))
 
 
-(deftest t31_l259 (is (true? v30_l252)))
+(deftest t31_l258 (is (true? v30_l251)))
 
 
 (def
- v33_l263
+ v33_l262
  (let
   [n
    10
@@ -330,11 +325,11 @@
   (< (tv-upper-bound data 100) 0.01)))
 
 
-(deftest t34_l270 (is (true? v33_l263)))
+(deftest t34_l269 (is (true? v33_l262)))
 
 
 (def
- v36_l277
+ v36_l276
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -379,7 +374,7 @@
 
 
 (def
- v38_l303
+ v38_l302
  (kind/table
   {:column-names
    ["$n$" "$|S_n|$" "$\\tfrac{1}{2}n\\ln n$" "# partitions"],

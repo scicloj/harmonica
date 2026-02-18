@@ -14,6 +14,8 @@
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.linalg.complex :as cx]
+   [harmonica-book.book-helpers :refer [allclose?]]
+   [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## What is a character?
@@ -58,9 +60,7 @@
 
 ;; Every entry has magnitude 1:
 
-(let [ct (hm/character-table (hm/cyclic-group 8))
-      entries (for [row (:table ct) v row] v)]
-  (every? #(< (Math/abs (- (cx/cabs %) 1.0)) 1e-10) entries))
+(allclose? (cx/cabs (:table (hm/character-table (hm/cyclic-group 8)))) 1.0)
 
 (kind/test-last [true?])
 
@@ -71,12 +71,10 @@
 ;; a combinatorial algorithm based on border-strip tableaux.
 ;; A remarkable fact: all entries are **real integers**.
 
-(let [ct (hm/character-table (hm/symmetric-group 4))
-      entries (for [row (:table ct) v row] v)]
-  (every? (fn [v]
-            (and (< (Math/abs (cx/im v)) 1e-10)
-                 (< (Math/abs (- (cx/re v) (Math/round (cx/re v)))) 1e-10)))
-          entries))
+(let [table (:table (hm/character-table (hm/symmetric-group 4)))
+      re-vals (cx/re table)]
+  (and (allclose? (cx/im table) 0.0)
+       (allclose? re-vals (dfn/rint re-vals))))
 
 (kind/test-last [true?])
 
@@ -206,10 +204,8 @@
 ;;
 ;; The trivial character $\chi_{[n]}$ has value 1 for every conjugacy class.
 
-(let [ct (hm/character-table (hm/symmetric-group 5))
-      trivial-row (first (:table ct))]
-  (every? #(< (cx/cabs (cx/csub % (cx/complex 1.0 0.0))) 1e-10)
-          trivial-row))
+(let [trivial-row (first (:table (hm/character-table (hm/symmetric-group 5))))]
+  (allclose? (cx/re trivial-row) 1.0))
 
 (kind/test-last [true?])
 
@@ -221,13 +217,9 @@
       labels (:irrep-labels ct)
       row-idx (.indexOf labels sign-label)
       sign-row (nth (:table ct) row-idx)
-      classes (:classes ct)]
-  (every? identity
-          (map-indexed (fn [i mu]
-                         (let [expected (Math/pow -1 (- 5 (count mu)))
-                               actual (cx/re (nth sign-row i))]
-                           (< (Math/abs (- actual expected)) 1e-10)))
-                       classes)))
+      classes (:classes ct)
+      expected (mapv (fn [mu] (Math/pow -1 (- 5 (count mu)))) classes)]
+  (allclose? (cx/re sign-row) expected))
 
 (kind/test-last [true?])
 

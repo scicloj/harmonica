@@ -13,6 +13,7 @@
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.linalg.complex :as cx]
+   [harmonica-book.book-helpers :refer [allclose?]]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -285,11 +286,8 @@
       f-a (cx/complex-tensor-real (mapv (fn [x] (if ((set chord-a) x) 1.0 0.0)) (range 12)))
       f-b (cx/complex-tensor-real (mapv (fn [x] (if ((set chord-b) x) 1.0 0.0)) (range 12)))
       hat-a (hm/fourier-transform ct f-a)
-      hat-b (hm/fourier-transform ct f-b)
-      mag-sq (fn [fk] (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i))))]
-  (every? (fn [k]
-            (< (Math/abs (- (mag-sq (hat-a k)) (mag-sq (hat-b k)))) 1e-10))
-          (range 12)))
+      hat-b (hm/fourier-transform ct f-b)]
+  (allclose? (cx/cabs hat-a) (cx/cabs hat-b)))
 
 (kind/test-last [true?])
 
@@ -310,7 +308,6 @@
 ;; Its orbit under $C_{12}$ has only 4 elements (each transposition by
 ;; 4 semitones returns the same chord). The major and minor triads are
 ;; related by inversion.
-
 
 ;; ## Forte Numbers
 ;;

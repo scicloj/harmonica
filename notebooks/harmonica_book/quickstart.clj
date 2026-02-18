@@ -196,7 +196,7 @@
 ;; ## Where to start
 ;;
 ;; - **[Groups and Structure](groups_and_structure.html)** — what groups
-;;   are and the four families in the library
+;;   are and the group families in the library
 ;; - **[The DFT as Group Fourier Transform](dft_as_group_fourier.html)** —
 ;;   the connection between the DFT and cyclic groups
 ;; - **[Symmetry Sketchpad](symmetry_sketchpad.html)** — draw rosette
