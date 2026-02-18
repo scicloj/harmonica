@@ -1,0 +1,25 @@
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    theme: [cosmo, notebooks/custom.scss]
+    toc-expand: 3
+    number-depth: 1
+  revealjs: {theme: solarized, navigation-mode: vertical, transition: slide, background-transition: fade, incremental: true}
+project: {type: book}
+book:
+  chapters:
+  - index.qmd
+  - part: Getting Started
+    chapters: [harmonica_book.quickstart.qmd]
+  - part: Groups and the DFT
+    chapters: [harmonica_book.groups_and_structure.qmd, harmonica_book.dft_as_group_fourier.qmd, harmonica_book.product_group_dft.qmd]
+  - part: Groups in Action
+    chapters: [harmonica_book.symmetry_sketchpad.qmd, harmonica_book.counting_necklaces.qmd, harmonica_book.chord_geometry.qmd, harmonica_book.hearing_symmetry.qmd]
+  - part: Symmetric Groups
+    chapters: [harmonica_book.symmetric_groups.qmd, harmonica_book.character_theory.qmd, harmonica_book.random_transpositions.qmd]
+  - part: Representation Matrices
+    chapters: [harmonica_book.representation_matrices.qmd, harmonica_book.riffle_shuffle.qmd]
+  - part: Reference
+    chapters: [harmonica_book.group_actions.qmd, harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd, harmonica_book.complex_tensors.qmd, harmonica_book.ejml_integration.qmd, harmonica_book.api_reference.qmd]
+  title: harmonica

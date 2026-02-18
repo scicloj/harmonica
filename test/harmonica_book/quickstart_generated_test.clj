@@ -50,7 +50,7 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t9_l51 (is (= v8_l47 462)))
+(deftest t9_l51 (is (= v8_l47 498)))
 
 
 (def v11_l65 (def G (hm/cyclic-group 24)))
@@ -86,7 +86,7 @@
  (let
   [recovered (hm/inverse-fourier-transform ct f-hat)]
   (every?
-   (fn* [p1__85375#] (< (Math/abs (double p1__85375#)) 1.0E-10))
+   (fn* [p1__85588#] (< (Math/abs (double p1__85588#)) 1.0E-10))
    (map - (vec (cx/re recovered)) temperatures))))
 
 

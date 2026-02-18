@@ -26,8 +26,8 @@
    (for [row (:table ct) v row] v)]
   (every?
    (fn*
-    [p1__86885#]
-    (< (Math/abs (- (cx/cabs p1__86885#) 1.0)) 1.0E-10))
+    [p1__74330#]
+    (< (Math/abs (- (cx/cabs p1__74330#) 1.0)) 1.0E-10))
    entries)))
 
 
@@ -63,7 +63,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__86886#] (long (Math/round (cx/re p1__86886#))))
+      (fn* [p1__74331#] (long (Math/round (cx/re p1__74331#))))
       row))
     (:table ct))]
   re-table))
@@ -82,7 +82,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__86887#] (long (Math/round (cx/re p1__86887#))))
+      (fn* [p1__74332#] (long (Math/round (cx/re p1__74332#))))
       row))
     (:table ct))]
   re-table))
@@ -184,14 +184,14 @@
    dims
    (sort
     (mapv
-     (fn* [p1__86888#] (long (Math/round (cx/re (p1__86888# 0)))))
+     (fn* [p1__74333#] (long (Math/round (cx/re (p1__74333# 0)))))
      (:table ct-d3)))
    ct-s3
    (hm/character-table (hm/symmetric-group 3))
    dims-s3
    (sort
     (mapv
-     (fn* [p1__86889#] (long (Math/round (cx/re (p1__86889# 0)))))
+     (fn* [p1__74334#] (long (Math/round (cx/re (p1__74334# 0)))))
      (:table ct-s3)))]
   (= dims dims-s3)))
 
@@ -208,8 +208,8 @@
    (first (:table ct))]
   (every?
    (fn*
-    [p1__86890#]
-    (< (cx/cabs (cx/csub p1__86890# (cx/complex 1.0 0.0))) 1.0E-10))
+    [p1__74335#]
+    (< (cx/cabs (cx/csub p1__74335# (cx/complex 1.0 0.0))) 1.0E-10))
    trivial-row)))
 
 
@@ -264,7 +264,7 @@
       (into
        [(str label)]
        (mapv
-        (fn* [p1__86891#] (long (Math/round (cx/re p1__86891#))))
+        (fn* [p1__74336#] (long (Math/round (cx/re p1__74336#))))
         row)))
      irrep-labels
      table)})))

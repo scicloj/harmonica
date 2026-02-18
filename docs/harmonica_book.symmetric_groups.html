@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Symmetric Groups – harmonica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./harmonica_book.character_theory.html" rel="next">
+<link href="./harmonica_book.hearing_symmetry.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a52dacdebdbd438f6573f472e77663ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.symmetric_groups.html">Symmetric Groups</a></li><li class="breadcrumb-item"><a href="./harmonica_book.symmetric_groups.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">harmonica</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quickstart</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Groups and the DFT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.groups_and_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Groups and Structure</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.dft_as_group_fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The DFT as Fourier Transform on a Group</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Groups in Action</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Symmetric Groups</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.symmetric_groups.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.character_theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Character Theory</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.random_transpositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Representation Matrices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.representation_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Representation Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.riffle_shuffle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.group_actions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#permutations-as-vectors" id="toc-permutations-as-vectors" class="nav-link active" data-scroll-target="#permutations-as-vectors">Permutations as vectors</a></li>
+  <li><a href="#non-commutativity" id="toc-non-commutativity" class="nav-link" data-scroll-target="#non-commutativity">Non-commutativity</a></li>
+  <li><a href="#cycle-notation" id="toc-cycle-notation" class="nav-link" data-scroll-target="#cycle-notation">Cycle notation</a>
+  <ul>
+  <li><a href="#cycle-diagrams" id="toc-cycle-diagrams" class="nav-link" data-scroll-target="#cycle-diagrams">Cycle diagrams</a></li>
+  </ul></li>
+  <li><a href="#cycle-type-and-the-sign-of-a-permutation" id="toc-cycle-type-and-the-sign-of-a-permutation" class="nav-link" data-scroll-target="#cycle-type-and-the-sign-of-a-permutation">Cycle type and the sign of a permutation</a></li>
+  <li><a href="#partitions" id="toc-partitions" class="nav-link" data-scroll-target="#partitions">Partitions</a></li>
+  <li><a href="#young-diagrams" id="toc-young-diagrams" class="nav-link" data-scroll-target="#young-diagrams">Young diagrams</a>
+  <ul>
+  <li><a href="#conjugate-partition" id="toc-conjugate-partition" class="nav-link" data-scroll-target="#conjugate-partition">Conjugate partition</a></li>
+  </ul></li>
+  <li><a href="#hook-lengths-and-the-hook-length-formula" id="toc-hook-lengths-and-the-hook-length-formula" class="nav-link" data-scroll-target="#hook-lengths-and-the-hook-length-formula">Hook lengths and the hook-length formula</a></li>
+  <li><a href="#standard-young-tableaux" id="toc-standard-young-tableaux" class="nav-link" data-scroll-target="#standard-young-tableaux">Standard Young Tableaux</a></li>
+  <li><a href="#conjugacy-classes" id="toc-conjugacy-classes" class="nav-link" data-scroll-target="#conjugacy-classes">Conjugacy classes</a></li>
+  <li><a href="#the-dimension-squared-sum" id="toc-the-dimension-squared-sum" class="nav-link" data-scroll-target="#the-dimension-squared-sum">The dimension-squared sum</a></li>
+  <li><a href="#growth-of-s_n" id="toc-growth-of-s_n" class="nav-link" data-scroll-target="#growth-of-s_n">Growth of <span class="math inline">\(S_n\)</span></a></li>
+  <li><a href="#what-comes-next" id="toc-what-comes-next" class="nav-link" data-scroll-target="#what-comes-next">What comes next</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.symmetric_groups.html">Symmetric Groups</a></li><li class="breadcrumb-item"><a href="./harmonica_book.symmetric_groups.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style></style>
+<style>.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+<style>.clay-limit-image-width .clay-image {max-width: 100%}
+.clay-side-by-side .sourceCode {margin: 0}
+.clay-side-by-side {margin: 1em 0}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.20.0/plotly.min.js" type="text/javascript"></script>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Symmetric_group">symmetric group</a></strong> <span class="math inline">\(S_n\)</span> is the group of all <a href="https://en.wikipedia.org/wiki/Permutation">permutations</a> of <span class="math inline">\(n\)</span> objects. It has <span class="math inline">\(n!\)</span> elements — the most classical object in group theory.</p>
+<p>Where cyclic groups are <a href="https://en.wikipedia.org/wiki/Abelian_group">abelian</a> and predictable, <span class="math inline">\(S_n\)</span> is wild: for <span class="math inline">\(n \geq 3\)</span> it is non-abelian, meaning the order in which you compose permutations matters. This non-commutativity is precisely what makes <span class="math inline">\(S_n\)</span> rich enough to model shuffling, symmetry breaking, and the combinatorics of partitions.</p>
+<p>For the general group concept and other group families, see <a href="groups_and_structure.html">Groups and Structure</a>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.symmetric-groups</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [tablecloth.api <span class="at">:as</span> tc]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.tableplot.v1.plotly <span class="at">:as</span> plotly]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="permutations-as-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="permutations-as-vectors">Permutations as vectors</h2>
+<p>A permutation of <span class="math inline">\(\{0, 1, \ldots, n{-}1\}\)</span> is stored as a vector in <strong><a href="https://en.wikipedia.org/wiki/Permutation#One-line_notation">one-line notation</a></strong>: the entry at position <span class="math inline">\(i\)</span> is the image of <span class="math inline">\(i\)</span> under the permutation. This representation makes composition natural — it’s just function composition on vectors.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> G </span>(hm/symmetric-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(hm/order G)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">24</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The identity permutation maps every element to itself.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(hm/id G)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A transposition swaps two elements.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(hm/transposition <span class="dv">4</span> <span class="dv">1</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Composition follows the standard mathematical convention (right-to-left): <span class="math inline">\((\sigma\circ\tau)(i) = \sigma(\tau(i))\)</span>. Since permutations are vectors, this is simply <code>(mapv sigma tau)</code>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(hm/op G [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Every permutation has an inverse.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(hm/inv G [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(hm/op G [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>] (hm/inv G [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="non-commutativity" class="level2">
+<h2 class="anchored" data-anchor-id="non-commutativity">Non-commutativity</h2>
+<p>Unlike cyclic groups, <span class="math inline">\(S_n\)</span> is <strong>not abelian</strong> for <span class="math inline">\(n \geq 3\)</span>. The order of composition matters — this is the source of its richness.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [sigma [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      tau [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">2</span>]]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  [(hm/op G sigma tau)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>   (hm/op G tau sigma)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>] [<span class="dv">1</span> <span class="dv">3</span> <span class="dv">0</span> <span class="dv">2</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cycle-notation" class="level2">
+<h2 class="anchored" data-anchor-id="cycle-notation">Cycle notation</h2>
+<p><a href="https://en.wikipedia.org/wiki/Permutation#Cycle_notation">Cycle notation</a> reveals the structure of a permutation more clearly than one-line notation. The permutation <code>[1 2 3 0]</code> sends <span class="math inline">\(0 \to 1 \to 2 \to 3 \to 0\)</span>, which is the single 4-cycle <span class="math inline">\((0\;1\;2\;3)\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A transposition is a 2-cycle.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span> <span class="dv">3</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The identity has no non-trivial cycles.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>[]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A permutation with two disjoint cycles:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(hm/cycles [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">0</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">3</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="cycle-diagrams" class="level3">
+<h3 class="anchored" data-anchor-id="cycle-diagrams">Cycle diagrams</h3>
+<p>A cycle diagram draws elements around a circle with arrows showing where each element maps. Here is the 4-cycle <span class="math inline">\((0\;1\;2\;3)\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/cycle-diagram-svg [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="220" width="220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead" markerheight="6" markerwidth="8" orient="auto" refx="7" refy="3"><polygon fill="#e74c3c" points="0 0, 8 3, 0 6"></polygon></marker></defs><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="121.31370849898477" x2="177.27207793864216" y1="41.31370849898476" y2="97.27207793864214"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="178.68629150101523" x2="122.72792206135786" y1="121.31370849898477" y2="177.27207793864216"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="98.68629150101523" x2="42.72792206135786" y1="178.68629150101523" y2="122.72792206135787"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="41.31370849898476" x2="97.27207793864214" y1="98.68629150101525" y2="42.72792206135786"></line><g><circle cx="110.0" cy="30.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="35.0">0</text></g><g><circle cx="190.0" cy="110.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="190.0" y="115.0">1</text></g><g><circle cx="110.0" cy="190.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="195.0">2</text></g><g><circle cx="30.0" cy="110.00000000000001" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="30.0" y="115.00000000000001">3</text></g></svg>
+<p>Two disjoint 2-cycles <span class="math inline">\((0\;1)(2\;3)\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/cycle-diagram-svg [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="220" width="220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead" markerheight="6" markerwidth="8" orient="auto" refx="7" refy="3"><polygon fill="#e74c3c" points="0 0, 8 3, 0 6"></polygon></marker></defs><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="121.31370849898477" x2="177.27207793864216" y1="41.31370849898476" y2="97.27207793864214"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="178.68629150101523" x2="122.72792206135786" y1="98.68629150101523" y2="42.72792206135786"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="98.68629150101523" x2="42.72792206135786" y1="178.68629150101523" y2="122.72792206135787"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="41.31370849898476" x2="97.27207793864214" y1="121.31370849898477" y2="177.27207793864216"></line><g><circle cx="110.0" cy="30.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="35.0">0</text></g><g><circle cx="190.0" cy="110.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="190.0" y="115.0">1</text></g><g><circle cx="110.0" cy="190.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="195.0">2</text></g><g><circle cx="30.0" cy="110.00000000000001" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="30.0" y="115.00000000000001">3</text></g></svg>
+<p>A permutation with a fixed point — <span class="math inline">\((0\;2\;4)(1\;3)\)</span>, where <span class="math inline">\(5\)</span> is fixed:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/cycle-diagram-svg [<span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">5</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="220" width="220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead" markerheight="6" markerwidth="8" orient="auto" refx="7" refy="3"><polygon fill="#e74c3c" points="0 0, 8 3, 0 6"></polygon></marker></defs><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="118.0" x2="170.2820323027551" y1="43.856406460551014" y2="134.4115427318801"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="171.28203230275508" x2="119.0" y1="83.85640646055101" y2="174.4115427318801"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="163.2820323027551" x2="58.717967697244916" y1="150.0" y2="150.00000000000003"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="118.0" x2="170.28203230275508" y1="176.14359353944897" y2="85.5884572681199"></line><line marker-end="url(#arrowhead)" stroke="#e74c3c" stroke-width="1.5" x1="48.717967697244916" x2="101.0" y1="136.143593539449" y2="45.588457268119896"></line><g><circle cx="110.0" cy="30.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="35.0">0</text></g><g><circle cx="179.28203230275508" cy="70.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="179.28203230275508" y="75.0">1</text></g><g><circle cx="179.2820323027551" cy="150.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="179.2820323027551" y="155.0">2</text></g><g><circle cx="110.0" cy="190.0" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="110.0" y="195.0">3</text></g><g><circle cx="40.717967697244916" cy="150.00000000000003" fill="#3498db" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="40.717967697244916" y="155.00000000000003">4</text></g><g><circle cx="40.717967697244916" cy="70.0" fill="#bdc3c7" r="14" stroke="#2c3e50" stroke-width="1.5"></circle><text fill="white" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle" x="40.717967697244916" y="75.0">5</text></g></svg>
+</section>
+</section>
+<section id="cycle-type-and-the-sign-of-a-permutation" class="level2">
+<h2 class="anchored" data-anchor-id="cycle-type-and-the-sign-of-a-permutation">Cycle type and the sign of a permutation</h2>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Cycle_type">cycle type</a></strong> records the lengths of all cycles (including fixed points) as a partition — a descending sequence of positive integers summing to <span class="math inline">\(n\)</span>. Two permutations are conjugate in <span class="math inline">\(S_n\)</span> if and only if they share the same cycle type.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(hm/cycle-type [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(hm/cycle-type [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(hm/cycle-type [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Parity_of_a_permutation">sign</a></strong> of a permutation is <span class="math inline">\(+1\)</span> (even) or <span class="math inline">\(-1\)</span> (odd), determined by the parity of the number of transpositions needed to express it. The sign is a group homomorphism: <span class="math inline">\(\operatorname{sign}(\sigma\tau) =
+\operatorname{sign}(\sigma) \cdot \operatorname{sign}(\tau)\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(hm/sign [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(hm/sign [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Verify the homomorphism property:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [sigma [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span>]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>      tau [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">2</span>]]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">*</span> (hm/sign sigma) (hm/sign tau)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="partitions" class="level2">
+<h2 class="anchored" data-anchor-id="partitions">Partitions</h2>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Partition_(number_theory)">partition</a></strong> of <span class="math inline">\(n\)</span> is a way to write <span class="math inline">\(n\)</span> as a sum of positive integers in descending order. Partitions play a double role in <span class="math inline">\(S_n\)</span>: they index both the <strong>conjugacy classes</strong> (via cycle type) and the <strong>irreducible representations</strong> (via <a href="https://en.wikipedia.org/wiki/Young_diagram">Young diagrams</a>). This duality is at the heart of the representation theory of symmetric groups.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(hm/partitions <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">4</span>] [<span class="dv">3</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">2</span>] [<span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>] [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The number of partitions grows quickly — but much slower than <span class="math inline">\(n!\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(kind/table</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:column-names</span> [<span class="st">"$n$"</span> <span class="st">"$p(n)$"</span>]</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [n] [n (<span class="kw">count</span> (hm/partitions n))])</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">11</span>))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">$n$</th>
+<th data-quarto-table-cell-role="th">$p(n)$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>11</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>22</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="young-diagrams" class="level2">
+<h2 class="anchored" data-anchor-id="young-diagrams">Young diagrams</h2>
+<p>A partition is visualized as a <strong><a href="https://en.wikipedia.org/wiki/Young_diagram">Young diagram</a></strong>: a left-justified array of boxes where row <span class="math inline">\(i\)</span> has <span class="math inline">\(\lambda_i\)</span> boxes.</p>
+<p>The partitions of 5 and their Young diagrams:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a> (<span class="kw">into</span> [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end;"</span>}]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [p (hm/partitions <span class="dv">5</span>)]</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>         [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"text-align: center;"</span>}</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>          (hm/young-diagram-svg p)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>          [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"margin-top: 4px; font-family: monospace; font-size: 13px;"</span>}</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">str</span> p)]])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end;"><div style="text-align: center;"><svg height="30" width="142" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="85" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="113" y="1"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[5]</div></div><div style="text-align: center;"><svg height="58" width="114" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="85" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[4 1]</div></div><div style="text-align: center;"><svg height="58" width="86" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="29"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[3 2]</div></div><div style="text-align: center;"><svg height="86" width="86" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[3 1 1]</div></div><div style="text-align: center;"><svg height="86" width="58" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[2 2 1]</div></div><div style="text-align: center;"><svg height="114" width="58" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="85"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[2 1 1 1]</div></div><div style="text-align: center;"><svg height="142" width="30" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="85"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="113"></rect></svg><div style="margin-top: 4px; font-family: monospace; font-size: 13px;">[1 1 1 1 1]</div></div></div>
+<section id="conjugate-partition" class="level3">
+<h3 class="anchored" data-anchor-id="conjugate-partition">Conjugate partition</h3>
+<p>The <strong>conjugate</strong> <span class="math inline">\(\lambda'\)</span> of a partition <span class="math inline">\(\lambda\)</span> is obtained by reflecting the Young diagram along the main diagonal — swapping rows and columns.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>(hm/partition-conjugate [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>(hm/partition-conjugate [<span class="dv">3</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A partition and its conjugate, side by side:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a> (<span class="kw">let</span> [p [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>       pc (hm/partition-conjugate p)]</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>   [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"display: flex; gap: 40px; align-items: flex-end;"</span>}</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"text-align: center;"</span>}</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>     (hm/young-diagram-svg p)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>     [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"margin-top: 4px; font-family: monospace;"</span>} (<span class="kw">str</span> <span class="st">"λ = "</span> p)]]</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"text-align: center; font-size: 24px; align-self: center;"</span>} <span class="st">"↔"</span>]</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"text-align: center;"</span>}</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>     (hm/young-diagram-svg pc <span class="at">:fill</span> <span class="st">"#e67e22"</span>)</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>     [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"margin-top: 4px; font-family: monospace;"</span>} (<span class="kw">str</span> <span class="st">"λ' = "</span> pc)]]]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="display: flex; gap: 40px; align-items: flex-end;"><div style="text-align: center;"><svg height="86" width="114" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="85" y="1"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="29"></rect><rect fill="#4a90d9" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect></svg><div style="margin-top: 4px; font-family: monospace;">λ = [4 2 1]</div></div><div style="text-align: center; font-size: 24px; align-self: center;">↔</div><div style="text-align: center;"><svg height="114" width="86" xmlns="http://www.w3.org/2000/svg"><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="1"></rect><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="1"></rect><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="57" y="1"></rect><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="29"></rect><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="29" y="29"></rect><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="57"></rect><rect fill="#e67e22" height="27" rx="2" stroke="#2c3e50" stroke-width="1.5" width="27" x="1" y="85"></rect></svg><div style="margin-top: 4px; font-family: monospace;">λ' = [3 2 1 1]</div></div></div>
+<p>Conjugation is an involution: <span class="math inline">\((\lambda')' = \lambda\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">=</span> [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>] (hm/partition-conjugate (hm/partition-conjugate [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="hook-lengths-and-the-hook-length-formula" class="level2">
+<h2 class="anchored" data-anchor-id="hook-lengths-and-the-hook-length-formula">Hook lengths and the hook-length formula</h2>
+<p>For each cell <span class="math inline">\((i, j)\)</span> in a Young diagram, the <strong><a href="https://en.wikipedia.org/wiki/Hook_length_formula">hook length</a></strong> <span class="math inline">\(h(i,j)\)</span> counts the cells directly to the right and directly below, plus the cell itself.</p>
+<p>The <strong><a href="https://en.wikipedia.org/wiki/Hook_length_formula">hook-length formula</a></strong> gives the number of standard Young tableaux of shape <span class="math inline">\(\lambda\)</span>:</p>
+<p><span class="math display">\[f^\lambda = \frac{n!}{\prod_{(i,j) \in \lambda} h(i,j)}\]</span></p>
+<p>This equals the dimension of the irreducible representation of <span class="math inline">\(S_n\)</span> indexed by <span class="math inline">\(\lambda\)</span>.</p>
+<p>Hook lengths for <span class="math inline">\([4, 2, 1]\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/young-hooks-svg [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="110" width="146" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="24">6</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="24">4</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="73" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="91" y="24">2</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="109" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="127" y="24">1</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="37"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="60">3</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="37"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="60">1</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="73"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="96">1</text></g></svg>
+<p>Hook lengths for <span class="math inline">\([3, 2, 2]\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup (hm/young-hooks-svg [<span class="dv">3</span> <span class="dv">2</span> <span class="dv">2</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<svg height="110" width="110" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="24">5</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="24">4</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="73" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="91" y="24">1</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="37"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="60">3</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="37"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="60">2</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="1" y="73"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="19" y="96">2</text></g><g><rect fill="#ecf0f1" height="35" rx="2" stroke="#2c3e50" stroke-width="1.5" width="35" x="37" y="73"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" text-anchor="middle" x="55" y="96">1</text></g></svg>
+<p>Verify: the hook-length dimension matches explicit tableau enumeration.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [lambda (hm/partitions <span class="dv">5</span>)]</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">=</span> (hm/hook-length-dimension lambda)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">count</span> (hm/standard-young-tableaux lambda))))]</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Dimension table for partitions of 5:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>(kind/table</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:column-names</span> [<span class="st">"$</span><span class="sc">\\</span><span class="st">lambda$"</span> <span class="st">"$f^</span><span class="sc">\\</span><span class="st">lambda$ (hook-length)"</span> <span class="st">"# SYT (enumerated)"</span>]</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">:row-vectors</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">mapv</span> (<span class="kw">fn</span> [lambda]</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>          [(<span class="kw">str</span> lambda)</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>           (hm/hook-length-dimension lambda)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">count</span> (hm/standard-young-tableaux lambda))])</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>        (hm/partitions <span class="dv">5</span>))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">$\lambda$</th>
+<th data-quarto-table-cell-role="th">$f^\lambda$ (hook-length)</th>
+<th data-quarto-table-cell-role="th"># SYT (enumerated)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>[5]</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>[4 1]</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>[3 2]</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>[3 1 1]</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>[2 2 1]</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>[2 1 1 1]</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>[1 1 1 1 1]</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="standard-young-tableaux" class="level2">
+<h2 class="anchored" data-anchor-id="standard-young-tableaux">Standard Young Tableaux</h2>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Young_tableau#Standard_Young_tableaux">standard Young tableau</a></strong> (SYT) of shape <span class="math inline">\(\lambda\)</span> is a filling of the Young diagram with <span class="math inline">\(1, 2, \ldots, n\)</span> such that entries increase along each row and down each column. SYTs form the basis for <a href="https://en.wikipedia.org/wiki/Young%27s_orthogonal_representation">Young’s orthogonal representation</a>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>(hm/standard-young-tableaux [<span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>[[[<span class="dv">1</span> <span class="dv">2</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span>] [<span class="dv">2</span>]]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">count</span> (hm/standard-young-tableaux [<span class="dv">3</span> <span class="dv">2</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The 5 standard Young tableaux of shape <span class="math inline">\([3, 2]\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>(kind/hiccup</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a> (<span class="kw">into</span> [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;"</span>}]</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [t (hm/standard-young-tableaux [<span class="dv">3</span> <span class="dv">2</span>])]</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>         [<span class="at">:div</span> {<span class="at">:style</span> <span class="st">"text-align: center;"</span>}</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>          (hm/syt-svg t)])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;"><div style="text-align: center;"><svg height="66" width="98" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="22">1</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="22">2</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="65" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="81" y="22">3</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="54">4</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="54">5</text></g></svg></div><div style="text-align: center;"><svg height="66" width="98" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="22">1</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="22">2</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="65" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="81" y="22">4</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="54">3</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="54">5</text></g></svg></div><div style="text-align: center;"><svg height="66" width="98" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="22">1</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="22">2</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="65" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="81" y="22">5</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="54">3</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="54">4</text></g></svg></div><div style="text-align: center;"><svg height="66" width="98" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="22">1</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="22">3</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="65" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="81" y="22">4</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="54">2</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="54">5</text></g></svg></div><div style="text-align: center;"><svg height="66" width="98" xmlns="http://www.w3.org/2000/svg"><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="22">1</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="22">3</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="65" y="1"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="81" y="22">5</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="1" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="17" y="54">2</text></g><g><rect fill="#d5e8d4" height="31" rx="2" stroke="#2c3e50" stroke-width="1.5" width="31" x="33" y="33"></rect><text fill="#2c3e50" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" x="49" y="54">4</text></g></svg></div></div>
+</section>
+<section id="conjugacy-classes" class="level2">
+<h2 class="anchored" data-anchor-id="conjugacy-classes">Conjugacy classes</h2>
+<p>Two permutations are <strong><a href="https://en.wikipedia.org/wiki/Conjugacy_class">conjugate</a></strong> if one can be obtained from the other by relabeling elements: <span class="math inline">\(\sigma \sim \tau\)</span> iff there exists <span class="math inline">\(g\)</span> with <span class="math inline">\(g\sigma g^{-1} = \tau\)</span>. The conjugacy class of a permutation is determined entirely by its cycle type.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> classes </span>(hm/conjugacy-classes G))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>(kind/table</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:column-names</span> [<span class="st">"Cycle type"</span> <span class="st">"Class size"</span>]</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [c] [(<span class="at">:cycle-type</span> c) (<span class="at">:size</span> c)]) classes)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Cycle type</th>
+<th data-quarto-table-cell-role="th">Class size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><div class="code-copy-outer-scaffold"><div>
+<pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>[4]</code></pre>
+</div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td><div class="code-copy-outer-scaffold"><div>
+<pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>[3 1]</code></pre>
+</div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td><div class="code-copy-outer-scaffold"><div>
+<pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>[2 2]</code></pre>
+</div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td><div class="code-copy-outer-scaffold"><div>
+<pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>[2 1 1]</code></pre>
+</div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td><div class="code-copy-outer-scaffold"><div>
+<pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>[1 1 1 1]</code></pre>
+</div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The class sizes sum to <span class="math inline">\(|S_n|\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> <span class="at">:size</span> classes))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="dv">24</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The number of conjugacy classes equals the number of partitions — this is the key identity that makes the character table square.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">count</span> classes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="the-dimension-squared-sum" class="level2">
+<h2 class="anchored" data-anchor-id="the-dimension-squared-sum">The dimension-squared sum</h2>
+<p>A beautiful identity: the sum of squared dimensions of all irreps equals <span class="math inline">\(|S_n| = n!\)</span>:</p>
+<p><span class="math display">\[\sum_{\lambda \vdash n} (f^\lambda)^2 = n!\]</span></p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [n <span class="dv">5</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>      dims (<span class="kw">mapv</span> hm/hook-length-dimension (hm/partitions n))]</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> #(<span class="kw">*</span> <span class="va">%</span> <span class="va">%</span>) dims)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="dv">120</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="growth-of-s_n" class="level2">
+<h2 class="anchored" data-anchor-id="growth-of-s_n">Growth of <span class="math inline">\(S_n\)</span></h2>
+<p>The symmetric group grows factorially — <span class="math inline">\(S_5\)</span> already has 120 elements. But the number of conjugacy classes (= number of partitions = number of irreps) grows much more slowly, which is what makes Fourier analysis on <span class="math inline">\(S_n\)</span> tractable: instead of working with <span class="math inline">\(n!\)</span> elements, we work with <span class="math inline">\(p(n)\)</span> representations.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>(kind/table</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:column-names</span> [<span class="st">"$n$"</span> <span class="st">"$|S_n|$"</span> <span class="st">"# classes"</span>]</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [n]</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">let</span> [G (hm/symmetric-group n)]</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>                         [n (hm/order G)</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">count</span> (hm/conjugacy-classes G))]))</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">9</span>))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">$n$</th>
+<th data-quarto-table-cell-role="th">$|S_n|$</th>
+<th data-quarto-table-cell-role="th"># classes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>6</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>24</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>120</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>720</td>
+<td>11</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>5040</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>40320</td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>For <span class="math inline">\(n = 8\)</span>, the group has 40,320 elements but only 22 conjugacy classes — and therefore only 22 irreducible representations. The character table is a 22×22 matrix, but it captures the complete Fourier-analytic structure of a group with over 40,000 elements.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tc/dataset</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>     {<span class="at">:n</span> (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">9</span>)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">:log-order</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [n] (Math/log10 (<span class="kw">double</span> (hm/order (hm/symmetric-group n)))))</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">9</span>))</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">:num-classes</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [n] (<span class="kw">count</span> (hm/conjugacy-classes (hm/symmetric-group n))))</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">9</span>))})</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>    (plotly/base {:=x <span class="at">:n</span> :=y <span class="at">:log-order</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>                  :=x-title <span class="st">"n"</span></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>                  :=y-title <span class="st">"log₁₀(|Sₙ|)"</span></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>                  :=title <span class="st">"Factorial growth of Sₙ"</span>})</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    (plotly/layer-line)</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>    (plotly/layer-point {:=mark-size <span class="dv">8</span>})</span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>    plotly/plot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"y":[0.0,0.3010299956639812,0.7781512503836436,1.380211241711606,2.0791812460476247,2.8573324964312685,3.7024305364455254,4.605520523437469],"name":"","mode":"lines","type":"scatter","x":[1,2,3,4,5,6,7,8]},{"y":[0.0,0.3010299956639812,0.7781512503836436,1.380211241711606,2.0791812460476247,2.8573324964312685,3.7024305364455254,4.605520523437469],"name":"","marker":{"size":8},"mode":"markers","type":"scatter","x":[1,2,3,4,5,6,7,8]}], {"width":500,"height":400,"margin":{"t":25},"automargin":false,"plot_bgcolor":"rgb(235,235,235)","xaxis":{"gridcolor":"rgb(255,255,255)","title":"n","showgrid":true},"yaxis":{"gridcolor":"rgb(255,255,255)","title":"log\u2081\u2080(|S\u2099|)","showgrid":true},"title":"Factorial growth of S\u2099"}, {});</script></div>
+</section>
+<section id="what-comes-next" class="level2">
+<h2 class="anchored" data-anchor-id="what-comes-next">What comes next</h2>
+<p>With permutations, partitions, and Young diagrams in hand:</p>
+<ul>
+<li><p><strong><a href="character_theory.html">Character Theory</a></strong> — the character table encodes all irreducible representations. For <span class="math inline">\(S_n\)</span> it is computed by the Murnaghan-Nakayama rule.</p></li>
+<li><p><strong><a href="representation_matrices.html">Representation Matrices</a></strong> — Young’s orthogonal form gives explicit matrices for each irrep.</p></li>
+<li><p><strong><a href="random_transpositions.html">Random Transpositions</a></strong> and <strong><a href="riffle_shuffle.html">Riffle Shuffles</a></strong> — Fourier analysis on <span class="math inline">\(S_n\)</span> applied to card shuffling.</p></li>
+</ul>
+<div style="background-color:grey;height:2px;width:100%;"></div>
+<div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/symmetric_groups.clj">notebooks/harmonica_book/symmetric_groups.clj</a></small></small></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./harmonica_book.hearing_symmetry.html" class="pagination-link" aria-label="Hearing Symmetry — Permutation Music">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./harmonica_book.character_theory.html" class="pagination-link" aria-label="Character Theory">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Character Theory</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

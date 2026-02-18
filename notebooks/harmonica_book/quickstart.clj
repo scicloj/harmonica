@@ -48,9 +48,9 @@
       ci (hm/cycle-index G (dihedral-action 8) (range 8))]
   (hm/polya-count ci 3))
 
-(kind/test-last [= 462])
+(kind/test-last [= 498])
 
-;; 834 necklaces, 462 bracelets — from the group's structure alone.
+;; 834 necklaces, 498 bracelets — from the group's structure alone.
 ;; This works even for $n = 100$ where enumeration is impossible.
 ;; For the full story, see
 ;; [Counting Necklaces](counting_necklaces.html).
