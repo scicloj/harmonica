@@ -1,12 +1,18 @@
-;; # Group Actions
+
+;; # Group Actions — Algebraic Reference
 ;;
 ;; A **[group action](https://en.wikipedia.org/wiki/Group_action)** is a way for a group to act on a set — each group
 ;; element becomes a transformation of the set, and group multiplication
 ;; corresponds to composition of transformations.
 ;;
-;; This notebook covers the orbit-stabilizer theorem, Burnside's lemma,
-;; the cycle index, and Pólya enumeration, with thorough algebraic
-;; verification.
+;; This chapter provides a comprehensive algebraic treatment: the
+;; orbit-stabilizer theorem, Burnside's lemma, the cycle index, and
+;; Pólya enumeration, verified across many groups. For conceptual
+;; introductions to these ideas, see:
+;;
+;; - **[Symmetry Sketchpad](symmetry_sketchpad.html)** — group actions on 2D points
+;; - **[Counting Necklaces](counting_necklaces.html)** — Burnside's lemma in action
+;; - **[Chord Geometry](chord_geometry.html)** — group actions on pitch class sets
 
 (ns harmonica-book.group-actions
   (:require

@@ -1,5 +1,9 @@
 ;; # Symmetry Sketchpad — Rosette Patterns
 ;;
+;; A **[group action](https://en.wikipedia.org/wiki/Group_action)** is
+;; a way for a group to transform a set — each group element becomes a
+;; transformation, and composing transformations matches group multiplication.
+;;
 ;; Draw a freehand motif. Choose a symmetry group. Watch the group action
 ;; replicate your drawing into a symmetric pattern. The mess you drew
 ;; becomes order — and the *kind* of order depends precisely on which group
@@ -208,7 +212,7 @@
                           via-compose (dihedral-action n g (dihedral-action n h test-pt))
                           via-product (dihedral-action n gh test-pt)
                           err (Math/sqrt (+ (Math/pow (- (first via-compose) (first via-product)) 2)
-                                           (Math/pow (- (second via-compose) (second via-product)) 2)))]
+                                            (Math/pow (- (second via-compose) (second via-product)) 2)))]
                       (< err 1e-10)))
                   (for [a elts b elts] [a b]))))]
   (every? identity results))
@@ -256,7 +260,7 @@
                              :showlegend false})
                           (range) copies))
       colors-6 (cycle ["#e74c3c" "#3498db" "#2ecc71" "#f39c12" "#9b59b6" "#e67e22"
-                        "#c0392b" "#2980b9" "#27ae60" "#d35400" "#8e44ad" "#1abc9c"])]
+                       "#c0392b" "#2980b9" "#27ae60" "#d35400" "#8e44ad" "#1abc9c"])]
   (kind/fragment
    [(kind/plotly
      {:data (make-traces cn-copies colors-6)

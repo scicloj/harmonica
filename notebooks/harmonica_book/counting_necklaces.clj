@@ -6,6 +6,11 @@
 ;;
 ;; The answers come from **[Burnside's lemma](https://en.wikipedia.org/wiki/Burnside%27s_lemma)** and the **[cycle index polynomial](https://en.wikipedia.org/wiki/Cycle_index)**
 ;; — tools from group theory that turn symmetry into a counting formula.
+;;
+;; The key idea: a group **acts** on colorings by permuting bead positions.
+;; Two colorings in the same **orbit** — reachable from each other by group
+;; elements — are the same necklace. Burnside's lemma counts orbits
+;; without enumerating them.
 
 (ns harmonica-book.counting-necklaces
   (:require

@@ -300,3 +300,7 @@
 ;; for the Fourier transform on product groups, see
 ;; [Product Group DFT](product_group_dft.html).
 
+;; For the deeper theory of non-abelian groups — permutations, partitions,
+;; and Fourier analysis on $S_n$ — continue to
+;; [Symmetric Groups](symmetric_groups.html).
+

@@ -5,25 +5,20 @@
 ;; of a snowflake, in shuffling a deck of cards. This notebook introduces
 ;; the idea through concrete examples, building intuition before stating
 ;; the formal axioms.
+;;
+;; Why should a programmer care? Because groups let you **exploit symmetry
+;; to simplify computation**. When you notice that rotating a necklace
+;; doesn't change it, or that transposing a chord preserves its character,
+;; you're seeing a group action. Making the group explicit turns ad hoc
+;; reasoning into general-purpose algorithms:
+;; [Pólya counting](counting_necklaces.html),
+;; [Fourier analysis](dft_as_group_fourier.html),
+;; [representation theory](character_theory.html).
 
 (ns harmonica-book.groups-and-structure
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.kindly.v4.kind :as kind]))
-
-;; ## Integers under addition
-;;
-;; The most familiar group is the **integers** $\mathbb{Z}$ with addition.
-;; You already know its structure:
-;;
-;; - **Identity**: adding 0 changes nothing. $n + 0 = 0 + n = n$.
-;; - **Inverses**: every integer $n$ has an opposite $-n$. $n + (-n) = 0$.
-;; - **Associativity**: $(a + b) + c = a + (b + c)$. You can group
-;;   additions however you like.
-;;
-;; These three properties — identity, inverses, associativity — are exactly
-;; the **group axioms**. The integers under addition form a group. It
-;; happens to be an infinite one, but the same idea works for finite sets.
 
 ;; ## Clock arithmetic — the cyclic group
 ;;
@@ -34,9 +29,9 @@
 ;; **[cyclic group](https://en.wikipedia.org/wiki/Cyclic_group)** $\mathbb{Z}/n\mathbb{Z}$. It has $n$ elements and
 ;; every element is a power of a single generator.
 ;;
-;; In the [DFT notebook](dft_as_group_fourier.html) we saw that the Fourier
-;; transform is secretly the character table of a cyclic group. Here we
-;; look at the group itself.
+;; Cyclic groups are the simplest groups, and also the most immediately
+;; useful: in the [next chapter](dft_as_group_fourier.html) we'll see that
+;; the character table of $\mathbb{Z}/n\mathbb{Z}$ **is** the DFT matrix.
 
 (def C12 (hm/cyclic-group 12))
 
@@ -62,6 +57,12 @@
 
 (kind/test-last [= 7])
 
+;; Three properties make this a group:
+;;
+;; - **Identity**: adding 0 changes nothing. $n + 0 = 0 + n = n$.
+;; - **Inverses**: every $n$ has an opposite $-n \pmod{12}$.
+;; - **Associativity**: $(a + b) + c = a + (b + c)$.
+
 ;; ## Symmetries of a square — the dihedral group
 ;;
 ;; Pick up a square coaster and put it back on the table. How many
@@ -73,6 +74,11 @@
 ;; These symmetries form the **[dihedral group](https://en.wikipedia.org/wiki/Dihedral_group)** $D_4$.
 ;; In general, $D_n$ is the symmetry group of a regular $n$-gon,
 ;; with $n$ rotations and $n$ reflections for a total of $2n$ elements.
+;;
+;; We'll use dihedral groups for
+;; [rosette patterns](symmetry_sketchpad.html),
+;; [counting bracelets](counting_necklaces.html), and
+;; [classifying chords](chord_geometry.html).
 ;;
 ;; Elements are tagged pairs:
 ;;
@@ -115,7 +121,7 @@
 ;;
 ;; Unlike clock arithmetic, the **order matters** for dihedral groups.
 ;; Rotating then reflecting is not the same as reflecting then rotating.
-;; This is what makes $D_n$ a **non-abelian** group.
+;; This is what makes $D_n$ a **non-abelian** group (for $n \geq 3$).
 
 (hm/op D4 [:r 1] [:s 0])
 
@@ -155,8 +161,13 @@
 ;;
 ;; A **[permutation](https://en.wikipedia.org/wiki/Permutation)** rearranges $n$ objects. The set of all
 ;; permutations of $n$ objects forms the **[symmetric group](https://en.wikipedia.org/wiki/Symmetric_group)** $S_n$,
-;; with $n!$ elements. We explore $S_n$ in depth in the
-;; [next chapter](symmetric_groups.html); here, a quick preview.
+;; with $n!$ elements.
+;;
+;; Symmetric groups are the engine behind the
+;; [card shuffling analysis](random_transpositions.html) — both the
+;; random transpositions cutoff and the
+;; [seven shuffles theorem](riffle_shuffle.html) are proved via
+;; Fourier analysis on $S_n$.
 
 (def S3 (hm/symmetric-group 3))
 
@@ -200,6 +211,14 @@
 
 (kind/test-last [true?])
 
+;; $V_4$ appears in music theory as the group of melodic transformations:
+;; original, retrograde, inversion, retrograde inversion. See
+;; [Hearing Symmetry](hearing_symmetry.html).
+;;
+;; Product groups also give the [2D DFT](product_group_dft.html):
+;; $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$ is the
+;; natural domain for image processing.
+
 ;; Products can mix different group types. For instance,
 ;; $D_3 \times \mathbb{Z}/2\mathbb{Z}$ has $6 \times 2 = 12$ elements:
 
@@ -241,7 +260,7 @@
 
 (kind/test-last [true?])
 
-;; Associativity (all $8^3 = 512$ triples):
+;; Associativity (verified for every triple — all $8^3 = 512$ of them):
 
 (let [elts (vec (hm/elements D4))]
   (every? (fn [[a b c]]
@@ -251,13 +270,13 @@
 
 (kind/test-last [true?])
 
+;; For exhaustive axiom verification across all group types, see
+;; [Algebraic Identities](algebraic_identities.html).
+;;
 ;; If a group is **[abelian](https://en.wikipedia.org/wiki/Abelian_group)** (commutative), we also have
 ;; $g \cdot h = h \cdot g$ for all $g, h$. Cyclic groups and products
 ;; of cyclic groups are abelian. Symmetric groups ($n \geq 3$) and
 ;; dihedral groups ($n \geq 3$) are not.
-;;
-;; For exhaustive axiom verification across all group types, see
-;; [Algebraic Identities](algebraic_identities.html).
 
 ;; ## Conjugacy classes
 ;;
@@ -269,6 +288,10 @@
 ;; In $S_n$, conjugacy classes are determined by
 ;; [cycle type](https://en.wikipedia.org/wiki/Cycle_type):
 ;; two permutations are conjugate if and only if they have the same cycle structure.
+;;
+;; The number of conjugacy classes determines the number of irreducible
+;; representations — this is why the
+;; [character table](character_theory.html) is always square.
 
 (let [classes (hm/conjugacy-classes D4)]
   (kind/table
@@ -284,9 +307,6 @@
   (reduce + (map :size classes)))
 
 (kind/test-last [= 8])
-
-;; The number of conjugacy classes determines the number of irreducible
-;; representations — a key fact for character theory.
 
 ;; ## Cayley tables
 ;;
@@ -304,9 +324,7 @@
 ;; Notice that the Cayley table of $\mathbb{Z}/4\mathbb{Z}$ is symmetric
 ;; across the diagonal (abelian), while $D_3$'s is not (non-abelian).
 
-;; ## The groups in the library
-;;
-;; The library provides four families:
+;; ## The four group families
 ;;
 ;; | Family | Notation | Order | Abelian? |
 ;; |:-------|:---------|:------|:---------|
@@ -335,15 +353,11 @@
 ;;
 ;; With the group concept in hand:
 ;;
-;; - **[Symmetric Groups](symmetric_groups.html)** — permutations, partitions,
-;;   Young diagrams, and the combinatorial heart of $S_n$
-;; - **[Character Theory](character_theory.html)** — the character table
-;;   encodes irreducible representations as complex numbers
-;; - **[Group Actions](group_actions.html)** — orbits, stabilizers, Burnside
-;;   counting, and Pólya enumeration
-;;
-;; For applications, see [Counting Necklaces](counting_necklaces.html)
-;; (Burnside meets combinatorics), [Chord Geometry](chord_geometry.html)
-;; (music theory as group action), and
-;; [Symmetry Sketchpad](symmetry_sketchpad.html)
-;; (rosette patterns from dihedral groups).
+;; - **[The DFT as Group Fourier Transform](dft_as_group_fourier.html)** —
+;;   the character table of $\mathbb{Z}/n\mathbb{Z}$ is the DFT matrix
+;; - **[Product Group DFT](product_group_dft.html)** — extending to 2D
+;;   via $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$
+;; - **[Symmetry Sketchpad](symmetry_sketchpad.html)** — rosette patterns
+;;   from dihedral groups
+;; - **[Counting Necklaces](counting_necklaces.html)** — Burnside's lemma
+;;   turns symmetry into a counting formula

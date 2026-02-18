@@ -129,19 +129,19 @@
       ;; Extract columns from transformed rows and transform along rows
       cols-of-transformed (mapv (fn [j]
                                   (cx/complex-tensor
-                                    (mapv (fn [row] [(cx/re (row j))
-                                                     (cx/im (row j))])
-                                          rows-transformed)))
+                                   (mapv (fn [row] [(cx/re (row j))
+                                                    (cx/im (row j))])
+                                         rows-transformed)))
                                 (range n))
       cols-transformed (mapv #(hm/fourier-transform ct1 %) cols-of-transformed)
       ;; Flatten back: result[i*n + j] = cols-transformed[j][i]
       separable-result (cx/complex-tensor
-                         (mapv (fn [idx]
-                                 (let [i (quot idx n)
-                                       j (rem idx n)
-                                       v ((cols-transformed j) i)]
-                                   [(cx/re v) (cx/im v)]))
-                               (range (* m n))))
+                        (mapv (fn [idx]
+                                (let [i (quot idx n)
+                                      j (rem idx n)
+                                      v ((cols-transformed j) i)]
+                                  [(cx/re v) (cx/im v)]))
+                              (range (* m n))))
       ;; Compare with direct product group transform
       max-err (apply max (vec (cx/cabs (cx/csub separable-result f-hat))))]
   (< max-err 1e-10))
@@ -157,8 +157,8 @@
 
 (let [energy-space (dfn/sum (dfn/* (cx/re signal) (cx/re signal)))
       mags-sq (mapv (fn [i] (let [v (f-hat i)
-                                   r (cx/re v) im (cx/im v)]
-                               (+ (* r r) (* im im))))
+                                  r (cx/re v) im (cx/im v)]
+                              (+ (* r r) (* im im))))
                     (range (hm/order G)))
       energy-freq (/ (reduce + mags-sq) (double (hm/order G)))]
   (< (Math/abs (- energy-space energy-freq)) 1e-10))
@@ -172,15 +172,15 @@
 ;; domain equals pointwise multiplication in the frequency domain.
 
 (let [f (cx/complex-tensor-real
-          [1.0 0.0 0.0
-           0.0 0.0 0.0
-           0.0 0.0 0.0
-           0.0 0.0 0.0])
+         [1.0 0.0 0.0
+          0.0 0.0 0.0
+          0.0 0.0 0.0
+          0.0 0.0 0.0])
       h (cx/complex-tensor-real
-          [1.0 1.0 0.0
-           1.0 0.0 0.0
-           0.0 0.0 0.0
-           0.0 0.0 0.0])
+         [1.0 1.0 0.0
+          1.0 0.0 0.0
+          0.0 0.0 0.0
+          0.0 0.0 0.0])
       conv (hm/convolve ct f h)
       ;; Verify via Fourier domain
       f-hat (hm/fourier-transform ct f)
@@ -268,6 +268,9 @@
 ;;
 ;; For the 1D story, see
 ;; [The DFT as Group Fourier Transform](dft_as_group_fourier.html).
+;; For groups acting on geometric objects and combinatorial structures, see
+;; [Symmetry Sketchpad](symmetry_sketchpad.html) and
+;; [Counting Necklaces](counting_necklaces.html).
 ;; For non-abelian Fourier analysis, see
 ;; [Random Transpositions](random_transpositions.html) and
 ;; [Riffle Shuffles](riffle_shuffle.html).

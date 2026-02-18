@@ -377,20 +377,20 @@ cyclic-from-linear
 ;; The cyclic group is the simplest case. The same framework — groups,
 ;; characters, Fourier transform — extends to every finite group:
 ;;
+;; - **Product groups** $G_1 \times G_2$ — componentwise operations, giving
+;;   the 2D DFT as a special case. See the
+;;   [next chapter](product_group_dft.html).
+;;
+;; - **Dihedral groups** $D_n$ — symmetries of regular polygons, used for
+;;   [rosette patterns](symmetry_sketchpad.html),
+;;   [Burnside counting](counting_necklaces.html), and
+;;   [musical pitch classes](chord_geometry.html).
+;;
 ;; - **Symmetric groups** $S_n$ — where characters are indexed by
 ;;   partitions and the Fourier transform produces matrix-valued
 ;;   coefficients. See [Symmetric Groups](symmetric_groups.html),
-;;   [Random Transpositions](random_transpositions.html), and
-;;   [Riffle Shuffles](riffle_shuffle.html).
-;;
-;; - **Dihedral groups** $D_n$ — symmetries of regular polygons, used for
-;;   Burnside counting and musical pitch classes. See
-;;   [Counting Necklaces](counting_necklaces.html) and
-;;   [Chord Geometry](chord_geometry.html).
-;;
-;; - **Product groups** $G_1 \times G_2$ — componentwise operations, giving
-;;   the 2D DFT as a special case. See
-;;   [Hearing Symmetry](hearing_symmetry.html) for $V_4 \cong \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$.
+;;   [Character Theory](character_theory.html), and
+;;   [Random Transpositions](random_transpositions.html).
 ;;
 ;; The harmonica library builds all of these on the same protocol foundation
 ;; demonstrated here.

@@ -3,7 +3,7 @@
 ;; [EJML](https://ejml.org/) (Efficient Java Matrix Library) provides
 ;; fast complex matrix operations via `ZMatrixRMaj`. Because it stores
 ;; complex entries as **interleaved** `double[]` — the same layout as
-;; [ComplexTensor](complex_tensors.qmd) — the two can share memory
+;; [ComplexTensor](complex_tensors.html) — the two can share memory
 ;; with zero copying.
 ;;
 ;; This notebook demonstrates the bridge between harmonica's
@@ -98,8 +98,8 @@
       zm (ejml/ct->zmat ct)
       arr (cx/->double-array ct)]
   ;; Mutate the raw array (shared by both)
-  (aset arr 2 42.0)  ;; re(0,1)
-  (aset arr 3 13.0)  ;; im(0,1)
+  (aset arr 2 42.0) ;; re(0,1)
+  (aset arr 3 13.0) ;; im(0,1)
   ;; Read back via EJML
   (let [c (org.ejml.data.Complex_F64.)]
     (.get ^ZMatrixRMaj zm 0 1 c)
@@ -390,5 +390,5 @@
 ;; decomposition, complex SVD, or Kronecker product. For these,
 ;; use the existing fastmath / Apache Commons Math backend.
 ;;
-;; See [Complex Tensors](complex_tensors.qmd) for the ComplexTensor
+;; See [Complex Tensors](complex_tensors.html) for the ComplexTensor
 ;; API that this namespace builds on.
