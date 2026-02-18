@@ -1,19 +1,19 @@
 {"Getting Started" ["quickstart"]
- "Foundations" ["dft_as_group_fourier"
-                "symmetric_groups"
-                "permutations_and_partitions"
-                "groups_and_structure"
-                "character_theory"
-                "representation_matrices"
-                "group_actions"
-                "complex_tensors"]
- "Applications" ["random_transpositions"
-                 "riffle_shuffle"
-                 "product_group_dft"
-                 "counting_necklaces"
-                 "chord_geometry"
-                 "hearing_symmetry"
-                 "symmetry_sketchpad"]
- "Reference" ["algebraic_identities"
+ "Groups and the DFT" ["groups_and_structure"
+                        "dft_as_group_fourier"
+                        "product_group_dft"]
+ "Groups in Action" ["symmetry_sketchpad"
+                      "counting_necklaces"
+                      "chord_geometry"
+                      "hearing_symmetry"]
+ "Symmetric Groups" ["symmetric_groups"
+                      "character_theory"
+                      "random_transpositions"]
+ "Representation Matrices" ["representation_matrices"
+                             "riffle_shuffle"]
+ "Reference" ["group_actions"
+              "algebraic_identities"
               "sympy_comparison"
+              "complex_tensors"
+              "ejml_integration"
               "api_reference"]}

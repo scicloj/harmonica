@@ -25,7 +25,28 @@
 
 
 (def
- v10_l44
+ v10_l46
+ (let
+  [perms [[0 1 2 3] [1 0 2 3] [1 2 0 3] [1 2 3 0]]]
+  (kind/table
+   {:column-names
+    ["$\\sigma$"
+     "Cycle type"
+     "$\\text{tr}(\\rho(\\sigma))$"
+     "$\\rho(\\sigma)$"],
+    :row-vectors
+    (mapv
+     (fn
+      [sigma]
+      [(str sigma)
+       (str (hm/cycle-type sigma))
+       (format "%.0f" (fm/trace (hm/rep-matrix ir-31 sigma)))
+       (str (hm/rep-matrix ir-31 sigma))])
+     perms)})))
+
+
+(def
+ v12_l70
  (let
   [gens (hm/rep-generators ir-31)]
   (kind/table
@@ -35,7 +56,7 @@
 
 
 (def
- v12_l60
+ v14_l85
  (defn
   mat-err
   "Frobenius norm of the difference of two matrices."
@@ -46,7 +67,7 @@
 
 
 (def
- v13_l66
+ v15_l91
  (let
   [G (hm/symmetric-group 4) elts (vec (hm/elements G))]
   (every?
@@ -63,11 +84,11 @@
    (for [a elts b elts] [a b]))))
 
 
-(deftest t14_l76 (is (true? v13_l66)))
+(deftest t16_l101 (is (true? v15_l91)))
 
 
 (def
- v16_l83
+ v18_l108
  (defn
   identity-matrix
   [d]
@@ -78,7 +99,7 @@
 
 
 (def
- v17_l87
+ v19_l112
  (let
   [G
    (hm/symmetric-group 4)
@@ -95,49 +116,11 @@
    (hm/elements G))))
 
 
-(deftest t18_l96 (is (true? v17_l87)))
+(deftest t20_l121 (is (true? v19_l112)))
 
 
 (def
- v20_l107
- (let
-  [sigma [1 0 2 3]]
-  {:trace (fm/trace (hm/rep-matrix ir-31 sigma)),
-   :character (hm/rep-character ir-31 sigma)}))
-
-
-(def
- v22_l113
- (let
-  [G
-   (hm/symmetric-group 4)
-   ct
-   (hm/character-table G)
-   classes
-   (:classes ct)
-   class-idx
-   (into {} (map-indexed (fn [i c] [c i]) classes))
-   row-idx
-   (.indexOf (:irrep-labels ct) [3 1])
-   row
-   (nth (:table ct) row-idx)]
-  (every?
-   (fn
-    [sigma]
-    (let
-     [chi-val
-      (cx/re (row (class-idx (hm/cycle-type sigma))))
-      trace-val
-      (hm/rep-character ir-31 sigma)]
-     (< (Math/abs (- chi-val trace-val)) 1.0E-8)))
-   (hm/elements G))))
-
-
-(deftest t23_l125 (is (true? v22_l113)))
-
-
-(def
- v25_l134
+ v22_l128
  (let
   [d
    (hm/rep-dimension ir-31)
@@ -148,11 +131,11 @@
   (< (mat-err rho-e I) 1.0E-10)))
 
 
-(deftest t26_l139 (is (true? v25_l134)))
+(deftest t23_l133 (is (true? v22_l128)))
 
 
 (def
- v27_l141
+ v24_l135
  (let
   [G (hm/symmetric-group 4) sigma [2 0 3 1]]
   (<
@@ -162,11 +145,11 @@
    1.0E-10)))
 
 
-(deftest t28_l147 (is (true? v27_l141)))
+(deftest t25_l141 (is (true? v24_l135)))
 
 
 (def
- v30_l161
+ v27_l154
  (let
   [gens
    (hm/rep-generators ir-31)
@@ -212,12 +195,12 @@
 
 
 (deftest
- t31_l191
- (is ((fn [result] (every? true? (vals result))) v30_l161)))
+ t28_l181
+ (is ((fn [result] (every? true? (vals result))) v27_l154)))
 
 
 (def
- v33_l206
+ v30_l193
  (let
   [G
    (hm/symmetric-group 3)
@@ -243,12 +226,12 @@
 
 
 (deftest
- t34_l221
- (is ((fn [result] (< (:difference result) 1.0E-10)) v33_l206)))
+ t31_l208
+ (is ((fn [result] (< (:difference result) 1.0E-10)) v30_l193)))
 
 
 (def
- v36_l230
+ v33_l222
  (let
   [ir1
    (hm/irrep [2 1])
@@ -262,16 +245,16 @@
 
 
 (deftest
- t37_l237
+ t34_l229
  (is
   ((fn
     [{:keys [dim-ir1 dim-ir2 dim-tensor]}]
     (= dim-tensor (* dim-ir1 dim-ir2)))
-   v36_l230)))
+   v33_l222)))
 
 
 (def
- v39_l243
+ v36_l235
  (let
   [G
    (hm/symmetric-group 3)
@@ -295,43 +278,20 @@
    (hm/elements G))))
 
 
-(deftest t40_l254 (is (true? v39_l243)))
+(deftest t37_l246 (is (true? v36_l235)))
 
 
 (def
- v42_l262
+ v39_l250
  (let
   [ir1
    (hm/irrep [2 1])
    ir2
    (hm/irrep [1 1 1])
    ds
-   (hm/direct-sum ir1 ir2)]
-  {:dim-ir1 (hm/rep-dimension ir1),
-   :dim-ir2 (hm/rep-dimension ir2),
-   :dim-sum (hm/rep-dimension ds)}))
-
-
-(deftest
- t43_l269
- (is
-  ((fn
-    [{:keys [dim-ir1 dim-ir2 dim-sum]}]
-    (= dim-sum (+ dim-ir1 dim-ir2)))
-   v42_l262)))
-
-
-(def
- v45_l275
- (let
-  [G
-   (hm/symmetric-group 3)
-   ir1
-   (hm/irrep [2 1])
-   ir2
-   (hm/irrep [1 1 1])
-   ds
-   (hm/direct-sum ir1 ir2)]
+   (hm/direct-sum ir1 ir2)
+   G
+   (hm/symmetric-group 3)]
   (every?
    (fn
     [sigma]
@@ -346,11 +306,11 @@
    (hm/elements G))))
 
 
-(deftest t46_l286 (is (true? v45_l275)))
+(deftest t40_l261 (is (true? v39_l250)))
 
 
 (def
- v48_l308
+ v42_l278
  (let
   [G
    (hm/symmetric-group 4)
@@ -437,5 +397,5 @@
 
 
 (deftest
- t49_l352
- (is ((fn [result] (every? true? (vals result))) v48_l308)))
+ t43_l320
+ (is ((fn [result] (every? true? (vals result))) v42_l278)))

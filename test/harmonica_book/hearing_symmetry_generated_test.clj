@@ -58,7 +58,7 @@
    [inverted
     (if
      (= i 1)
-     (mapv (fn* [p1__64281#] (- (* 2 pivot) p1__64281#)) melody)
+     (mapv (fn* [p1__86500#] (- (* 2 pivot) p1__86500#)) melody)
      melody)
     retrograded
     (if (= r 1) (vec (reverse inverted)) inverted)]
@@ -91,8 +91,8 @@
        (str
         (mapv
          (fn*
-          [p1__64282#]
-          (get note-names p1__64282# (str p1__64282#)))
+          [p1__86501#]
+          (get note-names p1__86501# (str p1__86501#)))
          result))}))
     (hm/elements V4))]
   (kind/table
@@ -168,7 +168,7 @@
   transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv (fn* [p1__64283#] (+ p1__64283# (long k))) melody)))
+  (mapv (fn* [p1__86502#] (+ p1__86502# (long k))) melody)))
 
 
 (def
@@ -184,10 +184,10 @@
        (str
         (mapv
          (fn*
-          [p1__64284#]
-          (get note-names (mod p1__64284# 12) (str p1__64284#)))
+          [p1__86503#]
+          (get note-names (mod p1__86503# 12) (str p1__86503#)))
          (mapv
-          (fn* [p1__64285#] (+ 60 (mod (- p1__64285# 60) 12)))
+          (fn* [p1__86504#] (+ 60 (mod (- p1__86504# 60) 12)))
           transposed)))]))
     (range 12))]
   (kind/table
@@ -226,7 +226,7 @@
     pivot
     (first row)
     inversion
-    (mapv (fn* [p1__64286#] (mod (- (* 2 pivot) p1__64286#) 12)) row)
+    (mapv (fn* [p1__86505#] (mod (- (* 2 pivot) p1__86505#) 12)) row)
     ri
     (vec (reverse inversion))
     base-forms
@@ -238,7 +238,7 @@
       :form-type form-name,
       :transposition k,
       :row
-      (mapv (fn* [p1__64287#] (mod (+ p1__64287# k) 12)) form)})))))
+      (mapv (fn* [p1__86506#] (mod (+ p1__86506# k) 12)) form)})))))
 
 
 (def v34_l213 (let [forms (row-forms schoenberg-row)] (count forms)))
@@ -255,8 +255,8 @@
    selected
    (filterv
     (fn*
-     [p1__64288#]
-     (contains? #{0 6 3 9} (:transposition p1__64288#)))
+     [p1__86507#]
+     (contains? #{0 6 3 9} (:transposition p1__86507#)))
     forms)
    selected
    (take 16 (sort-by (juxt :form-type :transposition) selected))]

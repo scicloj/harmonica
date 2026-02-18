@@ -6,84 +6,84 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l41 (def C12 (hm/cyclic-group 12)))
+(def v3_l36 (def C12 (hm/cyclic-group 12)))
 
 
-(def v4_l43 (hm/order C12))
+(def v4_l38 (hm/order C12))
 
 
-(deftest t5_l45 (is (= v4_l43 12)))
+(deftest t5_l40 (is (= v4_l38 12)))
 
 
-(def v7_l49 (hm/id C12))
+(def v7_l44 (hm/id C12))
 
 
-(deftest t8_l51 (is (= v7_l49 0)))
+(deftest t8_l46 (is (= v7_l44 0)))
 
 
-(def v10_l55 (hm/op C12 7 8))
+(def v10_l50 (hm/op C12 7 8))
 
 
-(deftest t11_l57 (is (= v10_l55 3)))
+(deftest t11_l52 (is (= v10_l50 3)))
 
 
-(def v13_l61 (hm/inv C12 5))
+(def v13_l56 (hm/inv C12 5))
 
 
-(deftest t14_l63 (is (= v13_l61 7)))
+(deftest t14_l58 (is (= v13_l56 7)))
 
 
-(def v16_l82 (def D4 (hm/dihedral-group 4)))
+(def v16_l88 (def D4 (hm/dihedral-group 4)))
 
 
-(def v17_l84 (hm/order D4))
+(def v17_l90 (hm/order D4))
 
 
-(deftest t18_l86 (is (= v17_l84 8)))
+(deftest t18_l92 (is (= v17_l90 8)))
 
 
-(def v20_l90 (hm/id D4))
+(def v20_l96 (hm/id D4))
 
 
-(deftest t21_l92 (is (= v20_l90 [:r 0])))
+(deftest t21_l98 (is (= v20_l96 [:r 0])))
 
 
-(def v23_l96 (vec (hm/elements D4)))
+(def v23_l102 (vec (hm/elements D4)))
 
 
-(def v25_l100 (hm/op D4 [:r 1] [:r 2]))
+(def v25_l106 (hm/op D4 [:r 1] [:r 2]))
 
 
-(deftest t26_l102 (is (= v25_l100 [:r 3])))
+(deftest t26_l108 (is (= v25_l106 [:r 3])))
 
 
-(def v28_l106 (hm/op D4 [:r 1] [:s 0]))
+(def v28_l112 (hm/op D4 [:r 1] [:s 0]))
 
 
-(def v30_l110 (hm/op D4 [:s 0] [:s 0]))
+(def v30_l116 (hm/op D4 [:s 0] [:s 0]))
 
 
-(deftest t31_l112 (is (= v30_l110 [:r 0])))
+(deftest t31_l118 (is (= v30_l116 [:r 0])))
 
 
-(def v33_l120 (hm/op D4 [:r 1] [:s 0]))
+(def v33_l126 (hm/op D4 [:r 1] [:s 0]))
 
 
-(def v34_l122 (hm/op D4 [:s 0] [:r 1]))
+(def v34_l128 (hm/op D4 [:s 0] [:r 1]))
 
 
 (def
- v35_l124
+ v35_l130
  (let
   [a (hm/op D4 [:r 1] [:s 0]) b (hm/op D4 [:s 0] [:r 1])]
   (not= a b)))
 
 
-(deftest t36_l128 (is (true? v35_l124)))
+(deftest t36_l134 (is (true? v35_l130)))
 
 
 (def
- v38_l140
+ v38_l146
  (let
   [e
    (hm/id D4)
@@ -102,62 +102,62 @@
   {"r⁴ = e" (= r4 e), "s² = e" (= s2 e), "srs = r⁻¹" (= srs r-inv)}))
 
 
-(deftest t39_l151 (is ((fn [m] (every? true? (vals m))) v38_l140)))
+(deftest t39_l157 (is ((fn [m] (every? true? (vals m))) v38_l146)))
 
 
-(def v41_l161 (def S3 (hm/symmetric-group 3)))
+(def v41_l172 (def S3 (hm/symmetric-group 3)))
 
 
-(def v42_l163 (hm/order S3))
+(def v42_l174 (hm/order S3))
 
 
-(deftest t43_l165 (is (= v42_l163 6)))
+(deftest t43_l176 (is (= v42_l174 6)))
 
 
-(def v45_l170 (hm/op S3 [1 2 0] [0 2 1]))
+(def v45_l181 (hm/op S3 [1 2 0] [0 2 1]))
 
 
 (def
- v47_l174
+ v47_l185
  (let [a [1 2 0] b [0 2 1]] (not= (hm/op S3 a b) (hm/op S3 b a))))
 
 
-(deftest t48_l177 (is (true? v47_l174)))
+(deftest t48_l188 (is (true? v47_l185)))
 
 
 (def
- v50_l188
+ v50_l199
  (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2))))
 
 
-(def v51_l190 (hm/order V4))
+(def v51_l201 (hm/order V4))
 
 
-(deftest t52_l192 (is (= v51_l190 4)))
+(deftest t52_l203 (is (= v51_l201 4)))
 
 
-(def v53_l194 (vec (hm/elements V4)))
+(def v53_l205 (vec (hm/elements V4)))
 
 
 (def
- v55_l198
+ v55_l209
  (every? (fn [g] (= (hm/op V4 g g) (hm/id V4))) (hm/elements V4)))
 
 
-(deftest t56_l201 (is (true? v55_l198)))
+(deftest t56_l212 (is (true? v55_l209)))
 
 
 (def
- v58_l206
+ v58_l225
  (hm/order
   (hm/product-group (hm/dihedral-group 3) (hm/cyclic-group 2))))
 
 
-(deftest t59_l208 (is (= v58_l206 12)))
+(deftest t59_l227 (is (= v58_l225 12)))
 
 
 (def
- v61_l226
+ v61_l245
  (every?
   (fn
    [g]
@@ -165,11 +165,11 @@
   (hm/elements D4)))
 
 
-(deftest t62_l231 (is (true? v61_l226)))
+(deftest t62_l250 (is (true? v61_l245)))
 
 
 (def
- v64_l235
+ v64_l254
  (every?
   (fn
    [g]
@@ -179,11 +179,11 @@
   (hm/elements D4)))
 
 
-(deftest t65_l242 (is (true? v64_l235)))
+(deftest t65_l261 (is (true? v64_l254)))
 
 
 (def
- v67_l246
+ v67_l265
  (let
   [elts (vec (hm/elements D4))]
   (every?
@@ -193,11 +193,11 @@
    (for [a elts b elts c elts] [a b c]))))
 
 
-(deftest t68_l252 (is (true? v67_l246)))
+(deftest t68_l271 (is (true? v67_l265)))
 
 
 (def
- v70_l273
+ v70_l296
  (let
   [classes (hm/conjugacy-classes D4)]
   (kind/table
@@ -211,23 +211,23 @@
 
 
 (def
- v72_l283
+ v72_l306
  (let
   [classes (hm/conjugacy-classes D4)]
   (reduce + (map :size classes))))
 
 
-(deftest t73_l286 (is (= v72_l283 8)))
+(deftest t73_l309 (is (= v72_l306 8)))
 
 
-(def v75_l298 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4))))
+(def v75_l318 (kind/hiccup (hm/cayley-table-svg (hm/cyclic-group 4))))
 
 
-(def v77_l302 (kind/hiccup (hm/cayley-table-svg (hm/dihedral-group 3))))
+(def v77_l322 (kind/hiccup (hm/cayley-table-svg (hm/dihedral-group 3))))
 
 
 (def
- v79_l318
+ v79_l336
  (kind/table
   {:column-names ["Group" "Order" "# Classes"],
    :row-vectors

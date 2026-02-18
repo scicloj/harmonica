@@ -10,12 +10,12 @@
 
 
 (def
- v3_l21
+ v3_l26
  (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
 
 
 (def
- v4_l24
+ v4_l29
  (defn
   dihedral-vertex-action
   [n]
@@ -30,7 +30,7 @@
 
 
 (def
- v6_l44
+ v6_l49
  (let
   [n
    4
@@ -46,11 +46,11 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__63872#] (first (sort p1__63872#))) orbs))})))
+     (sort-by (fn* [p1__86091#] (first (sort p1__86091#))) orbs))})))
 
 
 (def
- v8_l56
+ v8_l61
  (let
   [n
    4
@@ -63,11 +63,11 @@
   (count orbs)))
 
 
-(deftest t9_l62 (is (= v8_l56 6)))
+(deftest t9_l67 (is (= v8_l61 6)))
 
 
 (def
- v11_l73
+ v11_l78
  (let
   [n
    6
@@ -90,7 +90,7 @@
 
 
 (def
- v13_l88
+ v13_l93
  (let
   [n
    6
@@ -101,11 +101,11 @@
   (hm/burnside-count G act domain)))
 
 
-(deftest t14_l93 (is (= v13_l88 14)))
+(deftest t14_l98 (is (= v13_l93 14)))
 
 
 (def
- v16_l102
+ v16_l107
  (let
   [n
    6
@@ -122,7 +122,7 @@
 
 
 (def
- v18_l114
+ v18_l119
  (let
   [n
    6
@@ -133,11 +133,11 @@
   (reduce + (vals ci))))
 
 
-(deftest t19_l119 (is (= v18_l114 1)))
+(deftest t19_l124 (is (= v18_l119 1)))
 
 
 (def
- v21_l124
+ v21_l129
  (let
   [n
    6
@@ -152,7 +152,7 @@
 
 
 (def
- v23_l134
+ v23_l139
  (let
   [n
    6
@@ -163,11 +163,11 @@
   (hm/polya-count ci 2)))
 
 
-(deftest t24_l139 (is (= v23_l134 14)))
+(deftest t24_l144 (is (= v23_l139 14)))
 
 
 (def
- v25_l141
+ v25_l146
  (let
   [n
    6
@@ -178,11 +178,11 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t26_l146 (is (= v25_l141 130)))
+(deftest t26_l151 (is (= v25_l146 130)))
 
 
 (def
- v28_l153
+ v28_l158
  (let
   [results
    (mapv
@@ -212,7 +212,7 @@
 
 
 (def
- v30_l171
+ v30_l176
  (let
   [n
    6
@@ -223,11 +223,11 @@
   (hm/burnside-count G-d act-d domain-d)))
 
 
-(deftest t31_l176 (is (= v30_l171 13)))
+(deftest t31_l181 (is (= v30_l176 13)))
 
 
 (def
- v33_l187
+ v33_l192
  (let
   [data
    (vec
@@ -267,7 +267,7 @@
 
 
 (def
- v35_l220
+ v35_l225
  (let
   [G
    (hm/symmetric-group 4)
@@ -286,7 +286,7 @@
 
 
 (def
- v36_l242
+ v36_l247
  (let
   [cube-cycle-index
    {[1 1 1 1 1 1] 1/24,
@@ -300,4 +300,4 @@
    (hm/polya-count cube-cycle-index 6)]))
 
 
-(deftest t37_l252 (is (= v36_l242 [1 10 57 2226])))
+(deftest t37_l257 (is (= v36_l247 [1 10 57 2226])))

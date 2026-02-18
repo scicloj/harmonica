@@ -7,32 +7,32 @@
 
 
 (def
- v3_l21
+ v3_l27
  (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
 
 
 (def
- v5_l27
+ v5_l33
  (let
   [G (hm/cyclic-group 5) act (rotation-action 5)]
   (hm/orbit G act 0)))
 
 
-(deftest t6_l31 (is (= v5_l27 #{0 1 4 3 2})))
+(deftest t6_l37 (is (= v5_l33 #{0 1 4 3 2})))
 
 
 (def
- v8_l35
+ v8_l41
  (let
   [G (hm/cyclic-group 5) act (rotation-action 5)]
   (count (hm/orbits G act (range 5)))))
 
 
-(deftest t9_l39 (is (= v8_l35 1)))
+(deftest t9_l45 (is (= v8_l41 1)))
 
 
 (def
- v11_l48
+ v11_l54
  (defn
   dihedral-vertex-action
   [n]
@@ -47,17 +47,17 @@
 
 
 (def
- v13_l56
+ v13_l62
  (let
   [G (hm/dihedral-group 4) act (dihedral-vertex-action 4)]
   (count (hm/orbits G act (range 4)))))
 
 
-(deftest t14_l60 (is (= v13_l56 1)))
+(deftest t14_l66 (is (= v13_l62 1)))
 
 
 (def
- v16_l70
+ v16_l76
  (let
   [results
    (for
@@ -81,11 +81,11 @@
   (every? true? results)))
 
 
-(deftest t17_l81 (is (true? v16_l70)))
+(deftest t17_l87 (is (true? v16_l76)))
 
 
 (def
- v19_l85
+ v19_l91
  (let
   [results
    (for
@@ -104,11 +104,11 @@
   (every? true? results)))
 
 
-(deftest t20_l95 (is (true? v19_l85)))
+(deftest t20_l101 (is (true? v19_l91)))
 
 
 (def
- v22_l102
+ v22_l108
  (let
   [results
    (for
@@ -132,21 +132,21 @@
   (every? true? results)))
 
 
-(deftest t23_l116 (is (true? v22_l102)))
+(deftest t23_l122 (is (true? v22_l108)))
 
 
 (def
- v25_l124
+ v25_l130
  (let
   [G (hm/dihedral-group 6) act (dihedral-vertex-action 6) e (hm/id G)]
   (count (hm/fixed-points act e (range 6)))))
 
 
-(deftest t26_l129 (is (= v25_l124 6)))
+(deftest t26_l135 (is (= v25_l130 6)))
 
 
 (def
- v28_l133
+ v28_l139
  (let
   [results
    (for
@@ -157,11 +157,11 @@
   (every? true? results)))
 
 
-(deftest t29_l139 (is (true? v28_l133)))
+(deftest t29_l145 (is (true? v28_l139)))
 
 
 (def
- v31_l143
+ v31_l149
  (let
   [results
    (for
@@ -175,11 +175,11 @@
   (every? true? results)))
 
 
-(deftest t32_l152 (is (true? v31_l143)))
+(deftest t32_l158 (is (true? v31_l149)))
 
 
 (def
- v34_l167
+ v34_l173
  (let
   [results
    (for
@@ -197,11 +197,11 @@
   (every? true? results)))
 
 
-(deftest t35_l177 (is (true? v34_l167)))
+(deftest t35_l183 (is (true? v34_l173)))
 
 
 (def
- v37_l181
+ v37_l187
  (let
   [results
    (for
@@ -219,17 +219,17 @@
   (every? true? results)))
 
 
-(deftest t38_l191 (is (true? v37_l181)))
+(deftest t38_l197 (is (true? v37_l187)))
 
 
-(def v40_l198 (def known-necklaces [2 3 4 6 8 14 20 36 60]))
+(def v40_l204 (def known-necklaces [2 3 4 6 8 14 20 36 60]))
 
 
-(def v41_l199 (def known-bracelets [2 3 4 6 8 13 18 30 46]))
+(def v41_l205 (def known-bracelets [2 3 4 6 8 13 18 30 46]))
 
 
 (def
- v42_l201
+ v42_l207
  (let
   [results
    (for
@@ -245,11 +245,11 @@
   (every? true? results)))
 
 
-(deftest t43_l208 (is (true? v42_l201)))
+(deftest t43_l214 (is (true? v42_l207)))
 
 
 (def
- v44_l210
+ v44_l216
  (let
   [results
    (for
@@ -265,11 +265,11 @@
   (every? true? results)))
 
 
-(deftest t45_l217 (is (true? v44_l210)))
+(deftest t45_l223 (is (true? v44_l216)))
 
 
 (def
- v47_l228
+ v47_l234
  (let
   [G
    (hm/cyclic-group 4)
@@ -280,11 +280,11 @@
   (= 1 (reduce + (vals ci)))))
 
 
-(deftest t48_l233 (is (true? v47_l228)))
+(deftest t48_l239 (is (true? v47_l234)))
 
 
 (def
- v50_l237
+ v50_l243
  (let
   [results
    (concat
@@ -311,11 +311,11 @@
   (every? true? results)))
 
 
-(deftest t51_l251 (is (true? v50_l237)))
+(deftest t51_l257 (is (true? v50_l243)))
 
 
 (def
- v53_l260
+ v53_l266
  (let
   [results
    (for
@@ -337,11 +337,11 @@
   (every? true? results)))
 
 
-(deftest t54_l272 (is (true? v53_l260)))
+(deftest t54_l278 (is (true? v53_l266)))
 
 
 (def
- v56_l276
+ v56_l282
  (let
   [results
    (for
@@ -363,11 +363,11 @@
   (every? true? results)))
 
 
-(deftest t57_l288 (is (true? v56_l276)))
+(deftest t57_l294 (is (true? v56_l282)))
 
 
 (def
- v59_l294
+ v59_l300
  (let
   [results
    (for
@@ -383,11 +383,11 @@
   (every? true? results)))
 
 
-(deftest t60_l303 (is (true? v59_l294)))
+(deftest t60_l309 (is (true? v59_l300)))
 
 
 (def
- v62_l310
+ v62_l316
  (let
   [G
    (hm/cyclic-group 100)
@@ -398,11 +398,11 @@
   (hm/polya-count ci 2)))
 
 
-(deftest t63_l315 (is (= v62_l310 12676506002282305273966813560N)))
+(deftest t63_l321 (is (= v62_l316 12676506002282305273966813560N)))
 
 
 (def
- v65_l323
+ v65_l329
  (let
   [results
    (for
@@ -420,11 +420,11 @@
   (every? true? results)))
 
 
-(deftest t66_l333 (is (true? v65_l323)))
+(deftest t66_l339 (is (true? v65_l329)))
 
 
 (def
- v68_l339
+ v68_l345
  (let
   [results
    (for
@@ -448,4 +448,4 @@
   (every? true? results)))
 
 
-(deftest t69_l353 (is (true? v68_l339)))
+(deftest t69_l359 (is (true? v68_l345)))
