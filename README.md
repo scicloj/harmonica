@@ -91,13 +91,17 @@ available but rarely needed directly.
 
 - [dtype-next](https://github.com/cnuernber/dtype-next) — array/tensor numerics
 - [fastmath](https://github.com/generateme/fastmath) — matrix operations
-- [tablecloth](https://github.com/scicloj/tablecloth) / [tableplot](https://github.com/scicloj/tableplot) — data and visualization
+
+The [book notebooks](https://scicloj.github.io/harmonica/) also use
+[tablecloth](https://github.com/scicloj/tablecloth),
+[tableplot](https://github.com/scicloj/tableplot), and
+[kindly](https://github.com/scicloj/kindly) (included in the `:dev` and `:test` aliases).
 
 ## Development
 
 ```bash
 clojure -M:dev -m nrepl.cmdline   # start REPL
-./run_tests.sh                     # run tests (496 tests, 3500+ assertions)
+./run_tests.sh                     # run tests (487 tests, 3498 assertions)
 clojure -T:build ci                # test + build JAR
 ```
 
