@@ -30,6 +30,8 @@
 
 (def G (hm/symmetric-group 4))
 
+G
+
 (hm/order G)
 
 (kind/test-last

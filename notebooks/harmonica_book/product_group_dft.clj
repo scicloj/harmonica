@@ -56,6 +56,8 @@
 
 (def ct (hm/character-table G))
 
+ct
+
 (count (:irrep-labels ct))
 
 (kind/test-last [= 12])
@@ -101,6 +103,8 @@
 (def signal (cx/complex-tensor-real image-data))
 
 (def f-hat (hm/fourier-transform ct signal))
+
+f-hat
 
 ;; The DC component ($k = 0$) is the sum of all pixel values:
 

@@ -107,6 +107,8 @@
 
 (def ct (hm/character-table G))
 
+ct
+
 ;; All entries have magnitude 1 (they lie on the unit circle).
 
 (allclose? (cx/cabs (:table ct)) 1.0)
@@ -157,7 +159,11 @@
 
 (def signal (cx/complex-tensor-real temperatures))
 
+signal
+
 (def f-hat (hm/fourier-transform ct signal))
+
+f-hat
 
 ;; The $k = 0$ coefficient is the sum of all values (the DC component).
 

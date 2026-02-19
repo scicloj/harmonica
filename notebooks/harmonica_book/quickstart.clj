@@ -84,6 +84,8 @@
 
 (def f-hat (hm/fourier-transform ct (cx/complex-tensor-real temperatures)))
 
+f-hat
+
 ;; The Fourier magnitudes reveal which frequencies carry the signal's energy:
 
 (let [n 24

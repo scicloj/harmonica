@@ -28,6 +28,8 @@
 
 (def ir-31 (hm/irrep [3 1]))
 
+ir-31
+
 (hm/rep-dimension ir-31)
 
 (kind/test-last [= 3])
