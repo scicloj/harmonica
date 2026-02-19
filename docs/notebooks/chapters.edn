@@ -11,7 +11,8 @@
                       "random_transpositions"]
  "Representation Matrices" ["representation_matrices"
                              "riffle_shuffle"]
- "Reference" ["group_actions"
+ "Reference" ["book_helpers"
+              "group_actions"
               "algebraic_identities"
               "sympy_comparison"
               "complex_tensors"

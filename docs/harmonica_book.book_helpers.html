@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>harmonica</title>
+<title>15&nbsp; Helper Functions – harmonica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./harmonica_book.quickstart.html" rel="next">
+<link href="./harmonica_book.group_actions.html" rel="next">
+<link href="./harmonica_book.riffle_shuffle.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -117,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.book_helpers.html">Reference</a></li><li class="breadcrumb-item"><a href="./harmonica_book.book_helpers.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -146,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
@@ -294,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./harmonica_book.book_helpers.html" class="sidebar-item-text sidebar-link">
+  <a href="./harmonica_book.book_helpers.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></span></a>
   </div>
 </li>
@@ -341,42 +342,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface"><span class="header-section-number">1</span> Preface</a>
-  <ul>
-  <li><a href="#general-info" id="toc-general-info" class="nav-link" data-scroll-target="#general-info">General info</a></li>
-  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features">Features</a>
-  <ul class="collapse">
-  <li><a href="#groups" id="toc-groups" class="nav-link" data-scroll-target="#groups">Groups</a></li>
-  <li><a href="#permutations-and-partitions" id="toc-permutations-and-partitions" class="nav-link" data-scroll-target="#permutations-and-partitions">Permutations and partitions</a></li>
-  <li><a href="#character-tables" id="toc-character-tables" class="nav-link" data-scroll-target="#character-tables">Character tables</a></li>
-  <li><a href="#fourier-analysis" id="toc-fourier-analysis" class="nav-link" data-scroll-target="#fourier-analysis">Fourier analysis</a></li>
-  <li><a href="#representations" id="toc-representations" class="nav-link" data-scroll-target="#representations">Representations</a></li>
-  <li><a href="#group-actions" id="toc-group-actions" class="nav-link" data-scroll-target="#group-actions">Group actions</a></li>
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
-  </ul></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#api" id="toc-api" class="nav-link" data-scroll-target="#api">API</a></li>
-  <li><a href="#built-on" id="toc-built-on" class="nav-link" data-scroll-target="#built-on">Built on</a></li>
-  <li><a href="#development" id="toc-development" class="nav-link" data-scroll-target="#development">Development</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  <li><a href="#chapters-in-this-book" id="toc-chapters-in-this-book" class="nav-link" data-scroll-target="#chapters-in-this-book">Chapters in this book</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.book_helpers.html">Reference</a></li><li class="breadcrumb-item"><a href="./harmonica_book.book_helpers.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">harmonica</h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></h1>
 </div>
 
 
@@ -405,148 +379,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<section id="preface" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Preface</h1>
-<p><strong>Computational <a href="https://en.wikipedia.org/wiki/Group_theory">group theory</a> and <a href="https://en.wikipedia.org/wiki/Representation_theory">representation theory</a> in <a href="https://clojure.org/">Clojure</a></strong></p>
-<p>Harmonica is a library for working with <a href="https://en.wikipedia.org/wiki/Finite_group">finite groups</a>, their <a href="https://en.wikipedia.org/wiki/Group_representation">representations</a>, and <a href="https://en.wikipedia.org/wiki/Fourier_analysis_on_finite_groups">Fourier analysis</a>. It covers <a href="https://en.wikipedia.org/wiki/Cyclic_group">cyclic</a>, <a href="https://en.wikipedia.org/wiki/Dihedral_group">dihedral</a>, <a href="https://en.wikipedia.org/wiki/Symmetric_group">symmetric</a>, and <a href="https://en.wikipedia.org/wiki/Direct_product_of_groups">product</a> groups, with applications to combinatorics, signal processing, and card shuffling.</p>
-<section id="general-info" class="level2">
-<h2 class="anchored" data-anchor-id="general-info">General info</h2>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td>Website</td>
-<td><a href="https://scicloj.github.io/harmonica/">https://scicloj.github.io/harmonica/</a></td>
-</tr>
-<tr class="even">
-<td>Source</td>
-<td><a href="https://github.com/scicloj/harmonica"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&amp;logo=github&amp;logoColor=white" class="img-fluid" alt="(GitHub repo)"></a></td>
-</tr>
-<tr class="odd">
-<td>Deps</td>
-<td><a href="https://clojars.org/org.scicloj/harmonica"><img src="https://img.shields.io/clojars/v/org.scicloj/harmonica.svg" class="img-fluid" alt="Clojars Project"></a></td>
-</tr>
-<tr class="even">
-<td>License</td>
-<td><a href="https://github.com/scicloj/harmonica/blob/main/LICENSE">MIT</a></td>
-</tr>
-<tr class="odd">
-<td>Status</td>
-<td>🛠alpha🛠</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="features" class="level2">
-<h2 class="anchored" data-anchor-id="features">Features</h2>
-<section id="groups" class="level3">
-<h3 class="anchored" data-anchor-id="groups">Groups</h3>
-<ul>
-<li><strong>Cyclic groups</strong> Z/nZ, <strong>dihedral groups</strong> D_n, <strong>symmetric groups</strong> S_n, <strong>product groups</strong> G₁ × G₂</li>
-<li>Uniform protocol — <code>op</code>, <code>inv</code>, <code>id</code>, <code>elements</code>, <code>order</code>, <a href="https://en.wikipedia.org/wiki/Conjugacy_class"><code>conjugacy-classes</code></a></li>
-</ul>
-</section>
-<section id="permutations-and-partitions" class="level3">
-<h3 class="anchored" data-anchor-id="permutations-and-partitions">Permutations and partitions</h3>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Cyclic_permutation#Cycle_notation">Cycle decomposition</a>, cycle type, <a href="https://en.wikipedia.org/wiki/Parity_of_a_permutation">sign</a>, composition, inverse</li>
-<li><a href="https://en.wikipedia.org/wiki/Partition_(number_theory)">Partition</a> enumeration, <a href="https://en.wikipedia.org/wiki/Partition_(number_theory)#Conjugate_and_self-conjugate_partitions">conjugate partitions</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Young_tableau">Standard Young tableaux</a>, <a href="https://en.wikipedia.org/wiki/Hook_length_formula">hook-length formula</a></li>
-</ul>
-</section>
-<section id="character-tables" class="level3">
-<h3 class="anchored" data-anchor-id="character-tables"><a href="https://en.wikipedia.org/wiki/Character_table">Character tables</a></h3>
-<ul>
-<li>Cyclic (<a href="https://en.wikipedia.org/wiki/Discrete_Fourier_transform">DFT matrix</a>), dihedral, symmetric (<a href="https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule">Murnaghan-Nakayama rule</a>), product (<a href="https://en.wikipedia.org/wiki/Kronecker_product">Kronecker product</a>)</li>
-<li>Character inner product, <a href="https://en.wikipedia.org/wiki/Schur_orthogonality_relations">orthogonality relations</a></li>
-</ul>
-</section>
-<section id="fourier-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="fourier-analysis">Fourier analysis</h3>
-<ul>
-<li>Forward and inverse Fourier transform on any finite <a href="https://en.wikipedia.org/wiki/Abelian_group">abelian group</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Convolution">Convolution</a> via pointwise multiplication in the Fourier domain</li>
-<li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Total variation distance</a> between distributions</li>
-</ul>
-</section>
-<section id="representations" class="level3">
-<h3 class="anchored" data-anchor-id="representations"><a href="https://en.wikipedia.org/wiki/Irreducible_representation">Representations</a></h3>
-<ul>
-<li>Irreducible representations of S_n via <a href="https://en.wikipedia.org/wiki/Young%27s_orthogonal_form">Young’s orthogonal form</a></li>
-<li>Matrix Fourier transform (matrix-valued coefficients)</li>
-<li><a href="https://en.wikipedia.org/wiki/Tensor_product_of_representations">Tensor product</a>, <a href="https://en.wikipedia.org/wiki/Direct_sum_of_modules">direct sum</a>, <a href="https://en.wikipedia.org/wiki/Restricted_representation">restriction</a>, <a href="https://en.wikipedia.org/wiki/Induced_representation">induction</a>, <a href="https://en.wikipedia.org/wiki/Branching_rule">branching rule</a></li>
-</ul>
-</section>
-<section id="group-actions" class="level3">
-<h3 class="anchored" data-anchor-id="group-actions"><a href="https://en.wikipedia.org/wiki/Group_action">Group actions</a></h3>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers">Orbits</a>, <a href="https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers">stabilizers</a>, fixed points</li>
-<li><a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma">Burnside’s lemma</a>, <a href="https://en.wikipedia.org/wiki/Cycle_index">cycle index</a>, <a href="https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem">Pólya enumeration</a></li>
-<li>Subset actions, coloring actions</li>
-</ul>
-</section>
-<section id="visualization" class="level3">
-<h3 class="anchored" data-anchor-id="visualization">Visualization</h3>
-<ul>
-<li>SVG: <a href="https://en.wikipedia.org/wiki/Young_diagram">Young diagrams</a>, hook diagrams, standard Young tableaux, cycle diagrams</li>
-<li>SVG: <a href="https://en.wikipedia.org/wiki/Cayley_table">Cayley tables</a>, <a href="https://en.wikipedia.org/wiki/Cayley_graph">Cayley graphs</a></li>
-</ul>
-</section>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Add to your <code>deps.edn</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:deps</span> {org.scicloj/harmonica {<span class="at">:mvn/version</span> <span class="st">"0.1.0"</span>}}}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<p>The <a href="https://scicloj.github.io/harmonica/">Harmonica book</a> is organized for incremental learning, interleaving theory with applications — from the DFT and rosette patterns through necklace counting, music theory, and card shuffling.</p>
-</section>
-<section id="api" class="level2">
-<h2 class="anchored" data-anchor-id="api">API</h2>
-<p>Most users need only two namespaces:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica <span class="at">:as</span> hm])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica.linalg.complex <span class="at">:as</span> cx])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>scicloj.harmonica</code> is the public API — groups, character tables, Fourier transforms, representations, group actions, and visualization. <code>cx</code> provides ComplexTensor operations for working with complex-valued results.</p>
-<p>Internal namespaces (<code>analysis.characters</code>, <code>analysis.fourier</code>, <code>analysis.representations</code>, <code>linalg.ejml</code>, <code>protocols</code>, <code>action</code>, etc.) are available but rarely needed directly.</p>
-</section>
-<section id="built-on" class="level2">
-<h2 class="anchored" data-anchor-id="built-on">Built on</h2>
-<ul>
-<li><a href="https://github.com/cnuernber/dtype-next">dtype-next</a> — array/tensor numerics</li>
-<li><a href="https://github.com/generateme/fastmath">fastmath</a> — matrix operations</li>
-</ul>
-<p>The <a href="https://scicloj.github.io/harmonica/">book notebooks</a> also use <a href="https://github.com/scicloj/tablecloth">tablecloth</a>, <a href="https://github.com/scicloj/tableplot">tableplot</a>, and <a href="https://github.com/scicloj/kindly">kindly</a> (included in the <code>:dev</code> and <code>:test</code> aliases).</p>
-</section>
-<section id="development" class="level2">
-<h2 class="anchored" data-anchor-id="development">Development</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-M:dev</span> <span class="at">-m</span> nrepl.cmdline   <span class="co"># start REPL</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run_tests.sh</span>                     <span class="co"># run tests (487 tests, 3498 assertions)</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-T:build</span> ci                <span class="co"># test + build JAR</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>Diaconis, P. (1988). <em>Group Representations in Probability and Statistics</em>. IMS Lecture Notes.</li>
-<li>Diaconis, P. &amp; Shahshahani, M. (1981). Generating a random permutation with random transpositions. <em>Z. Wahrscheinlichkeitstheorie</em>, 57, 159–179.</li>
-<li>Bayer, D. &amp; Diaconis, P. (1992). Trailing the dovetail shuffle to its lair. <em>Annals of Applied Probability</em>, 2(2), 294–313.</li>
-<li>Sagan, B. (2001). <em>The Symmetric Group: Representations, Combinatorial Algorithms, and Symmetric Functions</em>. Springer.</li>
-<li>James, G. &amp; Kerber, A. (1981). <em>The Representation Theory of the Symmetric Group</em>. Addison-Wesley.</li>
-</ul>
-</section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>MIT License — see LICENSE file.</p>
-<hr>
-<p>Part of the <a href="https://scicloj.github.io/">scicloj</a> ecosystem for scientific computing in Clojure.</p>
-</section>
-<section id="chapters-in-this-book" class="level2">
-<h2 class="anchored" data-anchor-id="chapters-in-this-book">Chapters in this book</h2>
+<p>Small utilities shared across the book’s notebooks. Each notebook requires this namespace so you can see exactly where helpers come from.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.book-helpers</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [tech.v3.datatype.functional <span class="at">:as</span> dfn]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> allclose?</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"True when every element of `a` is within `tol` of the corresponding</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">   element of `b`. Works on dtype buffers, tensors, scalars, and Clojure</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">   vectors — anything `dfn/-` accepts."</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ([a b] (allclose? a b <span class="fl">1e-10</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  ([a b tol]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   (<span class="kw">&lt;</span> (<span class="kw">double</span> (dfn/reduce-max (dfn/abs (dfn/- a b)))) (<span class="kw">double</span> tol))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div style="background-color:grey;height:2px;width:100%;"></div>
-<div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/index.clj">notebooks/index.clj</a></small></small></pre></div>
+<div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/book_helpers.clj">notebooks/harmonica_book/book_helpers.clj</a></small></small></pre></div>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -951,10 +802,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./harmonica_book.riffle_shuffle.html" class="pagination-link" aria-label="Riffle Shuffles and the &quot;Seven Shuffles&quot; Theorem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./harmonica_book.quickstart.html" class="pagination-link" aria-label="Quickstart">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quickstart</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./harmonica_book.group_actions.html" class="pagination-link" aria-label="Group Actions — Algebraic Reference">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

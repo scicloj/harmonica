@@ -91,8 +91,11 @@
   (hm/fourier-transform ct (cx/complex-tensor-real temperatures))))
 
 
+(def v17_l87 f-hat)
+
+
 (def
- v18_l89
+ v19_l91
  (let
   [n
    24
@@ -118,27 +121,27 @@
    plotly/plot)))
 
 
-(def v20_l106 (cx/re (f-hat 0)))
+(def v21_l108 (cx/re (f-hat 0)))
 
 
 (deftest
- t21_l108
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v20_l106)))
+ t22_l110
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v21_l108)))
 
 
 (def
- v23_l113
+ v24_l115
  (let
   [mags
    (mapv (fn [k] [k (cx/cabs (f-hat k))]) (range 1 (inc (/ 24 2))))]
   (first (apply max-key second mags))))
 
 
-(deftest t24_l116 (is (= v23_l113 2)))
+(deftest t25_l118 (is (= v24_l115 2)))
 
 
 (def
- v26_l120
+ v27_l122
  (let
   [recovered (cx/re (hm/inverse-fourier-transform ct f-hat))]
   (<
@@ -146,11 +149,11 @@
    1.0E-10)))
 
 
-(deftest t27_l123 (is (true? v26_l120)))
+(deftest t28_l125 (is (true? v27_l122)))
 
 
 (def
- v29_l134
+ v30_l136
  (defn
   make-rosette
   [n motif]
@@ -175,7 +178,7 @@
 
 
 (def
- v30_l150
+ v31_l152
  (let
   [motif
    (mapv

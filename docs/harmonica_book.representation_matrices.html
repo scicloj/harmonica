@@ -324,38 +324,44 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.book_helpers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.group_actions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -436,32 +442,44 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ir-31 </span>(hm/irrep [<span class="dv">3</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(hm/rep-dimension ir<span class="dv">-31</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ir<span class="dv">-31</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:lambda</span> [<span class="dv">3</span> <span class="dv">1</span>],</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> <span class="at">:dimension</span> <span class="dv">3</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="at">:syts</span> [[[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">4</span>]] [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span> <span class="dv">4</span>] [<span class="dv">2</span>]]],</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="at">:generators</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> [#object[org.apache.commons.math3.linear.Array2DRowRealMatrix <span class="bn">0x974670</span> <span class="st">"Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,-1.0}}"</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  #object[org.apache.commons.math3.linear.Array2DRowRealMatrix <span class="bn">0x3f537370</span> <span class="st">"Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,-0.5,0.8660254038},{0.0,0.8660254038,0.5}}"</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  #object[org.apache.commons.math3.linear.Array2DRowRealMatrix <span class="bn">0x43077d42</span> <span class="st">"Array2DRowRealMatrix{{-0.3333333333,0.9428090416,0.0},{0.9428090416,0.3333333333,0.0},{0.0,0.0,1.0}}"</span>]]}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This matches the hook-length formula:</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(hm/hook-length-dimension [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(hm/rep-dimension ir<span class="dv">-31</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This matches the hook-length formula:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(hm/hook-length-dimension [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="what-do-the-matrices-look-like" class="level2">
 <h2 class="anchored" data-anchor-id="what-do-the-matrices-look-like">What do the matrices look like?</h2>
 <p>Before checking algebraic properties, let’s see the actual matrices. Here is <span class="math inline">\(\rho_{[3,1]}\)</span> evaluated at several permutations of <span class="math inline">\(S_4\)</span>:</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [perms [[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span>] [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>]]]</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"$</span><span class="sc">\\</span><span class="st">sigma$"</span> <span class="st">"Cycle type"</span> <span class="st">"$</span><span class="sc">\\</span><span class="st">text{tr}(</span><span class="sc">\\</span><span class="st">rho(</span><span class="sc">\\</span><span class="st">sigma))$"</span> <span class="st">"$</span><span class="sc">\\</span><span class="st">rho(</span><span class="sc">\\</span><span class="st">sigma)$"</span>]</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [sigma]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> sigma)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">str</span> (hm/cycle-type sigma))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">format</span> <span class="st">"%.0f"</span> (fm/trace (hm/rep-matrix ir<span class="dv">-31</span> sigma)))</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">str</span> (hm/rep-matrix ir<span class="dv">-31</span> sigma))])</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                       perms)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [perms [[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span>] [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span>]]]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"$</span><span class="sc">\\</span><span class="st">sigma$"</span> <span class="st">"Cycle type"</span> <span class="st">"$</span><span class="sc">\\</span><span class="st">text{tr}(</span><span class="sc">\\</span><span class="st">rho(</span><span class="sc">\\</span><span class="st">sigma))$"</span> <span class="st">"$</span><span class="sc">\\</span><span class="st">rho(</span><span class="sc">\\</span><span class="st">sigma)$"</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [sigma]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> sigma)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">str</span> (hm/cycle-type sigma))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">format</span> <span class="st">"%.0f"</span> (fm/trace (hm/rep-matrix ir<span class="dv">-31</span> sigma)))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">str</span> (hm/rep-matrix ir<span class="dv">-31</span> sigma))])</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                       perms)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="clay-table">
 <div class="table-responsive">
@@ -516,12 +534,12 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="generator-matrices">Generator matrices</h2>
 <p>The generators <span class="math inline">\(\rho(s_1), \rho(s_2), \rho(s_3)\)</span> for adjacent transpositions:</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [gens (hm/rep-generators ir<span class="dv">-31</span>)]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"Generator"</span> <span class="st">"Matrix"</span>]</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [i g]</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> <span class="st">"$s_"</span> (<span class="kw">inc</span> i) <span class="st">"$"</span>) (<span class="kw">str</span> g)])</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">range</span>) gens)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [gens (hm/rep-generators ir<span class="dv">-31</span>)]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"Generator"</span> <span class="st">"Matrix"</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [i g]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> <span class="st">"$s_"</span> (<span class="kw">inc</span> i) <span class="st">"$"</span>) (<span class="kw">str</span> g)])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">range</span>) gens)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="clay-table">
 <div class="table-responsive">
@@ -556,47 +574,47 @@ window.Quarto = {
 <p><span class="math display">\[\rho(\sigma \tau) = \rho(\sigma) \, \rho(\tau)\]</span></p>
 <p>This must hold for every pair of permutations.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> mat-err</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Frobenius norm of the difference of two matrices."</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  [A B]</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [diff (fm/sub A B)]</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    (Math/sqrt (fm/trace (fm/mulm diff (fm/transpose diff))))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> mat-err</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Frobenius norm of the difference of two matrices."</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  [A B]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [diff (fm/sub A B)]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    (Math/sqrt (fm/trace (fm/mulm diff (fm/transpose diff))))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [[s t]]</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [st (hm/op G s t)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                  rho-st (hm/rep-matrix ir<span class="dv">-31</span> st)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                  rho-s-t (fm/mulm (hm/rep-matrix ir<span class="dv">-31</span> s)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                                   (hm/rep-matrix ir<span class="dv">-31</span> t))]</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (mat-err rho-st rho-s-t) <span class="fl">1e-10</span>)))</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">for</span> [a elts b elts] [a b])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [[s t]]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [st (hm/op G s t)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  rho-st (hm/rep-matrix ir<span class="dv">-31</span> st)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                  rho-s-t (fm/mulm (hm/rep-matrix ir<span class="dv">-31</span> s)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                                   (hm/rep-matrix ir<span class="dv">-31</span> t))]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (mat-err rho-st rho-s-t) <span class="fl">1e-10</span>)))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">for</span> [a elts b elts] [a b])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="orthogonal-matrices" class="level2">
 <h2 class="anchored" data-anchor-id="orthogonal-matrices">Orthogonal matrices</h2>
 <p>Young’s orthogonal form produces <strong>orthogonal</strong> matrices: <span class="math inline">\(\rho(\sigma)^T \rho(\sigma) = I\)</span> for all <span class="math inline">\(\sigma\)</span>.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> identity-matrix </span>[d]</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  (fm/rows-&gt;mat (<span class="kw">mapv</span> (<span class="kw">fn</span> [i] (<span class="kw">mapv</span> (<span class="kw">fn</span> [j] (<span class="kw">if</span> (<span class="kw">=</span> i j) <span class="fl">1.0</span> <span class="fl">0.0</span>)) (<span class="kw">range</span> d)))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">range</span> d))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> identity-matrix </span>[d]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  (fm/rows-&gt;mat (<span class="kw">mapv</span> (<span class="kw">fn</span> [i] (<span class="kw">mapv</span> (<span class="kw">fn</span> [j] (<span class="kw">if</span> (<span class="kw">=</span> i j) <span class="fl">1.0</span> <span class="fl">0.0</span>)) (<span class="kw">range</span> d)))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">range</span> d))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      d (hm/rep-dimension ir<span class="dv">-31</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      I (identity-matrix d)]</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [sigma]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [M (hm/rep-matrix ir<span class="dv">-31</span> sigma)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                  MtM (fm/mulm (fm/transpose M) M)]</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (mat-err MtM I) <span class="fl">1e-10</span>)))</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>          (hm/elements G)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      d (hm/rep-dimension ir<span class="dv">-31</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      I (identity-matrix d)]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [sigma]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [M (hm/rep-matrix ir<span class="dv">-31</span> sigma)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                  MtM (fm/mulm (fm/transpose M) M)]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (mat-err MtM I) <span class="fl">1e-10</span>)))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>          (hm/elements G)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Two immediate consequences:</p>
 <ul>
@@ -604,23 +622,23 @@ window.Quarto = {
 <li><span class="math inline">\(\rho(\sigma^{-1}) = \rho(\sigma)^T\)</span> (inverse = transpose for orthogonal matrices)</li>
 </ul>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [d (hm/rep-dimension ir<span class="dv">-31</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      I (identity-matrix d)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      rho-e (hm/rep-matrix ir<span class="dv">-31</span> (hm/identity-perm <span class="dv">4</span>))]</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (mat-err rho-e I) <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      sigma [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">1</span>]]</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (mat-err (hm/rep-matrix ir<span class="dv">-31</span> (hm/inv G sigma))</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>              (fm/transpose (hm/rep-matrix ir<span class="dv">-31</span> sigma)))</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [d (hm/rep-dimension ir<span class="dv">-31</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      I (identity-matrix d)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      rho-e (hm/rep-matrix ir<span class="dv">-31</span> (hm/identity-perm <span class="dv">4</span>))]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (mat-err rho-e I) <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      sigma [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">1</span>]]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (mat-err (hm/rep-matrix ir<span class="dv">-31</span> (hm/inv G sigma))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>              (fm/transpose (hm/rep-matrix ir<span class="dv">-31</span> sigma)))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="coxeter-relations" class="level2">
@@ -633,35 +651,35 @@ window.Quarto = {
 </ul>
 <p>Any valid representation must respect these.</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [gens (hm/rep-generators ir<span class="dv">-31</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      d (hm/rep-dimension ir<span class="dv">-31</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      I (identity-matrix d)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      involution-ok?</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> (<span class="kw">fn</span> [gi]</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">&lt;</span> (mat-err (fm/mulm gi gi) I) <span class="fl">1e-10</span>))</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>              gens)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>      braid-ok?</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> (<span class="kw">fn</span> [i]</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [si (gens i)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                      sj (gens (<span class="kw">inc</span> i))</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>                      lhs (fm/mulm si (fm/mulm sj si))</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>                      rhs (fm/mulm sj (fm/mulm si sj))]</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (mat-err lhs rhs) <span class="fl">1e-10</span>)))</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">range</span> (<span class="kw">-</span> (<span class="kw">count</span> gens) <span class="dv">1</span>)))</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      far-comm-ok?</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> (<span class="kw">fn</span> [[i j]]</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [si (gens i) sj (gens j)]</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (mat-err (fm/mulm si sj) (fm/mulm sj si)) <span class="fl">1e-10</span>)))</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">for</span> [i (<span class="kw">range</span> (<span class="kw">count</span> gens))</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>                    j (<span class="kw">range</span> (<span class="kw">count</span> gens))</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">:when</span> (<span class="kw">&gt;=</span> (Math/abs (<span class="kw">-</span> i j)) <span class="dv">2</span>)]</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>                [i j]))]</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:involution</span> involution-ok?</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>   <span class="at">:braid</span> braid-ok?</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>   <span class="at">:far-commutativity</span> far-comm-ok?})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [gens (hm/rep-generators ir<span class="dv">-31</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      d (hm/rep-dimension ir<span class="dv">-31</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>      I (identity-matrix d)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      involution-ok?</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> (<span class="kw">fn</span> [gi]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">&lt;</span> (mat-err (fm/mulm gi gi) I) <span class="fl">1e-10</span>))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>              gens)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      braid-ok?</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> (<span class="kw">fn</span> [i]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [si (gens i)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                      sj (gens (<span class="kw">inc</span> i))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                      lhs (fm/mulm si (fm/mulm sj si))</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>                      rhs (fm/mulm sj (fm/mulm si sj))]</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (mat-err lhs rhs) <span class="fl">1e-10</span>)))</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">range</span> (<span class="kw">-</span> (<span class="kw">count</span> gens) <span class="dv">1</span>)))</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      far-comm-ok?</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> (<span class="kw">fn</span> [[i j]]</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [si (gens i) sj (gens j)]</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (mat-err (fm/mulm si sj) (fm/mulm sj si)) <span class="fl">1e-10</span>)))</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">for</span> [i (<span class="kw">range</span> (<span class="kw">count</span> gens))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>                    j (<span class="kw">range</span> (<span class="kw">count</span> gens))</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">:when</span> (<span class="kw">&gt;=</span> (Math/abs (<span class="kw">-</span> i j)) <span class="dv">2</span>)]</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>                [i j]))]</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:involution</span> involution-ok?</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>   <span class="at">:braid</span> braid-ok?</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>   <span class="at">:far-commutativity</span> far-comm-ok?})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:involution</span> <span class="va">true</span>, <span class="at">:braid</span> <span class="va">true</span>, <span class="at">:far-commutativity</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:involution</span> <span class="va">true</span>, <span class="at">:braid</span> <span class="va">true</span>, <span class="at">:far-commutativity</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="plancherel-identity" class="level2">
@@ -669,23 +687,23 @@ window.Quarto = {
 <p>The <a href="https://en.wikipedia.org/wiki/Plancherel_theorem">Plancherel identity</a> is the non-abelian Parseval theorem. It relates the <span class="math inline">\(\ell^2\)</span> norm of a function to the Frobenius norms of its matrix Fourier transforms:</p>
 <p><span class="math display">\[\sum_{\sigma \in G} |f(\sigma)|^2 = \frac{1}{|G|} \sum_\rho d_\rho \, \|\hat{f}(\rho)\|_F^2\]</span></p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">3</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      parts (hm/partitions <span class="dv">3</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> hm/irrep parts)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      rng (java.util.Random. <span class="dv">42</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">into</span> {} (<span class="kw">map</span> (<span class="kw">fn</span> [sigma]</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                        [sigma (.nextGaussian rng)])</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                      elts))</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      lhs (rep/plancherel-lhs G f)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      f-hats (rep/matrix-fourier-transform-all G f irreps)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      rhs (rep/plancherel-rhs G f-hats irreps)]</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:lhs</span> (<span class="kw">format</span> <span class="st">"%.6f"</span> lhs)</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>   <span class="at">:rhs</span> (<span class="kw">format</span> <span class="st">"%.6f"</span> rhs)</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>   <span class="at">:difference</span> (Math/abs (<span class="kw">-</span> lhs rhs))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">3</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>      parts (hm/partitions <span class="dv">3</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> hm/irrep parts)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      rng (java.util.Random. <span class="dv">42</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">into</span> {} (<span class="kw">map</span> (<span class="kw">fn</span> [sigma]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                        [sigma (.nextGaussian rng)])</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                      elts))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      lhs (rep/plancherel-lhs G f)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>      f-hats (rep/matrix-fourier-transform-all G f irreps)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>      rhs (rep/plancherel-rhs G f-hats irreps)]</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:lhs</span> (<span class="kw">format</span> <span class="st">"%.6f"</span> lhs)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>   <span class="at">:rhs</span> (<span class="kw">format</span> <span class="st">"%.6f"</span> rhs)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>   <span class="at">:difference</span> (Math/abs (<span class="kw">-</span> lhs rhs))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:lhs</span> <span class="st">"4.824590"</span>, <span class="at">:rhs</span> <span class="st">"4.824590"</span>, <span class="at">:difference</span> <span class="fl">0.0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:lhs</span> <span class="st">"4.824590"</span>, <span class="at">:rhs</span> <span class="st">"4.824590"</span>, <span class="at">:difference</span> <span class="fl">0.0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="tensor-product-and-direct-sum" class="level2">
@@ -696,47 +714,47 @@ window.Quarto = {
 <li><p>The <a href="https://en.wikipedia.org/wiki/Direct_sum_of_modules">direct sum</a> <span class="math inline">\(\rho_1 \oplus \rho_2\)</span> has dimension <span class="math inline">\(d_1 + d_2\)</span> and character <span class="math inline">\(\chi_1(g) + \chi_2(g)\)</span>.</p></li>
 </ul>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>      tp (hm/tensor-product ir1 ir2)]</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:dim-ir1</span> (hm/rep-dimension ir1)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:dim-ir2</span> (hm/rep-dimension ir2)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">:dim-tensor</span> (hm/rep-dimension tp)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>      tp (hm/tensor-product ir1 ir2)]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:dim-ir1</span> (hm/rep-dimension ir1)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:dim-ir2</span> (hm/rep-dimension ir2)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">:dim-tensor</span> (hm/rep-dimension tp)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:dim-ir1</span> <span class="dv">2</span>, <span class="at">:dim-ir2</span> <span class="dv">2</span>, <span class="at">:dim-tensor</span> <span class="dv">4</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:dim-ir1</span> <span class="dv">2</span>, <span class="at">:dim-ir2</span> <span class="dv">2</span>, <span class="at">:dim-tensor</span> <span class="dv">4</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Character multiplicativity: <span class="math inline">\(\chi_{\rho_1 \otimes \rho_2}(\sigma) = \chi_{\rho_1}(\sigma) \cdot \chi_{\rho_2}(\sigma)\)</span></p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">3</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>      tp (hm/tensor-product ir1 ir2)]</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [sigma]</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [c1 (hm/rep-character ir1 sigma)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                  c2 (hm/rep-character ir2 sigma)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                  c-tp (fm/trace (hm/rep-matrix tp sigma))]</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> c-tp (<span class="kw">*</span> c1 c2))) <span class="fl">1e-8</span>)))</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>          (hm/elements G)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Direct sum:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>])</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>      ds (hm/direct-sum ir1 ir2)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      G (hm/symmetric-group <span class="dv">3</span>)]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">3</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>      ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      tp (hm/tensor-product ir1 ir2)]</span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [sigma]</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [c1 (hm/rep-character ir1 sigma)</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                  c2 (hm/rep-character ir2 sigma)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                  c-ds (fm/trace (hm/rep-matrix ds sigma))]</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> c-ds (<span class="kw">+</span> c1 c2))) <span class="fl">1e-8</span>)))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                  c-tp (fm/trace (hm/rep-matrix tp sigma))]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> c-tp (<span class="kw">*</span> c1 c2))) <span class="fl">1e-8</span>)))</span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>          (hm/elements G)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Direct sum:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir1 (hm/irrep [<span class="dv">2</span> <span class="dv">1</span>])</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>      ir2 (hm/irrep [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>])</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      ds (hm/direct-sum ir1 ir2)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      G (hm/symmetric-group <span class="dv">3</span>)]</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> (<span class="kw">fn</span> [sigma]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">let</span> [c1 (hm/rep-character ir1 sigma)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                  c2 (hm/rep-character ir2 sigma)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                  c-ds (fm/trace (hm/rep-matrix ds sigma))]</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> c-ds (<span class="kw">+</span> c1 c2))) <span class="fl">1e-8</span>)))</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>          (hm/elements G)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="schur-orthogonality-matrix-entries" class="level2">
@@ -747,50 +765,50 @@ window.Quarto = {
 <p>The character orthogonality relations from <a href="character_theory.html">Character Theory</a> follow as a corollary by taking <span class="math inline">\(i = j\)</span> and <span class="math inline">\(k = l\)</span> and summing over diagonal entries.</p>
 <p>We verify for all irreps of <span class="math inline">\(S_4\)</span>:</p>
 <div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>      order (hm/order G)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      parts (hm/partitions <span class="dv">4</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> hm/irrep parts)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>      cross-ok?</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> <span class="kw">true?</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">for</span> [a (<span class="kw">range</span> (<span class="kw">count</span> irreps))</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>                    b (<span class="kw">range</span> (<span class="kw">inc</span> a) (<span class="kw">count</span> irreps))</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">:let</span> [ira (irreps a)</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                          irb (irreps b)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>                          da (hm/rep-dimension ira)</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                          db (hm/rep-dimension irb)]</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                    i (<span class="kw">range</span> da) j (<span class="kw">range</span> da)</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>                    k (<span class="kw">range</span> db) l (<span class="kw">range</span> db)]</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [avg (<span class="kw">/</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [sigma]</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>                                              (<span class="kw">let</span> [Ma (hm/rep-matrix ira sigma)</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>                                                    Mb (hm/rep-matrix irb sigma)]</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>                                                (<span class="kw">*</span> (fm/entry Ma i j)</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>                                                   (fm/entry Mb k l))))</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>                                            elts))</span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>                             (<span class="kw">double</span> order))]</span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (Math/abs avg) <span class="fl">1e-8</span>))))</span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>      same-ok?</span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> <span class="kw">true?</span></span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">for</span> [a (<span class="kw">range</span> (<span class="kw">count</span> irreps))</span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">:let</span> [ira (irreps a)</span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>                          da (hm/rep-dimension ira)]</span>
-<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>                    i (<span class="kw">range</span> da) j (<span class="kw">range</span> da)</span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>                    k (<span class="kw">range</span> da) l (<span class="kw">range</span> da)]</span>
-<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [avg (<span class="kw">/</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [sigma]</span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>                                              (<span class="kw">let</span> [M (hm/rep-matrix ira sigma)]</span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>                                                (<span class="kw">*</span> (fm/entry M i j)</span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>                                                   (fm/entry M k l))))</span>
-<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>                                            elts))</span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>                             (<span class="kw">double</span> order))</span>
-<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>                      expected (<span class="kw">if</span> (<span class="kw">and</span> (<span class="kw">=</span> i k) (<span class="kw">=</span> j l))</span>
-<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>                                 (<span class="kw">/</span> <span class="fl">1.0</span> (<span class="kw">double</span> da))</span>
-<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>                                 <span class="fl">0.0</span>)]</span>
-<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> avg expected)) <span class="fl">1e-8</span>))))]</span>
-<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cross-irrep</span> cross-ok? <span class="at">:same-irrep</span> same-ok?})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      order (hm/order G)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>      parts (hm/partitions <span class="dv">4</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> hm/irrep parts)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>      cross-ok?</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> <span class="kw">true?</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">for</span> [a (<span class="kw">range</span> (<span class="kw">count</span> irreps))</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                    b (<span class="kw">range</span> (<span class="kw">inc</span> a) (<span class="kw">count</span> irreps))</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">:let</span> [ira (irreps a)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                          irb (irreps b)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                          da (hm/rep-dimension ira)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>                          db (hm/rep-dimension irb)]</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                    i (<span class="kw">range</span> da) j (<span class="kw">range</span> da)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                    k (<span class="kw">range</span> db) l (<span class="kw">range</span> db)]</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [avg (<span class="kw">/</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [sigma]</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>                                              (<span class="kw">let</span> [Ma (hm/rep-matrix ira sigma)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>                                                    Mb (hm/rep-matrix irb sigma)]</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>                                                (<span class="kw">*</span> (fm/entry Ma i j)</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>                                                   (fm/entry Mb k l))))</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>                                            elts))</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>                             (<span class="kw">double</span> order))]</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (Math/abs avg) <span class="fl">1e-8</span>))))</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>      same-ok?</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">every?</span> <span class="kw">true?</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>              (<span class="kw">for</span> [a (<span class="kw">range</span> (<span class="kw">count</span> irreps))</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">:let</span> [ira (irreps a)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>                          da (hm/rep-dimension ira)]</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>                    i (<span class="kw">range</span> da) j (<span class="kw">range</span> da)</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>                    k (<span class="kw">range</span> da) l (<span class="kw">range</span> da)]</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>                (<span class="kw">let</span> [avg (<span class="kw">/</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [sigma]</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>                                              (<span class="kw">let</span> [M (hm/rep-matrix ira sigma)]</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>                                                (<span class="kw">*</span> (fm/entry M i j)</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>                                                   (fm/entry M k l))))</span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>                                            elts))</span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>                             (<span class="kw">double</span> order))</span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>                      expected (<span class="kw">if</span> (<span class="kw">and</span> (<span class="kw">=</span> i k) (<span class="kw">=</span> j l))</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>                                 (<span class="kw">/</span> <span class="fl">1.0</span> (<span class="kw">double</span> da))</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>                                 <span class="fl">0.0</span>)]</span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> avg expected)) <span class="fl">1e-8</span>))))]</span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cross-irrep</span> cross-ok? <span class="at">:same-irrep</span> same-ok?})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cross-irrep</span> <span class="va">true</span>, <span class="at">:same-irrep</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cross-irrep</span> <span class="va">true</span>, <span class="at">:same-irrep</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="what-comes-next" class="level2">

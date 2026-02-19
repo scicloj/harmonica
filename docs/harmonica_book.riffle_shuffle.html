@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./harmonica_book.group_actions.html" rel="next">
+<link href="./harmonica_book.book_helpers.html" rel="next">
 <link href="./harmonica_book.representation_matrices.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -324,38 +324,44 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.book_helpers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.group_actions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -431,12 +437,10 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.riffle-shuffle</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.analysis.representations <span class="at">:as</span> rep]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.protocols <span class="at">:as</span> p]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [tablecloth.api <span class="at">:as</span> tc]</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [scicloj.tableplot.v1.plotly <span class="at">:as</span> plotly]</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   [fastmath.matrix <span class="at">:as</span> fm]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [tablecloth.api <span class="at">:as</span> tc]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.tableplot.v1.plotly <span class="at">:as</span> plotly]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [fastmath.matrix <span class="at">:as</span> fm]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="youngs-orthogonal-form" class="level2">
 <h2 class="anchored" data-anchor-id="youngs-orthogonal-form">Young’s Orthogonal Form</h2>
@@ -622,7 +626,7 @@ window.Quarto = {
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [n <span class="dv">5</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      G (hm/symmetric-group n)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (p/elements G))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      n-elts (<span class="kw">count</span> elts)</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      uniform (<span class="kw">/</span> <span class="fl">1.0</span> n-elts)</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      tv-data (<span class="kw">mapv</span> (<span class="kw">fn</span> [k]</span>
@@ -687,7 +691,7 @@ window.Quarto = {
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      f-hats (hm/matrix-fourier-transform-all G f irreps)]</span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"$</span><span class="sc">\\</span><span class="st">lambda$"</span> <span class="st">"$d_</span><span class="sc">\\</span><span class="st">lambda$"</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"$</span><span class="sc">\\</span><span class="st">|</span><span class="sc">\\</span><span class="st">hat{Q}(</span><span class="sc">\\</span><span class="st">rho_</span><span class="sc">\\</span><span class="st">lambda)</span><span class="sc">\\</span><span class="st">|_F$"</span>]</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$</span><span class="sc">\\</span><span class="st">|</span><span class="sc">\\</span><span class="st">hat{Q}(</span><span class="sc">\\</span><span class="st">rho_</span><span class="sc">\\</span><span class="st">lambda)</span><span class="sc">\\</span><span class="st">|_F$"</span>]</span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [lam ir fh]</span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                         [(<span class="kw">str</span> lam)</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                          (<span class="at">:dimension</span> ir)</span>
@@ -746,9 +750,14 @@ window.Quarto = {
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>      irreps (<span class="kw">mapv</span> hm/irrep parts)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      f (<span class="kw">fn</span> [sigma] (hm/gsr-probability sigma <span class="dv">2</span>))</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>      f-hats (hm/matrix-fourier-transform-all G f irreps)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      lhs (rep/plancherel-lhs G f)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>      rhs (rep/plancherel-rhs G f-hats irreps)]</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:lhs</span> lhs <span class="at">:rhs</span> rhs <span class="at">:difference</span> (Math/abs (<span class="kw">-</span> lhs rhs))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      lhs (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [sigma] (<span class="kw">let</span> [v (f sigma)] (<span class="kw">*</span> v v)))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                         (hm/elements G)))</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>      rhs (<span class="kw">*</span> (<span class="kw">/</span> <span class="fl">1.0</span> (hm/order G))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">map</span> (<span class="kw">fn</span> [ir f-hat]</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">*</span> (<span class="kw">double</span> (hm/rep-dimension ir))</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                                 (fm/trace (fm/mulm (fm/transpose f-hat) f-hat))))</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                            irreps f-hats)))]</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:lhs</span> lhs <span class="at">:rhs</span> rhs <span class="at">:difference</span> (Math/abs (<span class="kw">-</span> lhs rhs))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="printedClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:lhs</span> <span class="fl">0.0606689453125</span>, <span class="at">:rhs</span> <span class="fl">0.0606689453125</span>, <span class="at">:difference</span> <span class="fl">0.0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -762,7 +771,7 @@ window.Quarto = {
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">for</span> [n [<span class="dv">4</span> <span class="dv">5</span> <span class="dv">6</span>]</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                     k (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">15</span>)]</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                 (<span class="kw">let</span> [G (hm/symmetric-group n)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                       elts (<span class="kw">vec</span> (p/elements G))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                       elts (<span class="kw">vec</span> (hm/elements G))</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                       n-elts (<span class="kw">count</span> elts)</span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                       uniform (<span class="kw">/</span> <span class="fl">1.0</span> n-elts)</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                       probs (hm/gsr-distribution-vec elts k)</span>
@@ -1257,8 +1266,8 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./harmonica_book.group_actions.html" class="pagination-link" aria-label="Group Actions — Algebraic Reference">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./harmonica_book.book_helpers.html" class="pagination-link" aria-label="Helper Functions">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

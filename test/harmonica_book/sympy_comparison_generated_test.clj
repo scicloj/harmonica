@@ -185,7 +185,7 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__120288#] (long (py/py. p1__120288# __len__)))
+     (fn* [p1__109949#] (long (py/py. p1__109949# __len__)))
      classes)))))
 
 
@@ -199,7 +199,7 @@
    [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
    (sort
     (mapv
-     (fn* [p1__120289#] (count (:elements p1__120289#)))
+     (fn* [p1__109950#] (count (:elements p1__109950#)))
      classes)))))
 
 
@@ -239,7 +239,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__120290#] (long (py/py. p1__120290# __len__)))
+      (fn* [p1__109951#] (long (py/py. p1__109951# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
@@ -257,7 +257,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__120291#] (count (:elements p1__120291#)))
+      (fn* [p1__109952#] (count (:elements p1__109952#)))
       classes))]
    {:order (hm/order G),
     :num-classes (count classes),
@@ -413,7 +413,7 @@
      (fn
       [row]
       (mapv
-       (fn* [p1__120292#] (long (Math/round (cx/re p1__120292#))))
+       (fn* [p1__109953#] (long (Math/round (cx/re p1__109953#))))
        row))
      table)})))
 
@@ -501,8 +501,8 @@
       +
       (map
        (fn*
-        [p1__120293#]
-        (let [d (hm/hook-length-dimension p1__120293#)] (* d d)))
+        [p1__109954#]
+        (let [d (hm/hook-length-dimension p1__109954#)] (* d d)))
        parts))]
     (= total (reduce * (range 1 (inc n))))))
   (range 2 8)))
@@ -520,7 +520,7 @@
   (let
    [divisors
     (filter
-     (fn* [p1__120294#] (zero? (mod n p1__120294#)))
+     (fn* [p1__109955#] (zero? (mod n p1__109955#)))
      (range 1 (inc n)))
     euler-phi
     (fn
@@ -528,13 +528,13 @@
      (count
       (filter
        (fn*
-        [p1__120295#]
+        [p1__109956#]
         (=
          1
          (long
           (.gcd
            (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__120295#)))))
+           (BigInteger/valueOf p1__109956#)))))
        (range 1 (inc m)))))]
    (/
     (reduce

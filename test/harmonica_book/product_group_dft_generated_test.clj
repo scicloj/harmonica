@@ -36,19 +36,22 @@
 (def v14_l57 (def ct (hm/character-table G)))
 
 
-(def v15_l59 (count (:irrep-labels ct)))
+(def v15_l59 ct)
 
 
-(deftest t16_l61 (is (= v15_l59 12)))
+(def v16_l61 (count (:irrep-labels ct)))
+
+
+(deftest t17_l63 (is (= v16_l61 12)))
 
 
 (def
- v18_l72
+ v19_l74
  (def image-data [1.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 3.0 1.0 1.0 1.0]))
 
 
 (def
- v19_l78
+ v20_l80
  (kind/plotly
   {:data
    [{:type "heatmap",
@@ -65,7 +68,7 @@
 
 
 (def
- v21_l93
+ v22_l95
  (let
   [elts
    (vec (hm/elements G))
@@ -74,25 +77,28 @@
   (count f-map)))
 
 
-(deftest t22_l97 (is (= v21_l93 12)))
+(deftest t23_l99 (is (= v22_l95 12)))
 
 
-(def v24_l101 (def signal (cx/complex-tensor-real image-data)))
+(def v25_l103 (def signal (cx/complex-tensor-real image-data)))
 
 
-(def v25_l103 (def f-hat (hm/fourier-transform ct signal)))
+(def v26_l105 (def f-hat (hm/fourier-transform ct signal)))
 
 
-(def v27_l107 (cx/re (f-hat 0)))
+(def v27_l107 f-hat)
+
+
+(def v29_l111 (cx/re (f-hat 0)))
 
 
 (deftest
- t28_l109
- (is ((fn [v] (< (Math/abs (- v 9.0)) 1.0E-10)) v27_l107)))
+ t30_l113
+ (is ((fn [v] (< (Math/abs (- v 9.0)) 1.0E-10)) v29_l111)))
 
 
 (def
- v30_l116
+ v32_l120
  (let
   [recovered
    (hm/inverse-fourier-transform ct f-hat)
@@ -101,11 +107,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t31_l120 (is (true? v30_l116)))
+(deftest t33_l124 (is (true? v32_l120)))
 
 
 (def
- v33_l136
+ v35_l140
  (let
   [m
    4
@@ -124,7 +130,7 @@
     (range m))
    rows-transformed
    (mapv
-    (fn* [p1__116463#] (hm/fourier-transform ct2 p1__116463#))
+    (fn* [p1__106124#] (hm/fourier-transform ct2 p1__106124#))
     rows)
    cols-of-transformed
    (mapv
@@ -137,7 +143,7 @@
     (range n))
    cols-transformed
    (mapv
-    (fn* [p1__116464#] (hm/fourier-transform ct1 p1__116464#))
+    (fn* [p1__106125#] (hm/fourier-transform ct1 p1__106125#))
     cols-of-transformed)
    separable-result
    (cx/complex-tensor
@@ -153,11 +159,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t34_l166 (is (true? v33_l136)))
+(deftest t36_l170 (is (true? v35_l140)))
 
 
 (def
- v36_l175
+ v38_l179
  (let
   [energy-space
    (dfn/sum (dfn/* (cx/re signal) (cx/re signal)))
@@ -174,11 +180,11 @@
   (< (Math/abs (- energy-space energy-freq)) 1.0E-10)))
 
 
-(deftest t37_l183 (is (true? v36_l175)))
+(deftest t39_l187 (is (true? v38_l179)))
 
 
 (def
- v39_l191
+ v41_l195
  (let
   [f
    (cx/complex-tensor-real
@@ -201,11 +207,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t40_l210 (is (true? v39_l191)))
+(deftest t42_l214 (is (true? v41_l195)))
 
 
 (def
- v42_l217
+ v44_l221
  (let
   [m
    6

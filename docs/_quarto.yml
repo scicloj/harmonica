@@ -21,5 +21,5 @@ book:
   - part: Representation Matrices
     chapters: [harmonica_book.representation_matrices.qmd, harmonica_book.riffle_shuffle.qmd]
   - part: Reference
-    chapters: [harmonica_book.group_actions.qmd, harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd, harmonica_book.complex_tensors.qmd, harmonica_book.ejml_integration.qmd, harmonica_book.api_reference.qmd]
+    chapters: [harmonica_book.book_helpers.qmd, harmonica_book.group_actions.qmd, harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd, harmonica_book.complex_tensors.qmd, harmonica_book.ejml_integration.qmd, harmonica_book.api_reference.qmd]
   title: harmonica

@@ -324,38 +324,44 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.book_helpers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Helper Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./harmonica_book.group_actions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -381,7 +387,7 @@ window.Quarto = {
   <li><a href="#the-group-axioms" id="toc-the-group-axioms" class="nav-link" data-scroll-target="#the-group-axioms">The group axioms</a></li>
   <li><a href="#conjugacy-classes" id="toc-conjugacy-classes" class="nav-link" data-scroll-target="#conjugacy-classes">Conjugacy classes</a></li>
   <li><a href="#cayley-tables" id="toc-cayley-tables" class="nav-link" data-scroll-target="#cayley-tables">Cayley tables</a></li>
-  <li><a href="#the-four-group-families" id="toc-the-four-group-families" class="nav-link" data-scroll-target="#the-four-group-families">The four group families</a></li>
+  <li><a href="#group-families-in-the-library" id="toc-group-families-in-the-library" class="nav-link" data-scroll-target="#group-families-in-the-library">Group families in the library</a></li>
   <li><a href="#what-comes-next" id="toc-what-comes-next" class="nav-link" data-scroll-target="#what-comes-next">What comes next</a></li>
   </ul>
 </nav>
@@ -475,11 +481,7 @@ window.Quarto = {
 <p>Pick up a square coaster and put it back on the table. How many ways can you do this so it looks the same? You can <strong>rotate</strong> it by <span class="math inline">\(0°\)</span>, <span class="math inline">\(90°\)</span>, <span class="math inline">\(180°\)</span>, or <span class="math inline">\(270°\)</span>. You can also <strong>flip</strong> it over any of four axes (two diagonals, two midlines). That gives <span class="math inline">\(4 + 4 = 8\)</span> symmetries.</p>
 <p>These symmetries form the <strong><a href="https://en.wikipedia.org/wiki/Dihedral_group">dihedral group</a></strong> <span class="math inline">\(D_4\)</span>. In general, <span class="math inline">\(D_n\)</span> is the symmetry group of a regular <span class="math inline">\(n\)</span>-gon, with <span class="math inline">\(n\)</span> rotations and <span class="math inline">\(n\)</span> reflections for a total of <span class="math inline">\(2n\)</span> elements.</p>
 <p>We’ll use dihedral groups for <a href="symmetry_sketchpad.html">rosette patterns</a>, <a href="counting_necklaces.html">counting bracelets</a>, and <a href="chord_geometry.html">classifying chords</a>.</p>
-<p>Elements are tagged pairs:</p>
-<ul>
-<li><span class="math inline">\([:r\; k]\)</span> — rotation by <span class="math inline">\(2\pi k/n\)</span></li>
-<li><span class="math inline">\([:s\; k]\)</span> — reflection</li>
-</ul>
+<p>Elements are tagged pairs — rotation <span class="math inline">\(r_k\)</span> (by <span class="math inline">\(2\pi k/n\)</span>) and reflection <span class="math inline">\(s_k\)</span> — represented in code as <code>[:r k]</code> and <code>[:s k]</code>.</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> D4 </span>(hm/dihedral-group <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -758,8 +760,8 @@ window.Quarto = {
 <svg height="198" style="font-family: monospace; font-size: 11px;" width="198" xmlns="http://www.w3.org/2000/svg"><text fill="#555" font-size="9" text-anchor="middle" x="42" y="24">[:r 0]</text><text fill="#555" font-size="9" text-anchor="middle" x="70" y="24">[:r 1]</text><text fill="#555" font-size="9" text-anchor="middle" x="98" y="24">[:r 2]</text><text fill="#555" font-size="9" text-anchor="middle" x="126" y="24">[:s 0]</text><text fill="#555" font-size="9" text-anchor="middle" x="154" y="24">[:s 1]</text><text fill="#555" font-size="9" text-anchor="middle" x="182" y="24">[:s 2]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="46">[:r 0]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="74">[:r 1]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="102">[:r 2]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="130">[:s 0]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="158">[:s 1]</text><text fill="#555" font-size="9" text-anchor="end" x="24" y="186">[:s 2]</text><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="28"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="28"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="28"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="28"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="28"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="28"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="56"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="56"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="56"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="56"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="56"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="56"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="84"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="84"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="84"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="84"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="84"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="84"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="112"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="112"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="112"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="112"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="112"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="112"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="140"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="140"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="140"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="140"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="140"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="140"></rect><rect fill="hsl(300,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="28" y="168"></rect><rect fill="hsl(240,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="56" y="168"></rect><rect fill="hsl(180,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="84" y="168"></rect><rect fill="hsl(120,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="112" y="168"></rect><rect fill="hsl(60,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="140" y="168"></rect><rect fill="hsl(0,70%,75%)" height="27" stroke="#fff" stroke-width="0.5" width="27" x="168" y="168"></rect></svg>
 <p>Notice that the Cayley table of <span class="math inline">\(\mathbb{Z}/4\mathbb{Z}\)</span> is symmetric across the diagonal (abelian), while <span class="math inline">\(D_3\)</span>’s is not (non-abelian).</p>
 </section>
-<section id="the-four-group-families" class="level2">
-<h2 class="anchored" data-anchor-id="the-four-group-families">The four group families</h2>
+<section id="group-families-in-the-library" class="level2">
+<h2 class="anchored" data-anchor-id="group-families-in-the-library">Group families in the library</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 22%">
@@ -798,7 +800,7 @@ window.Quarto = {
 <td style="text-align: left;">Product</td>
 <td style="text-align: left;"><span class="math inline">\(G_1 \times G_2\)</span></td>
 <td style="text-align: left;"><span class="math inline">\(|G_1| \cdot |G_2|\)</span></td>
-<td style="text-align: left;">If both factors are</td>
+<td style="text-align: left;">If both factors are abelian</td>
 </tr>
 </tbody>
 </table>

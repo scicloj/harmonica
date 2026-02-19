@@ -57,7 +57,7 @@
    [inverted
     (if
      (= i 1)
-     (mapv (fn* [p1__117160#] (- (* 2 pivot) p1__117160#)) melody)
+     (mapv (fn* [p1__106821#] (- (* 2 pivot) p1__106821#)) melody)
      melody)
     retrograded
     (if (= r 1) (vec (reverse inverted)) inverted)]
@@ -90,8 +90,8 @@
        (str
         (mapv
          (fn*
-          [p1__117161#]
-          (get note-names p1__117161# (str p1__117161#)))
+          [p1__106822#]
+          (get note-names p1__106822# (str p1__106822#)))
          result))}))
     (hm/elements V4))]
   (kind/table
@@ -167,7 +167,7 @@
   transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv (fn* [p1__117162#] (+ p1__117162# (long k))) melody)))
+  (mapv (fn* [p1__106823#] (+ p1__106823# (long k))) melody)))
 
 
 (def
@@ -183,10 +183,10 @@
        (str
         (mapv
          (fn*
-          [p1__117163#]
-          (get note-names (mod p1__117163# 12) (str p1__117163#)))
+          [p1__106824#]
+          (get note-names (mod p1__106824# 12) (str p1__106824#)))
          (mapv
-          (fn* [p1__117164#] (+ 60 (mod (- p1__117164# 60) 12)))
+          (fn* [p1__106825#] (+ 60 (mod (- p1__106825# 60) 12)))
           transposed)))]))
     (range 12))]
   (kind/table
@@ -244,7 +244,7 @@
     pivot
     (first row)
     inversion
-    (mapv (fn* [p1__117165#] (mod (- (* 2 pivot) p1__117165#) 12)) row)
+    (mapv (fn* [p1__106826#] (mod (- (* 2 pivot) p1__106826#) 12)) row)
     ri
     (vec (reverse inversion))
     base-forms
@@ -256,7 +256,7 @@
       :form-type form-name,
       :transposition k,
       :row
-      (mapv (fn* [p1__117166#] (mod (+ p1__117166# k) 12)) form)})))))
+      (mapv (fn* [p1__106827#] (mod (+ p1__106827# k) 12)) form)})))))
 
 
 (def v35_l216 (let [forms (row-forms schoenberg-row)] (count forms)))
@@ -273,8 +273,8 @@
    selected
    (filterv
     (fn*
-     [p1__117167#]
-     (contains? #{0 6 3 9} (:transposition p1__117167#)))
+     [p1__106828#]
+     (contains? #{0 6 3 9} (:transposition p1__106828#)))
     forms)
    selected
    (take 16 (sort-by (juxt :form-type :transposition) selected))]
