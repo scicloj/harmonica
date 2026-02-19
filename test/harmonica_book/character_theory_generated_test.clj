@@ -54,7 +54,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__113939#] (long (Math/round (cx/re p1__113939#))))
+      (fn* [p1__117547#] (long (Math/round (cx/re p1__117547#))))
       row))
     (:table ct))]
   re-table))
@@ -73,7 +73,7 @@
     (fn
      [row]
      (mapv
-      (fn* [p1__113940#] (long (Math/round (cx/re p1__113940#))))
+      (fn* [p1__117548#] (long (Math/round (cx/re p1__117548#))))
       row))
     (:table ct))]
   re-table))
@@ -175,14 +175,14 @@
    dims
    (sort
     (mapv
-     (fn* [p1__113941#] (long (Math/round (cx/re (p1__113941# 0)))))
+     (fn* [p1__117549#] (long (Math/round (cx/re (p1__117549# 0)))))
      (:table ct-d3)))
    ct-s3
    (hm/character-table (hm/symmetric-group 3))
    dims-s3
    (sort
     (mapv
-     (fn* [p1__113942#] (long (Math/round (cx/re (p1__113942# 0)))))
+     (fn* [p1__117550#] (long (Math/round (cx/re (p1__117550# 0)))))
      (:table ct-s3)))]
   (= dims dims-s3)))
 
@@ -240,7 +240,7 @@
       (into
        [(str label)]
        (mapv
-        (fn* [p1__113943#] (long (Math/round (cx/re p1__113943#))))
+        (fn* [p1__117551#] (long (Math/round (cx/re p1__117551#))))
         row)))
      irrep-labels
      table)})))

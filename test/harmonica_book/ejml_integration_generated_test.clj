@@ -302,7 +302,7 @@
    (zipmap
     (hm/elements G)
     (map
-     (fn* [p1__90610#] (Math/sin (double p1__90610#)))
+     (fn* [p1__120949#] (Math/sin (double p1__120949#)))
      (range (hm/order G))))
    result-acm
    (rep/matrix-fourier-transform ir G f-map)
@@ -366,7 +366,7 @@
    (zipmap
     elts
     (map
-     (fn* [p1__90611#] (Math/sin (double p1__90611#)))
+     (fn* [p1__120950#] (Math/sin (double p1__120950#)))
      (range (hm/order G))))
    precomp-z
    (into

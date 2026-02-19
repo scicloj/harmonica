@@ -23,8 +23,6 @@
 (ns harmonica-book.riffle-shuffle
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.analysis.representations :as rep]
-   [scicloj.harmonica.protocols :as p]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]
@@ -88,8 +86,8 @@
 
 (kind/test-last
  [(fn [_]
-   (let [parts (hm/partitions 5)]
-     (= 120 (reduce + (map #(let [d (hm/hook-length-dimension %)]
+    (let [parts (hm/partitions 5)]
+      (= 120 (reduce + (map #(let [d (hm/hook-length-dimension %)]
                                (* d d))
                             parts)))))])
 ;; ## The [Gilbert-Shannon-Reeds](https://en.wikipedia.org/wiki/Gilbert%E2%80%93Shannon%E2%80%93Reeds_model) Riffle Shuffle
@@ -144,7 +142,7 @@
 
 (let [n 5
       G (hm/symmetric-group n)
-      elts (vec (p/elements G))
+      elts (vec (hm/elements G))
       n-elts (count elts)
       uniform (/ 1.0 n-elts)
       tv-data (mapv (fn [k]
@@ -208,7 +206,7 @@
       f-hats (hm/matrix-fourier-transform-all G f irreps)]
   (kind/table
    {:column-names ["$\\lambda$" "$d_\\lambda$"
-                    "$\\|\\hat{Q}(\\rho_\\lambda)\\|_F$"]
+                   "$\\|\\hat{Q}(\\rho_\\lambda)\\|_F$"]
     :row-vectors (mapv (fn [lam ir fh]
                          [(str lam)
                           (:dimension ir)
@@ -227,8 +225,13 @@
       irreps (mapv hm/irrep parts)
       f (fn [sigma] (hm/gsr-probability sigma 2))
       f-hats (hm/matrix-fourier-transform-all G f irreps)
-      lhs (rep/plancherel-lhs G f)
-      rhs (rep/plancherel-rhs G f-hats irreps)]
+      lhs (reduce + (map (fn [sigma] (let [v (f sigma)] (* v v)))
+                         (hm/elements G)))
+      rhs (* (/ 1.0 (hm/order G))
+             (reduce + (map (fn [ir f-hat]
+                              (* (double (hm/rep-dimension ir))
+                                 (fm/trace (fm/mulm (fm/transpose f-hat) f-hat))))
+                            irreps f-hats)))]
   {:lhs lhs :rhs rhs :difference (Math/abs (- lhs rhs))})
 
 (kind/test-last
@@ -243,7 +246,7 @@
                (for [n [4 5 6]
                      k (range 1 15)]
                  (let [G (hm/symmetric-group n)
-                       elts (vec (p/elements G))
+                       elts (vec (hm/elements G))
                        n-elts (count elts)
                        uniform (/ 1.0 n-elts)
                        probs (hm/gsr-distribution-vec elts k)

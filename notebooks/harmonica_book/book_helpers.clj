@@ -1,6 +1,8 @@
+
 ;; # Helper Functions
 ;;
-;; Utility functions shared across notebooks.
+;; Small utilities shared across the book's notebooks. Each notebook
+;; requires this namespace so you can see exactly where helpers come from.
 
 (ns harmonica-book.book-helpers
   (:require

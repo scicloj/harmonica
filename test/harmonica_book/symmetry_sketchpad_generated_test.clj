@@ -2,13 +2,12 @@
  harmonica-book.symmetry-sketchpad-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.protocols :as p]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
 (def
- v3_l28
+ v3_l27
  (defn
   rotation-matrix
   "2D rotation matrix for angle theta (radians)."
@@ -18,7 +17,7 @@
 
 
 (def
- v4_l34
+ v4_l33
  (defn
   reflection-matrix
   "2D reflection matrix across the line at angle theta/2 from x-axis."
@@ -28,7 +27,7 @@
 
 
 (def
- v5_l40
+ v5_l39
  (defn
   apply-matrix
   "Apply a 2x2 matrix to a point [x y]."
@@ -37,27 +36,27 @@
 
 
 (def
- v7_l48
+ v7_l47
  (let
   [theta 1.23 [[a b] [c d]] (rotation-matrix theta)]
   (< (Math/abs (- (- (* a d) (* b c)) 1.0)) 1.0E-14)))
 
 
-(deftest t8_l52 (is (true? v7_l48)))
+(deftest t8_l51 (is (true? v7_l47)))
 
 
 (def
- v10_l56
+ v10_l55
  (let
   [theta 0.7 [[a b] [c d]] (reflection-matrix theta)]
   (< (Math/abs (- (- (* a d) (* b c)) -1.0)) 1.0E-14)))
 
 
-(deftest t11_l60 (is (true? v10_l56)))
+(deftest t11_l59 (is (true? v10_l55)))
 
 
 (def
- v13_l65
+ v13_l64
  (defn
   dihedral-action
   "Action of D_n on a 2D point."
@@ -73,7 +72,7 @@
 
 
 (def
- v14_l73
+ v14_l72
  (defn
   cyclic-action
   "Action of C_n on a 2D point."
@@ -84,7 +83,7 @@
 
 
 (def
- v16_l84
+ v16_l83
  (def
   simple-motif
   "A leaf-like curve in the first wedge."
@@ -100,7 +99,7 @@
 
 
 (def
- v17_l95
+ v17_l94
  (kind/plotly
   {:data
    [{:type "scatter",
@@ -119,7 +118,7 @@
 
 
 (def
- v19_l112
+ v19_l111
  (defn
   make-rosette-cn
   "Replicate a motif under C_n."
@@ -130,7 +129,7 @@
 
 
 (def
- v20_l119
+ v20_l118
  (defn
   make-rosette-dn
   "Replicate a motif under D_n."
@@ -143,7 +142,7 @@
 
 
 (def
- v22_l131
+ v22_l130
  (let
   [n
    5
@@ -173,14 +172,14 @@
      :height 400}})))
 
 
-(def v24_l150 (count (make-rosette-cn 5 simple-motif)))
+(def v24_l149 (count (make-rosette-cn 5 simple-motif)))
 
 
-(deftest t25_l152 (is (= v24_l150 5)))
+(deftest t25_l151 (is (= v24_l149 5)))
 
 
 (def
- v27_l159
+ v27_l158
  (let
   [n
    5
@@ -220,14 +219,14 @@
      :height 400}})))
 
 
-(def v29_l179 (count (make-rosette-dn 5 simple-motif)))
+(def v29_l178 (count (make-rosette-dn 5 simple-motif)))
 
 
-(deftest t30_l181 (is (= v29_l179 10)))
+(deftest t30_l180 (is (= v29_l178 10)))
 
 
 (def
- v32_l188
+ v32_l187
  (let
   [plots
    (mapv
@@ -280,7 +279,7 @@
 
 
 (def
- v34_l217
+ v34_l216
  (let
   [results
    (for
@@ -314,11 +313,11 @@
   (every? identity results)))
 
 
-(deftest t35_l232 (is (true? v34_l217)))
+(deftest t35_l231 (is (true? v34_l216)))
 
 
 (def
- v37_l240
+ v37_l239
  (def
   asymmetric-motif
   "A clearly asymmetric hook shape."
@@ -352,7 +351,7 @@
 
 
 (def
- v38_l263
+ v38_l262
  (let
   [n
    6
@@ -410,7 +409,7 @@
 
 
 (def
- v40_l300
+ v40_l299
  (let
   [n
    7
@@ -427,4 +426,4 @@
   (count (set orbit-pts))))
 
 
-(deftest t41_l308 (is (= v40_l300 14)))
+(deftest t41_l307 (is (= v40_l299 14)))

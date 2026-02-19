@@ -125,6 +125,12 @@
 ;; **separable**. The 2D DFT of an $m \times n$ image equals applying
 ;; the 1D DFT along rows, then along columns (or vice versa).
 ;;
+;; The algorithm has three steps:
+;;
+;; 1. Transform each row with the 1D DFT of the column group
+;; 2. Extract columns from the result, transform each with the row group DFT
+;; 3. Flatten back to a single vector and compare with the direct product DFT
+;;
 ;; Let's verify this by computing both ways.
 
 (let [m 4 n 3

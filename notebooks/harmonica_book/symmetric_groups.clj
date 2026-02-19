@@ -1,6 +1,9 @@
+
 ;; # Symmetric Groups
 ;;
-;; The **[symmetric group](https://en.wikipedia.org/wiki/Symmetric_group)** $S_n$ is the group of all [permutations](https://en.wikipedia.org/wiki/Permutation) of $n$ objects.
+;; The previous chapters used cyclic and dihedral groups to analyze
+;; melodies, necklaces, chords, and sound. Now we turn to a larger
+;; family: the **[symmetric group](https://en.wikipedia.org/wiki/Symmetric_group)** $S_n$, the group of all [permutations](https://en.wikipedia.org/wiki/Permutation) of $n$ objects.
 ;; It has $n!$ elements — the most classical object in group theory.
 ;;
 ;; Where cyclic groups are [abelian](https://en.wikipedia.org/wiki/Abelian_group) and predictable, $S_n$ is wild: for $n \geq 3$

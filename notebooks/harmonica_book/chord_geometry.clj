@@ -11,7 +11,6 @@
 (ns harmonica-book.chord-geometry
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.linalg.complex :as cx]
    [harmonica-book.book-helpers :refer [allclose?]]
    [tablecloth.api :as tc]

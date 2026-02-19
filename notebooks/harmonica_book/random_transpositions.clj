@@ -348,12 +348,23 @@
 ;;
 ;; - Sagan, B. (2001). *The Symmetric Group*. Springer GTM 203.
 
-;; ## Where to go next
+;; ## What comes next
 ;;
-;; - For **non-class-function** analysis (riffle shuffles require
-;;   matrix-valued Fourier transforms): [Riffle Shuffles](riffle_shuffle.html)
-;; - For the **character theory** behind these computations:
-;;   [Character Theory](character_theory.html)
-;; - For the **1D DFT** on cyclic groups:
-;;   [The DFT as Group Fourier Transform](dft_as_group_fourier.html)
+;; This analysis used characters — the scalar-valued traces of
+;; representation matrices. For the riffle shuffle, characters alone
+;; are not enough. The next chapter builds the full matrix
+;; representations and uses the matrix-valued Fourier transform:
+;;
+;; - [Representation Matrices](representation_matrices.html) — Young's
+;;   orthogonal form, explicit matrices for each irrep of $S_n$
+;; - [Riffle Shuffles](riffle_shuffle.html) — the matrix Fourier
+;;   transform and the "seven shuffles" theorem
+
+
+
+
+
+
+
+
 

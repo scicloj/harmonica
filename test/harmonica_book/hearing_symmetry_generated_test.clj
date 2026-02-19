@@ -2,7 +2,6 @@
  harmonica-book.hearing-symmetry-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.protocols :as p]
   [scicloj.kindly.v4.kind :as kind]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
@@ -10,27 +9,27 @@
 
 
 (def
- v3_l30
+ v3_l29
  (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2))))
 
 
-(def v4_l32 (hm/order V4))
+(def v4_l31 (hm/order V4))
 
 
-(deftest t5_l34 (is (= v4_l32 4)))
+(deftest t5_l33 (is (= v4_l31 4)))
 
 
-(def v7_l38 (vec (hm/elements V4)))
+(def v7_l37 (vec (hm/elements V4)))
 
 
-(deftest t8_l40 (is ((fn [v] (= 4 (count v))) v7_l38)))
+(deftest t8_l39 (is ((fn [v] (= 4 (count v))) v7_l37)))
 
 
-(def v10_l56 (def motif [67 67 67 63]))
+(def v10_l55 (def motif [67 67 67 63]))
 
 
 (def
- v11_l58
+ v11_l57
  (def
   note-names
   {65 "F",
@@ -49,7 +48,7 @@
 
 
 (def
- v13_l66
+ v13_l65
  (defn
   apply-v4
   "Apply a Klein four-group element to a melody.\n   Inversion reflects around a fixed pivot (the first note of the motif)."
@@ -58,7 +57,7 @@
    [inverted
     (if
      (= i 1)
-     (mapv (fn* [p1__111421#] (- (* 2 pivot) p1__111421#)) melody)
+     (mapv (fn* [p1__117160#] (- (* 2 pivot) p1__117160#)) melody)
      melody)
     retrograded
     (if (= r 1) (vec (reverse inverted)) inverted)]
@@ -66,7 +65,7 @@
 
 
 (def
- v14_l78
+ v14_l77
  (def
   v4-labels
   {[0 0] "Original",
@@ -76,7 +75,7 @@
 
 
 (def
- v15_l84
+ v15_l83
  (let
   [rows
    (mapv
@@ -91,8 +90,8 @@
        (str
         (mapv
          (fn*
-          [p1__111422#]
-          (get note-names p1__111422# (str p1__111422#)))
+          [p1__117161#]
+          (get note-names p1__117161# (str p1__117161#)))
          result))}))
     (hm/elements V4))]
   (kind/table
@@ -106,7 +105,7 @@
 
 
 (def
- v17_l102
+ v17_l101
  (every?
   (fn
    [[g h]]
@@ -119,11 +118,11 @@
   (for [g (hm/elements V4) h (hm/elements V4)] [g h])))
 
 
-(deftest t18_l108 (is (true? v17_l102)))
+(deftest t18_l107 (is (true? v17_l101)))
 
 
 (def
- v20_l116
+ v20_l115
  (let
   [transforms
    (mapv
@@ -159,20 +158,20 @@
    plotly/plot)))
 
 
-(def v22_l142 (def C12 (hm/cyclic-group 12)))
+(def v22_l141 (def C12 (hm/cyclic-group 12)))
 
 
 (def
- v23_l144
+ v23_l143
  (defn
   transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv (fn* [p1__111423#] (+ p1__111423# (long k))) melody)))
+  (mapv (fn* [p1__117162#] (+ p1__117162# (long k))) melody)))
 
 
 (def
- v25_l151
+ v25_l150
  (let
   [rows
    (mapv
@@ -184,10 +183,10 @@
        (str
         (mapv
          (fn*
-          [p1__111424#]
-          (get note-names (mod p1__111424# 12) (str p1__111424#)))
+          [p1__117163#]
+          (get note-names (mod p1__117163# 12) (str p1__117163#)))
          (mapv
-          (fn* [p1__111425#] (+ 60 (mod (- p1__111425# 60) 12)))
+          (fn* [p1__117164#] (+ 60 (mod (- p1__117164# 60) 12)))
           transposed)))]))
     (range 12))]
   (kind/table
@@ -195,17 +194,17 @@
     :row-vectors rows})))
 
 
-(def v27_l166 (def D12 (hm/dihedral-group 12)))
+(def v27_l165 (def D12 (hm/dihedral-group 12)))
 
 
-(def v28_l168 (hm/order D12))
+(def v28_l167 (hm/order D12))
 
 
-(deftest t29_l170 (is (= v28_l168 24)))
+(deftest t29_l169 (is (= v28_l167 24)))
 
 
 (def
- v31_l187
+ v31_l186
  (def
   schoenberg-row
   "Schoenberg's Op. 25 row (pitch classes)."
@@ -213,7 +212,7 @@
 
 
 (def
- v32_l191
+ v32_l190
  (let
   [pc-name
    {0 "C",
@@ -232,7 +231,7 @@
 
 
 (def
- v34_l200
+ v34_l199
  (defn
   row-forms
   "Generate the 48 forms of a tone row."
@@ -245,7 +244,7 @@
     pivot
     (first row)
     inversion
-    (mapv (fn* [p1__111426#] (mod (- (* 2 pivot) p1__111426#) 12)) row)
+    (mapv (fn* [p1__117165#] (mod (- (* 2 pivot) p1__117165#) 12)) row)
     ri
     (vec (reverse inversion))
     base-forms
@@ -257,25 +256,25 @@
       :form-type form-name,
       :transposition k,
       :row
-      (mapv (fn* [p1__111427#] (mod (+ p1__111427# k) 12)) form)})))))
+      (mapv (fn* [p1__117166#] (mod (+ p1__117166# k) 12)) form)})))))
 
 
-(def v35_l217 (let [forms (row-forms schoenberg-row)] (count forms)))
+(def v35_l216 (let [forms (row-forms schoenberg-row)] (count forms)))
 
 
-(deftest t36_l220 (is (= v35_l217 48)))
+(deftest t36_l219 (is (= v35_l216 48)))
 
 
 (def
- v38_l224
+ v38_l223
  (let
   [forms
    (row-forms schoenberg-row)
    selected
    (filterv
     (fn*
-     [p1__111428#]
-     (contains? #{0 6 3 9} (:transposition p1__111428#)))
+     [p1__117167#]
+     (contains? #{0 6 3 9} (:transposition p1__117167#)))
     forms)
    selected
    (take 16 (sort-by (juxt :form-type :transposition) selected))]
@@ -286,17 +285,17 @@
 
 
 (def
- v40_l235
+ v40_l234
  (let
   [forms (row-forms schoenberg-row)]
   (every? (fn [{:keys [row]}] (= (set row) (set (range 12)))) forms)))
 
 
-(deftest t41_l240 (is (true? v40_l235)))
+(deftest t41_l239 (is (true? v40_l234)))
 
 
 (def
- v43_l247
+ v43_l246
  (let
   [forms
    (row-forms schoenberg-row)
@@ -305,14 +304,14 @@
   (count distinct-rows)))
 
 
-(deftest t44_l251 (is (= v43_l247 48)))
+(deftest t44_l250 (is (= v43_l246 48)))
 
 
-(def v46_l258 (def all-interval-row [0 11 7 4 2 9 3 8 10 1 5 6]))
+(def v46_l257 (def all-interval-row [0 11 7 4 2 9 3 8 10 1 5 6]))
 
 
 (def
- v48_l262
+ v48_l261
  (let
   [intervals
    (mapv
@@ -323,11 +322,11 @@
   (= (set intervals) (set (range 1 12)))))
 
 
-(deftest t49_l269 (is (true? v48_l262)))
+(deftest t49_l268 (is (true? v48_l261)))
 
 
 (def
- v51_l276
+ v51_l275
  (let
   [elts
    (vec (hm/elements V4))

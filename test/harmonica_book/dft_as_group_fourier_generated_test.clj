@@ -225,7 +225,7 @@
 (def
  v52_l290
  (mapv
-  (fn* [p1__113780#] (Math/round p1__113780#))
+  (fn* [p1__116306#] (Math/round p1__116306#))
   (vec (cx/re convolved))))
 
 
@@ -264,39 +264,38 @@
    (dfn/sum (dfn/* mag-s mag-s))
    energy-freq
    (/ (dfn/sum (dfn/* mag-f mag-f)) (double (hm/order G)))]
-  (< (Math/abs (- energy-time energy-freq)) 1.0E-8)
   (< (Math/abs (- energy-time energy-freq)) 1.0E-8)))
 
 
-(deftest t59_l321 (is (true? v58_l314)))
+(deftest t59_l320 (is (true? v58_l314)))
 
 
 (def
- v61_l331
+ v61_l330
  (def f-real [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
 
 
 (def
- v62_l333
+ v62_l332
  (def h-real [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 
 (def
- v64_l338
+ v64_l337
  (def
   linear-conv
   (vec
    (dt-conv/convolve1d f-real h-real {:mode :full, :edge-mode :zero}))))
 
 
-(def v65_l341 (count linear-conv))
+(def v65_l340 (count linear-conv))
 
 
-(deftest t66_l343 (is (= v65_l341 47)))
+(deftest t66_l342 (is (= v65_l340 47)))
 
 
 (def
- v68_l348
+ v68_l347
  (def
   cyclic-from-linear
   (let
@@ -310,22 +309,22 @@
     (range n)))))
 
 
-(def v69_l357 cyclic-from-linear)
+(def v69_l356 cyclic-from-linear)
 
 
 (deftest
- t70_l359
+ t70_l358
  (is
   ((fn
     [v]
     (=
      (mapv long v)
      [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
-   v69_l357)))
+   v69_l356)))
 
 
 (def
- v72_l364
+ v72_l363
  (let
   [group-conv
    (cx/re
@@ -336,4 +335,4 @@
   (allclose? cyclic-from-linear group-conv)))
 
 
-(deftest t73_l369 (is (true? v72_l364)))
+(deftest t73_l368 (is (true? v72_l363)))

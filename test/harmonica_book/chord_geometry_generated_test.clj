@@ -2,7 +2,6 @@
  harmonica-book.chord-geometry-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.protocols :as p]
   [scicloj.harmonica.linalg.complex :as cx]
   [harmonica-book.book-helpers :refer [allclose?]]
   [tablecloth.api :as tc]
@@ -12,14 +11,14 @@
 
 
 (def
- v3_l26
+ v3_l25
  (def
   pitch-names
   ["C" "C#" "D" "D#" "E" "F" "F#" "G" "G#" "A" "A#" "B"]))
 
 
 (def
- v5_l32
+ v5_l31
  (defn
   chord-plot
   "Draw a chord as a polygon on the pitch class circle."
@@ -32,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__114078#] (Math/cos p1__114078#)) angles)
+    (mapv (fn* [p1__116880#] (Math/cos p1__116880#)) angles)
     ys
-    (mapv (fn* [p1__114079#] (Math/sin p1__114079#)) angles)
+    (mapv (fn* [p1__116881#] (Math/sin p1__116881#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -72,11 +71,11 @@
       :margin {:t 40, :b 10, :l 10, :r 10}}}))))
 
 
-(def v6_l62 (chord-plot #{0 7 4} "C major on the pitch class circle"))
+(def v6_l61 (chord-plot #{0 7 4} "C major on the pitch class circle"))
 
 
 (def
- v8_l72
+ v8_l71
  (let
   [c-major
    [0 4 7]
@@ -88,7 +87,7 @@
       [transposed
        (sort
         (mapv
-         (fn* [p1__114080#] (mod (+ p1__114080# (long k)) 12))
+         (fn* [p1__116882#] (mod (+ p1__116882# (long k)) 12))
          c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
@@ -101,7 +100,7 @@
 
 
 (def
- v10_l92
+ v10_l91
  (let
   [G
    (hm/cyclic-group 12)
@@ -114,11 +113,11 @@
   (count orbs)))
 
 
-(deftest t11_l98 (is (= v10_l92 19)))
+(deftest t11_l97 (is (= v10_l91 19)))
 
 
 (def
- v13_l106
+ v13_l105
  (defn
   interval-vector
   "Compute the interval vector of a pitch class set.\n  Counts the number of each interval class (1 through 6)."
@@ -138,7 +137,7 @@
 
 
 (def
- v14_l119
+ v14_l118
  (let
   [G
    (hm/cyclic-group 12)
@@ -165,7 +164,7 @@
 
 
 (def
- v16_l149
+ v16_l148
  (let
   [G
    (hm/dihedral-group 12)
@@ -185,11 +184,11 @@
   (count orbs)))
 
 
-(deftest t17_l158 (is (= v16_l149 12)))
+(deftest t17_l157 (is (= v16_l148 12)))
 
 
 (def
- v19_l165
+ v19_l164
  (let
   [G-c
    (hm/cyclic-group 12)
@@ -220,7 +219,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__114081#] (contains? p1__114081# rep)) orbs-d)))
+     (filter (fn* [p1__116883#] (contains? p1__116883# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -236,7 +235,7 @@
 
 
 (def
- v21_l205
+ v21_l204
  (let
   [G
    (hm/dihedral-group 12)
@@ -254,21 +253,21 @@
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__114082#] (first (sort p1__114082#))) orbs)
+   (mapv (fn* [p1__116884#] (first (sort p1__116884#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
   (every?
-   (fn* [p1__114083#] (= 1 (count (val p1__114083#))))
+   (fn* [p1__116885#] (= 1 (count (val p1__116885#))))
    iv-groups)))
 
 
-(deftest t22_l217 (is (true? v21_l205)))
+(deftest t22_l216 (is (true? v21_l204)))
 
 
 (def
- v24_l227
+ v24_l226
  (let
   [G-c
    (hm/cyclic-group 12)
@@ -318,7 +317,7 @@
 
 
 (def
- v26_l261
+ v26_l260
  (let
   [G
    (hm/cyclic-group 12)
@@ -345,7 +344,7 @@
 
 
 (def
- v28_l282
+ v28_l281
  (let
   [G
    (hm/cyclic-group 12)
@@ -368,23 +367,23 @@
   (allclose? (cx/cabs hat-a) (cx/cabs hat-b))))
 
 
-(deftest t29_l292 (is (true? v28_l282)))
+(deftest t29_l291 (is (true? v28_l281)))
 
 
-(def v31_l299 (chord-plot #{0 7 4} "Major triad"))
+(def v31_l298 (chord-plot #{0 7 4} "Major triad"))
 
 
-(def v32_l301 (chord-plot #{0 7 3} "Minor triad"))
+(def v32_l300 (chord-plot #{0 7 3} "Minor triad"))
 
 
-(def v33_l303 (chord-plot #{0 4 8} "Augmented triad"))
+(def v33_l302 (chord-plot #{0 4 8} "Augmented triad"))
 
 
-(def v34_l305 (chord-plot #{0 6 3} "Diminished triad"))
+(def v34_l304 (chord-plot #{0 6 3} "Diminished triad"))
 
 
 (def
- v36_l321
+ v36_l320
  (defn
   prime-form
   "Compute the prime form of a pitch class set under TnI equivalence.\n  The prime form is the most compact representative: transpose all\n  rotations and inversions to start at 0, then pick the lexicographically\n  smallest."
@@ -399,26 +398,26 @@
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__114084#] (mod (+ p1__114084# k) n)) pcs-vec))))
+       (map (fn* [p1__116886#] (mod (+ p1__116886# k) n)) pcs-vec))))
     inversions
     (for
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__114085#] (mod (- k p1__114085#) n)) pcs-vec))))
+       (map (fn* [p1__116887#] (mod (- k p1__116887#) n)) pcs-vec))))
     normalize
     (fn
      [s]
      (let
       [base (first s)]
-      (mapv (fn* [p1__114086#] (mod (- p1__114086# base) n)) s)))
+      (mapv (fn* [p1__116888#] (mod (- p1__116888# base) n)) s)))
     candidates
     (map normalize (concat transpositions inversions))]
    (first (sort candidates)))))
 
 
 (def
- v38_l344
+ v38_l343
  (let
   [G
    (hm/dihedral-group 12)
@@ -490,7 +489,7 @@
 
 
 (def
- v40_l372
+ v40_l371
  (let
   [G
    (hm/dihedral-group 12)
@@ -525,11 +524,11 @@
   (= computed catalog)))
 
 
-(deftest t41_l385 (is (true? v40_l372)))
+(deftest t41_l384 (is (true? v40_l371)))
 
 
 (def
- v43_l390
+ v43_l389
  (let
   [G
    (hm/dihedral-group 12)
@@ -549,14 +548,14 @@
   (count orbs)))
 
 
-(deftest t44_l399 (is (= v43_l390 29)))
+(deftest t44_l398 (is (= v43_l389 29)))
 
 
 (def
- v46_l406
+ v46_l405
  (let
   [z15 [0 1 4 6] z29 [0 1 3 7]]
   (= (interval-vector z15) (interval-vector z29))))
 
 
-(deftest t47_l410 (is (true? v46_l406)))
+(deftest t47_l409 (is (true? v46_l405)))

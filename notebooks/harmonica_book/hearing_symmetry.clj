@@ -9,7 +9,6 @@
 (ns harmonica-book.hearing-symmetry
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.protocols :as p]
    [scicloj.kindly.v4.kind :as kind]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]))

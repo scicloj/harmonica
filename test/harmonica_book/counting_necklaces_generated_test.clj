@@ -2,7 +2,6 @@
  harmonica-book.counting-necklaces-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.protocols :as p]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -10,12 +9,12 @@
 
 
 (def
- v3_l26
+ v3_l25
  (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
 
 
 (def
- v4_l29
+ v4_l28
  (defn
   dihedral-vertex-action
   [n]
@@ -30,7 +29,7 @@
 
 
 (def
- v6_l49
+ v6_l48
  (let
   [n
    4
@@ -46,11 +45,11 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__86395#] (first (sort p1__86395#))) orbs))})))
+     (sort-by (fn* [p1__116755#] (first (sort p1__116755#))) orbs))})))
 
 
 (def
- v8_l61
+ v8_l60
  (let
   [n
    4
@@ -63,11 +62,11 @@
   (count orbs)))
 
 
-(deftest t9_l67 (is (= v8_l61 6)))
+(deftest t9_l66 (is (= v8_l60 6)))
 
 
 (def
- v11_l78
+ v11_l77
  (let
   [n
    6
@@ -80,7 +79,7 @@
     (fn
      [g]
      {:element g, :fixed (count (hm/fixed-points act g domain))})
-    (p/elements G))]
+    (hm/elements G))]
   (kind/table
    {:column-names ["$g$" "$|\\text{Fix}(g)|$"],
     :row-vectors
@@ -90,7 +89,7 @@
 
 
 (def
- v13_l93
+ v13_l92
  (let
   [n
    6
@@ -101,11 +100,11 @@
   (hm/burnside-count G act domain)))
 
 
-(deftest t14_l98 (is (= v13_l93 14)))
+(deftest t14_l97 (is (= v13_l92 14)))
 
 
 (def
- v16_l107
+ v16_l106
  (let
   [n
    6
@@ -122,7 +121,7 @@
 
 
 (def
- v18_l119
+ v18_l118
  (let
   [n
    6
@@ -133,11 +132,11 @@
   (reduce + (vals ci))))
 
 
-(deftest t19_l124 (is (= v18_l119 1)))
+(deftest t19_l123 (is (= v18_l118 1)))
 
 
 (def
- v21_l129
+ v21_l128
  (let
   [n
    6
@@ -152,7 +151,7 @@
 
 
 (def
- v23_l139
+ v23_l138
  (let
   [n
    6
@@ -163,11 +162,11 @@
   (hm/polya-count ci 2)))
 
 
-(deftest t24_l144 (is (= v23_l139 14)))
+(deftest t24_l143 (is (= v23_l138 14)))
 
 
 (def
- v25_l146
+ v25_l145
  (let
   [n
    6
@@ -178,11 +177,11 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t26_l151 (is (= v25_l146 130)))
+(deftest t26_l150 (is (= v25_l145 130)))
 
 
 (def
- v28_l158
+ v28_l157
  (let
   [results
    (mapv
@@ -212,7 +211,7 @@
 
 
 (def
- v30_l176
+ v30_l175
  (let
   [n
    6
@@ -223,11 +222,11 @@
   (hm/burnside-count G-d act-d domain-d)))
 
 
-(deftest t31_l181 (is (= v30_l176 13)))
+(deftest t31_l180 (is (= v30_l175 13)))
 
 
 (def
- v33_l192
+ v33_l191
  (let
   [data
    (vec
@@ -267,7 +266,7 @@
 
 
 (def
- v35_l225
+ v35_l224
  (let
   [G
    (hm/symmetric-group 4)
@@ -286,7 +285,7 @@
 
 
 (def
- v36_l247
+ v36_l246
  (let
   [cube-cycle-index
    {[1 1 1 1 1 1] 1/24,
@@ -300,4 +299,4 @@
    (hm/polya-count cube-cycle-index 6)]))
 
 
-(deftest t37_l257 (is (= v36_l247 [1 10 57 2226])))
+(deftest t37_l256 (is (= v36_l246 [1 10 57 2226])))

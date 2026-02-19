@@ -316,7 +316,6 @@
       energy-time (dfn/sum (dfn/* mag-s mag-s))
       energy-freq (/ (dfn/sum (dfn/* mag-f mag-f))
                      (double (hm/order G)))]
-  (< (Math/abs (- energy-time energy-freq)) 1e-8)
   (< (Math/abs (- energy-time energy-freq)) 1e-8))
 (kind/test-last
  [true?])

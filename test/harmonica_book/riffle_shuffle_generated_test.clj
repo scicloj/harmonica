@@ -2,8 +2,6 @@
  harmonica-book.riffle-shuffle-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.analysis.representations :as rep]
-  [scicloj.harmonica.protocols :as p]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -11,23 +9,23 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l43 (hm/standard-young-tableaux [3 1]))
+(def v3_l41 (hm/standard-young-tableaux [3 1]))
 
 
-(def v5_l47 (hm/hook-length-dimension [3 1]))
+(def v5_l45 (hm/hook-length-dimension [3 1]))
 
 
-(deftest t6_l49 (is (= v5_l47 3)))
+(deftest t6_l47 (is (= v5_l45 3)))
 
 
-(def v8_l53 (count (hm/standard-young-tableaux [3 1])))
+(def v8_l51 (count (hm/standard-young-tableaux [3 1])))
 
 
-(deftest t9_l55 (is (= v8_l53 3)))
+(deftest t9_l53 (is (= v8_l51 3)))
 
 
 (def
- v11_l60
+ v11_l58
  (let
   [ir (hm/irrep [3 1]) gens (hm/rep-generators ir)]
   (kind/table
@@ -37,7 +35,7 @@
 
 
 (def
- v13_l76
+ v13_l74
  (let
   [n 5 parts (hm/partitions n)]
   (kind/table
@@ -55,13 +53,13 @@
        +
        (map
         (fn*
-         [p1__87836#]
-         (let [d (hm/hook-length-dimension p1__87836#)] (* d d)))
+         [p1__118158#]
+         (let [d (hm/hook-length-dimension p1__118158#)] (* d d)))
         parts))])})))
 
 
 (deftest
- t14_l89
+ t14_l87
  (is
   ((fn
     [_]
@@ -73,29 +71,29 @@
        +
        (map
         (fn*
-         [p1__87837#]
-         (let [d (hm/hook-length-dimension p1__87837#)] (* d d)))
+         [p1__118159#]
+         (let [d (hm/hook-length-dimension p1__118159#)] (* d d)))
         parts)))))
-   v13_l76)))
+   v13_l74)))
 
 
-(def v16_l114 (hm/rising-sequences [2 0 3 1]))
+(def v16_l112 (hm/rising-sequences [2 0 3 1]))
 
 
-(deftest t17_l116 (is (= v16_l114 2)))
+(deftest t17_l114 (is (= v16_l112 2)))
 
 
-(def v19_l120 (hm/rising-sequences (hm/identity-perm 6)))
+(def v19_l118 (hm/rising-sequences (hm/identity-perm 6)))
 
 
-(deftest t20_l122 (is (= v19_l120 1)))
+(deftest t20_l120 (is (= v19_l118 1)))
 
 
-(def v22_l127 (hm/gsr-probability (hm/identity-perm 4) 1))
+(def v22_l125 (hm/gsr-probability (hm/identity-perm 4) 1))
 
 
 (def
- v24_l131
+ v24_l129
  (let
   [G
    (hm/symmetric-group 4)
@@ -108,23 +106,25 @@
     (-
      (reduce
       +
-      (map (fn* [p1__87838#] (probs p1__87838#)) (range (count elts))))
+      (map
+       (fn* [p1__118160#] (probs p1__118160#))
+       (range (count elts))))
      1.0))
    1.0E-10)))
 
 
-(deftest t25_l136 (is (true? v24_l131)))
+(deftest t25_l134 (is (true? v24_l129)))
 
 
 (def
- v27_l145
+ v27_l143
  (let
   [n
    5
    G
    (hm/symmetric-group n)
    elts
-   (vec (p/elements G))
+   (vec (hm/elements G))
    n-elts
    (count elts)
    uniform
@@ -142,7 +142,9 @@
         (reduce
          +
          (map
-          (fn* [p1__87839#] (Math/abs (- (probs p1__87839#) uniform)))
+          (fn*
+           [p1__118161#]
+           (Math/abs (- (probs p1__118161#) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -164,7 +166,7 @@
 
 
 (def
- v29_l170
+ v29_l168
  (let
   [n
    5
@@ -184,16 +186,16 @@
     (reduce
      +
      (map
-      (fn* [p1__87840#] (Math/abs (- (probs p1__87840#) uniform)))
+      (fn* [p1__118162#] (Math/abs (- (probs p1__118162#) uniform)))
       (range n-elts))))]
   (> tv 0.5)))
 
 
-(deftest t30_l179 (is (true? v29_l170)))
+(deftest t30_l177 (is (true? v29_l168)))
 
 
 (def
- v32_l183
+ v32_l181
  (let
   [n
    5
@@ -213,16 +215,16 @@
     (reduce
      +
      (map
-      (fn* [p1__87841#] (Math/abs (- (probs p1__87841#) uniform)))
+      (fn* [p1__118163#] (Math/abs (- (probs p1__118163#) uniform)))
       (range n-elts))))]
   (< tv 0.01)))
 
 
-(deftest t33_l192 (is (true? v32_l183)))
+(deftest t33_l190 (is (true? v32_l181)))
 
 
 (def
- v35_l202
+ v35_l200
  (let
   [n
    4
@@ -254,7 +256,7 @@
 
 
 (def
- v37_l224
+ v37_l222
  (let
   [n
    4
@@ -269,19 +271,32 @@
    f-hats
    (hm/matrix-fourier-transform-all G f irreps)
    lhs
-   (rep/plancherel-lhs G f)
+   (reduce
+    +
+    (map (fn [sigma] (let [v (f sigma)] (* v v))) (hm/elements G)))
    rhs
-   (rep/plancherel-rhs G f-hats irreps)]
+   (*
+    (/ 1.0 (hm/order G))
+    (reduce
+     +
+     (map
+      (fn
+       [ir f-hat]
+       (*
+        (double (hm/rep-dimension ir))
+        (fm/trace (fm/mulm (fm/transpose f-hat) f-hat))))
+      irreps
+      f-hats)))]
   {:lhs lhs, :rhs rhs, :difference (Math/abs (- lhs rhs))}))
 
 
 (deftest
- t38_l234
- (is ((fn [result] (< (:difference result) 1.0E-10)) v37_l224)))
+ t38_l237
+ (is ((fn [result] (< (:difference result) 1.0E-10)) v37_l222)))
 
 
 (def
- v40_l242
+ v40_l245
  (let
   [tv-data
    (vec
@@ -291,7 +306,7 @@
       [G
        (hm/symmetric-group n)
        elts
-       (vec (p/elements G))
+       (vec (hm/elements G))
        n-elts
        (count elts)
        uniform
@@ -304,7 +319,9 @@
         (reduce
          +
          (map
-          (fn* [p1__87842#] (Math/abs (- (probs p1__87842#) uniform)))
+          (fn*
+           [p1__118164#]
+           (Math/abs (- (probs p1__118164#) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->

@@ -105,7 +105,7 @@
 
 
 (def
- v33_l130
+ v33_l136
  (let
   [m
    4
@@ -124,7 +124,7 @@
     (range m))
    rows-transformed
    (mapv
-    (fn* [p1__111331#] (hm/fourier-transform ct2 p1__111331#))
+    (fn* [p1__116463#] (hm/fourier-transform ct2 p1__116463#))
     rows)
    cols-of-transformed
    (mapv
@@ -137,7 +137,7 @@
     (range n))
    cols-transformed
    (mapv
-    (fn* [p1__111332#] (hm/fourier-transform ct1 p1__111332#))
+    (fn* [p1__116464#] (hm/fourier-transform ct1 p1__116464#))
     cols-of-transformed)
    separable-result
    (cx/complex-tensor
@@ -153,11 +153,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t34_l160 (is (true? v33_l130)))
+(deftest t34_l166 (is (true? v33_l136)))
 
 
 (def
- v36_l169
+ v36_l175
  (let
   [energy-space
    (dfn/sum (dfn/* (cx/re signal) (cx/re signal)))
@@ -174,11 +174,11 @@
   (< (Math/abs (- energy-space energy-freq)) 1.0E-10)))
 
 
-(deftest t37_l177 (is (true? v36_l169)))
+(deftest t37_l183 (is (true? v36_l175)))
 
 
 (def
- v39_l185
+ v39_l191
  (let
   [f
    (cx/complex-tensor-real
@@ -201,11 +201,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t40_l204 (is (true? v39_l185)))
+(deftest t40_l210 (is (true? v39_l191)))
 
 
 (def
- v42_l211
+ v42_l217
  (let
   [m
    6

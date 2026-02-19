@@ -12,7 +12,6 @@
 (ns harmonica-book.symmetry-sketchpad
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.protocols :as p]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Group Actions on the Plane

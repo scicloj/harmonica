@@ -15,7 +15,6 @@
 (ns harmonica-book.counting-necklaces
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.protocols :as p]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -81,7 +80,7 @@
       fix-counts (mapv (fn [g]
                          {:element g
                           :fixed (count (hm/fixed-points act g domain))})
-                       (p/elements G))]
+                       (hm/elements G))]
   (kind/table
    {:column-names ["$g$" "$|\\text{Fix}(g)|$"]
     :row-vectors (mapv (fn [{:keys [element fixed]}]
@@ -233,11 +232,11 @@
       ;; Simpler: use the cycle index of the rotation group directly.
       ;; The cycle index of the cube rotation group acting on 6 faces is known:
       ;; Z = (1/24)(a₁⁶ + 6·a₁²a₄ + 3·a₁²a₂² + 8·a₃² + 6·a₂³)
-      cube-cycle-index {[1 1 1 1 1 1] 1/24     ;; identity (1)
-                        [1 1 4]        6/24     ;; face rotations ±90° (6)
-                        [1 1 2 2]      3/24     ;; face rotations 180° (3)
-                        [3 3]          8/24     ;; vertex rotations ±120° (8)
-                        [2 2 2]        6/24}]   ;; edge rotations 180° (6)
+      cube-cycle-index {[1 1 1 1 1 1] 1/24 ;; identity (1)
+                        [1 1 4] 6/24 ;; face rotations ±90° (6)
+                        [1 1 2 2] 3/24 ;; face rotations 180° (3)
+                        [3 3] 8/24 ;; vertex rotations ±120° (8)
+                        [2 2 2] 6/24}] ;; edge rotations 180° (6)
   (kind/table
    {:column-names ["$k$ (colors)" "Distinct cube colorings"]
     :row-vectors (mapv (fn [k]
@@ -245,10 +244,10 @@
                        (range 1 8))}))
 
 (let [cube-cycle-index {[1 1 1 1 1 1] 1/24
-                        [1 1 4]        6/24
-                        [1 1 2 2]      3/24
-                        [3 3]          8/24
-                        [2 2 2]        6/24}]
+                        [1 1 4] 6/24
+                        [1 1 2 2] 3/24
+                        [3 3] 8/24
+                        [2 2 2] 6/24}]
   [(hm/polya-count cube-cycle-index 1)
    (hm/polya-count cube-cycle-index 2)
    (hm/polya-count cube-cycle-index 3)
