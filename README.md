@@ -70,18 +70,22 @@ The [Harmonica book](https://scicloj.github.io/harmonica/) is organized for
 incremental learning, interleaving theory with applications — from the DFT
 and rosette patterns through necklace counting, music theory, and card shuffling.
 
-## API Namespaces
+## API
 
-| Namespace | Purpose |
-|:----------|:--------|
-| `scicloj.harmonica` | Public API — groups, characters, Fourier, representations, actions, visualization |
-| `scicloj.harmonica.protocols` | Core protocols: Group, FiniteGroup, GroupStructure, GroupType |
-| `scicloj.harmonica.analysis.characters` | Character table computation (multimethod on group type) |
-| `scicloj.harmonica.analysis.fourier` | Fourier transform, inverse, convolution |
-| `scicloj.harmonica.analysis.representations` | Irreducible representations, tensor product, induction |
-| `scicloj.harmonica.linalg.complex` | ComplexTensor — split real/imaginary storage on [dtype-next](https://github.com/cnuernber/dtype-next) |
-| `scicloj.harmonica.linalg.ejml` | [EJML](https://ejml.org/) bridge for complex matrix operations |
-| `scicloj.harmonica.action` | Group actions: orbits, stabilizers, Burnside, Pólya |
+Most users need only two namespaces:
+
+```clojure
+(require '[scicloj.harmonica :as hm])
+(require '[scicloj.harmonica.linalg.complex :as cx])
+```
+
+`scicloj.harmonica` is the public API — groups, character tables, Fourier
+transforms, representations, group actions, and visualization. `cx` provides
+ComplexTensor operations for working with complex-valued results.
+
+Internal namespaces (`analysis.characters`, `analysis.fourier`,
+`analysis.representations`, `linalg.ejml`, `protocols`, `action`, etc.) are
+available but rarely needed directly.
 
 ## Built on
 
