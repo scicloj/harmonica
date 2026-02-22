@@ -72,6 +72,8 @@ and rosette patterns through necklace counting, music theory, and card shuffling
 
 ## API
 
+See the [API reference](https://scicloj.github.io/harmonica/harmonica_book.api_reference.html) for the full list of functions with examples.
+
 Most users need only two namespaces:
 
 ```clojure
