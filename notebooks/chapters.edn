@@ -11,10 +11,12 @@
                       "random_transpositions"]
  "Representation Matrices" ["representation_matrices"
                              "riffle_shuffle"]
- "Reference" ["book_helpers"
+ "Under the Hood" ["data_representations"
+                    "algorithms"]
+ "Reference" ["api_reference"
+              "book_helpers"
               "group_actions"
-              "algebraic_identities"
-              "sympy_comparison"
               "complex_tensors"
-              "ejml_integration"
-              "api_reference"]}
+              "ejml_integration"]
+ "Appendix: Validation" ["algebraic_identities"
+                          "sympy_comparison"]}
