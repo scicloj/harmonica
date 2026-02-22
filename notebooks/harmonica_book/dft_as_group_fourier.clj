@@ -187,12 +187,18 @@ f-hat
     plotly/plot)
 
 ;; The dominant oscillating component is $k = 2$ — two complete cycles
-;; over the 24-month window, which is the **annual cycle** (period = 12
-;; months). This is the seasonal pattern. The $k = 22$ peak is its conjugate
-;; mirror (the spectrum of real signals is symmetric).
+;; over the 24-month window, i.e. the **annual cycle** (period = 12 months).
 ;;
-;; The small peak at $k = 1$ captures the slight year-over-year warming trend
-;; (one cycle per 24 months = a 2-year period).
+;; You'll also notice a matching peak at $k = 22$. This is not a separate
+;; physical phenomenon — for real-valued signals, the DFT spectrum is always
+;; symmetric: the component at $k$ and the component at $n - k$ are complex
+;; conjugates of each other ($n = 24$ here, so $k = 2$ and $k = 22 = 24 - 2$
+;; carry the same information).
+;;
+;; Beyond the annual cycle, a few smaller components are visible above the
+;; noise floor: $k = 4$ and $k = 20$ (the semi-annual harmonic, period = 6
+;; months) and $k = 1$ and $k = 23$ (a slow drift over the 2-year window).
+;; Each pair is again a component and its conjugate mirror.
 
 ;; ## Comparison with the standard FFT
 
