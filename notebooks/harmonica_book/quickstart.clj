@@ -188,9 +188,9 @@ f-hat
 
 (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2)))
 
-;; A short motif — the opening of Beethoven's Fifth (MIDI pitches):
+;; A short motif (MIDI pitches E G C B A G):
 
-(def motif [67 67 67 63])
+(def motif [64 67 72 71 69 67])
 
 (defn apply-v4 [pivot [r i] melody]
   (let [m (if (= i 1) (mapv #(- (* 2 pivot) %) melody) melody)]
@@ -236,11 +236,15 @@ f-hat
                          (* 0.10 (Math/sin (* 2.0 Math/PI 3.0 freq phase))))]
              (float (* amp env wave))))))})))
 
-;; Original — G G G E♭:
+;; Traverse the whole group — each element transforms the motif differently:
+
 (play motif)
 
-;; Inversion — G G G B:
+(play (apply-v4 (first motif) [1 0] motif))
+
 (play (apply-v4 (first motif) [0 1] motif))
+
+(play (apply-v4 (first motif) [1 1] motif))
 
 ;; For twelve-tone rows, transposition, and more musical group theory,
 ;; see [Hearing Symmetry](hearing_symmetry.html).
