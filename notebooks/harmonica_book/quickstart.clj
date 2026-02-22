@@ -188,40 +188,47 @@ f-hat
 
 (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2)))
 
-;; A short motif (MIDI pitches E G C B A G):
+;; The opening of Handel's Sarabande in D minor — pairs of `[pitch duration]`:
 
-(def motif [64 67 72 71 69 67])
+(def motif [[62 0.75] [61 0.75] [62 0.50] [64 0.50] [65 0.75]])
 
 (defn apply-v4 [pivot [r i] melody]
-  (let [m (if (= i 1) (mapv #(- (* 2 pivot) %) melody) melody)]
+  (let [m (if (= i 1) (mapv (fn [[p d]] [(- (* 2 pivot) p) d]) melody) melody)]
     (if (= r 1) (vec (reverse m)) m)))
 
 ;; The four forms:
 
-(let [pivot (first motif)]
-  {:original motif
-   :retrograde (apply-v4 pivot [1 0] motif)
-   :inversion (apply-v4 pivot [0 1] motif)
-   :retrograde-inv (apply-v4 pivot [1 1] motif)})
+(let [pivot (ffirst motif)]
+  {:original (mapv first motif)
+   :retrograde (mapv first (apply-v4 pivot [1 0] motif))
+   :inversion (mapv first (apply-v4 pivot [0 1] motif))
+   :retrograde-inv (mapv first (apply-v4 pivot [1 1] motif))})
 
-;; Synthesize and play them. Each note becomes a sine wave:
+;; Synthesize and play them:
 
 (def sample-rate 44100.0)
 
 (defn play [melody]
-  (let [n-note (long (* 0.35 sample-rate))
-        amp 2500.0
-        attack (long (* 0.015 sample-rate))
-        sounding (long (* 0.85 n-note))
-        release (long (* 0.06 sample-rate))]
+  (let [amp 2500.0
+        offsets (reductions + 0 (map (fn [[_ d]] (long (* d sample-rate))) melody))
+        total (last offsets)]
     (kind/audio
      {:sample-rate sample-rate
       :samples
       (dtype/make-reader
-       :float32 (* (count melody) n-note)
-       (let [note-idx (quot idx n-note)
-             t (rem idx n-note)
-             freq (* 440.0 (Math/pow 2.0 (/ (- (melody note-idx) 69.0) 12.0)))
+       :float32 total
+       (let [[note-idx note-start]
+             (loop [i 0]
+               (if (< idx (nth offsets (inc i)))
+                 [i (nth offsets i)]
+                 (recur (inc i))))
+             [pitch dur] (melody note-idx)
+             n-note (long (* dur sample-rate))
+             t (- idx note-start)
+             attack (long (* 0.015 sample-rate))
+             sounding (long (* 0.85 n-note))
+             release (long (* 0.06 sample-rate))
+             freq (* 440.0 (Math/pow 2.0 (/ (- (double pitch) 69.0) 12.0)))
              phase (/ (double t) sample-rate)]
          (if (>= t sounding)
            (float 0.0)
@@ -240,11 +247,11 @@ f-hat
 
 (play motif)
 
-(play (apply-v4 (first motif) [1 0] motif))
+(play (apply-v4 (ffirst motif) [1 0] motif))
 
-(play (apply-v4 (first motif) [0 1] motif))
+(play (apply-v4 (ffirst motif) [0 1] motif))
 
-(play (apply-v4 (first motif) [1 1] motif))
+(play (apply-v4 (ffirst motif) [1 1] motif))
 
 ;; For twelve-tone rows, transposition, and more musical group theory,
 ;; see [Hearing Symmetry](hearing_symmetry.html).
