@@ -27,7 +27,9 @@
      hook-length-dimension   - dimension via hook-length formula
 
    Characters:
-     character-table  - compute the character table
+     character-table       - compute the character table
+     show-character-table  - display as a formatted kind/table
+     format-cx             - format a complex value for display
 
    Fourier analysis:
      fourier-transform        - transform a function on the group
@@ -188,6 +190,18 @@
 (def character-inner-product
   "Inner product of two class functions."
   ch/character-inner-product)
+
+(def format-cx
+  "Format a complex character value for display.
+   Integers stay as integers, pure imaginary values display as i/-i/ni,
+   and general complex values display as re+imi."
+  ch/format-cx)
+
+(def show-character-table
+  "Display a character table as a kind/table with labeled rows and columns.
+   Rows are irreducible representations, columns are conjugacy classes.
+   Complex values are formatted for readability."
+  ch/show-character-table)
 
 ;; ---------------------------------------------------------------------------
 ;; Representations

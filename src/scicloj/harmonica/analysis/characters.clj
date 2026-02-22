@@ -17,6 +17,7 @@
             [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
             [scicloj.harmonica.combinatorics.partition :as part]
             [scicloj.harmonica.linalg.complex :as cx]
+            [scicloj.kindly.v4.kind :as kind]
             [tech.v3.datatype :as dtype]
             [tech.v3.datatype.functional :as dfn]
             [tech.v3.tensor :as tensor]))
@@ -211,3 +212,36 @@
                                                        (dfn/* chi-im psi-im)))))
                 (* inv-order (dfn/sum (dfn/* sz (dfn/- (dfn/* chi-im psi-re)
                                                        (dfn/* chi-re psi-im))))))))
+
+(defn format-cx
+  "Format a complex character value for display.
+   Integers stay as integers, pure imaginary values display as i/-i/ni,
+   and general complex values display as re+imi."
+  [v]
+  (let [re (cx/re v) im (cx/im v)
+        near-int? (fn [x] (< (Math/abs (- x (Math/round x))) 1e-10))
+        fmt (fn [x] (if (near-int? x) (long (Math/round x)) (format "%.3f" x)))]
+    (cond
+      (< (Math/abs im) 1e-10) (fmt re)
+      (< (Math/abs re) 1e-10) (let [i (fmt im)]
+                                (cond
+                                  (= i 1) "i"
+                                  (= i -1) "-i"
+                                  :else (str i "i")))
+      :else (let [r (fmt re) i (fmt im)]
+              (if (neg? (if (number? im) im (Double/parseDouble (str im))))
+                (str r (fmt im) "i")
+                (str r "+" (fmt im) "i"))))))
+
+(defn show-character-table
+  "Display a character table as a kind/table with labeled rows and columns.
+   Rows are irreducible representations, columns are conjugacy classes.
+   Complex values are formatted for readability."
+  [ct]
+  (let [{:keys [table classes irrep-labels]} ct]
+    (kind/table
+     {:column-names (into [""] (mapv str classes))
+      :row-vectors (mapv (fn [label row]
+                           (into [(str label)]
+                                 (mapv format-cx row)))
+                         irrep-labels table)})))

@@ -200,6 +200,16 @@
 
 (kind/test-last [(fn [v] (< (Math/abs v) 1e-10))])
 
+(kind/doc #'hm/format-cx)
+
+(hm/format-cx (cx/complex 0 1))
+
+(kind/test-last [= "i"])
+
+(kind/doc #'hm/show-character-table)
+
+(hm/show-character-table (hm/character-table (hm/symmetric-group 3)))
+
 ;; ## Representations
 
 (kind/doc #'hm/irrep)
