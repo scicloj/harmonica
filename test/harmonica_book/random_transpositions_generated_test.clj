@@ -18,14 +18,14 @@
    {:column-names
     (into
      ["Irrep λ"]
-     (map (fn* [p1__75224#] (str p1__75224#)) (:classes ct))),
+     (map (fn* [p1__90007#] (str p1__90007#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__75225#] (long (cx/re p1__75225#))) row)))
+       (map (fn* [p1__90008#] (long (cx/re p1__90008#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 

@@ -63,7 +63,7 @@
    (mapv
     (fn
      [row]
-     (mapv (fn* [p1__75085#] (Math/round (cx/re p1__75085#))) row))
+     (mapv (fn* [p1__89868#] (Math/round (cx/re p1__89868#))) row))
     (:table ct))]
   re-table))
 
@@ -85,7 +85,7 @@
    (mapv
     (fn
      [row]
-     (mapv (fn* [p1__75086#] (Math/round (cx/re p1__75086#))) row))
+     (mapv (fn* [p1__89869#] (Math/round (cx/re p1__89869#))) row))
     (:table ct))]
   re-table))
 
@@ -191,14 +191,14 @@
    dims
    (sort
     (mapv
-     (fn* [p1__75087#] (Math/round (cx/re (p1__75087# 0))))
+     (fn* [p1__89870#] (Math/round (cx/re (p1__89870# 0))))
      (:table ct-d3)))
    ct-s3
    (hm/character-table (hm/symmetric-group 3))
    dims-s3
    (sort
     (mapv
-     (fn* [p1__75088#] (Math/round (cx/re (p1__75088# 0))))
+     (fn* [p1__89871#] (Math/round (cx/re (p1__89871# 0))))
      (:table ct-s3)))]
   (= dims dims-s3)))
 

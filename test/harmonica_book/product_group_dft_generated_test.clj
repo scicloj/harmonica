@@ -129,7 +129,7 @@
       (subvec image-data (* i n) (* (inc i) n))))
     (range m))
    rows-transformed
-   (mapv (fn* [p1__73255#] (hm/fourier-transform ct2 p1__73255#)) rows)
+   (mapv (fn* [p1__88038#] (hm/fourier-transform ct2 p1__88038#)) rows)
    cols-of-transformed
    (mapv
     (fn
@@ -141,7 +141,7 @@
     (range n))
    cols-transformed
    (mapv
-    (fn* [p1__73256#] (hm/fourier-transform ct1 p1__73256#))
+    (fn* [p1__88039#] (hm/fourier-transform ct1 p1__88039#))
     cols-of-transformed)
    separable-result
    (cx/complex-tensor

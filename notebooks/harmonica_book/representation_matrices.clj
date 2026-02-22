@@ -16,6 +16,7 @@
    [scicloj.harmonica.analysis.representations :as rep]
    [scicloj.harmonica.linalg.complex :as cx]
    [fastmath.matrix :as fm]
+   [tech.v3.tensor :as tensor]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Building an irrep
@@ -40,6 +41,11 @@ ir-31
 
 (kind/test-last [= 3])
 
+(defn mat->tensor
+  "Convert a fastmath matrix to a dtype-next tensor for display."
+  [M]
+  (tensor/->tensor (fm/mat->array2d M)))
+
 ;; ## What do the matrices look like?
 ;;
 ;; Before checking algebraic properties, let's see the actual matrices.
@@ -52,7 +58,7 @@ ir-31
                          [(str sigma)
                           (str (hm/cycle-type sigma))
                           (format "%.0f" (fm/trace (hm/rep-matrix ir-31 sigma)))
-                          (str (hm/rep-matrix ir-31 sigma))])
+                          (mat->tensor (hm/rep-matrix ir-31 sigma))])
                        perms)}))
 
 ;; Notice:
@@ -73,7 +79,7 @@ ir-31
   (kind/table
    {:column-names ["Generator" "Matrix"]
     :row-vectors (mapv (fn [i g]
-                         [(str "$s_" (inc i) "$") (str g)])
+                         [(str "$s_" (inc i) "$") (mat->tensor g)])
                        (range) gens)}))
 
 ;; ## The homomorphism property
