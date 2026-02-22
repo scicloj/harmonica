@@ -1,7 +1,8 @@
 {"Getting Started" ["quickstart"]
  "Groups and the DFT" ["groups_and_structure"
                         "dft_as_group_fourier"
-                        "product_group_dft"]
+                        "product_group_dft"
+                        "random_walks"]
  "Groups in Action" ["symmetry_sketchpad"
                       "counting_necklaces"
                       "chord_geometry"
