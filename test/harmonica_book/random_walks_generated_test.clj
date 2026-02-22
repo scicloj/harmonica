@@ -115,7 +115,7 @@
        (vec
         (dt-conv/convolve1d
          (double-array
-          (map (fn* [p1__105482#] (nth p1__105482# j)) row-conv))
+          (map (fn* [p1__73415#] (nth p1__73415# j)) row-conv))
          k
          {:mode :same})))
       (range n))]
