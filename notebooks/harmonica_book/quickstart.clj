@@ -6,7 +6,7 @@
 ;;
 ;; **Groups are the mathematics of symmetry.** When a problem has symmetry,
 ;; group theory turns brute force into elegant formulas. This page shows
-;; three examples — each solved in a few lines.
+;; four examples — each solved in a few lines.
 
 (ns harmonica-book.quickstart
   (:require
@@ -14,6 +14,7 @@
    [scicloj.harmonica.linalg.complex :as cx]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
+   [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
@@ -176,6 +177,73 @@ f-hat
 ;; The $D_6$ group has 12 elements — 6 rotations and 6 reflections —
 ;; producing 12 copies. For more, see
 ;; [Symmetry Sketchpad](symmetry_sketchpad.html).
+
+;; ## Symmetry you can hear
+;;
+;; The [Klein four-group](https://en.wikipedia.org/wiki/Klein_four-group)
+;; $V_4$ gives four ways to transform a melody:
+;; original, retrograde (backwards), inversion (upside down),
+;; and retrograde inversion (both). Composers from Bach to Schoenberg
+;; have used these symmetries as compositional tools.
+
+(def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2)))
+
+;; A short motif — the opening of Beethoven's Fifth (MIDI pitches):
+
+(def motif [67 67 67 63])
+
+(defn apply-v4 [pivot [r i] melody]
+  (let [m (if (= i 1) (mapv #(- (* 2 pivot) %) melody) melody)]
+    (if (= r 1) (vec (reverse m)) m)))
+
+;; The four forms:
+
+(let [pivot (first motif)]
+  {:original motif
+   :retrograde (apply-v4 pivot [1 0] motif)
+   :inversion (apply-v4 pivot [0 1] motif)
+   :retrograde-inv (apply-v4 pivot [1 1] motif)})
+
+;; Synthesize and play them. Each note becomes a sine wave:
+
+(def sample-rate 44100.0)
+
+(defn play [melody]
+  (let [n-note (long (* 0.35 sample-rate))
+        amp 2500.0
+        attack (long (* 0.015 sample-rate))
+        sounding (long (* 0.85 n-note))
+        release (long (* 0.06 sample-rate))]
+    (kind/audio
+     {:sample-rate sample-rate
+      :samples
+      (dtype/make-reader
+       :float32 (* (count melody) n-note)
+       (let [note-idx (quot idx n-note)
+             t (rem idx n-note)
+             freq (* 440.0 (Math/pow 2.0 (/ (- (melody note-idx) 69.0) 12.0)))
+             phase (/ (double t) sample-rate)]
+         (if (>= t sounding)
+           (float 0.0)
+           (let [env (cond
+                       (< t attack) (/ (double t) attack)
+                       (> t (- sounding release))
+                       (* (Math/exp (* -1.5 (/ (double (- t attack)) sounding)))
+                          (/ (double (- sounding t)) release))
+                       :else (Math/exp (* -1.5 (/ (double (- t attack)) sounding))))
+                 wave (+ (* 0.65 (Math/sin (* 2.0 Math/PI freq phase)))
+                         (* 0.25 (Math/sin (* 2.0 Math/PI 2.0 freq phase)))
+                         (* 0.10 (Math/sin (* 2.0 Math/PI 3.0 freq phase))))]
+             (float (* amp env wave))))))})))
+
+;; Original — G G G E♭:
+(play motif)
+
+;; Inversion — G G G B:
+(play (apply-v4 (first motif) [0 1] motif))
+
+;; For twelve-tone rows, transposition, and more musical group theory,
+;; see [Hearing Symmetry](hearing_symmetry.html).
 
 ;; ## The library at a glance
 ;;

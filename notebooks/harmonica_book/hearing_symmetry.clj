@@ -65,20 +65,29 @@
   "Render a melody (vector of MIDI note numbers) as audio samples."
   [melody note-dur]
   (let [n-note (long (* note-dur sample-rate))
-        amp 3800.0
-        attack (long (* 0.01 sample-rate))
-        release (long (* 0.03 sample-rate))]
+        amp 2500.0
+        attack (long (* 0.015 sample-rate))
+        sounding (long (* 0.85 n-note))
+        release (long (* 0.06 sample-rate))]
     (dtype/make-reader
      :float32
      (* (count melody) n-note)
      (let [note-idx (quot idx n-note)
            t (rem idx n-note)
            freq (midi->freq (melody note-idx))
-           env (cond
-                 (< t attack) (/ (double t) attack)
-                 (> t (- n-note release)) (/ (double (- n-note t)) release)
-                 :else 1.0)]
-       (float (* amp env (Math/sin (* 2.0 Math/PI freq (/ (double t) sample-rate)))))))))
+           phase (/ (double t) sample-rate)]
+       (if (>= t sounding)
+         (float 0.0)
+         (let [env (cond
+                     (< t attack) (/ (double t) attack)
+                     (> t (- sounding release))
+                     (* (Math/exp (* -1.5 (/ (double (- t attack)) sounding)))
+                        (/ (double (- sounding t)) release))
+                     :else (Math/exp (* -1.5 (/ (double (- t attack)) sounding))))
+               wave (+ (* 0.65 (Math/sin (* 2.0 Math/PI freq phase)))
+                       (* 0.25 (Math/sin (* 2.0 Math/PI 2.0 freq phase)))
+                       (* 0.10 (Math/sin (* 2.0 Math/PI 3.0 freq phase))))]
+           (float (* amp env wave))))))))
 
 (defn play [melody]
   (kind/audio {:samples (melody->samples melody 0.35)
