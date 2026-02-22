@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Algorithms – harmonica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./harmonica_book.api_reference.html" rel="next">
+<link href="./harmonica_book.data_representations.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a52dacdebdbd438f6573f472e77663ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.data_representations.html">Under the Hood</a></li><li class="breadcrumb-item"><a href="./harmonica_book.algorithms.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algorithms</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">harmonica</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quickstart</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Groups and the DFT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.groups_and_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Groups and Structure</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.dft_as_group_fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The DFT as Fourier Transform on a Group</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.product_group_dft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The 2D DFT as Product Group Fourier Transform</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Groups in Action</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.symmetry_sketchpad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Symmetry Sketchpad — Rosette Patterns</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.counting_necklaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Counting Necklaces — Burnside’s Lemma Visualized</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.chord_geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Chord Geometry — Music Theory as Group Action</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.hearing_symmetry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hearing Symmetry — Permutation Music</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Symmetric Groups</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.symmetric_groups.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Symmetric Groups</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.character_theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Character Theory</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.random_transpositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Random Transpositions and the Cutoff Phenomenon</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Representation Matrices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.representation_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Representation Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.riffle_shuffle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Riffle Shuffles and the “Seven Shuffles” Theorem</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Under the Hood</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.data_representations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Data Representations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.algorithms.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algorithms</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.api_reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.book_helpers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Helper Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.group_actions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendix: Validation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#murnaghan-nakayama-rule" id="toc-murnaghan-nakayama-rule" class="nav-link active" data-scroll-target="#murnaghan-nakayama-rule">Murnaghan-Nakayama rule</a>
+  <ul>
+  <li><a href="#partition-sequence-encoding" id="toc-partition-sequence-encoding" class="nav-link" data-scroll-target="#partition-sequence-encoding">Partition sequence encoding</a></li>
+  <li><a href="#rim-hook-removal-as-bit-swapping" id="toc-rim-hook-removal-as-bit-swapping" class="nav-link" data-scroll-target="#rim-hook-removal-as-bit-swapping">Rim hook removal as bit-swapping</a></li>
+  <li><a href="#worked-example" id="toc-worked-example" class="nav-link" data-scroll-target="#worked-example">Worked example</a></li>
+  </ul></li>
+  <li><a href="#youngs-orthogonal-form" id="toc-youngs-orthogonal-form" class="nav-link" data-scroll-target="#youngs-orthogonal-form">Young’s orthogonal form</a>
+  <ul>
+  <li><a href="#the-syt-basis" id="toc-the-syt-basis" class="nav-link" data-scroll-target="#the-syt-basis">The SYT basis</a></li>
+  <li><a href="#axial-distance" id="toc-axial-distance" class="nav-link" data-scroll-target="#axial-distance">Axial distance</a></li>
+  <li><a href="#generator-matrices" id="toc-generator-matrices" class="nav-link" data-scroll-target="#generator-matrices">Generator matrices</a></li>
+  <li><a href="#from-generators-to-arbitrary-permutations" id="toc-from-generators-to-arbitrary-permutations" class="nav-link" data-scroll-target="#from-generators-to-arbitrary-permutations">From generators to arbitrary permutations</a></li>
+  </ul></li>
+  <li><a href="#conjugacy-classes-of-s_n" id="toc-conjugacy-classes-of-s_n" class="nav-link" data-scroll-target="#conjugacy-classes-of-s_n">Conjugacy classes of <span class="math inline">\(S_n\)</span></a></li>
+  <li><a href="#burnsides-lemma-and-cycle-index" id="toc-burnsides-lemma-and-cycle-index" class="nav-link" data-scroll-target="#burnsides-lemma-and-cycle-index">Burnside’s lemma and cycle index</a></li>
+  <li><a href="#gsr-riffle-shuffle" id="toc-gsr-riffle-shuffle" class="nav-link" data-scroll-target="#gsr-riffle-shuffle">GSR riffle shuffle</a>
+  <ul>
+  <li><a href="#rising-sequences" id="toc-rising-sequences" class="nav-link" data-scroll-target="#rising-sequences">Rising sequences</a></li>
+  <li><a href="#the-probability-formula" id="toc-the-probability-formula" class="nav-link" data-scroll-target="#the-probability-formula">The probability formula</a></li>
+  <li><a href="#connection-to-fourier-analysis" id="toc-connection-to-fourier-analysis" class="nav-link" data-scroll-target="#connection-to-fourier-analysis">Connection to Fourier analysis</a></li>
+  </ul></li>
+  <li><a href="#restriction-induction-and-branching" id="toc-restriction-induction-and-branching" class="nav-link" data-scroll-target="#restriction-induction-and-branching">Restriction, induction, and branching</a>
+  <ul>
+  <li><a href="#standard-embedding-s_k-hookrightarrow-s_n" id="toc-standard-embedding-s_k-hookrightarrow-s_n" class="nav-link" data-scroll-target="#standard-embedding-s_k-hookrightarrow-s_n">Standard embedding <span class="math inline">\(S_k \hookrightarrow S_n\)</span></a></li>
+  <li><a href="#induction" id="toc-induction" class="nav-link" data-scroll-target="#induction">Induction</a></li>
+  <li><a href="#branching-rule" id="toc-branching-rule" class="nav-link" data-scroll-target="#branching-rule">Branching rule</a></li>
+  </ul></li>
+  <li><a href="#what-comes-next" id="toc-what-comes-next" class="nav-link" data-scroll-target="#what-comes-next">What comes next</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./harmonica_book.data_representations.html">Under the Hood</a></li><li class="breadcrumb-item"><a href="./harmonica_book.algorithms.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algorithms</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Algorithms</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style></style>
+<style>.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+<style>.clay-limit-image-width .clay-image {max-width: 100%}
+.clay-side-by-side .sourceCode {margin: 0}
+.clay-side-by-side {margin: 1em 0}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
+<p>This chapter walks through the key algorithms behind harmonica, with worked examples. Each section states the mathematical rule, shows the implementation strategy, and runs a concrete computation so you can see inputs and outputs.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.algorithms</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.linalg.complex <span class="at">:as</span> cx]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.protocols <span class="at">:as</span> p]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.combinatorics.permutation <span class="at">:as</span> perm]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.combinatorics.<span class="kw">partition</span> <span class="at">:as</span> part]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.combinatorics.young-tableaux <span class="at">:as</span> yt]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.combinatorics.murnaghan-nakayama <span class="at">:as</span> mn]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.combinatorics.young-orthogonal <span class="at">:as</span> yo]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.combinatorics.riffle <span class="at">:as</span> riffle]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.analysis.representations <span class="at">:as</span> rep]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>   [tech.v3.datatype.functional <span class="at">:as</span> dfn]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>   [fastmath.matrix <span class="at">:as</span> fm]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="murnaghan-nakayama-rule" class="level2">
+<h2 class="anchored" data-anchor-id="murnaghan-nakayama-rule">Murnaghan-Nakayama rule</h2>
+<p>The character value <span class="math inline">\(\chi_\lambda(\mu)\)</span> — the trace of the irrep matrix for partition <span class="math inline">\(\lambda\)</span> at conjugacy class <span class="math inline">\(\mu\)</span> — can be computed without constructing any matrices. The <a href="https://en.wikipedia.org/wiki/Murnaghan%E2%80%93Nakayama_rule">Murnaghan-Nakayama rule</a> is a recursive formula:</p>
+<p><span class="math display">\[\chi_\lambda(\mu) = \sum_\xi (-1)^{\text{ht}(\xi)} \; \chi_{\lambda \setminus \xi}(\mu')\]</span></p>
+<p>where the sum is over all <strong>rim hooks</strong> (border strips) <span class="math inline">\(\xi\)</span> of length <span class="math inline">\(\mu_1\)</span> that can be removed from <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\text{ht}(\xi)\)</span> is the height (number of rows minus 1), and <span class="math inline">\(\mu'\)</span> is <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\mu_1\)</span> removed.</p>
+<section id="partition-sequence-encoding" class="level3">
+<h3 class="anchored" data-anchor-id="partition-sequence-encoding">Partition sequence encoding</h3>
+<p>The implementation encodes a Young diagram’s boundary as a <strong>partition sequence</strong> — a boolean array tracing the lower contour: <code>true</code> for a horizontal step, <code>false</code> for a vertical step.</p>
+<p>For <span class="math inline">\(\lambda = [3, 2]\)</span>:</p>
+<pre><code>□ □ □
+□ □</code></pre>
+<p>Reading the boundary bottom-to-top, left-to-right: 2 horizontal → 1 vertical → 1 horizontal → 1 vertical, giving <code>[true true false true false]</code>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (mn/partition-seq [<span class="dv">3</span> <span class="dv">2</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">true</span> <span class="va">true</span> <span class="va">false</span> <span class="va">true</span> <span class="va">false</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A partition sequence for <span class="math inline">\([4, 2, 1]\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">vec</span> (mn/partition-seq [<span class="dv">4</span> <span class="dv">2</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">true</span> <span class="va">false</span> <span class="va">true</span> <span class="va">false</span> <span class="va">true</span> <span class="va">true</span> <span class="va">false</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="rim-hook-removal-as-bit-swapping" class="level3">
+<h3 class="anchored" data-anchor-id="rim-hook-removal-as-bit-swapping">Rim hook removal as bit-swapping</h3>
+<p>A rim hook of length <span class="math inline">\(r\)</span> starting at position <span class="math inline">\(i\)</span> in the partition sequence corresponds to <code>R[i] = true</code> and <code>R[i+r] = false</code>. Removing the hook is a simple swap: set <code>R[i] = false</code>, <code>R[i+r] = true</code>.</p>
+<p>The sign is <span class="math inline">\((-1)^{\text{ht}}\)</span> where the height equals the number of <code>false</code> entries (vertical steps) in <code>R[i..i+r-1]</code>.</p>
+</section>
+<section id="worked-example" class="level3">
+<h3 class="anchored" data-anchor-id="worked-example">Worked example</h3>
+<p>Compute <span class="math inline">\(\chi_{[3,2]}([2,2,1])\)</span> — the character of the irrep labeled <code>[3,2]</code> at the class with cycle type <code>[2,2,1]</code>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(mn/chi [<span class="dv">3</span> <span class="dv">2</span>] [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can verify this against the character table:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct (hm/character-table (hm/symmetric-group <span class="dv">5</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Find the row for irrep [3,2] and column for class [2,2,1]</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>      row-idx (.indexOf ^clojure.lang.PersistentVector (<span class="at">:irrep-labels</span> ct) [<span class="dv">3</span> <span class="dv">2</span>])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      col-idx (.indexOf ^clojure.lang.PersistentVector (<span class="at">:classes</span> ct) [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span>])]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  (cx/re (((<span class="at">:table</span> ct) row-idx) col-idx)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The MN rule builds the entire character table of <span class="math inline">\(S_n\)</span> without constructing any representation matrices. For <span class="math inline">\(S_{20}\)</span> (which has 627 conjugacy classes), computing a single character value is nearly instant:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(mn/chi [<span class="dv">10</span> <span class="dv">5</span> <span class="dv">3</span> <span class="dv">2</span>] [<span class="dv">4</span> <span class="dv">4</span> <span class="dv">4</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="youngs-orthogonal-form" class="level2">
+<h2 class="anchored" data-anchor-id="youngs-orthogonal-form">Young’s orthogonal form</h2>
+<p>To build actual representation <strong>matrices</strong> (not just traces), harmonica uses <a href="https://en.wikipedia.org/wiki/Young%27s_orthogonal_form">Young’s orthogonal form</a>. The idea: define the irrep on <strong>generators</strong> (adjacent transpositions <span class="math inline">\(s_i = (i\;i{+}1)\)</span>), then extend to arbitrary permutations by decomposition.</p>
+<section id="the-syt-basis" class="level3">
+<h3 class="anchored" data-anchor-id="the-syt-basis">The SYT basis</h3>
+<p>The basis vectors of the irrep <span class="math inline">\(\rho_\lambda\)</span> are the standard Young tableaux of shape <span class="math inline">\(\lambda\)</span>. For <span class="math inline">\(\lambda = [3, 1]\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(yt/standard-young-tableaux [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[[[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">4</span>]] [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span> <span class="dv">4</span>] [<span class="dv">2</span>]]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="axial-distance" class="level3">
+<h3 class="anchored" data-anchor-id="axial-distance">Axial distance</h3>
+<p>The key quantity is the <strong>axial distance</strong> between values <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span> in a tableau <span class="math inline">\(T\)</span>:</p>
+<p><span class="math display">\[\rho(T, i, i{+}1) = c(\text{pos}(i{+}1)) - c(\text{pos}(i))\]</span></p>
+<p>where <span class="math inline">\(c(r, c) = c - r\)</span> is the <strong>content</strong> of cell <span class="math inline">\((r, c)\)</span>.</p>
+<p>In the tableau <code>[[1 2 4] [3]]</code>, values 2 and 3 sit at positions <span class="math inline">\((0,1)\)</span> and <span class="math inline">\((1,0)\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(yt/axial-distance [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] <span class="dv">2</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="generator-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="generator-matrices">Generator matrices</h3>
+<p>For adjacent transposition <span class="math inline">\(s_i\)</span>, the matrix in the SYT basis is:</p>
+<ul>
+<li><p>If <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span> are in the <strong>same row</strong> (<span class="math inline">\(\rho = 1\)</span>): diagonal entry <span class="math inline">\(1/\rho = 1\)</span></p></li>
+<li><p>If <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span> are in the <strong>same column</strong> (<span class="math inline">\(\rho = -1\)</span>): diagonal entry <span class="math inline">\(1/\rho = -1\)</span></p></li>
+<li><p>Otherwise: a <span class="math inline">\(2 \times 2\)</span> block pairing tableau <span class="math inline">\(T\)</span> with the tableau <span class="math inline">\(T'\)</span> obtained by swapping <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[\begin{pmatrix} 1/\rho &amp; \sqrt{1 - 1/\rho^2} \\ \sqrt{1 - 1/\rho^2} &amp; -1/\rho \end{pmatrix}\]</span></p>
+<p>Here is the generator <span class="math inline">\(\rho(s_1)\)</span> for the irrep <span class="math inline">\([3, 1]\)</span> — swapping values 1 and 2:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">first</span> (<span class="at">:generators</span> ir)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>#object[org.apache.commons.math3.linear.Array2DRowRealMatrix <span class="bn">0x5d3d6529</span> <span class="st">"Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,-1.0}}"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="from-generators-to-arbitrary-permutations" class="level3">
+<h3 class="anchored" data-anchor-id="from-generators-to-arbitrary-permutations">From generators to arbitrary permutations</h3>
+<p>Any permutation can be decomposed into adjacent transpositions. Harmonica uses <strong>bubble sort</strong>: sort the permutation array, recording each swap. The recorded indices (reversed) give the decomposition.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(perm/adjacent-transposition-decomposition [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span> <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Verify: composing the transpositions (left to right) reconstructs the original permutation.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [decomp (perm/adjacent-transposition-decomposition [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>])]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [acc i]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            (perm/compose acc (perm/from-cycles <span class="dv">4</span> [[i (<span class="kw">inc</span> i)]])))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>          (perm/identity-perm <span class="dv">4</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>          decomp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The representation matrix <span class="math inline">\(\rho(\sigma)\)</span> is then the product of the corresponding generator matrices:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>      sigma [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>      M (hm/rep-matrix ir sigma)]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:trace</span> (fm/trace M)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:is-orthogonal</span> (<span class="kw">&lt;</span> (fm/trace</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                       (fm/sub (fm/mulm M (fm/transpose M))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                               (fm/eye <span class="dv">3</span> <span class="va">true</span>)))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                     <span class="fl">1e-10</span>)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:trace</span> <span class="fl">0.0</span>, <span class="at">:is-orthogonal</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Why bubble sort? It’s <span class="math inline">\(O(n^2)\)</span> in swaps, which is fine for <span class="math inline">\(S_n\)</span> with <span class="math inline">\(n \le 10\)</span> or so. The matrices themselves are the expensive part — each multiply costs <span class="math inline">\(O(d^3)\)</span> where <span class="math inline">\(d\)</span> is the irrep dimension.</p>
+</section>
+</section>
+<section id="conjugacy-classes-of-s_n" class="level2">
+<h2 class="anchored" data-anchor-id="conjugacy-classes-of-s_n">Conjugacy classes of <span class="math inline">\(S_n\)</span></h2>
+<p>Two permutations in <span class="math inline">\(S_n\)</span> are conjugate if and only if they have the same <strong>cycle type</strong>. So the conjugacy classes of <span class="math inline">\(S_n\)</span> are in bijection with the partitions of <span class="math inline">\(n\)</span>.</p>
+<p>The implementation uses two strategies:</p>
+<ul>
+<li><p><strong><span class="math inline">\(n \le 8\)</span></strong>: Enumerate all <span class="math inline">\(n!\)</span> permutations, group by cycle type, store the full element sets.</p></li>
+<li><p><strong><span class="math inline">\(n &gt; 8\)</span></strong>: Don’t enumerate (too expensive). Instead, for each partition, build a <strong>canonical representative</strong> by laying out consecutive cycles: partition <code>[3 2 1]</code> on <span class="math inline">\(n = 6\)</span> gives the permutation with cycles <span class="math inline">\((0\;1\;2)(3\;4)(5)\)</span>. The class size is computed by the formula:</p></li>
+</ul>
+<p><span class="math display">\[|C_\mu| = \frac{n!}{\prod_k k^{a_k} \cdot a_k!}\]</span></p>
+<p>where <span class="math inline">\(a_k\)</span> is the number of parts equal to <span class="math inline">\(k\)</span>.</p>
+<p>Small group — full element sets available:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [cls (<span class="kw">first</span> (hm/conjugacy-classes (hm/symmetric-group <span class="dv">4</span>)))]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cycle-type</span> (<span class="at">:cycle-type</span> cls)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:size</span> (<span class="at">:size</span> cls)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:has-elements</span> (some? (<span class="at">:elements</span> cls))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cycle-type</span> [<span class="dv">4</span>], <span class="at">:size</span> <span class="dv">6</span>, <span class="at">:has-elements</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Large group — no element enumeration:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [cls (<span class="kw">first</span> (hm/conjugacy-classes (hm/symmetric-group <span class="dv">12</span>)))]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cycle-type</span> (<span class="at">:cycle-type</span> cls)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:size</span> (<span class="at">:size</span> cls)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:has-elements</span> (some? (<span class="at">:elements</span> cls))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cycle-type</span> [<span class="dv">12</span>], <span class="at">:size</span> <span class="dv">39916800</span>, <span class="at">:has-elements</span> <span class="va">false</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The class size formula at work:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(part/partition-class-size <span class="dv">6</span> [<span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dv">120</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Verify: <span class="math inline">\(6! / (3^1 \cdot 1! \cdot 2^1 \cdot 1! \cdot 1^1 \cdot 1!) = 720 / 6 = 120\)</span>. Correct.</p>
+</section>
+<section id="burnsides-lemma-and-cycle-index" class="level2">
+<h2 class="anchored" data-anchor-id="burnsides-lemma-and-cycle-index">Burnside’s lemma and cycle index</h2>
+<p><a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma">Burnside’s lemma</a> counts orbits by averaging fixed-point counts:</p>
+<p><span class="math display">\[|\text{orbits}| = \frac{1}{|G|} \sum_{g \in G} |\text{Fix}(g)|\]</span></p>
+<p>The implementation is direct — loop over group elements, count fixed points of each, divide by <span class="math inline">\(|G|\)</span>.</p>
+<p>The <strong>cycle index</strong> generalizes this. For each <span class="math inline">\(g\)</span>, compute the cycle type of <span class="math inline">\(g\)</span>’s action on the domain, then accumulate frequencies. <a href="https://en.wikipedia.org/wiki/Pólya_enumeration_theorem">Pólya’s theorem</a> evaluates the cycle index by substituting <span class="math inline">\(p_i \to k\)</span> (number of colors).</p>
+<p>Necklaces with 6 beads and 3 colors. The cycle index of the rotation action captures the cycle structure of each group element:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">6</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">6</span>))]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">6</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>{[<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>] <span class="fl">1/6</span>, [<span class="dv">6</span>] <span class="fl">1/3</span>, [<span class="dv">3</span> <span class="dv">3</span>] <span class="fl">1/3</span>, [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span>] <span class="fl">1/6</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Pólya’s theorem evaluates the cycle index to count distinct necklaces — substitute <span class="math inline">\(p_i \to k\)</span> (number of colors):</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">6</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">6</span>))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>      ci (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">6</span>))]</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  (hm/polya-count ci <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dv">130N</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Burnside’s lemma can compute the same answer directly, but it needs the action on the full set of <span class="math inline">\(3^6 = 729\)</span> colorings. <code>coloring-action</code> lifts the point action to an action on coloring vectors:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">6</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> (<span class="kw">long</span> g) (<span class="kw">long</span> x)) <span class="dv">6</span>))</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [act domain]} (hm/coloring-action act <span class="dv">6</span> <span class="dv">3</span>)]</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  (hm/burnside-count G act domain))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="dv">130</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Pólya enumeration gives the same result without enumerating all 729 colorings — the cycle index distills the group’s structure into a compact polynomial.</p>
+</section>
+<section id="gsr-riffle-shuffle" class="level2">
+<h2 class="anchored" data-anchor-id="gsr-riffle-shuffle">GSR riffle shuffle</h2>
+<p>The <a href="https://en.wikipedia.org/wiki/Gilbert%E2%80%93Shannon%E2%80%93Reeds_model">Gilbert-Shannon-Reeds model</a> assigns a probability to each permutation after <span class="math inline">\(k\)</span> riffle shuffles of an <span class="math inline">\(n\)</span>-card deck:</p>
+<p><span class="math display">\[Q_a(\sigma) = \frac{\binom{a + n - r(\sigma)}{n}}{a^n}\]</span></p>
+<p>where <span class="math inline">\(a = 2^k\)</span> and <span class="math inline">\(r(\sigma)\)</span> is the number of <strong>rising sequences</strong> of <span class="math inline">\(\sigma\)</span>.</p>
+<section id="rising-sequences" class="level3">
+<h3 class="anchored" data-anchor-id="rising-sequences">Rising sequences</h3>
+<p><span class="math inline">\(r(\sigma) = 1 + \text{descents}(\sigma^{-1})\)</span> — compute the inverse, then count positions where the value decreases:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [sigma [<span class="dv">1</span> <span class="dv">3</span> <span class="dv">0</span> <span class="dv">2</span>]]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:inverse</span> (perm/inverse sigma)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:descents</span> (riffle/descents (perm/inverse sigma))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:rising-seqs</span> (riffle/rising-sequences sigma)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:inverse</span> [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">1</span>], <span class="at">:descents</span> <span class="dv">2</span>, <span class="at">:rising-seqs</span> <span class="dv">3</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="the-probability-formula" class="level3">
+<h3 class="anchored" data-anchor-id="the-probability-formula">The probability formula</h3>
+<p>After <span class="math inline">\(k = 1\)</span> shuffle of <span class="math inline">\(n = 4\)</span> cards, the identity has the highest probability (it has <span class="math inline">\(r = 1\)</span>, meaning <span class="math inline">\(a + n - 1 = 5\)</span> choose <span class="math inline">\(4 = 5\)</span>, divided by <span class="math inline">\(2^4 = 16\)</span>):</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(riffle/gsr-probability [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3125</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="connection-to-fourier-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="connection-to-fourier-analysis">Connection to Fourier analysis</h3>
+<p>The power of this formula is that <span class="math inline">\(Q_a\)</span> is a <strong>class function</strong> — it depends only on the number of rising sequences, which is determined by the cycle type of <span class="math inline">\(\sigma^{-1}\)</span>. This means we can analyze the convergence to uniformity using the (scalar) Fourier transform on <span class="math inline">\(S_n\)</span> via characters, and the (matrix) Fourier transform via irreps gives the <strong>upper bound lemma</strong> used in the “seven shuffles” proof.</p>
+<p>Total variation distance from uniform after <span class="math inline">\(k\)</span> shuffles of 52 cards:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>      uniform (<span class="kw">/</span> <span class="fl">1.0</span> (hm/order G))]</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">mapv</span> (<span class="kw">fn</span> [k]</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">let</span> [probs (<span class="kw">mapv</span> #(riffle/gsr-probability <span class="va">%</span> k) elts)]</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">double</span> (<span class="kw">*</span> <span class="fl">0.5</span> (dfn/sum (dfn/abs (dfn/- probs uniform)))))))</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">8</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>[<span class="fl">0.5</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.28125</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.14453125</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.07275390625</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.03643798828125</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.018226623535156257</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.009114265441894608</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The TV distance drops sharply — this is the <strong>cutoff phenomenon</strong>.</p>
+</section>
+</section>
+<section id="restriction-induction-and-branching" class="level2">
+<h2 class="anchored" data-anchor-id="restriction-induction-and-branching">Restriction, induction, and branching</h2>
+<section id="standard-embedding-s_k-hookrightarrow-s_n" class="level3">
+<h3 class="anchored" data-anchor-id="standard-embedding-s_k-hookrightarrow-s_n">Standard embedding <span class="math inline">\(S_k \hookrightarrow S_n\)</span></h3>
+<p>The subgroup <span class="math inline">\(S_k\)</span> sits inside <span class="math inline">\(S_n\)</span> by fixing points <span class="math inline">\(\ge k\)</span>. To <strong>restrict</strong> a representation <span class="math inline">\(\rho\)</span> of <span class="math inline">\(S_n\)</span> to <span class="math inline">\(S_k\)</span>, simply compose with the embedding:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>      restricted (hm/restrict-rep ir <span class="dv">4</span> <span class="dv">3</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Apply to an element of S_3</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      M (hm/rep-matrix restricted [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span>])]</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  (fm/trace M))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="induction" class="level3">
+<h3 class="anchored" data-anchor-id="induction">Induction</h3>
+<p><strong>Induction</strong> goes the other direction: given a representation <span class="math inline">\(\rho\)</span> of <span class="math inline">\(S_k\)</span>, build a representation of <span class="math inline">\(S_n\)</span> with dimension <span class="math inline">\([S_n : S_k] \cdot d = (n!/k!) \cdot d\)</span>.</p>
+<p>The algorithm:</p>
+<ol type="1">
+<li>Compute left coset representatives <span class="math inline">\(t_1, \ldots, t_m\)</span> of <span class="math inline">\(S_k\)</span> in <span class="math inline">\(S_n\)</span></li>
+<li>For each <span class="math inline">\(g \in S_n\)</span>, build an <span class="math inline">\(m \times m\)</span> block matrix where block <span class="math inline">\((s, t)\)</span> is <span class="math inline">\(\rho(s^{-1} g t)\)</span> if <span class="math inline">\(s^{-1} g t \in S_k\)</span>, and zero otherwise</li>
+</ol>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir-triv {<span class="at">:dimension</span> <span class="dv">1</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">:matrix-fn</span> (<span class="kw">fn</span> [_] (fm/eye <span class="dv">1</span> <span class="va">true</span>))}</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>      induced (hm/induce-rep ir-triv <span class="dv">2</span> <span class="dv">4</span>)]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:dimension</span> (<span class="at">:dimension</span> induced)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:expected</span> (<span class="kw">/</span> <span class="dv">24</span> <span class="dv">2</span>)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:dimension</span> <span class="dv">12</span>, <span class="at">:expected</span> <span class="dv">12</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="branching-rule" class="level3">
+<h3 class="anchored" data-anchor-id="branching-rule">Branching rule</h3>
+<p>The <a href="https://en.wikipedia.org/wiki/Branching_rule">branching rule</a> for <span class="math inline">\(S_n \downarrow S_{n-1}\)</span> says: the restricted irrep <span class="math inline">\(V_\lambda\)</span> decomposes into the direct sum of <span class="math inline">\(V_\mu\)</span> where <span class="math inline">\(\mu\)</span> is obtained by removing one box from <span class="math inline">\(\lambda\)</span>.</p>
+<p>Harmonica verifies this computationally: restrict, then decompose via character inner products.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(hm/branching-rule [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>{[<span class="dv">3</span>] <span class="dv">1</span>, [<span class="dv">2</span> <span class="dv">1</span>] <span class="dv">1</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Removing one box from <code>[3,1]</code> can give <code>[3]</code> (remove from row 2) or <code>[2,1]</code> (remove from row 1) — each with multiplicity 1. The branching rule confirms this.</p>
+</section>
+</section>
+<section id="what-comes-next" class="level2">
+<h2 class="anchored" data-anchor-id="what-comes-next">What comes next</h2>
+<p>For the mathematical theory behind these algorithms, see the main book chapters — <a href="character_theory.html">Character Theory</a> for Murnaghan-Nakayama, <a href="representation_matrices.html">Representation Matrices</a> for Young’s orthogonal form, and <a href="riffle_shuffle.html">Riffle Shuffle</a> for the GSR model. The <a href="api_reference.html">API Reference</a> lists every public function with examples.</p>
+<div style="background-color:grey;height:2px;width:100%;"></div>
+<div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/algorithms.clj">notebooks/harmonica_book/algorithms.clj</a></small></small></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./harmonica_book.data_representations.html" class="pagination-link" aria-label="Data Representations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Data Representations</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./harmonica_book.api_reference.html" class="pagination-link" aria-label="API Reference">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">API Reference</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -20,6 +20,10 @@ book:
     chapters: [harmonica_book.symmetric_groups.qmd, harmonica_book.character_theory.qmd, harmonica_book.random_transpositions.qmd]
   - part: Representation Matrices
     chapters: [harmonica_book.representation_matrices.qmd, harmonica_book.riffle_shuffle.qmd]
+  - part: Under the Hood
+    chapters: [harmonica_book.data_representations.qmd, harmonica_book.algorithms.qmd]
   - part: Reference
-    chapters: [harmonica_book.book_helpers.qmd, harmonica_book.group_actions.qmd, harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd, harmonica_book.complex_tensors.qmd, harmonica_book.ejml_integration.qmd, harmonica_book.api_reference.qmd]
+    chapters: [harmonica_book.api_reference.qmd, harmonica_book.book_helpers.qmd, harmonica_book.group_actions.qmd, harmonica_book.complex_tensors.qmd, harmonica_book.ejml_integration.qmd]
+  - part: 'Appendix: Validation'
+    chapters: [harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd]
   title: harmonica
