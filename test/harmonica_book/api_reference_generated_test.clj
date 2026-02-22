@@ -260,9 +260,7 @@
    (mapv
     (fn
      [row]
-     (mapv
-      (fn* [p1__90182#] (long (Math/round (cx/re p1__90182#))))
-      row))
+     (mapv (fn* [p1__108219#] (Math/round (cx/re p1__108219#))) row))
     (:table ct))]
   re-table))
 
@@ -460,7 +458,7 @@
 (def
  v132_l304
  (let
-  [G (hm/cyclic-group 4) act (fn [g x] (mod (+ (long g) (long x)) 4))]
+  [G (hm/cyclic-group 4) act (fn [g x] (mod (+ g x) 4))]
   (hm/orbit G act 0)))
 
 
@@ -473,7 +471,7 @@
 (def
  v135_l312
  (let
-  [G (hm/cyclic-group 3) act (fn [g x] (mod (+ (long g) (long x)) 3))]
+  [G (hm/cyclic-group 3) act (fn [g x] (mod (+ g x) 3))]
   (count (hm/orbits G act (range 3)))))
 
 
@@ -486,7 +484,7 @@
 (def
  v138_l320
  (let
-  [act (fn [g x] (mod (+ (long g) (long x)) 5))]
+  [act (fn [g x] (mod (+ g x) 5))]
   (hm/fixed-points act 0 (range 5))))
 
 
@@ -499,7 +497,7 @@
 (def
  v141_l327
  (let
-  [G (hm/cyclic-group 4) act (fn [g x] (mod (+ (long g) (long x)) 4))]
+  [G (hm/cyclic-group 4) act (fn [g x] (mod (+ g x) 4))]
   (hm/stabilizer G act 0)))
 
 
@@ -518,7 +516,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__90183#] (coloring (mod (+ p1__90183# (long g)) 4)))
+     (fn* [p1__108220#] (coloring (mod (+ p1__108220# g) 4)))
      (range 4)))
    domain
    [[0 0 0 0]
@@ -552,7 +550,7 @@
   [G
    (hm/cyclic-group 3)
    act
-   (fn [g x] (mod (+ (long g) (long x)) 3))
+   (fn [g x] (mod (+ g x) 3))
    ci
    (hm/cycle-index G act (range 3))]
   (= 1 (reduce + (vals ci)))))
@@ -570,7 +568,7 @@
   [G
    (hm/cyclic-group 4)
    act
-   (fn [g x] (mod (+ (long g) (long x)) 4))
+   (fn [g x] (mod (+ g x) 4))
    ci
    (hm/cycle-index G act (range 4))]
   (hm/polya-count ci 2)))
@@ -650,7 +648,7 @@
    (cx/complex-tensor-real [0 1 0 0])
    conv
    (hm/convolve ct f g)]
-  (long (Math/round (cx/re (conv 1))))))
+  (Math/round (cx/re (conv 1)))))
 
 
 (deftest t164_l400 (is (= v163_l395 1)))

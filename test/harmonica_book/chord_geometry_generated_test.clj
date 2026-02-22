@@ -31,9 +31,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__88413#] (Math/cos p1__88413#)) angles)
+    (mapv (fn* [p1__106406#] (Math/cos p1__106406#)) angles)
     ys
-    (mapv (fn* [p1__88414#] (Math/sin p1__88414#)) angles)
+    (mapv (fn* [p1__106407#] (Math/sin p1__106407#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -86,9 +86,7 @@
      (let
       [transposed
        (sort
-        (mapv
-         (fn* [p1__88415#] (mod (+ p1__88415# (long k)) 12))
-         c-major))]
+        (mapv (fn* [p1__106408#] (mod (+ p1__106408# k) 12)) c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
   (kind/table
@@ -105,7 +103,7 @@
   [G
    (hm/cyclic-group 12)
    act
-   (fn [g x] (mod (+ (long x) (long g)) 12))
+   (fn [g x] (mod (+ x g) 12))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 3)
    orbs
@@ -142,7 +140,7 @@
   [G
    (hm/cyclic-group 12)
    act
-   (fn [g x] (mod (+ (long x) (long g)) 12))
+   (fn [g x] (mod (+ x g) 12))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 3)
    orbs
@@ -169,14 +167,7 @@
   [G
    (hm/dihedral-group 12)
    act
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 3)
    orbs
@@ -195,16 +186,9 @@
    G-d
    (hm/dihedral-group 12)
    act-c
-   (fn [g x] (mod (+ (long x) (long g)) 12))
+   (fn [g x] (mod (+ x g) 12))
    act-d
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {domain-3 :domain, act-c-sub :act}
    (hm/subset-action act-c (range 12) 3)
    {_ :domain, act-d-sub :act}
@@ -219,7 +203,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__88416#] (contains? p1__88416# rep)) orbs-d)))
+     (filter (fn* [p1__106409#] (contains? p1__106409# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -229,7 +213,7 @@
      (fn [[_ reps]] [(mapv str (sort reps)) (count reps)])
      merged-groups))]
   (kind/table
-   {:column-names ["$C_{12}$ types merged" "Count"],
+   {:column-names ["C₁₂ types merged" "Count"],
     :row-vectors
     (mapv (fn [[reps cnt]] [(str reps) cnt]) merged-rows)})))
 
@@ -240,25 +224,20 @@
   [G
    (hm/dihedral-group 12)
    act
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 3)
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__88417#] (first (sort p1__88417#))) orbs)
+   (mapv (fn* [p1__106410#] (first (sort p1__106410#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
-  (every? (fn* [p1__88418#] (= 1 (count (val p1__88418#)))) iv-groups)))
+  (every?
+   (fn* [p1__106411#] (= 1 (count (val p1__106411#))))
+   iv-groups)))
 
 
 (deftest t22_l216 (is (true? v21_l204)))
@@ -272,16 +251,9 @@
    G-d
    (hm/dihedral-group 12)
    act-c
-   (fn [g x] (mod (+ (long x) (long g)) 12))
+   (fn [g x] (mod (+ x g) 12))
    act-d
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    results
    (mapv
     (fn
@@ -302,10 +274,7 @@
     (range 1 12))]
   (kind/table
    {:column-names
-    ["Chord size $k$"
-     "Total subsets"
-     "Types ($C_{12}$)"
-     "Types ($D_{12}$)"],
+    ["Chord size k" "Total subsets" "Types (C₁₂)" "Types (D₁₂)"],
     :row-vectors
     (mapv
      (fn
@@ -327,7 +296,7 @@
    f-hat
    (hm/fourier-transform ct f-vals)]
   (kind/table
-   {:column-names ["Frequency $k$" "$|\\hat{f}(k)|^2$"],
+   {:column-names ["Frequency k" "|f̂(k)|²"],
     :row-vectors
     (mapv
      (fn
@@ -396,19 +365,19 @@
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__88419#] (mod (+ p1__88419# k) n)) pcs-vec))))
+       (map (fn* [p1__106412#] (mod (+ p1__106412# k) n)) pcs-vec))))
     inversions
     (for
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__88420#] (mod (- k p1__88420#) n)) pcs-vec))))
+       (map (fn* [p1__106413#] (mod (- k p1__106413#) n)) pcs-vec))))
     normalize
     (fn
      [s]
      (let
       [base (first s)]
-      (mapv (fn* [p1__88421#] (mod (- p1__88421# base) n)) s)))
+      (mapv (fn* [p1__106414#] (mod (- p1__106414# base) n)) s)))
     candidates
     (map normalize (concat transpositions inversions))]
    (first (sort candidates)))))
@@ -420,14 +389,7 @@
   [G
    (hm/dihedral-group 12)
    act
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 3)
    orbs
@@ -492,14 +454,7 @@
   [G
    (hm/dihedral-group 12)
    act
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 3)
    orbs
@@ -531,14 +486,7 @@
   [G
    (hm/dihedral-group 12)
    act
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {:keys [domain], act-sub :act}
    (hm/subset-action act (range 12) 4)
    orbs

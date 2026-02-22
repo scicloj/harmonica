@@ -8,6 +8,7 @@
   [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]
   [tech.v3.datatype.convolve :as dt-conv]
+  [tech.v3.tensor :as tensor]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -15,14 +16,14 @@
 
 
 (def
- v3_l31
+ v3_l32
  (def
   temperatures
   [2 3 7 12 17 22 25 24 19 13 7 3 3 4 8 13 18 23 26 25 20 14 8 4]))
 
 
 (def
- v4_l35
+ v4_l36
  (->
   (tc/dataset {:month (range 24), :temp temperatures})
   (plotly/base
@@ -36,53 +37,53 @@
   plotly/plot))
 
 
-(def v6_l53 (def G (hm/cyclic-group 24)))
+(def v6_l54 (def G (hm/cyclic-group 24)))
 
 
-(def v7_l55 (hm/elements G))
+(def v7_l56 (hm/elements G))
 
 
-(deftest t8_l57 (is (= v7_l55 (range 24))))
+(deftest t8_l58 (is (= v7_l56 (range 24))))
 
 
-(def v10_l62 (hm/op G 15 9))
+(def v10_l63 (hm/op G 15 9))
 
 
-(deftest t11_l64 (is (= v10_l62 0)))
+(deftest t11_l65 (is (= v10_l63 0)))
 
 
-(def v12_l67 (hm/op G 18 10))
+(def v12_l68 (hm/op G 18 10))
 
 
-(deftest t13_l69 (is (= v12_l67 4)))
+(deftest t13_l70 (is (= v12_l68 4)))
 
 
-(def v15_l74 (hm/inv G 15))
+(def v15_l75 (hm/inv G 15))
 
 
-(deftest t16_l76 (is (= v15_l74 9)))
+(deftest t16_l77 (is (= v15_l75 9)))
 
 
-(def v18_l108 (def ct (hm/character-table G)))
+(def v18_l109 (def ct (hm/character-table G)))
 
 
-(def v19_l110 ct)
+(def v19_l111 ct)
 
 
-(def v21_l114 (allclose? (cx/cabs (:table ct)) 1.0))
+(def v21_l115 (allclose? (cx/cabs (:table ct)) 1.0))
 
 
-(deftest t22_l116 (is (true? v21_l114)))
+(deftest t22_l117 (is (true? v21_l115)))
 
 
-(def v24_l121 (allclose? (cx/re ((:table ct) 0)) 1.0))
+(def v24_l122 (allclose? (cx/re ((:table ct) 0)) 1.0))
 
 
-(deftest t25_l123 (is (true? v24_l121)))
+(deftest t25_l124 (is (true? v24_l122)))
 
 
 (def
- v27_l129
+ v27_l130
  (->
   (tc/dataset
    (let
@@ -104,28 +105,28 @@
   plotly/plot))
 
 
-(def v29_l160 (def signal (cx/complex-tensor-real temperatures)))
+(def v29_l161 (def signal (cx/complex-tensor-real temperatures)))
 
 
-(def v30_l162 signal)
+(def v30_l163 signal)
 
 
-(def v31_l164 (def f-hat (hm/fourier-transform ct signal)))
+(def v31_l165 (def f-hat (hm/fourier-transform ct signal)))
 
 
-(def v32_l166 f-hat)
+(def v32_l167 f-hat)
 
 
-(def v34_l170 (cx/re (f-hat 0)))
+(def v34_l171 (cx/re (f-hat 0)))
 
 
 (deftest
- t35_l172
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v34_l170)))
+ t35_l173
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v34_l171)))
 
 
 (def
- v37_l177
+ v37_l178
  (->
   (tc/dataset
    {:frequency (range 24), :magnitude (vec (cx/cabs f-hat))})
@@ -141,7 +142,7 @@
 
 
 (def
- v39_l206
+ v39_l213
  (let
   [fft-result
    (t/forward-1d (t/transformer :real :fft) temperatures)
@@ -157,49 +158,38 @@
    1.0E-8)))
 
 
-(deftest t40_l215 (is (true? v39_l206)))
+(deftest t40_l222 (is (true? v39_l213)))
 
 
 (def
- v42_l232
+ v42_l239
  (def
-  orthogonality-data
+  orthogonality-matrix
   (let
    [table (:table ct) sizes (:class-sizes ct) n 24]
-   (for
-    [j (range 4) k (range 4)]
-    {:j j,
-     :k k,
-     :inner-product-magnitude
-     (cx/cabs
-      (hm/character-inner-product (table j) (table k) sizes n))}))))
-
-
-(def
- v43_l243
- (kind/table
-  {:column-names ["$j$" "$k$" "$|\\langle\\chi_j, \\chi_k\\rangle|$"],
-   :row-vectors
-   (mapv
+   (tensor/compute-tensor
+    [n n]
     (fn
-     [{:keys [j k inner-product-magnitude]}]
-     [j k (format "%.10f" inner-product-magnitude)])
-    orthogonality-data)}))
+     [j k]
+     (cx/cabs
+      (hm/character-inner-product (table j) (table k) sizes n)))
+    :float64))))
+
+
+(def v43_l249 orthogonality-matrix)
 
 
 (def
- v45_l251
- (every?
-  (fn
-   [{:keys [j k inner-product-magnitude]}]
-   (if
-    (= j k)
-    (< (Math/abs (- inner-product-magnitude 1.0)) 1.0E-10)
-    (< inner-product-magnitude 1.0E-10)))
-  orthogonality-data))
+ v45_l254
+ (allclose?
+  orthogonality-matrix
+  (tensor/compute-tensor
+   [24 24]
+   (fn [j k] (if (= j k) 1.0 0.0))
+   :float64)))
 
 
-(deftest t46_l257 (is (true? v45_l251)))
+(deftest t46_l257 (is (true? v45_l254)))
 
 
 (def
@@ -234,7 +224,7 @@
 (def
  v55_l296
  (mapv
-  (fn* [p1__87839#] (Math/round p1__87839#))
+  (fn* [p1__105195#] (Math/round p1__105195#))
   (vec (cx/re convolved))))
 
 

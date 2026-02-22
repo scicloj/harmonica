@@ -427,3 +427,88 @@
 
 
 (deftest t41_l307 (is (= v40_l299 14)))
+
+
+(def
+ v43_l322
+ (require '[fastmath.matrix :as fm] '[fastmath.vector :as fv]))
+
+
+(def v45_l327 (fm/rotation-matrix-2d (/ Math/PI 3)))
+
+
+(def
+ v47_l333
+ (defn
+  fm-reflection
+  [theta]
+  (fm/mat2x2
+   (Math/cos theta)
+   (Math/sin theta)
+   (Math/sin theta)
+   (- (Math/cos theta)))))
+
+
+(def v48_l337 (fm-reflection (/ Math/PI 3)))
+
+
+(def
+ v50_l341
+ (fm/mulv (fm/rotation-matrix-2d (/ Math/PI 4)) (fv/vec2 1.0 0.0)))
+
+
+(def v52_l348 (fm/det (fm/rotation-matrix-2d 1.23)))
+
+
+(deftest
+ t53_l350
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-14)) v52_l348)))
+
+
+(def v54_l353 (fm/det (fm-reflection 0.7)))
+
+
+(deftest
+ t55_l355
+ (is ((fn [v] (< (Math/abs (- v -1.0)) 1.0E-14)) v54_l353)))
+
+
+(def
+ v57_l361
+ (let
+  [ab
+   (fm/mulm (fm/rotation-matrix-2d 1.0) (fm/rotation-matrix-2d 0.5))
+   direct
+   (fm/rotation-matrix-2d 1.5)]
+  (< (fm/norm (fm/sub ab direct)) 1.0E-14)))
+
+
+(deftest t58_l366 (is (true? v57_l361)))
+
+
+(def
+ v60_l370
+ (let
+  [rs
+   (fm/mulm (fm/rotation-matrix-2d (/ Math/PI 3)) (fm-reflection 0.0))]
+  (fm/det rs)))
+
+
+(deftest
+ t61_l374
+ (is ((fn [v] (< (Math/abs (- v -1.0)) 1.0E-14)) v60_l370)))
+
+
+(def
+ v63_l379
+ (let
+  [r
+   (fm/rotation-matrix-2d 1.0)
+   product
+   (fm/mulm r (fm/inverse r))
+   identity
+   (fm/mat2x2 1 0 0 1)]
+  (< (fm/norm (fm/sub product identity)) 1.0E-14)))
+
+
+(deftest t64_l384 (is (true? v63_l379)))

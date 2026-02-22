@@ -196,7 +196,7 @@
                      [n (:order ri) (:num-classes ri) (= ri si)]))
                  (range 3 13))]
   (kind/table
-   {:column-names ["$n$" "Order" "Classes" "Match?"]
+   {:column-names ["n" "Order" "Classes" "Match?"]
     :row-vectors rows}))
 
 ;; ## Group Properties
@@ -241,7 +241,7 @@
                    [n (count (hm/partitions n)) (sympy-partition-count n)])
                  (range 1 13))]
   (kind/table
-   {:column-names ["$n$" "harmonica" "SymPy"]
+   {:column-names ["n" "harmonica" "SymPy"]
     :row-vectors rows}))
 
 ;; ## Character Tables
@@ -255,11 +255,11 @@
 
 ;; Known character table of $S_3$:
 ;;
-;; |            | $[1^3]$ | $[2,1]$ | $[3]$ |
+;; |            | [1,1,1] | [2,1] | [3] |
 ;; |:-----------|:--------|:--------|:------|
-;; | $[3]$      |   1     |   1     |   1   |
-;; | $[2,1]$    |   2     |   0     |  -1   |
-;; | $[1^3]$    |   1     |  -1     |   1   |
+;; | [3]        |   1     |   1     |   1   |
+;; | [2,1]      |   2     |   0     |  -1   |
+;; | [1,1,1]    |   1     |  -1     |   1   |
 
 (def known-S3
   {:irreps [[3] [2 1] [1 1 1]]
@@ -268,13 +268,13 @@
 
 ;; Known character table of $S_4$:
 ;;
-;; |               | $[1^4]$ | $[2,1^2]$ | $[2^2]$ | $[3,1]$ | $[4]$ |
+;; |               | [1,1,1,1] | [2,1,1] | [2,2] | [3,1] | [4] |
 ;; |:--------------|:--------|:----------|:--------|:--------|:------|
-;; | $[4]$         |   1     |   1       |   1     |   1     |   1   |
-;; | $[3,1]$       |   3     |   1       |  -1     |   0     |  -1   |
-;; | $[2^2]$       |   2     |   0       |   2     |  -1     |   0   |
-;; | $[2,1^2]$     |   3     |  -1       |  -1     |   0     |   1   |
-;; | $[1^4]$       |   1     |  -1       |   1     |   1     |  -1   |
+;; | [4]           |   1     |   1       |   1     |   1     |   1   |
+;; | [3,1]         |   3     |   1       |  -1     |   0     |  -1   |
+;; | [2,2]         |   2     |   0       |   2     |  -1     |   0   |
+;; | [2,1,1]       |   3     |  -1       |  -1     |   0     |   1   |
+;; | [1,1,1,1]     |   1     |  -1       |   1     |   1     |  -1   |
 
 (def known-S4
   {:irreps [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]]
@@ -409,7 +409,7 @@
                    [n (hm-necklace-count n) (necklace-formula n)])
                  (range 1 13))]
   (kind/table
-   {:column-names ["$n$" "harmonica (Pólya)" "Formula"]
+   {:column-names ["n" "harmonica (Pólya)" "Formula"]
     :row-vectors rows}))
 
 ;; ## Orbit-Stabilizer Comparison

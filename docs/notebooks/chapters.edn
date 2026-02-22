@@ -1,23 +1,23 @@
 {"Getting Started" ["quickstart"]
  "Groups and the DFT" ["groups_and_structure"
-                        "dft_as_group_fourier"
-                        "product_group_dft"
-                        "random_walks"]
+                       "dft_as_group_fourier"
+                       "product_group_dft"
+                       "random_walks"]
  "Groups in Action" ["symmetry_sketchpad"
-                      "counting_necklaces"
-                      "chord_geometry"
-                      "hearing_symmetry"]
+                     "counting_necklaces"
+                     "chord_geometry"
+                     "hearing_symmetry"]
  "Symmetric Groups" ["symmetric_groups"
-                      "character_theory"
-                      "random_transpositions"]
+                     "character_theory"
+                     "random_transpositions"]
  "Representation Matrices" ["representation_matrices"
-                             "riffle_shuffle"]
+                            "riffle_shuffle"]
  "Under the Hood" ["data_representations"
-                    "algorithms"]
+                   "algorithms"]
  "Reference" ["api_reference"
               "book_helpers"
               "group_actions"
               "complex_tensors"
               "ejml_integration"]
  "Appendix: Validation" ["algebraic_identities"
-                          "sympy_comparison"]}
+                         "sympy_comparison"]}

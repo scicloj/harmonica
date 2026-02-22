@@ -5,31 +5,105 @@
   [scicloj.kindly.v4.kind :as kind]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
+  [tech.v3.datatype :as dtype]
+  [tech.v3.datatype.functional :as dfn]
   [clojure.test :refer [deftest is]]))
 
 
 (def
- v3_l29
+ v3_l31
  (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2))))
 
 
-(def v4_l31 (hm/order V4))
+(def v4_l33 (hm/order V4))
 
 
-(deftest t5_l33 (is (= v4_l31 4)))
+(deftest t5_l35 (is (= v4_l33 4)))
 
 
-(def v7_l37 (vec (hm/elements V4)))
+(def v7_l39 (vec (hm/elements V4)))
 
 
-(deftest t8_l39 (is ((fn [v] (= 4 (count v))) v7_l37)))
+(deftest t8_l41 (is ((fn [v] (= 4 (count v))) v7_l39)))
 
 
-(def v10_l55 (def motif [67 67 67 63]))
+(def v10_l56 (def sample-rate 44100.0))
 
 
 (def
- v11_l57
+ v11_l58
+ (defn
+  midi->freq
+  "Convert a MIDI note number to frequency in Hz.\n   A4 (MIDI 69) = 440 Hz."
+  [midi]
+  (* 440.0 (Math/pow 2.0 (/ (- midi 69.0) 12.0)))))
+
+
+(def
+ v12_l64
+ (defn
+  melody->samples
+  "Render a melody (vector of MIDI note numbers) as audio samples."
+  [melody note-dur]
+  (let
+   [n-note
+    (long (* note-dur sample-rate))
+    amp
+    2500.0
+    attack
+    (long (* 0.015 sample-rate))
+    sounding
+    (long (* 0.85 n-note))
+    release
+    (long (* 0.06 sample-rate))]
+   (dtype/make-reader
+    :float32
+    (* (count melody) n-note)
+    (let
+     [note-idx
+      (quot idx n-note)
+      t
+      (rem idx n-note)
+      freq
+      (midi->freq (melody note-idx))
+      phase
+      (/ (double t) sample-rate)]
+     (if
+      (>= t sounding)
+      (float 0.0)
+      (let
+       [env
+        (cond
+         (< t attack)
+         (/ (double t) attack)
+         (> t (- sounding release))
+         (*
+          (Math/exp (* -1.5 (/ (double (- t attack)) sounding)))
+          (/ (double (- sounding t)) release))
+         :else
+         (Math/exp (* -1.5 (/ (double (- t attack)) sounding))))
+        wave
+        (+
+         (* 0.65 (Math/sin (* 2.0 Math/PI freq phase)))
+         (* 0.25 (Math/sin (* 2.0 Math/PI 2.0 freq phase)))
+         (* 0.1 (Math/sin (* 2.0 Math/PI 3.0 freq phase))))]
+       (float (* amp env wave)))))))))
+
+
+(def
+ v13_l92
+ (defn
+  play
+  [melody]
+  (kind/audio
+   {:samples (melody->samples melody 0.35), :sample-rate sample-rate})))
+
+
+(def v15_l103 (def motif [67 67 67 63]))
+
+
+(def
+ v16_l105
  (def
   note-names
   {65 "F",
@@ -48,7 +122,7 @@
 
 
 (def
- v13_l65
+ v18_l113
  (defn
   apply-v4
   "Apply a Klein four-group element to a melody.\n   Inversion reflects around a fixed pivot (the first note of the motif)."
@@ -57,7 +131,7 @@
    [inverted
     (if
      (= i 1)
-     (mapv (fn* [p1__88693#] (- (* 2 pivot) p1__88693#)) melody)
+     (mapv (fn* [p1__106686#] (- (* 2 pivot) p1__106686#)) melody)
      melody)
     retrograded
     (if (= r 1) (vec (reverse inverted)) inverted)]
@@ -65,7 +139,7 @@
 
 
 (def
- v14_l77
+ v19_l125
  (def
   v4-labels
   {[0 0] "Original",
@@ -75,7 +149,7 @@
 
 
 (def
- v15_l83
+ v20_l131
  (let
   [rows
    (mapv
@@ -90,8 +164,8 @@
        (str
         (mapv
          (fn*
-          [p1__88694#]
-          (get note-names p1__88694# (str p1__88694#)))
+          [p1__106687#]
+          (get note-names p1__106687# (str p1__106687#)))
          result))}))
     (hm/elements V4))]
   (kind/table
@@ -104,8 +178,20 @@
      rows)})))
 
 
+(def v22_l150 (play motif))
+
+
+(def v24_l153 (play (apply-v4 (first motif) [1 0] motif)))
+
+
+(def v26_l156 (play (apply-v4 (first motif) [0 1] motif)))
+
+
+(def v28_l159 (play (apply-v4 (first motif) [1 1] motif)))
+
+
 (def
- v17_l101
+ v30_l163
  (every?
   (fn
    [[g h]]
@@ -118,11 +204,11 @@
   (for [g (hm/elements V4) h (hm/elements V4)] [g h])))
 
 
-(deftest t18_l107 (is (true? v17_l101)))
+(deftest t31_l169 (is (true? v30_l163)))
 
 
 (def
- v20_l115
+ v33_l177
  (let
   [transforms
    (mapv
@@ -158,20 +244,20 @@
    plotly/plot)))
 
 
-(def v22_l141 (def C12 (hm/cyclic-group 12)))
+(def v35_l203 (def C12 (hm/cyclic-group 12)))
 
 
 (def
- v23_l143
+ v36_l205
  (defn
   transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv (fn* [p1__88695#] (+ p1__88695# (long k))) melody)))
+  (mapv (fn* [p1__106688#] (+ p1__106688# k)) melody)))
 
 
 (def
- v25_l150
+ v38_l212
  (let
   [rows
    (mapv
@@ -183,10 +269,10 @@
        (str
         (mapv
          (fn*
-          [p1__88696#]
-          (get note-names (mod p1__88696# 12) (str p1__88696#)))
+          [p1__106689#]
+          (get note-names (mod p1__106689# 12) (str p1__106689#)))
          (mapv
-          (fn* [p1__88697#] (+ 60 (mod (- p1__88697# 60) 12)))
+          (fn* [p1__106690#] (+ 60 (mod (- p1__106690# 60) 12)))
           transposed)))]))
     (range 12))]
   (kind/table
@@ -194,17 +280,29 @@
     :row-vectors rows})))
 
 
-(def v27_l165 (def D12 (hm/dihedral-group 12)))
+(def v40_l224 (play motif))
 
 
-(def v28_l167 (hm/order D12))
+(def v42_l227 (play (transpose-melody 3 motif)))
 
 
-(deftest t29_l169 (is (= v28_l167 24)))
+(def v44_l230 (play (transpose-melody 5 motif)))
+
+
+(def v46_l233 (play (transpose-melody 7 motif)))
+
+
+(def v48_l241 (def D12 (hm/dihedral-group 12)))
+
+
+(def v49_l243 (hm/order D12))
+
+
+(deftest t50_l245 (is (= v49_l243 24)))
 
 
 (def
- v31_l186
+ v52_l262
  (def
   schoenberg-row
   "Schoenberg's Op. 25 row (pitch classes)."
@@ -212,7 +310,7 @@
 
 
 (def
- v32_l190
+ v53_l266
  (let
   [pc-name
    {0 "C",
@@ -231,7 +329,7 @@
 
 
 (def
- v34_l199
+ v55_l275
  (defn
   row-forms
   "Generate the 48 forms of a tone row."
@@ -244,7 +342,7 @@
     pivot
     (first row)
     inversion
-    (mapv (fn* [p1__88698#] (mod (- (* 2 pivot) p1__88698#) 12)) row)
+    (mapv (fn* [p1__106691#] (mod (- (* 2 pivot) p1__106691#) 12)) row)
     ri
     (vec (reverse inversion))
     base-forms
@@ -256,25 +354,25 @@
       :form-type form-name,
       :transposition k,
       :row
-      (mapv (fn* [p1__88699#] (mod (+ p1__88699# k) 12)) form)})))))
+      (mapv (fn* [p1__106692#] (mod (+ p1__106692# k) 12)) form)})))))
 
 
-(def v35_l216 (let [forms (row-forms schoenberg-row)] (count forms)))
+(def v56_l292 (let [forms (row-forms schoenberg-row)] (count forms)))
 
 
-(deftest t36_l219 (is (= v35_l216 48)))
+(deftest t57_l295 (is (= v56_l292 48)))
 
 
 (def
- v38_l223
+ v59_l299
  (let
   [forms
    (row-forms schoenberg-row)
    selected
    (filterv
     (fn*
-     [p1__88700#]
-     (contains? #{0 6 3 9} (:transposition p1__88700#)))
+     [p1__106693#]
+     (contains? #{0 6 3 9} (:transposition p1__106693#)))
     forms)
    selected
    (take 16 (sort-by (juxt :form-type :transposition) selected))]
@@ -285,17 +383,54 @@
 
 
 (def
- v40_l234
+ v61_l313
+ (play (mapv (fn* [p1__106694#] (+ 60 p1__106694#)) schoenberg-row)))
+
+
+(def
+ v63_l316
+ (play
+  (mapv
+   (fn* [p1__106695#] (+ 60 p1__106695#))
+   (vec (reverse schoenberg-row)))))
+
+
+(def
+ v65_l319
+ (let
+  [pivot (first schoenberg-row)]
+  (play
+   (mapv
+    (fn* [p1__106696#] (+ 60 (mod (- (* 2 pivot) p1__106696#) 12)))
+    schoenberg-row))))
+
+
+(def
+ v67_l323
+ (let
+  [pivot (first schoenberg-row)]
+  (play
+   (mapv
+    (fn* [p1__106697#] (+ 60 p1__106697#))
+    (vec
+     (reverse
+      (mapv
+       (fn* [p1__106698#] (mod (- (* 2 pivot) p1__106698#) 12))
+       schoenberg-row)))))))
+
+
+(def
+ v69_l328
  (let
   [forms (row-forms schoenberg-row)]
   (every? (fn [{:keys [row]}] (= (set row) (set (range 12)))) forms)))
 
 
-(deftest t41_l239 (is (true? v40_l234)))
+(deftest t70_l333 (is (true? v69_l328)))
 
 
 (def
- v43_l246
+ v72_l340
  (let
   [forms
    (row-forms schoenberg-row)
@@ -304,14 +439,14 @@
   (count distinct-rows)))
 
 
-(deftest t44_l250 (is (= v43_l246 48)))
+(deftest t73_l344 (is (= v72_l340 48)))
 
 
-(def v46_l257 (def all-interval-row [0 11 7 4 2 9 3 8 10 1 5 6]))
+(def v75_l351 (def all-interval-row [0 11 7 4 2 9 3 8 10 1 5 6]))
 
 
 (def
- v48_l261
+ v77_l355
  (let
   [intervals
    (mapv
@@ -322,11 +457,11 @@
   (= (set intervals) (set (range 1 12)))))
 
 
-(deftest t49_l268 (is (true? v48_l261)))
+(deftest t78_l362 (is (true? v77_l355)))
 
 
 (def
- v51_l275
+ v80_l369
  (let
   [elts
    (vec (hm/elements V4))

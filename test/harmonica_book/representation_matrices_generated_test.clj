@@ -32,11 +32,7 @@
  (let
   [perms [[0 1 2 3] [1 0 2 3] [1 2 0 3] [1 2 3 0]]]
   (kind/table
-   {:column-names
-    ["$\\sigma$"
-     "Cycle type"
-     "$\\text{tr}(\\rho(\\sigma))$"
-     "$\\rho(\\sigma)$"],
+   {:column-names ["σ" "Cycle type" "tr(ρ(σ))" "ρ(σ)"],
     :row-vectors
     (mapv
      (fn

@@ -146,7 +146,7 @@
 (def
  v43_l265
  (let
-  [G (hm/cyclic-group 6) act (fn [g x] (mod (+ (long g) (long x)) 6))]
+  [G (hm/cyclic-group 6) act (fn [g x] (mod (+ g x) 6))]
   (hm/cycle-index G act (range 6))))
 
 
@@ -159,7 +159,7 @@
   [G
    (hm/cyclic-group 6)
    act
-   (fn [g x] (mod (+ (long g) (long x)) 6))
+   (fn [g x] (mod (+ g x) 6))
    ci
    (hm/cycle-index G act (range 6))]
   (hm/polya-count ci 3)))
@@ -174,7 +174,7 @@
   [G
    (hm/cyclic-group 6)
    act
-   (fn [g x] (mod (+ (long g) (long x)) 6))
+   (fn [g x] (mod (+ g x) 6))
    {:keys [act domain]}
    (hm/coloring-action act 6 3)]
   (hm/burnside-count G act domain)))
@@ -218,7 +218,7 @@
     (let
      [probs
       (mapv
-       (fn* [p1__90037#] (riffle/gsr-probability p1__90037# k))
+       (fn* [p1__108074#] (riffle/gsr-probability p1__108074# k))
        elts)]
      (double (* 0.5 (dfn/sum (dfn/abs (dfn/- probs uniform)))))))
    (range 1 8))))

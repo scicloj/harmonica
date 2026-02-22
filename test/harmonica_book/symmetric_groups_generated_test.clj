@@ -144,7 +144,7 @@
 (def
  v61_l196
  (kind/table
-  {:column-names ["$n$" "$p(n)$"],
+  {:column-names ["n" "p(n)"],
    :row-vectors
    (mapv (fn [n] [n (count (hm/partitions n))]) (range 1 11))}))
 
@@ -236,8 +236,7 @@
 (def
  v82_l284
  (kind/table
-  {:column-names
-   ["$\\lambda$" "$f^\\lambda$ (hook-length)" "# SYT (enumerated)"],
+  {:column-names ["λ" "f(λ) (hook-length)" "# SYT (enumerated)"],
    :row-vectors
    (mapv
     (fn
@@ -298,7 +297,9 @@
  v100_l351
  (let
   [n 5 dims (mapv hm/hook-length-dimension (hm/partitions n))]
-  (reduce + (map (fn* [p1__88875#] (* p1__88875# p1__88875#)) dims))))
+  (reduce
+   +
+   (map (fn* [p1__106912#] (* p1__106912# p1__106912#)) dims))))
 
 
 (deftest t101_l355 (is (= v100_l351 120)))
@@ -307,7 +308,7 @@
 (def
  v103_l365
  (kind/table
-  {:column-names ["$n$" "$|S_n|$" "# classes"],
+  {:column-names ["n" "|Sₙ|" "# classes"],
    :row-vectors
    (mapv
     (fn

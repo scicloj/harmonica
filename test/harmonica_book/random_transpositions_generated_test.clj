@@ -17,15 +17,15 @@
   (kind/table
    {:column-names
     (into
-     ["Irrep $\\lambda$"]
-     (map (fn* [p1__89217#] (str p1__89217#)) (:classes ct))),
+     ["Irrep λ"]
+     (map (fn* [p1__107254#] (str p1__107254#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__89218#] (long (cx/re p1__89218#))) row)))
+       (map (fn* [p1__107255#] (long (cx/re p1__107255#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
@@ -157,11 +157,7 @@
    trans-idx
    (.indexOf (:classes ct) (into [2] (repeat (- n 2) 1)))]
   (kind/table
-   {:column-names
-    ["$\\lambda$"
-     "$d_\\lambda$"
-     "$\\beta$ (table)"
-     "$\\beta$ (closed)"],
+   {:column-names ["λ" "dₗ" "β (table)" "β (closed)"],
     :row-vectors
     (mapv
      (fn
@@ -376,8 +372,7 @@
 (def
  v38_l302
  (kind/table
-  {:column-names
-   ["$n$" "$|S_n|$" "$\\tfrac{1}{2}n\\ln n$" "# partitions"],
+  {:column-names ["n" "|Sₙ|" "½n ln n" "# partitions"],
    :row-vectors
    (mapv
     (fn

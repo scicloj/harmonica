@@ -326,10 +326,10 @@
 ;;
 ;; | Family | Notation | Order | Abelian? |
 ;; |:-------|:---------|:------|:---------|
-;; | Cyclic | $\mathbb{Z}/n\mathbb{Z}$ | $n$ | Yes |
-;; | Symmetric | $S_n$ | $n!$ | No ($n \geq 3$) |
-;; | Dihedral | $D_n$ | $2n$ | No ($n \geq 3$) |
-;; | Product | $G_1 \times G_2$ | $|G_1| \cdot |G_2|$ | If both factors are abelian |
+;; | Cyclic | Z/nZ | n | Yes |
+;; | Symmetric | Sₙ | n! | No (n ≥ 3) |
+;; | Dihedral | Dₙ | 2n | No (n ≥ 3) |
+;; | Product | G₁ × G₂ | |G₁| · |G₂| | If both factors are abelian |
 
 (kind/table
  {:column-names ["Group" "Order" "# Classes"]

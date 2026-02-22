@@ -86,11 +86,11 @@
 ;; the trivial representation $[3]$, the standard representation $[2,1]$,
 ;; and the sign representation $[1,1,1]$.
 ;;
-;; ||$[1,1,1]$|$[2,1]$|$[3]$|
+;; || [1,1,1] | [2,1] | [3] |
 ;; |:--|:--:|:--:|:--:|
-;; |$[3]$ (trivial)| 1 | 1 | 1 |
-;; |$[2,1]$ (standard)| 2 | 0 | -1 |
-;; |$[1,1,1]$ (sign)| 1 | -1 | 1 |
+;; | [3] (trivial) | 1 | 1 | 1 |
+;; | [2,1] (standard) | 2 | 0 | -1 |
+;; | [1,1,1] (sign) | 1 | -1 | 1 |
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
       re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))

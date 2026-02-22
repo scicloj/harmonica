@@ -262,10 +262,10 @@ f-hat
 ;;
 ;; | Concept | Groups |
 ;; |:--------|:-------|
-;; | [Cyclic groups](groups_and_structure.html) $\mathbb{Z}/n\mathbb{Z}$ | Clock arithmetic, DFT |
-;; | [Dihedral groups](groups_and_structure.html) $D_n$ | Polygon symmetries, necklaces |
-;; | [Symmetric groups](symmetric_groups.html) $S_n$ | Permutations, card shuffling |
-;; | [Product groups](groups_and_structure.html) $G_1 \times G_2$ | 2D DFT, Klein four-group |
+;; | [Cyclic groups](groups_and_structure.html) Z/nZ | Clock arithmetic, DFT |
+;; | [Dihedral groups](groups_and_structure.html) Dₙ | Polygon symmetries, necklaces |
+;; | [Symmetric groups](symmetric_groups.html) Sₙ | Permutations, card shuffling |
+;; | [Product groups](groups_and_structure.html) G₁ × G₂ | 2D DFT, Klein four-group |
 ;;
 ;; | Tool | Purpose |
 ;; |:-----|:--------|

@@ -13,7 +13,7 @@ book:
   - part: Getting Started
     chapters: [harmonica_book.quickstart.qmd]
   - part: Groups and the DFT
-    chapters: [harmonica_book.groups_and_structure.qmd, harmonica_book.dft_as_group_fourier.qmd, harmonica_book.product_group_dft.qmd]
+    chapters: [harmonica_book.groups_and_structure.qmd, harmonica_book.dft_as_group_fourier.qmd, harmonica_book.product_group_dft.qmd, harmonica_book.random_walks.qmd]
   - part: Groups in Action
     chapters: [harmonica_book.symmetry_sketchpad.qmd, harmonica_book.counting_necklaces.qmd, harmonica_book.chord_geometry.qmd, harmonica_book.hearing_symmetry.qmd]
   - part: Symmetric Groups

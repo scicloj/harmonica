@@ -5,18 +5,17 @@
   [scicloj.harmonica.linalg.complex :as cx]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
+  [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
-(def
- v3_l31
- (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
+(def v3_l32 (defn rotation-action [n] (fn [g x] (mod (+ x g) n))))
 
 
 (def
- v4_l34
+ v4_l35
  (let
   [G
    (hm/cyclic-group 8)
@@ -25,26 +24,19 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t5_l38 (is (= v4_l34 834)))
+(deftest t5_l39 (is (= v4_l35 834)))
 
 
 (def
- v7_l44
+ v7_l45
  (defn
   dihedral-action
   [n]
-  (fn
-   [[t k] x]
-   (case
-    t
-    :r
-    (mod (+ (long x) (long k)) n)
-    :s
-    (mod (- (long k) (long x)) n)))))
+  (fn [[t k] x] (case t :r (mod (+ x k) n) :s (mod (- k x) n)))))
 
 
 (def
- v8_l50
+ v8_l51
  (let
   [G
    (hm/dihedral-group 8)
@@ -53,24 +45,24 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t9_l54 (is (= v8_l50 498)))
+(deftest t9_l55 (is (= v8_l51 498)))
 
 
-(def v11_l68 (def G (hm/cyclic-group 24)))
+(def v11_l69 (def G (hm/cyclic-group 24)))
 
 
-(def v12_l69 (def ct (hm/character-table G)))
+(def v12_l70 (def ct (hm/character-table G)))
 
 
 (def
- v14_l73
+ v14_l74
  (def
   temperatures
   [2 3 7 12 17 22 25 24 19 13 7 3 3 4 8 13 18 23 26 25 20 14 8 4]))
 
 
 (def
- v15_l77
+ v15_l78
  (->
   (tc/dataset {:month (range 24), :temp temperatures})
   (plotly/base
@@ -85,17 +77,17 @@
 
 
 (def
- v16_l85
+ v16_l86
  (def
   f-hat
   (hm/fourier-transform ct (cx/complex-tensor-real temperatures))))
 
 
-(def v17_l87 f-hat)
+(def v17_l88 f-hat)
 
 
 (def
- v19_l91
+ v19_l92
  (let
   [n
    24
@@ -121,27 +113,27 @@
    plotly/plot)))
 
 
-(def v21_l108 (cx/re (f-hat 0)))
+(def v21_l109 (cx/re (f-hat 0)))
 
 
 (deftest
- t22_l110
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v21_l108)))
+ t22_l111
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v21_l109)))
 
 
 (def
- v24_l115
+ v24_l116
  (let
   [mags
    (mapv (fn [k] [k (cx/cabs (f-hat k))]) (range 1 (inc (/ 24 2))))]
   (first (apply max-key second mags))))
 
 
-(deftest t25_l118 (is (= v24_l115 2)))
+(deftest t25_l119 (is (= v24_l116 2)))
 
 
 (def
- v27_l122
+ v27_l123
  (let
   [recovered (cx/re (hm/inverse-fourier-transform ct f-hat))]
   (<
@@ -149,11 +141,11 @@
    1.0E-10)))
 
 
-(deftest t28_l125 (is (true? v27_l122)))
+(deftest t28_l126 (is (true? v27_l123)))
 
 
 (def
- v30_l136
+ v30_l137
  (defn
   make-rosette
   [n motif]
@@ -178,7 +170,7 @@
 
 
 (def
- v31_l152
+ v31_l153
  (let
   [motif
    (mapv
@@ -223,3 +215,116 @@
      :yaxis {:visible false},
      :width 400,
      :height 400}})))
+
+
+(def
+ v33_l189
+ (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2))))
+
+
+(def
+ v35_l193
+ (def motif [[62 0.75] [61 0.75] [62 0.5] [64 0.5] [65 0.75]]))
+
+
+(def
+ v36_l195
+ (defn
+  apply-v4
+  [pivot [r i] melody]
+  (let
+   [m
+    (if
+     (= i 1)
+     (mapv (fn [[p d]] [(- (* 2 pivot) p) d]) melody)
+     melody)]
+   (if (= r 1) (vec (reverse m)) m))))
+
+
+(def
+ v38_l201
+ (let
+  [pivot (ffirst motif)]
+  {:original (mapv first motif),
+   :retrograde (mapv first (apply-v4 pivot [1 0] motif)),
+   :inversion (mapv first (apply-v4 pivot [0 1] motif)),
+   :retrograde-inv (mapv first (apply-v4 pivot [1 1] motif))}))
+
+
+(def v40_l209 (def sample-rate 44100.0))
+
+
+(def
+ v41_l211
+ (defn
+  play
+  [melody]
+  (let
+   [amp
+    2500.0
+    offsets
+    (reductions + 0 (map (fn [[_ d]] (long (* d sample-rate))) melody))
+    total
+    (last offsets)]
+   (kind/audio
+    {:sample-rate sample-rate,
+     :samples
+     (dtype/make-reader
+      :float32
+      total
+      (let
+       [[note-idx note-start]
+        (loop
+         [i 0]
+         (if
+          (< idx (nth offsets (inc i)))
+          [i (nth offsets i)]
+          (recur (inc i))))
+        [pitch dur]
+        (melody note-idx)
+        n-note
+        (long (* dur sample-rate))
+        t
+        (- idx note-start)
+        attack
+        (long (* 0.015 sample-rate))
+        sounding
+        (long (* 0.85 n-note))
+        release
+        (long (* 0.06 sample-rate))
+        freq
+        (* 440.0 (Math/pow 2.0 (/ (- (double pitch) 69.0) 12.0)))
+        phase
+        (/ (double t) sample-rate)]
+       (if
+        (>= t sounding)
+        (float 0.0)
+        (let
+         [env
+          (cond
+           (< t attack)
+           (/ (double t) attack)
+           (> t (- sounding release))
+           (*
+            (Math/exp (* -1.5 (/ (double (- t attack)) sounding)))
+            (/ (double (- sounding t)) release))
+           :else
+           (Math/exp (* -1.5 (/ (double (- t attack)) sounding))))
+          wave
+          (+
+           (* 0.65 (Math/sin (* 2.0 Math/PI freq phase)))
+           (* 0.25 (Math/sin (* 2.0 Math/PI 2.0 freq phase)))
+           (* 0.1 (Math/sin (* 2.0 Math/PI 3.0 freq phase))))]
+         (float (* amp env wave))))))}))))
+
+
+(def v43_l248 (play motif))
+
+
+(def v44_l250 (play (apply-v4 (ffirst motif) [1 0] motif)))
+
+
+(def v45_l252 (play (apply-v4 (ffirst motif) [0 1] motif)))
+
+
+(def v46_l254 (play (apply-v4 (ffirst motif) [1 1] motif)))

@@ -6,9 +6,7 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def
- v3_l27
- (defn rotation-action [n] (fn [g x] (mod (+ (long x) (long g)) n))))
+(def v3_l27 (defn rotation-action [n] (fn [g x] (mod (+ x g) n))))
 
 
 (def
@@ -36,14 +34,7 @@
  (defn
   dihedral-vertex-action
   [n]
-  (fn
-   [[t k] x]
-   (case
-    t
-    :r
-    (mod (+ (long x) (long k)) n)
-    :s
-    (mod (- (long k) (long x)) n)))))
+  (fn [[t k] x] (case t :r (mod (+ x k) n) :s (mod (- k x) n)))))
 
 
 (def

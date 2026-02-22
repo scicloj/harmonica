@@ -184,7 +184,7 @@
                                     (count reps)])
                                  merged-groups))]
   (kind/table
-   {:column-names ["$C_{12}$ types merged" "Count"]
+   {:column-names ["C\u2081\u2082 types merged" "Count"]
     :row-vectors (mapv (fn [[reps cnt]]
                          [(str reps) cnt])
                        merged-rows)}))
@@ -241,7 +241,7 @@
                          :under-D12 n-dihed}))
                     (range 1 12))]
   (kind/table
-   {:column-names ["Chord size $k$" "Total subsets" "Types ($C_{12}$)" "Types ($D_{12}$)"]
+   {:column-names ["Chord size k" "Total subsets" "Types (C\u2081\u2082)" "Types (D\u2081\u2082)"]
     :row-vectors (mapv (fn [{:keys [k subsets under-C12 under-D12]}]
                          [k subsets under-C12 under-D12])
                        results)}))
@@ -263,7 +263,7 @@
       f-vals (cx/complex-tensor-real (mapv (fn [x] (if (#{0 4 7} x) 1.0 0.0)) (range 12)))
       f-hat (hm/fourier-transform ct f-vals)]
   (kind/table
-   {:column-names ["Frequency $k$" "$|\\hat{f}(k)|^2$"]
+   {:column-names ["Frequency k" "|f\u0302(k)|\u00b2"]
     :row-vectors (mapv (fn [k]
                          (let [fk (f-hat k)
                                mag-sq (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i)))]

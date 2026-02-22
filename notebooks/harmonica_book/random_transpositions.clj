@@ -31,7 +31,7 @@
 
 (let [ct (hm/character-table (hm/symmetric-group 5))]
   (kind/table
-   {:column-names (into ["Irrep $\\lambda$"]
+   {:column-names (into ["Irrep \u03bb"]
                         (map #(str %) (:classes ct)))
     :row-vectors (mapv (fn [label row]
                          (into [(str label)]
@@ -156,7 +156,7 @@
       trans-idx (.indexOf ^clojure.lang.PersistentVector (:classes ct)
                           (into [2] (repeat (- n 2) 1)))]
   (kind/table
-   {:column-names ["$\\lambda$" "$d_\\lambda$" "$\\beta$ (table)" "$\\beta$ (closed)"]
+   {:column-names ["\u03bb" "d\u2097" "\u03b2 (table)" "\u03b2 (closed)"]
     :row-vectors
     (mapv (fn [i]
             (let [lam ((:irrep-labels ct) i)
@@ -300,7 +300,7 @@
 ;; ## Summary
 
 (kind/table
- {:column-names ["$n$" "$|S_n|$" "$\\tfrac{1}{2}n\\ln n$" "# partitions"]
+ {:column-names ["n" "|S\u2099|" "\u00bdn ln n" "# partitions"]
   :row-vectors (mapv (fn [n]
                        [n
                         (str (reduce *' (range 1 (inc n))))

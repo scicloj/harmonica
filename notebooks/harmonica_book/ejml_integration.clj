@@ -360,7 +360,7 @@
       us-ejml (benchmark-accumulation ejml-fn n)
       us-acm (benchmark-accumulation acm-fn n)]
   (kind/table
-   {:column-names ["Backend" "$d$" "$|G|$" "µs / iter" "Speedup"]
+   {:column-names ["Backend" "d" "|G|" "\u00b5s / iter" "Speedup"]
     :row-vectors [["EJML (ZMatrixRMaj)" d (hm/order G)
                    (format "%.1f" us-ejml)
                    (format "%.1fx" (/ us-acm us-ejml))]

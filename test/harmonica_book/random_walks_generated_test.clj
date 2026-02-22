@@ -6,6 +6,7 @@
   [harmonica-book.book-helpers :refer [allclose?]]
   [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]
+  [tech.v3.datatype.convolve :as dt-conv]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -13,7 +14,7 @@
 
 
 (def
- v3_l51
+ v3_l47
  (defn
   gaussian-pdf
   "Gaussian density at x with given mean and standard deviation."
@@ -24,26 +25,65 @@
 
 
 (def
- v5_l61
+ v5_l58
+ (defn
+  gaussian-kernel
+  "Sampled Gaussian kernel (integrates to ~1) for numerical convolution."
+  [sigma dx]
+  (let
+   [hw (long (/ (* 4 sigma) dx)) ks (range (- hw) (inc hw))]
+   (double-array
+    (map
+     (fn [ki] (let [x (* ki dx)] (* dx (gaussian-pdf 0 sigma x))))
+     ks)))))
+
+
+(def
+ v6_l68
  (let
   [xs
-   (vec (range -6.0 6.01 0.05))
-   sigma
-   0.8
+   (vec (range -5.0 5.01 0.05))
+   dx
+   0.05
+   raw
+   (double-array
+    (map
+     (fn
+      [x]
+      (+
+       (* 0.5 (Math/exp (* -8.0 (* (+ x 2.0) (+ x 2.0)))))
+       (* 0.35 (Math/exp (* -12.0 (* (- x 0.5) (- x 0.5)))))
+       (* 0.15 (Math/exp (* -3.0 (* (- x 2.5) (- x 2.5)))))))
+     xs))
+   signal
+   (dfn// raw (* dx (dfn/sum raw)))
    rows
    (vec
-    (for
-     [n [1 2 4 8] x xs]
-     {:x x,
-      :density (gaussian-pdf 0 (* sigma (Math/sqrt (double n))) x),
-      :steps (str n (if (= n 1) " step" " steps"))}))]
+    (concat
+     (for
+      [i (range (count xs))]
+      {:x (xs i), :density (signal i), :curve "original"})
+     (for
+      [sigma
+       [0.3 0.6 1.2]
+       :let
+       [smoothed
+        (dt-conv/convolve1d
+         signal
+         (gaussian-kernel sigma dx)
+         {:mode :same})]
+       i
+       (range (count xs))]
+      {:x (xs i),
+       :density (smoothed i),
+       :curve (str "smoothed, σ=" sigma)})))]
   (->
    (tc/dataset rows)
    (plotly/base
     {:=x :x,
      :=y :density,
-     :=color :steps,
-     :=title "Repeated convolution of a Gaussian",
+     :=color :curve,
+     :=title "Convolution with a Gaussian smooths",
      :=x-title "x",
      :=y-title "density"})
    (plotly/layer-line)
@@ -51,71 +91,131 @@
 
 
 (def
- v7_l82
- (let
-  [xs
-   (vec (range -3.0 3.1 0.25))
-   sigma1
-   0.6
-   sigma2
-   1.5
-   z1
-   (vec
-    (for
-     [y xs]
-     (vec
-      (for
-       [x xs]
-       (* (gaussian-pdf 0 sigma1 x) (gaussian-pdf 0 sigma1 y))))))
-   z2
-   (vec
-    (for
-     [y xs]
-     (vec
-      (for
-       [x xs]
-       (* (gaussian-pdf 0 sigma2 x) (gaussian-pdf 0 sigma2 y))))))]
-  (kind/plotly
-   {:data
-    [{:type "heatmap",
-      :z z1,
-      :x xs,
-      :y xs,
-      :colorscale "Viridis",
-      :showscale false,
-      :xaxis "x",
-      :yaxis "y"}
-     {:type "heatmap",
-      :z z2,
-      :x xs,
-      :y xs,
-      :colorscale "Viridis",
-      :showscale false,
-      :xaxis "x2",
-      :yaxis "y2"}],
-    :layout
-    {:grid {:rows 1, :columns 2, :pattern "independent"},
-     :xaxis2 {:domain [0.55 1], :title "x"},
-     :width 650,
-     :xaxis {:domain [0 0.45], :title "x"},
-     :title "2D Gaussian: narrow (σ=0.6) vs. convolved (σ=1.5)",
-     :yaxis {:title "y", :scaleanchor "x"},
-     :yaxis2 {:title "y", :scaleanchor "x2"},
-     :height 320,
-     :margin {:t 40, :b 40, :l 50, :r 20}}})))
-
-
-(def v9_l124 (def n 24))
-
-
-(def v10_l125 (def G (hm/cyclic-group n)))
-
-
-(def v11_l126 (def ct (hm/character-table G)))
+ v8_l106
+ (defn
+  convolve-2d
+  "Convolve a 2D grid (vec of vecs) with a Gaussian of width sigma,\n   using separable 1D convolution (rows then columns)."
+  [grid sigma dx]
+  (let
+   [n
+    (count grid)
+    k
+    (gaussian-kernel sigma dx)
+    row-conv
+    (mapv
+     (fn
+      [row]
+      (vec (dt-conv/convolve1d (double-array row) k {:mode :same})))
+     grid)]
+   (let
+    [col-conv
+     (mapv
+      (fn
+       [j]
+       (vec
+        (dt-conv/convolve1d
+         (double-array
+          (map (fn* [p1__105482#] (nth p1__105482# j)) row-conv))
+         k
+         {:mode :same})))
+      (range n))]
+    (vec
+     (for [i (range n)] (vec (for [j (range n)] ((col-conv j) i)))))))))
 
 
 (def
- v13_l132
+ v9_l124
+ (let
+  [xs
+   (vec (range -3.0 3.1 0.25))
+   dx
+   0.25
+   raw
+   (vec
+    (for
+     [y xs]
+     (vec
+      (for
+       [x xs]
+       (+
+        (*
+         0.5
+         (Math/exp
+          (- (+ (* 5 (+ x 1.0) (+ x 1.0)) (* 5 (- y 0.8) (- y 0.8))))))
+        (*
+         0.35
+         (Math/exp
+          (-
+           (+ (* 10 (- x 1.2) (- x 1.2)) (* 10 (+ y 1.0) (+ y 1.0))))))
+        (*
+         0.2
+         (Math/exp
+          (- (+ (* 3 (* x x)) (* 8 (- y 1.5) (- y 1.5)))))))))))
+   z1
+   raw
+   z2
+   (convolve-2d raw 0.5 dx)
+   z3
+   (convolve-2d raw 1.2 dx)
+   zmax
+   (apply max (flatten raw))]
+  (kind/plotly
+   {:data
+    [{:y xs,
+      :colorscale "Viridis",
+      :type "heatmap",
+      :showscale false,
+      :xaxis "x",
+      :z z1,
+      :yaxis "y",
+      :zmax zmax,
+      :x xs,
+      :zmin 0}
+     {:y xs,
+      :colorscale "Viridis",
+      :type "heatmap",
+      :showscale false,
+      :xaxis "x2",
+      :z z2,
+      :yaxis "y2",
+      :zmax zmax,
+      :x xs,
+      :zmin 0}
+     {:y xs,
+      :colorscale "Viridis",
+      :type "heatmap",
+      :showscale false,
+      :xaxis "x3",
+      :z z3,
+      :yaxis "y3",
+      :zmax zmax,
+      :x xs,
+      :zmin 0}],
+    :layout
+    {:xaxis3 {:domain [0.7 1], :visible false},
+     :grid {:rows 1, :columns 3, :pattern "independent"},
+     :xaxis2 {:domain [0.35 0.65], :visible false},
+     :width 700,
+     :xaxis {:domain [0 0.3], :visible false},
+     :title "2D smoothing: original → σ=0.5 → σ=1.2",
+     :yaxis {:scaleanchor "x", :visible false},
+     :yaxis3 {:scaleanchor "x3", :visible false},
+     :yaxis2 {:scaleanchor "x2", :visible false},
+     :height 270,
+     :margin {:t 40, :b 20, :l 20, :r 20}}})))
+
+
+(def v11_l176 (def n 24))
+
+
+(def v12_l177 (def G (hm/cyclic-group n)))
+
+
+(def v13_l178 (def ct (hm/character-table G)))
+
+
+(def
+ v15_l184
  (def
   step-dist
   (cx/complex-tensor-real
@@ -125,16 +225,16 @@
      (case g 0 (/ 1.0 3) 1 (/ 1.0 3) 23 (/ 1.0 3) 0.0))))))
 
 
-(def v15_l144 (dfn/sum (cx/re step-dist)))
+(def v17_l196 (dfn/sum (cx/re step-dist)))
 
 
 (deftest
- t16_l146
- (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v15_l144)))
+ t18_l198
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v17_l196)))
 
 
 (def
- v18_l152
+ v20_l204
  (defn
   make-delta
   "Point mass at position 0 on a group of order n."
@@ -142,11 +242,11 @@
   (cx/complex-tensor-real (vec (cons 1.0 (repeat (dec n) 0.0))))))
 
 
-(def v19_l158 (def delta-0 (make-delta n)))
+(def v21_l210 (def delta-0 (make-delta n)))
 
 
 (def
- v21_l164
+ v23_l216
  (defn
   walk-distributions
   "Compute distributions at each step up to t-max, returning a vector."
@@ -160,7 +260,7 @@
 
 
 (def
- v23_l174
+ v25_l226
  (let
   [dists
    (walk-distributions ct step-dist n 100)
@@ -183,15 +283,15 @@
      :=x-title "position",
      :=y-title "probability"})
    (plotly/layer-line)
-   (plotly/layer-point {:=mark-size 4})
+   (plotly/layer-point {:=mark-size 8})
    plotly/plot)))
 
 
-(def v25_l202 (def uniform (vec (repeat n (/ 1.0 n)))))
+(def v27_l254 (def uniform (vec (repeat n (/ 1.0 n)))))
 
 
 (def
- v26_l204
+ v28_l256
  (let
   [dists
    (walk-distributions ct step-dist n 200)
@@ -216,30 +316,30 @@
    plotly/plot)))
 
 
-(def v28_l221 (hm/total-variation-distance (cx/re delta-0) uniform))
+(def v30_l273 (hm/total-variation-distance (cx/re delta-0) uniform))
 
 
 (deftest
- t29_l223
+ t31_l275
  (is
-  ((fn [v] (< (Math/abs (- v (- 1.0 (/ 1.0 24)))) 1.0E-10)) v28_l221)))
+  ((fn [v] (< (Math/abs (- v (- 1.0 (/ 1.0 24)))) 1.0E-10)) v30_l273)))
 
 
 (def
- v31_l228
+ v33_l280
  (let
   [dists (walk-distributions ct step-dist n 200)]
   (hm/total-variation-distance (cx/re (dists 200)) uniform)))
 
 
-(deftest t32_l231 (is ((fn [v] (< v 0.01)) v31_l228)))
+(deftest t34_l283 (is ((fn [v] (< v 0.01)) v33_l280)))
 
 
-(def v34_l249 (def step-hat (hm/fourier-transform ct step-dist)))
+(def v36_l301 (def step-hat (hm/fourier-transform ct step-dist)))
 
 
 (def
- v36_l253
+ v38_l305
  (let
   [rows
    (vec (for [k (range n)] {:k k, :magnitude (cx/cabs (step-hat k))}))]
@@ -255,26 +355,26 @@
    plotly/plot)))
 
 
-(def v38_l266 (cx/cabs (step-hat 0)))
+(def v40_l318 (cx/cabs (step-hat 0)))
 
 
 (deftest
- t39_l268
- (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v38_l266)))
+ t41_l320
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v40_l318)))
 
 
 (def
- v41_l278
+ v43_l330
  (def
   max-nontrivial
   (apply max (for [k (range 1 n)] (cx/cabs (step-hat k))))))
 
 
-(def v42_l281 max-nontrivial)
+(def v44_l333 max-nontrivial)
 
 
 (def
- v44_l290
+ v46_l342
  (let
   [t
    10
@@ -287,11 +387,11 @@
   (allclose? (cx/cabs conv-t-hat) (cx/cabs power-t) 1.0E-8)))
 
 
-(deftest t45_l296 (is (true? v44_l290)))
+(deftest t47_l348 (is (true? v46_l342)))
 
 
 (def
- v47_l300
+ v49_l352
  (let
   [steps
    [1 5 15 40]
@@ -312,12 +412,12 @@
      :=x-title "frequency k",
      :=y-title "|μ̂(k)|^t"})
    (plotly/layer-line)
-   (plotly/layer-point {:=mark-size 4})
+   (plotly/layer-point {:=mark-size 8})
    plotly/plot)))
 
 
 (def
- v49_l325
+ v51_l377
  (def
   step-nn
   (cx/complex-tensor-real
@@ -325,7 +425,7 @@
 
 
 (def
- v51_l332
+ v53_l384
  (def
   step-long
   (cx/complex-tensor-real
@@ -334,7 +434,7 @@
 
 
 (def
- v52_l337
+ v54_l389
  (let
   [walks
    [["nearest-neighbor" step-nn]
@@ -367,7 +467,7 @@
 
 
 (def
- v54_l357
+ v56_l409
  (let
   [walks
    {"nearest-neighbor" step-nn,
@@ -390,12 +490,12 @@
      :=x-title "frequency k",
      :=y-title "|μ̂(k)|"})
    (plotly/layer-line)
-   (plotly/layer-point {:=mark-size 4})
+   (plotly/layer-point {:=mark-size 8})
    plotly/plot)))
 
 
 (def
- v56_l378
+ v58_l430
  (kind/table
   {:column-names ["Walk" "max |μ̂(k)|, k≠0" "Spectral gap"],
    :row-vectors
@@ -413,31 +513,31 @@
      ["long-range (±2)" step-long]])}))
 
 
-(def v58_l398 (def m 12))
+(def v60_l450 (def m 12))
 
 
 (def
- v59_l399
+ v61_l451
  (def G2d (hm/product-group (hm/cyclic-group m) (hm/cyclic-group m))))
 
 
-(def v60_l400 (def ct2d (hm/character-table G2d)))
+(def v62_l452 (def ct2d (hm/character-table G2d)))
 
 
-(def v61_l402 (def n2d (hm/order G2d)))
+(def v63_l454 (def n2d (hm/order G2d)))
 
 
-(def v62_l404 n2d)
+(def v64_l456 n2d)
 
 
-(deftest t63_l406 (is (= v62_l404 144)))
+(deftest t65_l458 (is (= v64_l456 144)))
 
 
-(def v65_l412 (def elts2d (vec (hm/elements G2d))))
+(def v67_l464 (def elts2d (vec (hm/elements G2d))))
 
 
 (def
- v66_l414
+ v68_l466
  (def
   step-2d
   (let
@@ -446,16 +546,16 @@
     (mapv (fn [e] (if (neighbors e) 0.2 0.0)) elts2d)))))
 
 
-(def v67_l419 (dfn/sum (cx/re step-2d)))
+(def v69_l471 (dfn/sum (cx/re step-2d)))
 
 
 (deftest
- t68_l421
- (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v67_l419)))
+ t70_l473
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v69_l471)))
 
 
 (def
- v70_l426
+ v72_l478
  (defn
   dist-to-grid
   "Reshape a distribution vector on Z/m x Z/m into a grid for heatmaps."
@@ -466,11 +566,11 @@
     (vec (for [j (range m)] (cx/re (dist-vec (+ (* i m) j)))))))))
 
 
-(def v71_l433 (def dists-2d (walk-distributions ct2d step-2d n2d 60)))
+(def v73_l485 (def dists-2d (walk-distributions ct2d step-2d n2d 60)))
 
 
 (def
- v72_l435
+ v74_l487
  (let
   [steps
    [0 1 5 15 30 60]
@@ -526,11 +626,11 @@
      :margin {:t 40, :b 20, :l 20, :r 20}}})))
 
 
-(def v74_l482 (def uniform-2d (vec (repeat n2d (/ 1.0 (double n2d))))))
+(def v76_l534 (def uniform-2d (vec (repeat n2d (/ 1.0 (double n2d))))))
 
 
 (def
- v75_l484
+ v77_l536
  (let
   [tv-data
    (vec

@@ -8,8 +8,8 @@
 ;; | Underlying shape | Complex interpretation | `re` / `im` returns |
 ;; |:-----------------|:----------------------|:---------------------|
 ;; | `[2]` | scalar complex number | double |
-;; | `[n 2]` | complex vector, length $n$ | `[n]` tensor view |
-;; | `[r c 2]` | complex $r \times c$ matrix | `[r c]` tensor view |
+;; | `[n 2]` | complex vector, length n | `[n]` tensor view |
+;; | `[r c 2]` | complex r × c matrix | `[r c]` tensor view |
 ;;
 ;; This namespace has zero dependencies on the rest of harmonica —
 ;; it depends only on dtype-next and is designed to be extractable

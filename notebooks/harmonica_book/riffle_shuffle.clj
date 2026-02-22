@@ -74,7 +74,7 @@
 (let [n 5
       parts (hm/partitions n)]
   (kind/table
-   {:column-names ["$\\lambda$" "$d_\\lambda$" "$d_\\lambda^2$"]
+   {:column-names ["\u03bb" "d\u2097" "d\u2097\u00b2"]
     :row-vectors (conj (mapv (fn [lam]
                                (let [d (hm/hook-length-dimension lam)]
                                  [(str lam) d (* d d)]))
@@ -205,8 +205,8 @@
       f (fn [sigma] (hm/gsr-probability sigma k))
       f-hats (hm/matrix-fourier-transform-all G f irreps)]
   (kind/table
-   {:column-names ["$\\lambda$" "$d_\\lambda$"
-                   "$\\|\\hat{Q}(\\rho_\\lambda)\\|_F$"]
+   {:column-names ["\u03bb" "d\u2097"
+                   "\u2016Q\u0302(\u03c1\u2097)\u2016"]
     :row-vectors (mapv (fn [lam ir fh]
                          [(str lam)
                           (:dimension ir)
@@ -272,7 +272,7 @@
 ;; computed the exact total variation distance using the formula for
 ;; $a$-shuffles. Their result:
 ;;
-;; | $k$ | $\|Q^{*k} - U\|_{TV}$ |
+;; | k | TV distance |
 ;; |:---:|:----------------------:|
 ;; | 1   | 1.000                  |
 ;; | 3   | 1.000                  |

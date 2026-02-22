@@ -129,7 +129,9 @@
       (subvec image-data (* i n) (* (inc i) n))))
     (range m))
    rows-transformed
-   (mapv (fn* [p1__87996#] (hm/fourier-transform ct2 p1__87996#)) rows)
+   (mapv
+    (fn* [p1__105322#] (hm/fourier-transform ct2 p1__105322#))
+    rows)
    cols-of-transformed
    (mapv
     (fn
@@ -141,7 +143,7 @@
     (range n))
    cols-transformed
    (mapv
-    (fn* [p1__87997#] (hm/fourier-transform ct1 p1__87997#))
+    (fn* [p1__105323#] (hm/fourier-transform ct1 p1__105323#))
     cols-of-transformed)
    separable-result
    (cx/complex-tensor
@@ -229,72 +231,44 @@
     (range (* m n)))
    f-hat-sq
    (hm/fourier-transform ct-sq (cx/complex-tensor-real stripe))
-   mag-data
-   (mapv
-    (fn
-     [idx]
-     (let
-      [i
-       (quot idx n)
-       j
-       (rem idx n)
-       v
-       (f-hat-sq idx)
-       r
-       (cx/re v)
-       im
-       (cx/im v)]
-      {:row i,
-       :col j,
-       :type "Spectrum",
-       :value (Math/sqrt (+ (* r r) (* im im)))}))
-    (range (* m n)))
-   space-data
-   (mapv
-    (fn
-     [idx]
-     (let
-      [i (quot idx n) j (rem idx n)]
-      {:row i, :col j, :type "Image", :value (nth stripe idx)}))
-    (range (* m n)))]
+   image-grid
+   (vec
+    (for
+     [i (range m)]
+     (vec (for [j (range n)] (stripe (+ (* i n) j))))))
+   mag-grid
+   (vec
+    (for
+     [i (range m)]
+     (vec
+      (for
+       [j (range n)]
+       (let
+        [v (f-hat-sq (+ (* i n) j))]
+        (Math/sqrt
+         (+ (* (cx/re v) (cx/re v)) (* (cx/im v) (cx/im v)))))))))]
   (kind/plotly
    {:data
-    [{:reversescale true,
-      :y (mapv :row space-data),
+    [{:type "heatmap",
+      :z image-grid,
       :colorscale "Greys",
-      :name "Image",
-      :type "heatmap",
+      :reversescale true,
+      :showscale false,
       :xaxis "x",
-      :z
-      (let
-       [arr (vec (repeat m (vec (repeat n 0.0))))]
-       (reduce
-        (fn [a {:keys [row col value]}] (assoc-in a [row col] value))
-        arr
-        space-data)),
-      :yaxis "y",
-      :x (mapv :col space-data)}
+      :yaxis "y"}
      {:type "heatmap",
-      :x (mapv :col mag-data),
-      :y (mapv :row mag-data),
-      :z
-      (let
-       [arr (vec (repeat m (vec (repeat n 0.0))))]
-       (reduce
-        (fn [a {:keys [row col value]}] (assoc-in a [row col] value))
-        arr
-        mag-data)),
+      :z mag-grid,
       :colorscale "Viridis",
-      :name "Spectrum",
+      :showscale false,
       :xaxis "x2",
       :yaxis "y2"}],
     :layout
     {:grid {:rows 1, :columns 2, :pattern "independent"},
-     :xaxis2 {:title "freq col", :domain [0.55 1]},
+     :xaxis2 {:title "freq col", :domain [0.55 1], :dtick 1},
      :width 700,
-     :xaxis {:title "column", :domain [0 0.45]},
+     :xaxis {:title "column", :domain [0 0.45], :dtick 1},
      :title "Diagonal stripe and its 2D Fourier spectrum",
-     :yaxis {:title "row", :autorange "reversed"},
-     :yaxis2 {:title "freq row", :autorange "reversed"},
+     :yaxis {:title "row", :autorange "reversed", :dtick 1},
+     :yaxis2 {:title "freq row", :autorange "reversed", :dtick 1},
      :height 350,
      :margin {:t 40, :b 40, :l 40, :r 40}}})))

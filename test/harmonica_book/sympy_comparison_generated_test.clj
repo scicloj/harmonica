@@ -40,10 +40,7 @@
     vs
     (py/->jvm (pybuiltins/list (py/py. cs values)))
     partition
-    (->>
-     (mapcat (fn [k v] (repeat (long v) (long k))) ks vs)
-     (sort >)
-     vec)
+    (->> (mapcat (fn [k v] (repeat v k)) ks vs) (sort >) vec)
     parity
     (long (py/py. p parity))
     sign
@@ -185,7 +182,7 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__93247#] (long (py/py. p1__93247# __len__)))
+     (fn* [p1__111284#] (long (py/py. p1__111284# __len__)))
      classes)))))
 
 
@@ -198,7 +195,9 @@
   (let
    [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
    (sort
-    (mapv (fn* [p1__93248#] (count (:elements p1__93248#))) classes)))))
+    (mapv
+     (fn* [p1__111285#] (count (:elements p1__111285#)))
+     classes)))))
 
 
 (def
@@ -237,7 +236,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__93249#] (long (py/py. p1__93249# __len__)))
+      (fn* [p1__111286#] (long (py/py. p1__111286# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
@@ -254,7 +253,9 @@
     (hm/conjugacy-classes G)
     sizes
     (sort
-     (mapv (fn* [p1__93250#] (count (:elements p1__93250#))) classes))]
+     (mapv
+      (fn* [p1__111287#] (count (:elements p1__111287#)))
+      classes))]
    {:order (hm/order G),
     :num-classes (count classes),
     :class-sizes sizes})))
@@ -282,7 +283,7 @@
       [n (:order ri) (:num-classes ri) (= ri si)]))
     (range 3 13))]
   (kind/table
-   {:column-names ["$n$" "Order" "Classes" "Match?"],
+   {:column-names ["n" "Order" "Classes" "Match?"],
     :row-vectors rows})))
 
 
@@ -343,7 +344,7 @@
     (fn [n] [n (count (hm/partitions n)) (sympy-partition-count n)])
     (range 1 13))]
   (kind/table
-   {:column-names ["$n$" "harmonica" "SymPy"], :row-vectors rows})))
+   {:column-names ["n" "harmonica" "SymPy"], :row-vectors rows})))
 
 
 (def
@@ -408,9 +409,7 @@
     (mapv
      (fn
       [row]
-      (mapv
-       (fn* [p1__93251#] (long (Math/round (cx/re p1__93251#))))
-       row))
+      (mapv (fn* [p1__111288#] (Math/round (cx/re p1__111288#))) row))
      table)})))
 
 
@@ -497,8 +496,8 @@
       +
       (map
        (fn*
-        [p1__93252#]
-        (let [d (hm/hook-length-dimension p1__93252#)] (* d d)))
+        [p1__111289#]
+        (let [d (hm/hook-length-dimension p1__111289#)] (* d d)))
        parts))]
     (= total (reduce * (range 1 (inc n))))))
   (range 2 8)))
@@ -516,7 +515,7 @@
   (let
    [divisors
     (filter
-     (fn* [p1__93253#] (zero? (mod n p1__93253#)))
+     (fn* [p1__111290#] (zero? (mod n p1__111290#)))
      (range 1 (inc n)))
     euler-phi
     (fn
@@ -524,13 +523,13 @@
      (count
       (filter
        (fn*
-        [p1__93254#]
+        [p1__111291#]
         (=
          1
          (long
           (.gcd
            (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__93254#)))))
+           (BigInteger/valueOf p1__111291#)))))
        (range 1 (inc m)))))]
    (/
     (reduce
@@ -550,7 +549,7 @@
    [G
     (hm/cyclic-group n)
     act
-    (fn [g x] (mod (+ (long x) (long g)) n))
+    (fn [g x] (mod (+ x g) n))
     ci
     (hm/cycle-index G act (range n))]
    (hm/polya-count ci 2))))
@@ -574,7 +573,7 @@
     (fn [n] [n (hm-necklace-count n) (necklace-formula n)])
     (range 1 13))]
   (kind/table
-   {:column-names ["$n$" "harmonica (Pólya)" "Formula"],
+   {:column-names ["n" "harmonica (Pólya)" "Formula"],
     :row-vectors rows})))
 
 
@@ -618,16 +617,9 @@
    G-d
    (hm/dihedral-group 12)
    act-c
-   (fn [g x] (mod (+ (long x) (long g)) 12))
+   (fn [g x] (mod (+ x g) 12))
    act-d
-   (fn
-    [[t k] x]
-    (case
-     t
-     :r
-     (mod (+ (long x) (long k)) 12)
-     :s
-     (mod (- (long k) (long x)) 12)))
+   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
    {domain-3 :domain, act-c-sub :act}
    (hm/subset-action act-c (range 12) 3)
    {_ :domain, act-d-sub :act}

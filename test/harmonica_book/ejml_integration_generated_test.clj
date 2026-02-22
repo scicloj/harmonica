@@ -302,7 +302,7 @@
    (zipmap
     (hm/elements G)
     (map
-     (fn* [p1__91542#] (Math/sin (double p1__91542#)))
+     (fn* [p1__109579#] (Math/sin (double p1__109579#)))
      (range (hm/order G))))
    result-acm
    (rep/matrix-fourier-transform ir G f-map)
@@ -366,7 +366,7 @@
    (zipmap
     elts
     (map
-     (fn* [p1__91543#] (Math/sin (double p1__91543#)))
+     (fn* [p1__109580#] (Math/sin (double p1__109580#)))
      (range (hm/order G))))
    precomp-z
    (into
@@ -414,7 +414,7 @@
    us-acm
    (benchmark-accumulation acm-fn n)]
   (kind/table
-   {:column-names ["Backend" "$d$" "$|G|$" "µs / iter" "Speedup"],
+   {:column-names ["Backend" "d" "|G|" "µs / iter" "Speedup"],
     :row-vectors
     [["EJML (ZMatrixRMaj)"
       d

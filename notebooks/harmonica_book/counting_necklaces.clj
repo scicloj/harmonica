@@ -191,7 +191,7 @@
                           :fixed (count (hm/fixed-points act g domain))})
                        (hm/elements G))]
   (kind/table
-   {:column-names ["$g$" "$|\\text{Fix}(g)|$"]
+   {:column-names ["g" "|Fix(g)|"]
     :row-vectors (mapv (fn [{:keys [element fixed]}]
                          [(str element) fixed])
                        fix-counts)}))
@@ -261,7 +261,7 @@
       G (hm/cyclic-group n)
       ci (hm/cycle-index G (rotation-action n) (range n))]
   (kind/table
-   {:column-names ["$k$ (colors)" "Necklaces"]
+   {:column-names ["k (colors)" "Necklaces"]
     :row-vectors (mapv (fn [k] [k (hm/polya-count ci k)])
                        (range 2 8))}))
 
@@ -297,7 +297,7 @@
                 {:n n :necklaces necklaces :bracelets bracelets}))
             (range 3 10))]
   (kind/table
-   {:column-names ["$n$" "Necklaces ($C_n$)" "Bracelets ($D_n$)"]
+   {:column-names ["n" "Necklaces (C\u2099)" "Bracelets (D\u2099)"]
     :row-vectors (mapv (fn [{:keys [n necklaces bracelets]}]
                          [n necklaces bracelets])
                        results)}))
@@ -389,7 +389,7 @@
                         [3 3] 8/24 ;; vertex rotations ±120° (8)
                         [2 2 2] 6/24}] ;; edge rotations 180° (6)
   (kind/table
-   {:column-names ["$k$ (colors)" "Distinct cube colorings"]
+   {:column-names ["k (colors)" "Distinct cube colorings"]
     :row-vectors (mapv (fn [k]
                          [k (hm/polya-count cube-cycle-index k)])
                        (range 1 8))}))

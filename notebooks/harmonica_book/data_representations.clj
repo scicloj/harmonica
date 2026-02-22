@@ -307,7 +307,7 @@
 ;;
 ;; | Group type | Algorithm |
 ;; |:-----------|:----------|
-;; | `:cyclic` | DFT matrix: $\chi_j(k) = \omega^{jk}$ where $\omega = e^{2\pi i/n}$ |
+;; | `:cyclic` | DFT matrix: χⱼ(k) = ωʲᵏ where ω = e^(2πi/n) |
 ;; | `:symmetric` | Murnaghan-Nakayama rule (integer-valued) |
 ;; | `:dihedral` | Closed-form trig expressions |
 ;; | `:product` | Kronecker product of factor character tables |
@@ -389,7 +389,7 @@ v
 ;; | `:lambda` | vector | The partition labeling this irrep |
 ;; | `:dimension` | long | Number of SYTs = dimension of the representation |
 ;; | `:syts` | vector of SYTs | The basis (each SYT is a vector of row vectors) |
-;; | `:generators` | vector of `RealMatrix` | One matrix per adjacent transposition $s_i$ |
+;; | `:generators` | vector of `RealMatrix` | One matrix per adjacent transposition sᵢ |
 
 (:lambda ir-31)
 

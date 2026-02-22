@@ -194,7 +194,7 @@ G
 ;; The number of partitions grows quickly — but much slower than $n!$.
 
 (kind/table
- {:column-names ["$n$" "$p(n)$"]
+ {:column-names ["n" "p(n)"]
   :row-vectors (mapv (fn [n] [n (count (hm/partitions n))])
                      (range 1 11))})
 
@@ -282,7 +282,7 @@ G
 ;; Dimension table for partitions of 5:
 
 (kind/table
- {:column-names ["$\\lambda$" "$f^\\lambda$ (hook-length)" "# SYT (enumerated)"]
+ {:column-names ["\u03bb" "f(\u03bb) (hook-length)" "# SYT (enumerated)"]
   :row-vectors
   (mapv (fn [lambda]
           [(str lambda)
@@ -363,7 +363,7 @@ G
 ;; $p(n)$ representations.
 
 (kind/table
- {:column-names ["$n$" "$|S_n|$" "# classes"]
+ {:column-names ["n" "|S\u2099|" "# classes"]
   :row-vectors (mapv (fn [n]
                        (let [G (hm/symmetric-group n)]
                          [n (hm/order G)

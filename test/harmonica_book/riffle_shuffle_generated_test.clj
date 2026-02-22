@@ -39,7 +39,7 @@
  (let
   [n 5 parts (hm/partitions n)]
   (kind/table
-   {:column-names ["$\\lambda$" "$d_\\lambda$" "$d_\\lambda^2$"],
+   {:column-names ["λ" "dₗ" "dₗ²"],
     :row-vectors
     (conj
      (mapv
@@ -53,8 +53,8 @@
        +
        (map
         (fn*
-         [p1__89691#]
-         (let [d (hm/hook-length-dimension p1__89691#)] (* d d)))
+         [p1__107728#]
+         (let [d (hm/hook-length-dimension p1__107728#)] (* d d)))
         parts))])})))
 
 
@@ -71,8 +71,8 @@
        +
        (map
         (fn*
-         [p1__89692#]
-         (let [d (hm/hook-length-dimension p1__89692#)] (* d d)))
+         [p1__107729#]
+         (let [d (hm/hook-length-dimension p1__107729#)] (* d d)))
         parts)))))
    v13_l74)))
 
@@ -106,7 +106,9 @@
     (-
      (reduce
       +
-      (map (fn* [p1__89693#] (probs p1__89693#)) (range (count elts))))
+      (map
+       (fn* [p1__107730#] (probs p1__107730#))
+       (range (count elts))))
      1.0))
    1.0E-10)))
 
@@ -140,7 +142,9 @@
         (reduce
          +
          (map
-          (fn* [p1__89694#] (Math/abs (- (probs p1__89694#) uniform)))
+          (fn*
+           [p1__107731#]
+           (Math/abs (- (probs p1__107731#) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -182,7 +186,7 @@
     (reduce
      +
      (map
-      (fn* [p1__89695#] (Math/abs (- (probs p1__89695#) uniform)))
+      (fn* [p1__107732#] (Math/abs (- (probs p1__107732#) uniform)))
       (range n-elts))))]
   (> tv 0.5)))
 
@@ -211,7 +215,7 @@
     (reduce
      +
      (map
-      (fn* [p1__89696#] (Math/abs (- (probs p1__89696#) uniform)))
+      (fn* [p1__107733#] (Math/abs (- (probs p1__107733#) uniform)))
       (range n-elts))))]
   (< tv 0.01)))
 
@@ -237,8 +241,7 @@
    f-hats
    (hm/matrix-fourier-transform-all G f irreps)]
   (kind/table
-   {:column-names
-    ["$\\lambda$" "$d_\\lambda$" "$\\|\\hat{Q}(\\rho_\\lambda)\\|_F$"],
+   {:column-names ["λ" "dₗ" "‖Q̂(ρₗ)‖"],
     :row-vectors
     (mapv
      (fn
@@ -315,7 +318,9 @@
         (reduce
          +
          (map
-          (fn* [p1__89697#] (Math/abs (- (probs p1__89697#) uniform)))
+          (fn*
+           [p1__107734#]
+           (Math/abs (- (probs p1__107734#) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->

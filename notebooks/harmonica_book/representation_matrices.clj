@@ -47,7 +47,7 @@ ir-31
 
 (let [perms [[0 1 2 3] [1 0 2 3] [1 2 0 3] [1 2 3 0]]]
   (kind/table
-   {:column-names ["$\\sigma$" "Cycle type" "$\\text{tr}(\\rho(\\sigma))$" "$\\rho(\\sigma)$"]
+   {:column-names ["\u03c3" "Cycle type" "tr(\u03c1(\u03c3))" "\u03c1(\u03c3)"]
     :row-vectors (mapv (fn [sigma]
                          [(str sigma)
                           (str (hm/cycle-type sigma))
