@@ -23,13 +23,13 @@
 ;; on bead positions, then lift them to colorings with `hm/coloring-action`.
 
 (defn rotation-action [n]
-  (fn [g x] (mod (+ (long x) (long g)) n)))
+  (fn [g x] (mod (+ x g) n)))
 
 (defn dihedral-vertex-action [n]
   (fn [[t k] x]
     (case t
-      :r (mod (+ (long x) (long k)) n)
-      :s (mod (- (long k) (long x)) n))))
+      :r (mod (+ x k) n)
+      :s (mod (- k x) n))))
 
 ;; ## The Setup
 ;;

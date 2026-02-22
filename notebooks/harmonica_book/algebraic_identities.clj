@@ -448,8 +448,8 @@
         (let [G (hm/dihedral-group n)
               act (fn [[t k] x]
                     (case t
-                      :r (mod (+ (long x) (long k)) n)
-                      :s (mod (- (long k) (long x)) n)))
+                      :r (mod (+ x k) n)
+                      :s (mod (- k x) n)))
               order (hm/order G)]
           (every? (fn [x]
                     (let [orb (hm/orbit G act x)
@@ -470,7 +470,7 @@
                        (if (= i n) d
                            (recur (inc i) (for [prev d c (range k)] (conj prev c)))))
               act (fn [g coloring]
-                    (mapv #(coloring (mod (+ % (long g)) n)) (range n)))
+                    (mapv #(coloring (mod (+ % g) n)) (range n)))
               orbit-count (count (hm/orbits G act domain))
               burnside (hm/burnside-count G act domain)]
           (= orbit-count burnside)))]
@@ -484,7 +484,7 @@
       (for [n [3 4 5 6]
             k [2 3]]
         (let [G (hm/cyclic-group n)
-              act (fn [g x] (mod (+ (long x) (long g)) n))
+              act (fn [g x] (mod (+ x g) n))
               ci (hm/cycle-index G act (range n))
               polya (hm/polya-count ci k)
               ;; Compare with direct Burnside
@@ -492,7 +492,7 @@
                        (if (= i n) d
                            (recur (inc i) (for [prev d c (range k)] (conj prev c)))))
               act-coloring (fn [g coloring]
-                             (mapv #(coloring (mod (+ % (long g)) n)) (range n)))
+                             (mapv #(coloring (mod (+ % g) n)) (range n)))
               burnside (hm/burnside-count G act-coloring domain)]
           (= polya burnside)))]
   (every? identity results))

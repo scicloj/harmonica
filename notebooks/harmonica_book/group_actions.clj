@@ -25,7 +25,7 @@
 ;; $g \cdot x = (x + g) \bmod n$.
 
 (defn rotation-action [n]
-  (fn [g x] (mod (+ (long x) (long g)) n)))
+  (fn [g x] (mod (+ x g) n)))
 
 ;; The orbit of any point under $C_n$ is the entire set (the action
 ;; is transitive).
@@ -54,8 +54,8 @@
 (defn dihedral-vertex-action [n]
   (fn [[t k] x]
     (case t
-      :r (mod (+ (long x) (long k)) n)
-      :s (mod (- (long k) (long x)) n))))
+      :r (mod (+ x k) n)
+      :s (mod (- k x) n))))
 
 ;; $D_4$ acts transitively on 4 vertices.
 

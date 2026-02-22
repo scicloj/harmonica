@@ -93,7 +93,7 @@
 ;; |$[1,1,1]$ (sign)| 1 | -1 | 1 |
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
-      re-table (mapv (fn [row] (mapv #(long (Math/round (cx/re %))) row))
+      re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
                      (:table ct))]
   re-table)
 
@@ -106,7 +106,7 @@
 ;; ### $S_4$
 
 (let [ct (hm/character-table (hm/symmetric-group 4))
-      re-table (mapv (fn [row] (mapv #(long (Math/round (cx/re %))) row))
+      re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
                      (:table ct))]
   re-table)
 
@@ -190,9 +190,9 @@
 ;; The $D_3 \cong S_3$ isomorphism means their character dimensions match:
 
 (let [ct-d3 (hm/character-table (hm/dihedral-group 3))
-      dims (sort (mapv #(long (Math/round (cx/re (% 0)))) (:table ct-d3)))
+      dims (sort (mapv #(Math/round (cx/re (% 0))) (:table ct-d3)))
       ct-s3 (hm/character-table (hm/symmetric-group 3))
-      dims-s3 (sort (mapv #(long (Math/round (cx/re (% 0)))) (:table ct-s3)))]
+      dims-s3 (sort (mapv #(Math/round (cx/re (% 0))) (:table ct-s3)))]
   (= dims dims-s3))
 
 (kind/test-last [true?])
@@ -231,7 +231,7 @@
    {:column-names (into [""] (mapv str classes))
     :row-vectors (mapv (fn [label row]
                          (into [(str label)]
-                               (mapv #(long (Math/round (cx/re %))) row)))
+                               (mapv #(Math/round (cx/re %)) row)))
                        irrep-labels table)}))
 
 ;; ## What comes next

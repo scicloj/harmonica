@@ -29,7 +29,7 @@
 ;; evaluates it — no enumeration needed.
 
 (defn rotation-action [n]
-  (fn [g x] (mod (+ (long x) (long g)) n)))
+  (fn [g x] (mod (+ x g) n)))
 
 (let [G (hm/cyclic-group 8)
       ci (hm/cycle-index G (rotation-action 8) (range 8))]
@@ -44,8 +44,8 @@
 (defn dihedral-action [n]
   (fn [[t k] x]
     (case t
-      :r (mod (+ (long x) (long k)) n)
-      :s (mod (- (long k) (long x)) n))))
+      :r (mod (+ x k) n)
+      :s (mod (- k x) n))))
 
 (let [G (hm/dihedral-group 8)
       ci (hm/cycle-index G (dihedral-action 8) (range 8))]

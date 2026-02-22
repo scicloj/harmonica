@@ -11,7 +11,9 @@
    [scicloj.harmonica :as hm]
    [scicloj.kindly.v4.kind :as kind]
    [tablecloth.api :as tc]
-   [scicloj.tableplot.v1.plotly :as plotly]))
+   [scicloj.tableplot.v1.plotly :as plotly]
+   [tech.v3.datatype :as dtype]
+   [tech.v3.datatype.functional :as dfn]))
 
 ;; ## The Klein Four-Group
 ;;
@@ -44,6 +46,43 @@
 ;; - `[1 0]` = Retrograde
 ;; - `[0 1]` = Inversion
 ;; - `[1 1]` = Retrograde Inversion
+
+;; ## Audio Synthesis
+;;
+;; To hear these transformations, we need a simple synthesizer.
+;; Each MIDI note becomes a sine wave with a short envelope
+;; to avoid clicks.
+
+(def sample-rate 44100.0)
+
+(defn midi->freq
+  "Convert a MIDI note number to frequency in Hz.
+   A4 (MIDI 69) = 440 Hz."
+  [midi]
+  (* 440.0 (Math/pow 2.0 (/ (- midi 69.0) 12.0))))
+
+(defn melody->samples
+  "Render a melody (vector of MIDI note numbers) as audio samples."
+  [melody note-dur]
+  (let [n-note (long (* note-dur sample-rate))
+        amp 3800.0
+        attack (long (* 0.01 sample-rate))
+        release (long (* 0.03 sample-rate))]
+    (dtype/make-reader
+     :float32
+     (* (count melody) n-note)
+     (let [note-idx (quot idx n-note)
+           t (rem idx n-note)
+           freq (midi->freq (melody note-idx))
+           env (cond
+                 (< t attack) (/ (double t) attack)
+                 (> t (- n-note release)) (/ (double (- n-note t)) release)
+                 :else 1.0)]
+       (float (* amp env (Math/sin (* 2.0 Math/PI freq (/ (double t) sample-rate)))))))))
+
+(defn play [melody]
+  (kind/audio {:samples (melody->samples melody 0.35)
+               :sample-rate sample-rate}))
 
 ;; ## A Musical Motif
 ;;
@@ -95,6 +134,20 @@
 
 ;; The inversion reflects all intervals: where the original goes down
 ;; (G→E♭, a minor third down), the inversion goes up (G→B, a major third up).
+;;
+;; Listen to each transformation:
+
+;; Original:
+(play motif)
+
+;; Retrograde:
+(play (apply-v4 (first motif) [1 0] motif))
+
+;; Inversion:
+(play (apply-v4 (first motif) [0 1] motif))
+
+;; Retrograde Inversion:
+(play (apply-v4 (first motif) [1 1] motif))
 
 ;; ### Verification: V₄ is closed under composition
 
@@ -143,7 +196,7 @@
 (defn transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv #(+ % (long k)) melody))
+  (mapv #(+ % k) melody))
 
 ;; All 12 transpositions of our motif:
 
@@ -155,6 +208,20 @@
   (kind/table
    {:column-names ["Semitones" "Transposed notes (mod octave)"]
     :row-vectors rows}))
+
+;; Listen to a few transpositions — the motif shifts up:
+
+;; Original (G G G Eb):
+(play motif)
+
+;; Up 3 semitones (Bb Bb Bb Gb):
+(play (transpose-melody 3 motif))
+
+;; Up 5 semitones (C C C Ab):
+(play (transpose-melody 5 motif))
+
+;; Up 7 semitones (D D D Bb):
+(play (transpose-melody 7 motif))
 
 ;; ## The Full Group: $D_{12}$ on Pitch Classes
 ;;
@@ -228,6 +295,24 @@
     :row-vectors (mapv (fn [{:keys [label row]}]
                          [label (str row)])
                        selected)}))
+
+;; Listen to the prime row and its three transformations.
+;; Each note is a pitch class, so we place them in the octave
+;; starting at middle C (MIDI 60):
+
+;; Prime:
+(play (mapv #(+ 60 %) schoenberg-row))
+
+;; Retrograde:
+(play (mapv #(+ 60 %) (vec (reverse schoenberg-row))))
+
+;; Inversion:
+(let [pivot (first schoenberg-row)]
+  (play (mapv #(+ 60 (mod (- (* 2 pivot) %) 12)) schoenberg-row)))
+
+;; Retrograde Inversion:
+(let [pivot (first schoenberg-row)]
+  (play (mapv #(+ 60 %) (vec (reverse (mapv #(mod (- (* 2 pivot) %) 12) schoenberg-row))))))
 
 ;; ### All 48 rows use all 12 pitch classes
 

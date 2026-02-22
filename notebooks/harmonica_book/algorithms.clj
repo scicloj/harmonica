@@ -263,7 +263,7 @@
 ;; rotation action captures the cycle structure of each group element:
 
 (let [G (hm/cyclic-group 6)
-      act (fn [g x] (mod (+ (long g) (long x)) 6))]
+      act (fn [g x] (mod (+ g x) 6))]
   (hm/cycle-index G act (range 6)))
 
 (kind/test-last [(fn [ci] (= 4 (count ci)))])
@@ -272,7 +272,7 @@
 ;; necklaces — substitute $p_i \to k$ (number of colors):
 
 (let [G (hm/cyclic-group 6)
-      act (fn [g x] (mod (+ (long g) (long x)) 6))
+      act (fn [g x] (mod (+ g x) 6))
       ci (hm/cycle-index G act (range 6))]
   (hm/polya-count ci 3))
 
@@ -284,7 +284,7 @@
 ;; vectors:
 
 (let [G (hm/cyclic-group 6)
-      act (fn [g x] (mod (+ (long g) (long x)) 6))
+      act (fn [g x] (mod (+ g x) 6))
       {:keys [act domain]} (hm/coloring-action act 6 3)]
   (hm/burnside-count G act domain))
 

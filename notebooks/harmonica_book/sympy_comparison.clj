@@ -42,7 +42,7 @@
   (let [cs (py/py.- p cycle_structure)
         ks (py/->jvm (pybuiltins/list (py/py. cs keys)))
         vs (py/->jvm (pybuiltins/list (py/py. cs values)))
-        partition (->> (mapcat (fn [k v] (repeat (long v) (long k))) ks vs)
+        partition (->> (mapcat (fn [k v] (repeat v k)) ks vs)
                        (sort >)
                        vec)
         parity (long (py/py. p parity))
@@ -309,7 +309,7 @@
     {:irreps (:irrep-labels ct)
      :classes class-partitions
      :table (mapv (fn [row]
-                    (mapv #(long (Math/round (cx/re %))) row))
+                    (mapv #(Math/round (cx/re %)) row))
                   table)}))
 
 ;; ### $S_3$
@@ -393,7 +393,7 @@
 
 (defn hm-necklace-count [n]
   (let [G (hm/cyclic-group n)
-        act (fn [g x] (mod (+ (long x) (long g)) n))
+        act (fn [g x] (mod (+ x g) n))
         ci (hm/cycle-index G act (range n))]
     (hm/polya-count ci 2)))
 
@@ -445,11 +445,11 @@
 
 (let [G-c (hm/cyclic-group 12)
       G-d (hm/dihedral-group 12)
-      act-c (fn [g x] (mod (+ (long x) (long g)) 12))
+      act-c (fn [g x] (mod (+ x g) 12))
       act-d (fn [[t k] x]
               (case t
-                :r (mod (+ (long x) (long k)) 12)
-                :s (mod (- (long k) (long x)) 12)))
+                :r (mod (+ x k) 12)
+                :s (mod (- k x) 12)))
       {domain-3 :domain act-c-sub :act} (hm/subset-action act-c (range 12) 3)
       {_ :domain act-d-sub :act} (hm/subset-action act-d (range 12) 3)
       under-C12 (count (hm/orbits G-c act-c-sub domain-3))

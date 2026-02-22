@@ -185,7 +185,7 @@
 (kind/test-last [= 3])
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
-      re-table (mapv (fn [row] (mapv #(long (Math/round (cx/re %))) row))
+      re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
                      (:table ct))]
   re-table)
 
@@ -302,7 +302,7 @@
 (kind/doc #'hm/orbit)
 
 (let [G (hm/cyclic-group 4)
-      act (fn [g x] (mod (+ (long g) (long x)) 4))]
+      act (fn [g x] (mod (+ g x) 4))]
   (hm/orbit G act 0))
 
 (kind/test-last [= #{0 1 2 3}])
@@ -310,14 +310,14 @@
 (kind/doc #'hm/orbits)
 
 (let [G (hm/cyclic-group 3)
-      act (fn [g x] (mod (+ (long g) (long x)) 3))]
+      act (fn [g x] (mod (+ g x) 3))]
   (count (hm/orbits G act (range 3))))
 
 (kind/test-last [= 1])
 
 (kind/doc #'hm/fixed-points)
 
-(let [act (fn [g x] (mod (+ (long g) (long x)) 5))]
+(let [act (fn [g x] (mod (+ g x) 5))]
   (hm/fixed-points act 0 (range 5)))
 
 (kind/test-last [= #{0 1 2 3 4}])
@@ -325,7 +325,7 @@
 (kind/doc #'hm/stabilizer)
 
 (let [G (hm/cyclic-group 4)
-      act (fn [g x] (mod (+ (long g) (long x)) 4))]
+      act (fn [g x] (mod (+ g x) 4))]
   (hm/stabilizer G act 0))
 
 (kind/test-last [= #{0}])
@@ -333,7 +333,7 @@
 (kind/doc #'hm/burnside-count)
 
 (let [G (hm/cyclic-group 4)
-      act (fn [g coloring] (mapv #(coloring (mod (+ % (long g)) 4)) (range 4)))
+      act (fn [g coloring] (mapv #(coloring (mod (+ % g) 4)) (range 4)))
       domain [[0 0 0 0] [0 0 0 1] [0 0 1 0] [0 0 1 1]
               [0 1 0 0] [0 1 0 1] [0 1 1 0] [0 1 1 1]
               [1 0 0 0] [1 0 0 1] [1 0 1 0] [1 0 1 1]
@@ -345,7 +345,7 @@
 (kind/doc #'hm/cycle-index)
 
 (let [G (hm/cyclic-group 3)
-      act (fn [g x] (mod (+ (long g) (long x)) 3))
+      act (fn [g x] (mod (+ g x) 3))
       ci (hm/cycle-index G act (range 3))]
   (= 1 (reduce + (vals ci))))
 
@@ -354,7 +354,7 @@
 (kind/doc #'hm/polya-count)
 
 (let [G (hm/cyclic-group 4)
-      act (fn [g x] (mod (+ (long g) (long x)) 4))
+      act (fn [g x] (mod (+ g x) 4))
       ci (hm/cycle-index G act (range 4))]
   (hm/polya-count ci 2))
 
@@ -396,7 +396,7 @@
       f (cx/complex-tensor-real [1 0 0 0])
       g (cx/complex-tensor-real [0 1 0 0])
       conv (hm/convolve ct f g)]
-  (long (Math/round (cx/re (conv 1)))))
+  (Math/round (cx/re (conv 1))))
 (kind/test-last [= 1])
 
 (kind/doc #'hm/total-variation-distance)

@@ -70,7 +70,7 @@
 
 (let [c-major [0 4 7]
       orbit (mapv (fn [k]
-                    (let [transposed (sort (mapv #(mod (+ % (long k)) 12) c-major))]
+                    (let [transposed (sort (mapv #(mod (+ % k) 12) c-major))]
                       {:transposition k
                        :notes (str (mapv pitch-names transposed))}))
                   (range 12))]
@@ -89,7 +89,7 @@
 ;; How many distinct types are there up to transposition?
 
 (let [G (hm/cyclic-group 12)
-      act (fn [g x] (mod (+ (long x) (long g)) 12))
+      act (fn [g x] (mod (+ x g) 12))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
       orbs (hm/orbits G act-sub domain)]
   (count orbs))
@@ -116,7 +116,7 @@
           (range 1 7))))
 
 (let [G (hm/cyclic-group 12)
-      act (fn [g x] (mod (+ (long x) (long g)) 12))
+      act (fn [g x] (mod (+ x g) 12))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
       orbs (hm/orbits G act-sub domain)
       rows (sort-by first
@@ -148,8 +148,8 @@
 (let [G (hm/dihedral-group 12)
       act (fn [[t k] x]
             (case t
-              :r (mod (+ (long x) (long k)) 12)
-              :s (mod (- (long k) (long x)) 12)))
+              :r (mod (+ x k) 12)
+              :s (mod (- k x) 12)))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
       orbs (hm/orbits G act-sub domain)]
   (count orbs))
@@ -163,11 +163,11 @@
 
 (let [G-c (hm/cyclic-group 12)
       G-d (hm/dihedral-group 12)
-      act-c (fn [g x] (mod (+ (long x) (long g)) 12))
+      act-c (fn [g x] (mod (+ x g) 12))
       act-d (fn [[t k] x]
               (case t
-                :r (mod (+ (long x) (long k)) 12)
-                :s (mod (- (long k) (long x)) 12)))
+                :r (mod (+ x k) 12)
+                :s (mod (- k x) 12)))
       {domain-3 :domain act-c-sub :act} (hm/subset-action act-c (range 12) 3)
       {_ :domain act-d-sub :act} (hm/subset-action act-d (range 12) 3)
       orbs-c (hm/orbits G-c act-c-sub domain-3)
@@ -204,8 +204,8 @@
 (let [G (hm/dihedral-group 12)
       act (fn [[t k] x]
             (case t
-              :r (mod (+ (long x) (long k)) 12)
-              :s (mod (- (long k) (long x)) 12)))
+              :r (mod (+ x k) 12)
+              :s (mod (- k x) 12)))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
       orbs (hm/orbits G act-sub domain)
       reps (mapv #(first (sort %)) orbs)
@@ -225,11 +225,11 @@
 
 (let [G-c (hm/cyclic-group 12)
       G-d (hm/dihedral-group 12)
-      act-c (fn [g x] (mod (+ (long x) (long g)) 12))
+      act-c (fn [g x] (mod (+ x g) 12))
       act-d (fn [[t k] x]
               (case t
-                :r (mod (+ (long x) (long k)) 12)
-                :s (mod (- (long k) (long x)) 12)))
+                :r (mod (+ x k) 12)
+                :s (mod (- k x) 12)))
       results (mapv (fn [k]
                       (let [{domain-k :domain act-c-k :act} (hm/subset-action act-c (range 12) k)
                             {_ :domain act-d-k :act} (hm/subset-action act-d (range 12) k)
@@ -343,8 +343,8 @@
 (let [G (hm/dihedral-group 12)
       act (fn [[t k] x]
             (case t
-              :r (mod (+ (long x) (long k)) 12)
-              :s (mod (- (long k) (long x)) 12)))
+              :r (mod (+ x k) 12)
+              :s (mod (- k x) 12)))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
       orbs (hm/orbits G act-sub domain)
       primes (sort (mapv (fn [orb]
@@ -371,8 +371,8 @@
 (let [G (hm/dihedral-group 12)
       act (fn [[t k] x]
             (case t
-              :r (mod (+ (long x) (long k)) 12)
-              :s (mod (- (long k) (long x)) 12)))
+              :r (mod (+ x k) 12)
+              :s (mod (- k x) 12)))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 3)
       orbs (hm/orbits G act-sub domain)
       computed (sort (mapv (fn [orb] (prime-form (first orb))) orbs))
@@ -389,8 +389,8 @@
 (let [G (hm/dihedral-group 12)
       act (fn [[t k] x]
             (case t
-              :r (mod (+ (long x) (long k)) 12)
-              :s (mod (- (long k) (long x)) 12)))
+              :r (mod (+ x k) 12)
+              :s (mod (- k x) 12)))
       {:keys [domain] act-sub :act} (hm/subset-action act (range 12) 4)
       orbs (hm/orbits G act-sub domain)]
   (count orbs))
