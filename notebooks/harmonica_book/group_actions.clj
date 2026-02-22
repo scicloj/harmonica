@@ -198,8 +198,8 @@
 
 ;; ### Known necklace and bracelet counts
 ;;
-;; Binary necklaces (cyclic, OEIS A000031 for n≥1): 2, 3, 4, 6, 8, 14, 20, 36, 60, ...
-;; Binary bracelets (dihedral, OEIS A000029 for n≥1): 2, 3, 4, 6, 8, 13, 18, 30, 46, ...
+;; Binary necklaces (cyclic, [OEIS A000031](https://oeis.org/A000031) for n≥1): 2, 3, 4, 6, 8, 14, 20, 36, 60, ...
+;; Binary bracelets (dihedral, [OEIS A000029](https://oeis.org/A000029) for n≥1): 2, 3, 4, 6, 8, 13, 18, 30, 46, ...
 
 (def known-necklaces [2 3 4 6 8 14 20 36 60])
 (def known-bracelets [2 3 4 6 8 13 18 30 46])
@@ -295,7 +295,7 @@
 
 ;; ### Known Pólya counts
 ;;
-;; Binary necklaces with $n$ beads and $k = 2$ colors under $C_n$ (OEIS A000031):
+;; Binary necklaces with $n$ beads and $k = 2$ colors under $C_n$ ([OEIS A000031](https://oeis.org/A000031)):
 
 (let [results
       (for [n (range 1 10)]
@@ -366,8 +366,8 @@
 ;;   cyclic groups, and subset actions
 ;; - **Burnside's lemma** matches actual orbit count for cyclic and dihedral
 ;;   colorings ($n$ up to 8, $k$ up to 3)
-;; - **Known necklace counts** (OEIS A000031) for $n = 1, \ldots, 9$
-;; - **Known bracelet counts** (OEIS A000029) for $n = 1, \ldots, 9$
+;; - **Known necklace counts** ([OEIS A000031](https://oeis.org/A000031)) for $n = 1, \ldots, 9$
+;; - **Known bracelet counts** ([OEIS A000029](https://oeis.org/A000029)) for $n = 1, \ldots, 9$
 ;; - **Cycle index coefficients** sum to 1 for all groups tested
 ;; - **Pólya = Burnside** for cyclic and dihedral colorings
 ;; - **Large Pólya**: 100-bead binary necklaces computed via formula

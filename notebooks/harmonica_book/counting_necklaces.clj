@@ -170,7 +170,7 @@
                          [n necklaces bracelets])
                        results)}))
 
-;;  Verify known values for binary bracelets (OEIS A000029):
+;;  Verify known values for binary bracelets ([OEIS A000029](https://oeis.org/A000029)):
 
 (let [n 6
       G-d (hm/dihedral-group n)

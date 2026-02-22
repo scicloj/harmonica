@@ -375,7 +375,7 @@
 
 ;; ## Necklace and Bracelet Counts
 ;;
-;; Binary necklaces (OEIS A000031) and bracelets (OEIS A000029)
+;; Binary necklaces ([OEIS A000031](https://oeis.org/A000031)) and bracelets ([OEIS A000029](https://oeis.org/A000029))
 ;; computed by harmonica's Burnside/Pólya functions, compared against
 ;; values from the number-theoretic formula.
 
