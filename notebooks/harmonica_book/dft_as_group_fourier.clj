@@ -20,6 +20,7 @@
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
    [tech.v3.datatype.convolve :as dt-conv]
+   [tech.v3.tensor :as tensor]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -235,30 +236,23 @@ f-hat
 ;;
 ;; $$\frac{1}{|G|} \sum_{g \in G} \chi_j(g) \overline{\chi_k(g)} = \delta_{jk}$$
 
-(def orthogonality-data
+(def orthogonality-matrix
   (let [table (:table ct)
         sizes (:class-sizes ct)
         n 24]
-    (for [j (range 4)
-          k (range 4)]
-      {:j j :k k
-       :inner-product-magnitude
-       (cx/cabs (hm/character-inner-product
-                 (table j) (table k) sizes n))})))
+    (tensor/compute-tensor
+     [n n]
+     (fn [j k]
+       (cx/cabs (hm/character-inner-product (table j) (table k) sizes n)))
+     :float64)))
 
-(kind/table
- {:column-names ["$j$" "$k$" "$|\\langle\\chi_j, \\chi_k\\rangle|$"]
-  :row-vectors (mapv (fn [{:keys [j k inner-product-magnitude]}]
-                       [j k (format "%.10f" inner-product-magnitude)])
-                     orthogonality-data)})
+orthogonality-matrix
 
-;; Diagonal entries are 1.0, off-diagonal entries are 0.0 (to numerical precision).
+;; The matrix is the 24x24 identity (to numerical precision) — 1 on the
+;; diagonal, effectively 0 everywhere else.
 
-(every? (fn [{:keys [j k inner-product-magnitude]}]
-          (if (= j k)
-            (< (Math/abs (- inner-product-magnitude 1.0)) 1e-10)
-            (< inner-product-magnitude 1e-10)))
-        orthogonality-data)
+(allclose? orthogonality-matrix
+           (tensor/compute-tensor [24 24] (fn [j k] (if (= j k) 1.0 0.0)) :float64))
 
 (kind/test-last
  [true?])
