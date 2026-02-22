@@ -18,6 +18,35 @@
    [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
+(defn format-cx
+  "Format a complex character value for display."
+  [v]
+  (let [re (cx/re v) im (cx/im v)
+        near-int? (fn [x] (< (Math/abs (- x (Math/round x))) 1e-10))
+        fmt (fn [x] (if (near-int? x) (long (Math/round x)) (format "%.3f" x)))]
+    (cond
+      (< (Math/abs im) 1e-10) (fmt re)
+      (< (Math/abs re) 1e-10) (let [i (fmt im)]
+                                (cond
+                                  (= i 1) "i"
+                                  (= i -1) "-i"
+                                  :else (str i "i")))
+      :else (let [r (fmt re) i (fmt im)]
+              (if (neg? (if (number? im) im (Double/parseDouble (str im))))
+                (str r (fmt im) "i")
+                (str r "+" (fmt im) "i"))))))
+
+(defn show-character-table
+  "Display a character table as a kind/table with labeled rows and columns."
+  [ct]
+  (let [{:keys [table classes irrep-labels]} ct]
+    (kind/table
+     {:column-names (into [""] (mapv str classes))
+      :row-vectors (mapv (fn [label row]
+                           (into [(str label)]
+                                 (mapv format-cx row)))
+                         irrep-labels table)})))
+
 ;; ## What is a character?
 ;;
 ;; A **representation** $\rho : G \to GL(V)$ realizes each group element
@@ -58,6 +87,8 @@
 
 (kind/test-last [= 6])
 
+(show-character-table (hm/character-table (hm/cyclic-group 6)))
+
 ;; Every entry has magnitude 1:
 
 (allclose? (cx/cabs (:table (hm/character-table (hm/cyclic-group 8)))) 1.0)
@@ -85,12 +116,9 @@
 ;; The character table of $S_3$ has three rows (one per partition of 3):
 ;; the trivial representation $[3]$, the standard representation $[2,1]$,
 ;; and the sign representation $[1,1,1]$.
-;;
-;; || [1,1,1] | [2,1] | [3] |
-;; |:--|:--:|:--:|:--:|
-;; | [3] (trivial) | 1 | 1 | 1 |
-;; | [2,1] (standard) | 2 | 0 | -1 |
-;; | [1,1,1] (sign) | 1 | -1 | 1 |
+
+
+(show-character-table (hm/character-table (hm/symmetric-group 3)))
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
       re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
@@ -104,6 +132,8 @@
 ;; sum equals $|S_3| = 6$: $1^2 + 2^2 + 1^2 = 6$.
 
 ;; ### $S_4$
+
+(show-character-table (hm/character-table (hm/symmetric-group 4)))
 
 (let [ct (hm/character-table (hm/symmetric-group 4))
       re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
@@ -187,6 +217,9 @@
 ;; - **Even $n$**: 4 one-dimensional irreps + $(n/2 - 1)$ two-dimensional
 ;;
 ;; All entries are real (dihedral characters can be realized over $\mathbb{R}$).
+
+(show-character-table (hm/character-table (hm/dihedral-group 4)))
+
 ;; The $D_3 \cong S_3$ isomorphism means their character dimensions match:
 
 (let [ct-d3 (hm/character-table (hm/dihedral-group 3))
@@ -225,14 +258,7 @@
 
 ;; ## The character table of $S_5$
 
-(let [ct (hm/character-table (hm/symmetric-group 5))
-      {:keys [table classes irrep-labels]} ct]
-  (kind/table
-   {:column-names (into [""] (mapv str classes))
-    :row-vectors (mapv (fn [label row]
-                         (into [(str label)]
-                               (mapv #(Math/round (cx/re %)) row)))
-                       irrep-labels table)}))
+(show-character-table (hm/character-table (hm/symmetric-group 5)))
 
 ;; ## What comes next
 ;;
