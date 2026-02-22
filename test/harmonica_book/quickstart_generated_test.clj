@@ -223,12 +223,21 @@
 
 
 (def
- v35_l193
- (def motif [[62 0.75] [61 0.75] [62 0.5] [64 0.5] [65 0.75]]))
+ v35_l195
+ (def
+  motif
+  [[62 0.8]
+   [69 0.8]
+   [65 0.8]
+   [62 0.5]
+   [61 0.5]
+   [62 0.5]
+   [64 0.5]
+   [65 0.8]]))
 
 
 (def
- v36_l195
+ v36_l197
  (defn
   apply-v4
   [pivot [r i] melody]
@@ -242,7 +251,7 @@
 
 
 (def
- v38_l201
+ v38_l203
  (let
   [pivot (ffirst motif)]
   {:original (mapv first motif),
@@ -251,11 +260,11 @@
    :retrograde-inv (mapv first (apply-v4 pivot [1 1] motif))}))
 
 
-(def v40_l209 (def sample-rate 44100.0))
+(def v40_l211 (def sample-rate 44100.0))
 
 
 (def
- v41_l211
+ v41_l213
  (defn
   play
   [melody]
@@ -318,13 +327,13 @@
          (float (* amp env wave))))))}))))
 
 
-(def v43_l248 (play motif))
+(def v43_l250 (play motif))
 
 
-(def v44_l250 (play (apply-v4 (ffirst motif) [1 0] motif)))
+(def v44_l252 (play (apply-v4 (ffirst motif) [1 0] motif)))
 
 
-(def v45_l252 (play (apply-v4 (ffirst motif) [0 1] motif)))
+(def v45_l254 (play (apply-v4 (ffirst motif) [0 1] motif)))
 
 
-(def v46_l254 (play (apply-v4 (ffirst motif) [1 1] motif)))
+(def v46_l256 (play (apply-v4 (ffirst motif) [1 1] motif)))

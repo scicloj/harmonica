@@ -188,9 +188,11 @@ f-hat
 
 (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2)))
 
-;; The opening of Handel's Sarabande in D minor — pairs of `[pitch duration]`:
+;; The subject of Bach's [Art of Fugue](https://en.wikipedia.org/wiki/The_Art_of_Fugue) — a theme Bach designed
+;; to work under all four $V_4$ transformations. Pairs of `[pitch duration]`
+;; (MIDI note numbers, duration in seconds):
 
-(def motif [[62 0.75] [61 0.75] [62 0.50] [64 0.50] [65 0.75]])
+(def motif [[62 0.8] [69 0.8] [65 0.8] [62 0.5] [61 0.5] [62 0.5] [64 0.5] [65 0.8]])
 
 (defn apply-v4 [pivot [r i] melody]
   (let [m (if (= i 1) (mapv (fn [[p d]] [(- (* 2 pivot) p) d]) melody) melody)]
