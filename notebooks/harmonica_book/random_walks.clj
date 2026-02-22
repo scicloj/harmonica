@@ -27,26 +27,22 @@
    [harmonica-book.book-helpers :refer [allclose?]]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
+   [tech.v3.datatype.convolve :as dt-conv]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Convolution on the real line
 ;;
-;; A [Gaussian](https://en.wikipedia.org/wiki/Normal_distribution)
-;; (normal) distribution $N(\mu, \sigma^2)$ has the density
+;; The [convolution](https://en.wikipedia.org/wiki/Convolution) of two
+;; functions $f$ and $g$ is the integral
 ;;
-;; $$p(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$
+;; $$(f * g)(x) = \int f(t)\, g(x - t)\, dt$$
 ;;
-;; If $X \sim N(0, \sigma_1^2)$ and $Y \sim N(0, \sigma_2^2)$ are
-;; independent, their sum $X + Y$ has distribution
-;; $N(0, \sigma_1^2 + \sigma_2^2)$.
-;; The density of $X + Y$ is the
-;; [convolution](https://en.wikipedia.org/wiki/Convolution) of the two
-;; densities — and it's again a Gaussian, just wider.
-;;
-;; Taking $n$ independent copies of $N(0, \sigma^2)$ and summing them
-;; gives $N(0, n\sigma^2)$: the standard deviation grows as $\sigma\sqrt{n}$.
+;; When $f$ is an arbitrary distribution and $g$ is a
+;; [Gaussian](https://en.wikipedia.org/wiki/Normal_distribution)
+;; bell curve, the convolution $f * g$ is a **smoothed** version of $f$.
+;; The wider the Gaussian (larger $\sigma$), the more smoothing.
 
 (defn gaussian-pdf
   "Gaussian density at x with given mean and standard deviation."
@@ -55,65 +51,121 @@
     (/ (Math/exp (* -0.5 z z))
        (* sigma (Math/sqrt (* 2.0 Math/PI))))))
 
-;; Repeated self-convolution of a Gaussian: each step adds variance,
-;; so the density spreads and flattens.
+;; To see this, start with a bumpy distribution — three peaks of
+;; different widths and heights — and convolve it with Gaussians
+;; of increasing width.
 
-(let [xs (vec (range -6.0 6.01 0.05))
-      sigma 0.8
-      rows (vec (for [n [1 2 4 8] x xs]
-                  {:x x
-                   :density (gaussian-pdf 0 (* sigma (Math/sqrt (double n))) x)
-                   :steps (str n (if (= n 1) " step" " steps"))}))]
+(defn gaussian-kernel
+  "Sampled Gaussian kernel (integrates to ~1) for numerical convolution."
+  [sigma dx]
+  (let [hw (long (/ (* 4 sigma) dx))
+        ks (range (- hw) (inc hw))]
+    (double-array (map (fn [ki]
+                         (let [x (* ki dx)]
+                           (* dx (gaussian-pdf 0 sigma x))))
+                       ks))))
+
+(let [xs (vec (range -5.0 5.01 0.05))
+      dx 0.05
+      ;; A bumpy distribution: three peaks of different shapes
+      raw (double-array
+           (map (fn [x]
+                  (+ (* 0.5 (Math/exp (* -8.0 (* (+ x 2.0) (+ x 2.0)))))
+                     (* 0.35 (Math/exp (* -12.0 (* (- x 0.5) (- x 0.5)))))
+                     (* 0.15 (Math/exp (* -3.0 (* (- x 2.5) (- x 2.5)))))))
+                xs))
+      ;; Normalize so it integrates to 1
+      signal (dfn// raw (* dx (dfn/sum raw)))
+      rows (vec (concat
+                 (for [i (range (count xs))]
+                   {:x (xs i) :density (signal i) :curve "original"})
+                 (for [sigma [0.3 0.6 1.2]
+                       :let [smoothed (dt-conv/convolve1d
+                                       signal (gaussian-kernel sigma dx)
+                                       {:mode :same})]
+                       i (range (count xs))]
+                   {:x (xs i) :density (smoothed i)
+                    :curve (str "smoothed, σ=" sigma)})))]
   (-> (tc/dataset rows)
-      (plotly/base {:=x :x :=y :density :=color :steps
-                    :=title "Repeated convolution of a Gaussian"
+      (plotly/base {:=x :x :=y :density :=color :curve
+                    :=title "Convolution with a Gaussian smooths"
                     :=x-title "x" :=y-title "density"})
       (plotly/layer-line)
       plotly/plot))
 
-;; Each curve is the density after $n$ independent steps. The distribution
-;; spreads — probability mass moves away from the center — but the total
-;; area under each curve is always 1. **Convolution is smoothing.**
+;; The narrow peak at $x = 0.5$ is the first to blur away; the broader
+;; hump at $x = 2.5$ persists longer. With each increase in $\sigma$, sharp
+;; features wash out and the distribution approaches a single broad mound.
+;; **Convolution is smoothing.**
 
 ;; ## Spreading in two dimensions
 ;;
-;; The same phenomenon in 2D: a narrow bump spreads into a broad mound.
+;; The same effect in 2D: a bumpy surface with several peaks gets
+;; smoothed into a broad mound.
+
+(defn convolve-2d
+  "Convolve a 2D grid (vec of vecs) with a Gaussian of width sigma,
+   using separable 1D convolution (rows then columns)."
+  [grid sigma dx]
+  (let [n (count grid)
+        k (gaussian-kernel sigma dx)
+        row-conv (mapv (fn [row]
+                         (vec (dt-conv/convolve1d (double-array row) k {:mode :same})))
+                       grid)]
+    (let [col-conv (mapv (fn [j]
+                           (vec (dt-conv/convolve1d
+                                 (double-array (map #(nth % j) row-conv))
+                                 k {:mode :same})))
+                         (range n))]
+      (vec (for [i (range n)]
+             (vec (for [j (range n)]
+                    ((col-conv j) i))))))))
 
 (let [xs (vec (range -3.0 3.1 0.25))
-      sigma1 0.6
-      sigma2 1.5
-      z1 (vec (for [y xs]
-                (vec (for [x xs]
-                       (* (gaussian-pdf 0 sigma1 x)
-                          (gaussian-pdf 0 sigma1 y))))))
-      z2 (vec (for [y xs]
-                (vec (for [x xs]
-                       (* (gaussian-pdf 0 sigma2 x)
-                          (gaussian-pdf 0 sigma2 y))))))]
+      dx 0.25
+      ;; Three off-center peaks of different shapes
+      raw (vec (for [y xs]
+                 (vec (for [x xs]
+                        (+ (* 0.5 (Math/exp (- (+ (* 5 (+ x 1.0) (+ x 1.0))
+                                                   (* 5 (- y 0.8) (- y 0.8))))))
+                           (* 0.35 (Math/exp (- (+ (* 10 (- x 1.2) (- x 1.2))
+                                                    (* 10 (+ y 1.0) (+ y 1.0))))))
+                           (* 0.2 (Math/exp (- (+ (* 3 (* x x))
+                                                   (* 8 (- y 1.5) (- y 1.5)))))))))))
+      z1 raw
+      z2 (convolve-2d raw 0.5 dx)
+      z3 (convolve-2d raw 1.2 dx)
+      zmax (apply max (flatten raw))]
   (kind/plotly
    {:data [{:type "heatmap" :z z1 :x xs :y xs
             :colorscale "Viridis" :showscale false
+            :zmin 0 :zmax zmax
             :xaxis "x" :yaxis "y"}
            {:type "heatmap" :z z2 :x xs :y xs
             :colorscale "Viridis" :showscale false
-            :xaxis "x2" :yaxis "y2"}]
-    :layout {:title "2D Gaussian: narrow (σ=0.6) vs. convolved (σ=1.5)"
-             :grid {:rows 1 :columns 2 :pattern "independent"}
-             :xaxis {:domain [0 0.45] :title "x"}
-             :yaxis {:title "y" :scaleanchor "x"}
-             :xaxis2 {:domain [0.55 1] :title "x"}
-             :yaxis2 {:title "y" :scaleanchor "x2"}
-             :width 650 :height 320
-             :margin {:t 40 :b 40 :l 50 :r 20}}}))
+            :zmin 0 :zmax zmax
+            :xaxis "x2" :yaxis "y2"}
+           {:type "heatmap" :z z3 :x xs :y xs
+            :colorscale "Viridis" :showscale false
+            :zmin 0 :zmax zmax
+            :xaxis "x3" :yaxis "y3"}]
+    :layout {:title "2D smoothing: original → σ=0.5 → σ=1.2"
+             :grid {:rows 1 :columns 3 :pattern "independent"}
+             :xaxis {:domain [0 0.30] :visible false}
+             :yaxis {:scaleanchor "x" :visible false}
+             :xaxis2 {:domain [0.35 0.65] :visible false}
+             :yaxis2 {:scaleanchor "x2" :visible false}
+             :xaxis3 {:domain [0.70 1] :visible false}
+             :yaxis3 {:scaleanchor "x3" :visible false}
+             :width 700 :height 270
+             :margin {:t 40 :b 20 :l 20 :r 20}}}))
 
-;; On the line, convolution spreads a bump into a wider bump.
-;; On the plane, it spreads a peak into a wider mound. In both cases,
-;; repeated convolution drives the distribution toward something flat.
-;;
-;; But continuous distributions never reach a "uniform" limit — they just
-;; keep spreading forever. On a **finite group**, the story has a
-;; satisfying ending: the distribution converges to uniform in finitely
-;; many steps. And the Fourier transform tells us exactly how fast.
+;; The three distinct peaks in the original merge into a single blob
+;; as $\sigma$ increases — the 2D analogue of what we saw on the line.
+;; Continuous distributions keep spreading forever — they never reach
+;; a "uniform" limit. On a **finite group**, the story has a satisfying
+;; ending: the distribution converges to uniform, and the Fourier
+;; transform tells us exactly how fast.
 
 ;; ## Random walk on $\mathbb{Z}/n\mathbb{Z}$
 ;;
@@ -182,7 +234,7 @@
                     :=title "Random walk on Z/24Z — distribution at various times"
                     :=x-title "position" :=y-title "probability"})
       (plotly/layer-line)
-      (plotly/layer-point {:=mark-size 4})
+      (plotly/layer-point {:=mark-size 8})
       plotly/plot))
 
 ;; At $t = 0$, all probability is at position 0. After a few steps,
@@ -307,7 +359,7 @@ max-nontrivial
                     :=title "|μ̂(k)|^t — Fourier coefficients after t steps"
                     :=x-title "frequency k" :=y-title "|μ̂(k)|^t"})
       (plotly/layer-line)
-      (plotly/layer-point {:=mark-size 4})
+      (plotly/layer-point {:=mark-size 8})
       plotly/plot))
 
 ;; After a few steps, only the components near $k = 0$ (and its mirror
@@ -368,7 +420,7 @@ max-nontrivial
                     :=title "Fourier spectra of different step distributions"
                     :=x-title "frequency k" :=y-title "|μ̂(k)|"})
       (plotly/layer-line)
-      (plotly/layer-point {:=mark-size 4})
+      (plotly/layer-point {:=mark-size 8})
       plotly/plot))
 
 ;; The long-range walk has smaller Fourier coefficients (further from 1)
@@ -457,8 +509,8 @@ n2d
    {:data traces
     :layout {:title "Random walk on Z/12Z × Z/12Z"
              :grid {:rows 2 :columns 3 :pattern "independent"}
-             :xaxis  {:domain [0 0.28] :visible false}
-             :yaxis  {:domain [0.52 1] :scaleanchor "x" :visible false}
+             :xaxis {:domain [0 0.28] :visible false}
+             :yaxis {:domain [0.52 1] :scaleanchor "x" :visible false}
              :xaxis2 {:domain [0.36 0.64] :visible false}
              :yaxis2 {:domain [0.52 1] :scaleanchor "x2" :visible false}
              :xaxis3 {:domain [0.72 1] :visible false}

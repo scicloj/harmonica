@@ -308,6 +308,87 @@
 
 ;; The orbit has $|D_7| = 14$ distinct points (the point has trivial stabilizer).
 
+
+;; ## Under the hood: fastmath for 2D linear algebra
+;;
+;; The rotation and reflection matrices above were built by hand from
+;; trigonometric formulas. In practice,
+;; [fastmath](https://github.com/generateme/fastmath) provides
+;; fixed-size matrix types (`Mat2x2`, `Mat3x3`, `Mat4x4`) with fast,
+;; unboxed arithmetic — no allocation overhead per operation.
+;;
+;; `fastmath.matrix` and `fastmath.vector` give us everything we need.
+
+(require '[fastmath.matrix :as fm]
+         '[fastmath.vector :as fv])
+
+;; **Rotation matrix** — built-in:
+
+(fm/rotation-matrix-2d (/ Math/PI 3))
+
+;; **Reflection matrix** — construct with `mat2x2`. Reflection across
+;; the line at angle $\theta/2$ has the matrix
+;; $\begin{pmatrix}\cos\theta & \sin\theta \\ \sin\theta & -\cos\theta\end{pmatrix}$:
+
+(defn fm-reflection [theta]
+  (fm/mat2x2 (Math/cos theta) (Math/sin theta)
+             (Math/sin theta) (- (Math/cos theta))))
+
+(fm-reflection (/ Math/PI 3))
+
+;; **Matrix-vector product** — `mulv` applies a transformation to a point:
+
+(fm/mulv (fm/rotation-matrix-2d (/ Math/PI 4)) (fv/vec2 1.0 0.0))
+
+;; The result is the point $(1, 0)$ rotated by $45°$: roughly
+;; $(0.707, 0.707)$.
+
+;; **Determinant** — rotations have $\det = 1$, reflections have $\det = -1$:
+
+(fm/det (fm/rotation-matrix-2d 1.23))
+
+(kind/test-last
+ [(fn [v] (< (Math/abs (- v 1.0)) 1e-14))])
+
+(fm/det (fm-reflection 0.7))
+
+(kind/test-last
+ [(fn [v] (< (Math/abs (- v -1.0)) 1e-14))])
+
+;; **Matrix composition** — `mulm` composes transformations. Two rotations
+;; compose to a single rotation:
+
+(let [ab (fm/mulm (fm/rotation-matrix-2d 1.0)
+                  (fm/rotation-matrix-2d 0.5))
+      direct (fm/rotation-matrix-2d 1.5)]
+  (< (fm/norm (fm/sub ab direct)) 1e-14))
+
+(kind/test-last [true?])
+
+;; A rotation followed by a reflection is a reflection:
+
+(let [rs (fm/mulm (fm/rotation-matrix-2d (/ Math/PI 3))
+                  (fm-reflection 0.0))]
+  (fm/det rs))
+
+(kind/test-last
+ [(fn [v] (< (Math/abs (- v -1.0)) 1e-14))])
+
+;; **Inverse** — the inverse of a rotation is the opposite rotation:
+
+(let [r (fm/rotation-matrix-2d 1.0)
+      product (fm/mulm r (fm/inverse r))
+      identity (fm/mat2x2 1 0 0 1)]
+  (< (fm/norm (fm/sub product identity)) 1e-14))
+
+(kind/test-last [true?])
+
+;; These operations are what power the rosette construction: each group
+;; element becomes a `Mat2x2`, and `mulv` maps it over the motif points.
+;; The fastmath types are drop-in replacements for the nested-vector
+;; matrices used earlier in this notebook — same mathematics, better
+;; performance.
+
 ;; ## Summary
 ;;
 ;; This notebook demonstrated:
