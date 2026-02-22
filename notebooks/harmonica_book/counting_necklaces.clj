@@ -62,7 +62,7 @@
 (defn necklaces-row
   "Draw necklaces in a single horizontal row."
   [colorings & {:keys [title bead-radius spacing width height]
-                :or {bead-radius 0.35 spacing 1.0}}]
+                :or {bead-radius 0.35 spacing 1.2}}]
   (let [nc (count colorings)
         w (or width (max 250 (long (* nc spacing 85))))
         h (or height 120)
@@ -81,7 +81,7 @@
   "Draw necklaces in a grid. `rows` is a seq of seqs of coloring vectors.
    Each inner seq becomes one horizontal row."
   [rows & {:keys [title bead-radius spacing width height row-labels]
-           :or {bead-radius 0.35 spacing 1.0}}]
+           :or {bead-radius 0.35 spacing 1.2}}]
   (let [max-cols (apply max (map count rows))
         n-rows (count rows)
         w (or width (max 300 (long (* (+ max-cols (if row-labels 1.5 0)) spacing 80))))

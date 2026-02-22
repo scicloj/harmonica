@@ -13,9 +13,95 @@
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.linalg.complex :as cx]
    [harmonica-book.book-helpers :refer [allclose?]]
+   [tech.v3.datatype :as dtype]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
+
+;; ## Audio Helpers
+;;
+;; To *hear* what group actions do to chords, we need a simple
+;; synthesizer. Each note is a sum of harmonics with an exponential
+;; decay envelope.
+
+(def sample-rate 44100.0)
+
+(defn midi->freq
+  "MIDI note number to frequency. A4 (69) = 440 Hz."
+  [midi]
+  (* 440.0 (Math/pow 2.0 (/ (- midi 69.0) 12.0))))
+
+(defn chord->samples
+  "Render a chord (collection of MIDI notes) as audio samples."
+  [midi-notes duration]
+  (let [n-samples (long (* duration sample-rate))
+        amp (/ 2500.0 (count midi-notes))
+        attack (long (* 0.02 sample-rate))
+        release (long (* 0.1 sample-rate))]
+    (dtype/make-reader
+     :float32
+     n-samples
+     (let [env (cond
+                 (< idx attack) (/ (double idx) attack)
+                 (> idx (- n-samples release))
+                 (/ (double (- n-samples idx)) release)
+                 :else (Math/exp (* -1.0 (/ (double (- idx attack)) n-samples))))
+           phase (/ (double idx) sample-rate)
+           wave (reduce + (map (fn [m]
+                                 (let [f (midi->freq m)]
+                                   (+ (* 0.65 (Math/sin (* 2.0 Math/PI f phase)))
+                                      (* 0.25 (Math/sin (* 2.0 Math/PI 2.0 f phase)))
+                                      (* 0.10 (Math/sin (* 2.0 Math/PI 3.0 f phase))))))
+                               midi-notes))]
+       (float (* amp env wave))))))
+
+(defn chord-sequence->samples
+  "Render a sequence of chords as audio. Each chord is a collection of MIDI notes."
+  [chords chord-dur]
+  (let [n-chord (long (* chord-dur sample-rate))
+        n-total (* (count chords) n-chord)
+        amp-per-note 2500.0
+        attack (long (* 0.015 sample-rate))
+        sounding (long (* 0.85 n-chord))
+        release (long (* 0.06 sample-rate))]
+    (dtype/make-reader
+     :float32
+     n-total
+     (let [chord-idx (quot idx n-chord)
+           t (rem idx n-chord)
+           midi-notes (nth chords chord-idx)
+           n-notes (count midi-notes)
+           amp (/ amp-per-note n-notes)]
+       (if (>= t sounding)
+         (float 0.0)
+         (let [env (cond
+                     (< t attack) (/ (double t) attack)
+                     (> t (- sounding release))
+                     (* (Math/exp (* -1.5 (/ (double (- t attack)) sounding)))
+                        (/ (double (- sounding t)) release))
+                     :else (Math/exp (* -1.5 (/ (double (- t attack)) sounding))))
+               phase (/ (double t) sample-rate)
+               wave (reduce + (map (fn [m]
+                                     (let [f (midi->freq m)]
+                                       (+ (* 0.65 (Math/sin (* 2.0 Math/PI f phase)))
+                                          (* 0.25 (Math/sin (* 2.0 Math/PI 2.0 f phase)))
+                                          (* 0.10 (Math/sin (* 2.0 Math/PI 3.0 f phase))))))
+                                   midi-notes))]
+           (float (* amp env wave))))))))
+
+(defn play-chord
+  "Play a chord given as pitch-class numbers (0-11). Octave is C4 (MIDI 60)."
+  [pcs]
+  (let [midi (mapv #(+ 60 %) (sort pcs))]
+    (kind/audio {:samples (chord->samples midi 1.5)
+                 :sample-rate sample-rate})))
+
+(defn play-chords
+  "Play a sequence of chords. Each chord is a set of pitch-class numbers."
+  [chord-seq]
+  (let [midi-chords (mapv (fn [pcs] (mapv #(+ 60 %) (sort pcs))) chord-seq)]
+    (kind/audio {:samples (chord-sequence->samples midi-chords 0.6)
+                 :sample-rate sample-rate})))
 
 ;; ## Pitch Classes on the Clock
 ;;
@@ -60,6 +146,8 @@
 
 (chord-plot #{0 4 7} "C major on the pitch class circle")
 
+(play-chord #{0 4 7})
+
 ;; ## Transposition as Group Action
 ;;
 ;; **Transposition** by $k$ semitones shifts every note: $T_k(x) = x + k \pmod{12}$.
@@ -79,6 +167,10 @@
     :row-vectors (mapv (fn [{:keys [transposition notes]}]
                          [transposition notes])
                        orbit)}))
+
+;; Hear the first four transpositions — same shape, different pitch:
+
+(play-chords [[0 4 7] [1 5 8] [2 6 9] [3 7 10]])
 
 ;; All 12 results are different — major chords form a single orbit of size 12.
 
@@ -158,6 +250,12 @@
 
 ;; Only **12 types** remain under $D_{12}$, down from 19.
 ;; The 7 pairs that merged are trichords related by inversion.
+;;
+;; Hear the difference: C major {0, 4, 7} and its inversion {0, 8, 5} = {0, 5, 8}
+;; (= F minor). Inversion flips a major third + minor third into
+;; minor third + major third:
+
+(play-chords [[0 4 7] [0 5 8]])
 
 ;; Let's see which types merged:
 
@@ -297,11 +395,19 @@
 
 (chord-plot #{0 4 7} "Major triad")
 
+(play-chord #{0 4 7})
+
 (chord-plot #{0 3 7} "Minor triad")
+
+(play-chord #{0 3 7})
 
 (chord-plot #{0 4 8} "Augmented triad")
 
+(play-chord #{0 4 8})
+
 (chord-plot #{0 3 6} "Diminished triad")
+
+(play-chord #{0 3 6})
 
 ;; The augmented triad is maximally symmetric — an equilateral triangle.
 ;; Its orbit under $C_{12}$ has only 4 elements (each transposition by
