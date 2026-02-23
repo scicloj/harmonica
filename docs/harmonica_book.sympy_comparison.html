@@ -440,7 +440,6 @@ window.Quarto = {
   <li><a href="#necklace-and-bracelet-counts" id="toc-necklace-and-bracelet-counts" class="nav-link" data-scroll-target="#necklace-and-bracelet-counts">Necklace and Bracelet Counts</a></li>
   <li><a href="#orbit-stabilizer-comparison" id="toc-orbit-stabilizer-comparison" class="nav-link" data-scroll-target="#orbit-stabilizer-comparison">Orbit-Stabilizer Comparison</a></li>
   <li><a href="#trichord-classification" id="toc-trichord-classification" class="nav-link" data-scroll-target="#trichord-classification">Trichord Classification</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -1354,26 +1353,31 @@ window.Quarto = {
 <span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>      under-D12 (<span class="kw">count</span> (hm/orbits G-d act-d-sub domain<span class="dv">-3</span>))]</span>
 <span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:total</span> (<span class="kw">count</span> domain<span class="dv">-3</span>) <span class="at">:under-C12</span> under-C12 <span class="at">:under-D12</span> under-D12})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:total</span> <span class="dv">220</span>, <span class="at">:under-C12</span> <span class="dv">19</span>, <span class="at">:under-D12</span> <span class="dv">12</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>All comparisons passed:</p>
-<ul>
-<li><p><strong>Permutation properties</strong>: cycle type, sign, and order for every element of <span class="math inline">\(S_3\)</span>, <span class="math inline">\(S_4\)</span>, <span class="math inline">\(S_5\)</span> (150 permutations)</p></li>
-<li><p><strong>Composition and inverse</strong>: all pairs in <span class="math inline">\(S_3\)</span> (36) and <span class="math inline">\(S_4\)</span> (576), accounting for the convention difference (harmonica right-to-left, SymPy left-to-right)</p></li>
-<li><p><strong>Conjugacy class sizes</strong>: <span class="math inline">\(S_2\)</span> through <span class="math inline">\(S_7\)</span> match SymPy</p></li>
-<li><p><strong>Dihedral group structure</strong>: <span class="math inline">\(D_3\)</span> through <span class="math inline">\(D_{12}\)</span> — order, class count, and class sizes all match</p></li>
-<li><p><strong>Group properties</strong>: cyclic groups are abelian+cyclic, dihedral are not</p></li>
-<li><p><strong>Partition counts</strong>: <span class="math inline">\(p(1)\)</span> through <span class="math inline">\(p(15)\)</span> match SymPy</p></li>
-<li><p><strong>Character tables</strong>: <span class="math inline">\(S_3\)</span>, <span class="math inline">\(S_4\)</span>, <span class="math inline">\(S_5\)</span> match known textbook values</p></li>
-<li><p><strong>Hook-length dimensions</strong>: consistent with character tables, squared sum equals <span class="math inline">\(n!\)</span></p></li>
-<li><p><strong>Necklace counts</strong>: Pólya agrees with number-theoretic formula for <span class="math inline">\(n = 1, \ldots, 20\)</span></p></li>
-<li><p><strong>Orbit-stabilizer</strong>: orbit sizes and stabilizer orders match SymPy for <span class="math inline">\(S_n\)</span> acting on points (<span class="math inline">\(n = 2, \ldots, 5\)</span>)</p></li>
-<li><p><strong>Trichord classification</strong>: 220 <span class="math inline">\(\to\)</span> 19 under <span class="math inline">\(C_{12}\)</span>, 12 under <span class="math inline">\(D_{12}\)</span></p></li>
-</ul>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>No implementation of method: :elements of protocol: #’scicloj.harmonica.protocols/FiniteGroup found for class: scicloj.harmonica.group.cyclic.CyclicGroup
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<pre><code>                          clojure.core/eval          core.clj: 3232
+                                        ...                       
+ harmonica-book.sympy-comparison/eval127340        REPL Input:     
+            scicloj.harmonica.action/orbits        action.clj:   35
+             scicloj.harmonica.action/orbit        action.clj:   24
+scicloj.harmonica.protocols/eval102277/fn/G     protocols.clj:   14
+            clojure.core/-cache-protocol-fn  core_deftype.clj:  585
+java.lang.IllegalArgumentException: No implementation of method: :elements of protocol: #'scicloj.harmonica.protocols/FiniteGroup found for class: scicloj.harmonica.group.cyclic.CyclicGroup
+
+</code></pre>
+</div>
+</div>
+</div>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/sympy_comparison.clj">notebooks/harmonica_book/sympy_comparison.clj</a></small></small></pre></div>
 

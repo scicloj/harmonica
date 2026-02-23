@@ -182,7 +182,7 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__101930#] (long (py/py. p1__101930# __len__)))
+     (fn* [p1__127090#] (long (py/py. p1__127090# __len__)))
      classes)))))
 
 
@@ -196,7 +196,7 @@
    [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
    (sort
     (mapv
-     (fn* [p1__101931#] (count (:elements p1__101931#)))
+     (fn* [p1__127091#] (count (:elements p1__127091#)))
      classes)))))
 
 
@@ -236,7 +236,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__101932#] (long (py/py. p1__101932# __len__)))
+      (fn* [p1__127092#] (long (py/py. p1__127092# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
@@ -254,7 +254,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__101933#] (count (:elements p1__101933#)))
+      (fn* [p1__127093#] (count (:elements p1__127093#)))
       classes))]
    {:order (hm/order G),
     :num-classes (count classes),
@@ -409,7 +409,7 @@
     (mapv
      (fn
       [row]
-      (mapv (fn* [p1__101934#] (Math/round (cx/re p1__101934#))) row))
+      (mapv (fn* [p1__127094#] (Math/round (cx/re p1__127094#))) row))
      table)})))
 
 
@@ -496,8 +496,8 @@
       +
       (map
        (fn*
-        [p1__101935#]
-        (let [d (hm/hook-length-dimension p1__101935#)] (* d d)))
+        [p1__127095#]
+        (let [d (hm/hook-length-dimension p1__127095#)] (* d d)))
        parts))]
     (= total (reduce * (range 1 (inc n))))))
   (range 2 8)))
@@ -515,7 +515,7 @@
   (let
    [divisors
     (filter
-     (fn* [p1__101936#] (zero? (mod n p1__101936#)))
+     (fn* [p1__127096#] (zero? (mod n p1__127096#)))
      (range 1 (inc n)))
     euler-phi
     (fn
@@ -523,13 +523,13 @@
      (count
       (filter
        (fn*
-        [p1__101937#]
+        [p1__127097#]
         (=
          1
          (long
           (.gcd
            (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__101937#)))))
+           (BigInteger/valueOf p1__127097#)))))
        (range 1 (inc m)))))]
    (/
     (reduce
@@ -631,8 +631,3 @@
   {:total (count domain-3),
    :under-C12 under-C12,
    :under-D12 under-D12}))
-
-
-(deftest
- t86_l459
- (is (= v85_l446 {:total 220, :under-C12 19, :under-D12 12})))
