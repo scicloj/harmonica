@@ -297,7 +297,7 @@
 ;; All curves drop around $x \approx 1$, confirming the $\tfrac{1}{2}n\ln n$
 ;; scaling law.
 
-;; ## Summary
+;; ## Scaling to larger decks
 
 (kind/table
  {:column-names ["n" "|S\u2099|" "\u00bdn ln n" "# partitions"]

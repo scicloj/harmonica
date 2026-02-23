@@ -355,7 +355,12 @@
 ;;   the character table of $\mathbb{Z}/n\mathbb{Z}$ is the DFT matrix
 ;; - **[Product Group DFT](product_group_dft.html)** — extending to 2D
 ;;   via $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$
+;; - **[Random Walks and Convolution](random_walks.html)** — how repeated
+;;   convolution drives convergence to uniform
 ;; - **[Symmetry Sketchpad](symmetry_sketchpad.html)** — rosette patterns
 ;;   from dihedral groups
 ;; - **[Counting Necklaces](counting_necklaces.html)** — Burnside's lemma
 ;;   turns symmetry into a counting formula
+;;
+;; To see how these groups are represented internally, see
+;; [Data Representations](data_representations.html).

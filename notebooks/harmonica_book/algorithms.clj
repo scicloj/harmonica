@@ -415,3 +415,5 @@
 ;; for Young's orthogonal form, and [Riffle Shuffle](riffle_shuffle.html)
 ;; for the GSR model. The [API Reference](api_reference.html) lists
 ;; every public function with examples.
+;; For the internal data structures that these algorithms operate on, see
+;; [Data Representations](data_representations.html).

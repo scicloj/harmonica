@@ -485,7 +485,7 @@ window.Quarto = {
 </div>
 <section id="a-signal-is-a-function-on-a-group" class="level2">
 <h2 class="anchored" data-anchor-id="a-signal-is-a-function-on-a-group">A signal is a function on a group</h2>
-<p>Suppose we record monthly average temperatures (°C) over two years:</p>
+<p>Suppose we record monthly average temperatures (°C) over two years (we saw this data briefly in the <a href="quickstart.html">Quickstart</a> — here we develop the theory in full):</p>
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> temperatures</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">3</span> <span class="dv">7</span> <span class="dv">12</span> <span class="dv">17</span> <span class="dv">22</span> <span class="dv">25</span> <span class="dv">24</span> <span class="dv">19</span> <span class="dv">13</span> <span class="dv">7</span> <span class="dv">3</span></span>
@@ -887,7 +887,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="what-comes-next">What comes next</h2>
 <p>The cyclic group is the simplest case. The same framework — groups, characters, Fourier transform — extends to every finite group:</p>
 <ul>
-<li><p><strong>Product groups</strong> <span class="math inline">\(G_1 \times G_2\)</span> — componentwise operations, giving the 2D DFT as a special case. See the <a href="product_group_dft.html">next chapter</a>.</p></li>
+<li><p><strong>Product groups</strong> <span class="math inline">\(G_1 \times G_2\)</span> — componentwise operations, giving the 2D DFT as a special case. See the <a href="product_group_dft.html">next chapter</a>. <a href="random_walks.html">Random Walks and Convolution</a> explores what happens when you convolve a step distribution repeatedly.</p></li>
 <li><p><strong>Dihedral groups</strong> <span class="math inline">\(D_n\)</span> — symmetries of regular polygons, used for <a href="symmetry_sketchpad.html">rosette patterns</a>, <a href="counting_necklaces.html">Burnside counting</a>, and <a href="chord_geometry.html">musical pitch classes</a>.</p></li>
 <li><p><strong>Symmetric groups</strong> <span class="math inline">\(S_n\)</span> — where characters are indexed by partitions and the Fourier transform produces matrix-valued coefficients. See <a href="symmetric_groups.html">Symmetric Groups</a>, <a href="character_theory.html">Character Theory</a>, and <a href="random_transpositions.html">Random Transpositions</a>.</p></li>
 </ul>

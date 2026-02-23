@@ -53,7 +53,7 @@
      {:size 16,
       :color
       (mapv
-       (fn* [p1__88906#] (get bead-colors p1__88906# "#7f8c8d"))
+       (fn* [p1__96788#] (get bead-colors p1__96788# "#7f8c8d"))
        coloring),
       :line {:color "#2c3e50", :width 1}},
      :showlegend false,
@@ -181,7 +181,7 @@
     (mapv
      (fn [i orb] [(inc i) (count orb) (str (first (sort orb)))])
      (range)
-     (sort-by (fn* [p1__88907#] (first (sort p1__88907#))) orbs))})))
+     (sort-by (fn* [p1__96789#] (first (sort p1__96789#))) orbs))})))
 
 
 (def
@@ -244,7 +244,7 @@
    reps
    (mapv
     (fn [orb] (first (sort orb)))
-    (sort-by (fn* [p1__88908#] (first (sort p1__88908#))) orbs))]
+    (sort-by (fn* [p1__96790#] (first (sort p1__96790#))) orbs))]
   (necklaces-row reps :title "The 6 distinct 4-bead binary necklaces")))
 
 

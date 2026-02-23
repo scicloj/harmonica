@@ -555,12 +555,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://github.com/cnuernber/dtype-next">dtype-next</a> — array/tensor numerics</li>
 <li><a href="https://github.com/generateme/fastmath">fastmath</a> — matrix operations</li>
 </ul>
-<p>The <a href="https://scicloj.github.io/harmonica/">book notebooks</a> also use <a href="https://github.com/scicloj/tablecloth">tablecloth</a>, <a href="https://github.com/scicloj/tableplot">tableplot</a>, and <a href="https://github.com/scicloj/kindly">kindly</a> (included in the <code>:dev</code> and <code>:test</code> aliases).</p>
+<p>The <a href="https://scicloj.github.io/harmonica/">book notebooks</a> also use <a href="https://github.com/scicloj/tablecloth">tablecloth</a>, <a href="https://github.com/scicloj/tableplot">tableplot</a>, and <a href="https://github.com/scicloj/kindly">kindly</a> (kindly is also a top-level dependency; tablecloth and tableplot are in the <code>:dev</code> and <code>:test</code> aliases).</p>
 </section>
 <section id="development" class="level2">
 <h2 class="anchored" data-anchor-id="development">Development</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-M:dev</span> <span class="at">-m</span> nrepl.cmdline   <span class="co"># start REPL</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run_tests.sh</span>                     <span class="co"># run tests (487 tests, 3498 assertions)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run_tests.sh</span>                     <span class="co"># run tests</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-T:build</span> ci                <span class="co"># test + build JAR</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="references" class="level2">

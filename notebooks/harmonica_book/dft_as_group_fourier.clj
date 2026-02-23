@@ -27,7 +27,9 @@
 
 ;; ## A signal is a function on a group
 
-;; Suppose we record monthly average temperatures (°C) over two years:
+;; Suppose we record monthly average temperatures (°C) over two years
+;; (we saw this data briefly in the [Quickstart](quickstart.html) — here
+;; we develop the theory in full):
 
 (def temperatures
   [2 3 7 12 17 22 25 24 19 13 7 3
@@ -388,6 +390,8 @@ cyclic-from-linear
 ;; - **Product groups** $G_1 \times G_2$ — componentwise operations, giving
 ;;   the 2D DFT as a special case. See the
 ;;   [next chapter](product_group_dft.html).
+;;   [Random Walks and Convolution](random_walks.html) explores what
+;;   happens when you convolve a step distribution repeatedly.
 ;;
 ;; - **Dihedral groups** $D_n$ — symmetries of regular polygons, used for
 ;;   [rosette patterns](symmetry_sketchpad.html),

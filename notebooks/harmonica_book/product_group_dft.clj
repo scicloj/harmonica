@@ -272,6 +272,8 @@ f-hat
 ;;
 ;; For the 1D story, see
 ;; [The DFT as Group Fourier Transform](dft_as_group_fourier.html).
+;; For convolution as random walks and convergence to uniform, see
+;; [Random Walks and Convolution](random_walks.html).
 ;; For groups acting on geometric objects and combinatorial structures, see
 ;; [Symmetry Sketchpad](symmetry_sketchpad.html) and
 ;; [Counting Necklaces](counting_necklaces.html).

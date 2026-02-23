@@ -909,3 +909,6 @@
 ;;   decomposition round-trip, order = LCM of cycle lengths
 ;; - **Partitions**: validity, conjugate involution, conjugate preserves sum,
 ;;   hook-length formula, class size formula
+;;
+;; For cross-validation against an independent computer algebra system, see
+;; [SymPy Comparison](sympy_comparison.html).

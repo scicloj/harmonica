@@ -97,13 +97,13 @@ available but rarely needed directly.
 The [book notebooks](https://scicloj.github.io/harmonica/) also use
 [tablecloth](https://github.com/scicloj/tablecloth),
 [tableplot](https://github.com/scicloj/tableplot), and
-[kindly](https://github.com/scicloj/kindly) (included in the `:dev` and `:test` aliases).
+[kindly](https://github.com/scicloj/kindly) (kindly is also a top-level dependency; tablecloth and tableplot are in the `:dev` and `:test` aliases).
 
 ## Development
 
 ```bash
 clojure -M:dev -m nrepl.cmdline   # start REPL
-./run_tests.sh                     # run tests (487 tests, 3498 assertions)
+./run_tests.sh                     # run tests
 clojure -T:build ci                # test + build JAR
 ```
 

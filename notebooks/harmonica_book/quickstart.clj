@@ -282,10 +282,17 @@ f-hat
 ;;   are and the group families in the library
 ;; - **[The DFT as Group Fourier Transform](dft_as_group_fourier.html)** —
 ;;   the connection between the DFT and cyclic groups
+;; - **[Random Walks and Convolution](random_walks.html)** — convergence
+;;   to uniform via Fourier eigenvalues
 ;; - **[Symmetry Sketchpad](symmetry_sketchpad.html)** — draw rosette
 ;;   patterns with dihedral groups
 ;; - **[Counting Necklaces](counting_necklaces.html)** — Burnside's lemma
 ;;   and Pólya enumeration
 ;; - **[Chord Geometry](chord_geometry.html)** — music theory as group action
+;; - **[Hearing Symmetry](hearing_symmetry.html)** — the Klein four-group
+;;   in melodic transformations
 ;; - **[Random Transpositions](random_transpositions.html)** — the cutoff
 ;;   phenomenon in card shuffling
+;;
+;; For a look at the internal data structures and algorithms, see
+;; [Under the Hood](data_representations.html).
