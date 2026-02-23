@@ -62,22 +62,20 @@
   "Compute the cycle type of group element g acting on domain.
    Returns a partition (descending sorted vector of cycle lengths)."
   [act g domain]
-  (let [domain-vec (vec domain)
-        n (count domain-vec)
-        idx (into {} (map-indexed (fn [i x] [x i]) domain-vec))
-        visited (boolean-array n)
-        cycles (java.util.ArrayList.)]
-    (dotimes [i n]
-      (when-not (aget visited i)
-        (let [x0 (domain-vec i)]
-          (loop [x x0
-                 len 0]
-            (let [j (idx x)]
-              (if (aget visited j)
-                (.add cycles len)
-                (do (aset visited j true)
-                    (recur (act g x) (inc len)))))))))
-    (vec (sort > (vec cycles)))))
+  (->> (reduce (fn [[cycles seen] x]
+                 (if (seen x)
+                   [cycles seen]
+                   (let [cycle (->> (iterate #(act g %) x)
+                                    (rest)
+                                    (take-while #(not= % x))
+                                    (into [x]))]
+                     [(conj cycles (count cycle))
+                      (into seen cycle)])))
+               [[] #{}]
+               domain)
+       (first)
+       (sort >)
+       (vec)))
 
 (defn cycle-index
   "The cycle index of a group action.
