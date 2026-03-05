@@ -520,11 +520,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="documentation" class="level2">
 <h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<p>The <a href="https://scicloj.github.io/harmonica/">Harmonica book</a> is organized for incremental learning, interleaving theory with applications — from the DFT and rosette patterns through necklace counting, music theory, and card shuffling.</p>
+<p>The <a href="https://scicloj.github.io/harmonica/">Harmonica book</a> is organized for incremental learning, interleaving theory with applications:</p>
+<ul>
+<li><strong>Getting Started</strong> — <a href="https://scicloj.github.io/harmonica/harmonica_book.quickstart.html">Quickstart</a></li>
+<li><strong>Groups and the DFT</strong> — <a href="https://scicloj.github.io/harmonica/harmonica_book.groups_and_structure.html">Groups and Structure</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.dft_as_group_fourier.html">DFT as Group Fourier</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.product_group_dft.html">Product Group DFT</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.random_walks.html">Random Walks</a></li>
+<li><strong>Groups in Action</strong> — <a href="https://scicloj.github.io/harmonica/harmonica_book.symmetry_sketchpad.html">Symmetry Sketchpad</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.counting_necklaces.html">Counting Necklaces</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.chord_geometry.html">Chord Geometry</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.hearing_symmetry.html">Hearing Symmetry</a></li>
+<li><strong>Symmetric Groups</strong> — <a href="https://scicloj.github.io/harmonica/harmonica_book.symmetric_groups.html">Symmetric Groups</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.character_theory.html">Character Theory</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.random_transpositions.html">Random Transpositions</a></li>
+<li><strong>Representation Matrices</strong> — <a href="https://scicloj.github.io/harmonica/harmonica_book.representation_matrices.html">Representation Matrices</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.riffle_shuffle.html">Riffle Shuffle</a></li>
+<li><strong>Reference</strong> — <a href="https://scicloj.github.io/harmonica/harmonica_book.api_reference.html">API Reference</a>, <a href="https://scicloj.github.io/harmonica/harmonica_book.group_actions.html">Group Actions</a></li>
+</ul>
 </section>
 <section id="api" class="level2">
 <h2 class="anchored" data-anchor-id="api">API</h2>
-<p>See the <a href="https://scicloj.github.io/harmonica/harmonica_book.api_reference.html">API reference</a> for the full list of functions with examples.</p>
 <p>Most users need only one namespace:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica <span class="at">:as</span> hm])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>scicloj.harmonica</code> is the public API — groups, character tables, Fourier transforms, representations, group actions, and visualization.</p>

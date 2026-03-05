@@ -297,7 +297,7 @@
  v100_l351
  (let
   [n 5 dims (mapv hm/hook-length-dimension (hm/partitions n))]
-  (reduce + (map (fn* [p1__75660#] (* p1__75660# p1__75660#)) dims))))
+  (reduce + (map (fn* [p1__88793#] (* p1__88793# p1__88793#)) dims))))
 
 
 (deftest t101_l355 (is (= v100_l351 120)))
