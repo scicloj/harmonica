@@ -23,7 +23,7 @@ book:
   - part: Under the Hood
     chapters: [harmonica_book.data_representations.qmd, harmonica_book.algorithms.qmd]
   - part: Reference
-    chapters: [harmonica_book.api_reference.qmd, harmonica_book.book_helpers.qmd, harmonica_book.group_actions.qmd, harmonica_book.complex_tensors.qmd, harmonica_book.ejml_integration.qmd]
+    chapters: [harmonica_book.api_reference.qmd, harmonica_book.book_helpers.qmd, harmonica_book.group_actions.qmd]
   - part: 'Appendix: Validation'
     chapters: [harmonica_book.algebraic_identities.qmd, harmonica_book.sympy_comparison.qmd]
   title: harmonica

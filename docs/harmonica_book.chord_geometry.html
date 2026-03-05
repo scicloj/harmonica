@@ -369,18 +369,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -395,13 +383,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
       </ul>
@@ -424,6 +412,9 @@ window.Quarto = {
   <li><a href="#interval-vectors-and-the-z-relation" id="toc-interval-vectors-and-the-z-relation" class="nav-link" data-scroll-target="#interval-vectors-and-the-z-relation">Interval Vectors and the Z-Relation</a></li>
   <li><a href="#beyond-trichords" id="toc-beyond-trichords" class="nav-link" data-scroll-target="#beyond-trichords">Beyond Trichords</a></li>
   <li><a href="#connecting-to-the-fourier-transform" id="toc-connecting-to-the-fourier-transform" class="nav-link" data-scroll-target="#connecting-to-the-fourier-transform">Connecting to the Fourier Transform</a></li>
+  <li><a href="#visualizing-chord-types" id="toc-visualizing-chord-types" class="nav-link" data-scroll-target="#visualizing-chord-types">Visualizing Chord Types</a></li>
+  <li><a href="#forte-numbers" id="toc-forte-numbers" class="nav-link" data-scroll-target="#forte-numbers">Forte Numbers</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -468,9 +459,9 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> harmonica-book.chord-geometry</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica <span class="at">:as</span> hm]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.harmonica.linalg.complex <span class="at">:as</span> cx]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [harmonica-book.book-helpers <span class="at">:refer</span> [allclose?]]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [tech.v3.datatype <span class="at">:as</span> dtype]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   [scicloj.lalinea.tensor <span class="at">:as</span> t]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   [scicloj.lalinea.elementwise <span class="at">:as</span> el]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [harmonica-book.book-helpers <span class="at">:refer</span> [allclose?]]</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [tablecloth.api <span class="at">:as</span> tc]</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   [scicloj.tableplot.v1.plotly <span class="at">:as</span> plotly]</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -495,7 +486,7 @@ window.Quarto = {
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        amp (<span class="kw">/</span> <span class="fl">2500.0</span> (<span class="kw">count</span> midi-notes))</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        attack (<span class="kw">long</span> (<span class="kw">*</span> <span class="fl">0.02</span> sample-rate))</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        release (<span class="kw">long</span> (<span class="kw">*</span> <span class="fl">0.1</span> sample-rate))]</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    (dtype/make-reader</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    (t/make-reader</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">:float32</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>     n-samples</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">let</span> [env (<span class="kw">cond</span></span>
@@ -522,7 +513,7 @@ window.Quarto = {
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        attack (<span class="kw">long</span> (<span class="kw">*</span> <span class="fl">0.015</span> sample-rate))</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        sounding (<span class="kw">long</span> (<span class="kw">*</span> <span class="fl">0.85</span> n-chord))</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        release (<span class="kw">long</span> (<span class="kw">*</span> <span class="fl">0.06</span> sample-rate))]</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    (dtype/make-reader</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    (t/make-reader</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">:float32</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>     n-total</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">let</span> [chord-idx (<span class="kw">quot</span> idx n-chord)</span>
@@ -1114,40 +1105,330 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">12</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      ct (hm/character-table G)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; C major = {0, 4, 7}</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>      f-vals (cx/complex-tensor-real (<span class="kw">mapv</span> (<span class="kw">fn</span> [x] (<span class="kw">if</span> (#{<span class="dv">0</span> <span class="dv">4</span> <span class="dv">7</span>} x) <span class="fl">1.0</span> <span class="fl">0.0</span>)) (<span class="kw">range</span> <span class="dv">12</span>)))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>      f-vals (t/complex-tensor-real (<span class="kw">mapv</span> (<span class="kw">fn</span> [x] (<span class="kw">if</span> (#{<span class="dv">0</span> <span class="dv">4</span> <span class="dv">7</span>} x) <span class="fl">1.0</span> <span class="fl">0.0</span>)) (<span class="kw">range</span> <span class="dv">12</span>)))</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>      f-hat (hm/fourier-transform ct f-vals)]</span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"Frequency k"</span> <span class="st">"|f\u0302(k)|\u00b2"</span>]</span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [k]</span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">let</span> [fk (f-hat k)</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                               mag-sq (<span class="kw">let</span> [r (cx/re fk) i (cx/im fk)] (<span class="kw">+</span> (<span class="kw">*</span> r r) (<span class="kw">*</span> i i)))]</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                               mag-sq (<span class="kw">let</span> [r (el/re fk) i (el/im fk)] (<span class="kw">+</span> (<span class="kw">*</span> r r) (<span class="kw">*</span> i i)))]</span>
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                           [k (<span class="kw">format</span> <span class="st">"%.4f"</span> mag-sq)]))</span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">range</span> <span class="dv">12</span>))}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Frequency k</th>
+<th data-quarto-table-cell-role="th">|f̂(k)|²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>9.0000</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.2679</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>1.0000</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>5.0000</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>3.0000</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>3.7321</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>1.0000</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>3.7321</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>3.0000</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>5.0000</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>1.0000</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>0.2679</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>No implementation of method: :group-type of protocol: #’scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.cyclic.CyclicGroup
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+<p>The Fourier magnitudes are invariant under transposition — transposing by <span class="math inline">\(k\)</span> multiplies each <span class="math inline">\(\hat{f}(j)\)</span> by <span class="math inline">\(e^{2\pi i j k/12}\)</span>, which doesn’t change the magnitude. This is why the Fourier magnitudes detect chord <em>type</em>, not chord <em>position</em>.</p>
+<p>Let’s verify: the major triad and its transposition by a tritone (6 semitones) have the same Fourier magnitude profile:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">12</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>      ct (hm/character-table G)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>      chord-a [<span class="dv">0</span> <span class="dv">4</span> <span class="dv">7</span>]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      chord-b [<span class="dv">6</span> <span class="dv">10</span> <span class="dv">1</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>      f-a (t/complex-tensor-real (<span class="kw">mapv</span> (<span class="kw">fn</span> [x] (<span class="kw">if</span> ((<span class="kw">set</span> chord-a) x) <span class="fl">1.0</span> <span class="fl">0.0</span>)) (<span class="kw">range</span> <span class="dv">12</span>)))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>      f-b (t/complex-tensor-real (<span class="kw">mapv</span> (<span class="kw">fn</span> [x] (<span class="kw">if</span> ((<span class="kw">set</span> chord-b) x) <span class="fl">1.0</span> <span class="fl">0.0</span>)) (<span class="kw">range</span> <span class="dv">12</span>)))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>      hat-a (hm/fourier-transform ct f-a)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>      hat-b (hm/fourier-transform ct f-b)]</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  (allclose? (el/abs hat-a) (el/abs hat-b)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
-<div class="callout-body-container callout-body">
-<pre><code>                         clojure.core/eval          core.clj: 3232
-                                       ...                       
-  harmonica-book.chord-geometry/eval136458        REPL Input:     
-                                       ...                       
-scicloj.harmonica.protocols/eval23011/fn/G     protocols.clj:   28
-           clojure.core/-cache-protocol-fn  core_deftype.clj:  585
-java.lang.IllegalArgumentException: No implementation of method: :group-type of protocol: #'scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.cyclic.CyclicGroup
-
-</code></pre>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="visualizing-chord-types" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-chord-types">Visualizing Chord Types</h2>
+<p>Each trichord type is a triangle on the clock face. Let’s visualize a few familiar chord types:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(chord-plot #{<span class="dv">0</span> <span class="dv">4</span> <span class="dv">7</span>} <span class="st">"Major triad"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"type":"scatter","mode":"markers+text","x":[6.123233995736766E-17,0.4999999999999999,0.8660254037844386,1.0,0.8660254037844387,0.4999999999999999,6.123233995736766E-17,-0.5000000000000002,-0.8660254037844385,-1.0,-0.8660254037844386,-0.5000000000000004],"y":[-1.0,-0.8660254037844387,-0.5,0.0,0.49999999999999983,0.8660254037844387,1.0,0.8660254037844385,0.5000000000000003,1.2246467991473532E-16,-0.5000000000000001,-0.8660254037844384],"text":["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],"textposition":"top center","marker":{"size":[14,8,8,8,14,8,8,14,8,8,8,8],"color":["#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#bdc3c7"]},"showlegend":false},{"type":"scatter","mode":"lines","x":[6.123233995736766E-17,0.8660254037844387,-0.5000000000000002,6.123233995736766E-17],"y":[-1.0,0.49999999999999983,0.8660254037844385,-1.0],"line":{"color":"#e74c3c","width":2},"fill":"toself","fillcolor":"rgba(231,76,60,0.15)","showlegend":false}], {"title":"Major triad","xaxis":{"visible":false,"scaleanchor":"y"},"yaxis":{"visible":false},"width":350,"height":350,"margin":{"t":40,"b":10,"l":10,"r":10}}, {});</script></div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(play-chord #{<span class="dv">0</span> <span class="dv">4</span> <span class="dv">7</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<audio controls=""><source src="harmonica_book.chord_geometry_files/audio0.wav"></audio>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(chord-plot #{<span class="dv">0</span> <span class="dv">3</span> <span class="dv">7</span>} <span class="st">"Minor triad"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"type":"scatter","mode":"markers+text","x":[6.123233995736766E-17,0.4999999999999999,0.8660254037844386,1.0,0.8660254037844387,0.4999999999999999,6.123233995736766E-17,-0.5000000000000002,-0.8660254037844385,-1.0,-0.8660254037844386,-0.5000000000000004],"y":[-1.0,-0.8660254037844387,-0.5,0.0,0.49999999999999983,0.8660254037844387,1.0,0.8660254037844385,0.5000000000000003,1.2246467991473532E-16,-0.5000000000000001,-0.8660254037844384],"text":["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],"textposition":"top center","marker":{"size":[14,8,8,14,8,8,8,14,8,8,8,8],"color":["#e74c3c","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#bdc3c7"]},"showlegend":false},{"type":"scatter","mode":"lines","x":[6.123233995736766E-17,1.0,-0.5000000000000002,6.123233995736766E-17],"y":[-1.0,0.0,0.8660254037844385,-1.0],"line":{"color":"#e74c3c","width":2},"fill":"toself","fillcolor":"rgba(231,76,60,0.15)","showlegend":false}], {"title":"Minor triad","xaxis":{"visible":false,"scaleanchor":"y"},"yaxis":{"visible":false},"width":350,"height":350,"margin":{"t":40,"b":10,"l":10,"r":10}}, {});</script></div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(play-chord #{<span class="dv">0</span> <span class="dv">3</span> <span class="dv">7</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<audio controls=""><source src="harmonica_book.chord_geometry_files/audio3.wav"></audio>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(chord-plot #{<span class="dv">0</span> <span class="dv">4</span> <span class="dv">8</span>} <span class="st">"Augmented triad"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"type":"scatter","mode":"markers+text","x":[6.123233995736766E-17,0.4999999999999999,0.8660254037844386,1.0,0.8660254037844387,0.4999999999999999,6.123233995736766E-17,-0.5000000000000002,-0.8660254037844385,-1.0,-0.8660254037844386,-0.5000000000000004],"y":[-1.0,-0.8660254037844387,-0.5,0.0,0.49999999999999983,0.8660254037844387,1.0,0.8660254037844385,0.5000000000000003,1.2246467991473532E-16,-0.5000000000000001,-0.8660254037844384],"text":["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],"textposition":"top center","marker":{"size":[14,8,8,8,14,8,8,8,14,8,8,8],"color":["#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7"]},"showlegend":false},{"type":"scatter","mode":"lines","x":[6.123233995736766E-17,0.8660254037844387,-0.8660254037844385,6.123233995736766E-17],"y":[-1.0,0.49999999999999983,0.5000000000000003,-1.0],"line":{"color":"#e74c3c","width":2},"fill":"toself","fillcolor":"rgba(231,76,60,0.15)","showlegend":false}], {"title":"Augmented triad","xaxis":{"visible":false,"scaleanchor":"y"},"yaxis":{"visible":false},"width":350,"height":350,"margin":{"t":40,"b":10,"l":10,"r":10}}, {});</script></div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(play-chord #{<span class="dv">0</span> <span class="dv">4</span> <span class="dv">8</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<audio controls=""><source src="harmonica_book.chord_geometry_files/audio4.wav"></audio>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(chord-plot #{<span class="dv">0</span> <span class="dv">3</span> <span class="dv">6</span>} <span class="st">"Diminished triad"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"type":"scatter","mode":"markers+text","x":[6.123233995736766E-17,0.4999999999999999,0.8660254037844386,1.0,0.8660254037844387,0.4999999999999999,6.123233995736766E-17,-0.5000000000000002,-0.8660254037844385,-1.0,-0.8660254037844386,-0.5000000000000004],"y":[-1.0,-0.8660254037844387,-0.5,0.0,0.49999999999999983,0.8660254037844387,1.0,0.8660254037844385,0.5000000000000003,1.2246467991473532E-16,-0.5000000000000001,-0.8660254037844384],"text":["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],"textposition":"top center","marker":{"size":[14,8,8,14,8,8,14,8,8,8,8,8],"color":["#e74c3c","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#e74c3c","#bdc3c7","#bdc3c7","#bdc3c7","#bdc3c7","#bdc3c7"]},"showlegend":false},{"type":"scatter","mode":"lines","x":[6.123233995736766E-17,1.0,6.123233995736766E-17,6.123233995736766E-17],"y":[-1.0,0.0,1.0,-1.0],"line":{"color":"#e74c3c","width":2},"fill":"toself","fillcolor":"rgba(231,76,60,0.15)","showlegend":false}], {"title":"Diminished triad","xaxis":{"visible":false,"scaleanchor":"y"},"yaxis":{"visible":false},"width":350,"height":350,"margin":{"t":40,"b":10,"l":10,"r":10}}, {});</script></div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(play-chord #{<span class="dv">0</span> <span class="dv">3</span> <span class="dv">6</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<audio controls=""><source src="harmonica_book.chord_geometry_files/audio5.wav"></audio>
+<p>The augmented triad is maximally symmetric — an equilateral triangle. Its orbit under <span class="math inline">\(C_{12}\)</span> has only 4 elements (each transposition by 4 semitones returns the same chord). The major and minor triads are related by inversion.</p>
+</section>
+<section id="forte-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="forte-numbers">Forte Numbers</h2>
+<p>Allen Forte’s catalog assigns a standard identifier to each set class under <span class="math inline">\(D_{12}\)</span> equivalence. The <a href="https://en.wikipedia.org/wiki/Forte_number">Forte number</a> <span class="math inline">\(k\text{-}m\)</span> means the <span class="math inline">\(m\)</span>-th set class of cardinality <span class="math inline">\(k\)</span> in Forte’s ordering.</p>
+<p>We can compute prime forms and assign Forte numbers from first principles using the <span class="math inline">\(D_{12}\)</span> orbits we already have.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> prime-form</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Compute the prime form of a pitch class set under TnI equivalence.</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="st">  The prime form is the most compact representative: transpose all</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="st">  rotations and inversions to start at 0, then pick the lexicographically</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="st">  smallest."</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  [pcs]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [pcs-vec (<span class="kw">vec</span> (<span class="kw">sort</span> pcs))</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        n <span class="dv">12</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">;; All transpositions</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>        transpositions (<span class="kw">for</span> [k (<span class="kw">range</span> n)]</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>                         (<span class="kw">vec</span> (<span class="kw">sort</span> (<span class="kw">map</span> #(<span class="kw">mod</span> (<span class="kw">+</span> <span class="va">%</span> k) n) pcs-vec))))</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">;; All inversions followed by transpositions</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>        inversions (<span class="kw">for</span> [k (<span class="kw">range</span> n)]</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">vec</span> (<span class="kw">sort</span> (<span class="kw">map</span> #(<span class="kw">mod</span> (<span class="kw">-</span> k <span class="va">%</span>) n) pcs-vec))))</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">;; Normalize each to start at 0</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>        normalize (<span class="kw">fn</span> [s] (<span class="kw">let</span> [base (<span class="kw">first</span> s)]</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>                            (<span class="kw">mapv</span> #(<span class="kw">mod</span> (<span class="kw">-</span> <span class="va">%</span> base) n) s)))</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>        candidates (<span class="kw">map</span> normalize (<span class="kw">concat</span> transpositions inversions))]</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">first</span> (<span class="kw">sort</span> candidates))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The 12 trichord set classes under <span class="math inline">\(D_{12}\)</span>, computed by harmonica and labeled with <a href="https://en.wikipedia.org/wiki/List_of_set_classes">Forte numbers</a>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/dihedral-group <span class="dv">12</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [[t k] x]</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">case</span> t</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">:r</span> (<span class="kw">mod</span> (<span class="kw">+</span> x k) <span class="dv">12</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">:s</span> (<span class="kw">mod</span> (<span class="kw">-</span> k x) <span class="dv">12</span>)))</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain] act-sub <span class="at">:act</span>} (hm/subset-action act (<span class="kw">range</span> <span class="dv">12</span>) <span class="dv">3</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      orbs (hm/orbits G act-sub domain)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>      primes (<span class="kw">sort</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [orb]</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                           (prime-form (<span class="kw">first</span> orb)))</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                         orbs))</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Forte's catalog order for trichords</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>      forte-catalog [[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">4</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">5</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">6</span>]</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                     [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">5</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">6</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">7</span>]</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>                     [<span class="dv">0</span> <span class="dv">3</span> <span class="dv">6</span>] [<span class="dv">0</span> <span class="dv">3</span> <span class="dv">7</span>] [<span class="dv">0</span> <span class="dv">4</span> <span class="dv">8</span>]]</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>      forte-names [<span class="st">"3-1"</span> <span class="st">"3-2"</span> <span class="st">"3-3"</span> <span class="st">"3-4"</span> <span class="st">"3-5"</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"3-6"</span> <span class="st">"3-7"</span> <span class="st">"3-8"</span> <span class="st">"3-9"</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"3-10"</span> <span class="st">"3-11"</span> <span class="st">"3-12"</span>]</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>      musical-names [<span class="st">"chromatic cluster"</span> <span class="st">"—"</span> <span class="st">"—"</span> <span class="st">"—"</span> <span class="st">"Viennese trichord"</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"whole-tone"</span> <span class="st">"—"</span> <span class="st">"—"</span> <span class="st">"stack of fifths"</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"diminished"</span> <span class="st">"major/minor triad"</span> <span class="st">"augmented triad"</span>]]</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  (kind/table</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:column-names</span> [<span class="st">"Forte number"</span> <span class="st">"Prime form"</span> <span class="st">"Interval vector"</span> <span class="st">"Musical name"</span>]</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">:row-vectors</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [forte pf <span class="kw">name</span>]</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>                         [forte (<span class="kw">str</span> pf) (<span class="kw">str</span> (interval-vector pf)) <span class="kw">name</span>])</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>                       forte-names forte-catalog musical-names)}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="clay-table">
+<div class="table-responsive">
+<table class="table table-hover clay-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Forte number</th>
+<th data-quarto-table-cell-role="th">Prime form</th>
+<th data-quarto-table-cell-role="th">Interval vector</th>
+<th data-quarto-table-cell-role="th">Musical name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3-1</td>
+<td>[0 1 2]</td>
+<td>[2 1 0 0 0 0]</td>
+<td>chromatic cluster</td>
+</tr>
+<tr class="even">
+<td>3-2</td>
+<td>[0 1 3]</td>
+<td>[1 1 1 0 0 0]</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>3-3</td>
+<td>[0 1 4]</td>
+<td>[1 0 1 1 0 0]</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>3-4</td>
+<td>[0 1 5]</td>
+<td>[1 0 0 1 1 0]</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>3-5</td>
+<td>[0 1 6]</td>
+<td>[1 0 0 0 1 1]</td>
+<td>Viennese trichord</td>
+</tr>
+<tr class="even">
+<td>3-6</td>
+<td>[0 2 4]</td>
+<td>[0 2 0 1 0 0]</td>
+<td>whole-tone</td>
+</tr>
+<tr class="odd">
+<td>3-7</td>
+<td>[0 2 5]</td>
+<td>[0 1 1 0 1 0]</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>3-8</td>
+<td>[0 2 6]</td>
+<td>[0 1 0 1 0 1]</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>3-9</td>
+<td>[0 2 7]</td>
+<td>[0 1 0 0 2 0]</td>
+<td>stack of fifths</td>
+</tr>
+<tr class="even">
+<td>3-10</td>
+<td>[0 3 6]</td>
+<td>[0 0 2 0 0 1]</td>
+<td>diminished</td>
+</tr>
+<tr class="odd">
+<td>3-11</td>
+<td>[0 3 7]</td>
+<td>[0 0 1 1 1 0]</td>
+<td>major/minor triad</td>
+</tr>
+<tr class="even">
+<td>3-12</td>
+<td>[0 4 8]</td>
+<td>[0 0 0 3 0 0]</td>
+<td>augmented triad</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+<p>Verify that our computed prime forms match the standard catalog exactly:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/dihedral-group <span class="dv">12</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [[t k] x]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">case</span> t</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">:r</span> (<span class="kw">mod</span> (<span class="kw">+</span> x k) <span class="dv">12</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">:s</span> (<span class="kw">mod</span> (<span class="kw">-</span> k x) <span class="dv">12</span>)))</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain] act-sub <span class="at">:act</span>} (hm/subset-action act (<span class="kw">range</span> <span class="dv">12</span>) <span class="dv">3</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>      orbs (hm/orbits G act-sub domain)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>      computed (<span class="kw">sort</span> (<span class="kw">mapv</span> (<span class="kw">fn</span> [orb] (prime-form (<span class="kw">first</span> orb))) orbs))</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>      catalog [[<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">4</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">5</span>] [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">6</span>]</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>               [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">5</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">6</span>] [<span class="dv">0</span> <span class="dv">2</span> <span class="dv">7</span>]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>               [<span class="dv">0</span> <span class="dv">3</span> <span class="dv">6</span>] [<span class="dv">0</span> <span class="dv">3</span> <span class="dv">7</span>] [<span class="dv">0</span> <span class="dv">4</span> <span class="dv">8</span>]]]</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> computed catalog))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The same approach works for tetrachords. There are 29 tetrachord set classes under <span class="math inline">\(D_{12}\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/dihedral-group <span class="dv">12</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [[t k] x]</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">case</span> t</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">:r</span> (<span class="kw">mod</span> (<span class="kw">+</span> x k) <span class="dv">12</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">:s</span> (<span class="kw">mod</span> (<span class="kw">-</span> k x) <span class="dv">12</span>)))</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [domain] act-sub <span class="at">:act</span>} (hm/subset-action act (<span class="kw">range</span> <span class="dv">12</span>) <span class="dv">4</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>      orbs (hm/orbits G act-sub domain)]</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> orbs))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="dv">29</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Two of these — 4-Z15 and 4-Z29 — share the same interval vector <span class="math inline">\(\langle111111\rangle\)</span> despite being different set classes. This is the <a href="https://en.wikipedia.org/wiki/Z-relation">Z-relation</a>, the only instance among tetrachords:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [z15 [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">4</span> <span class="dv">6</span>]</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>      z29 [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">7</span>]]</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (interval-vector z15) (interval-vector z29)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This notebook demonstrated:</p>
+<ul>
+<li><strong>Pitch classes as <span class="math inline">\(\mathbb{Z}/12\mathbb{Z}\)</span></strong>: the chromatic scale is a cyclic group</li>
+<li><strong>Transposition as group action</strong>: <span class="math inline">\(C_{12}\)</span> acts on pitch class subsets</li>
+<li><strong>Chord types as orbits</strong>: 220 trichords <span class="math inline">\(\to\)</span> 19 types under <span class="math inline">\(C_{12}\)</span>, 12 under <span class="math inline">\(D_{12}\)</span></li>
+<li><strong>Interval vectors</strong>: a transposition-invariant fingerprint of a chord</li>
+<li><strong>Fourier magnitudes</strong>: another invariant, connecting to representation theory</li>
+<li><strong>Inversional equivalence</strong>: the dihedral group <span class="math inline">\(D_{12}\)</span> merges chord/inversion pairs</li>
+<li><strong>Forte numbers</strong>: standard catalog of set classes, computed from <span class="math inline">\(D_{12}\)</span> orbits</li>
+<li><strong>Z-relation</strong>: distinct set classes sharing the same interval vector</li>
+</ul>
+<p>For another perspective on music and group theory — transforming melodies via the Klein four-group — see <a href="hearing_symmetry.html">Hearing Symmetry</a>.</p>
+<p>For the general framework of Burnside counting and Pólya enumeration, see <a href="counting_necklaces.html">Counting Necklaces</a>.</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/chord_geometry.clj">notebooks/harmonica_book/chord_geometry.clj</a></small></small></pre></div>
 

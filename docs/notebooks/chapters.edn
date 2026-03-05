@@ -16,8 +16,6 @@
                    "algorithms"]
  "Reference" ["api_reference"
               "book_helpers"
-              "group_actions"
-              "complex_tensors"
-              "ejml_integration"]
+              "group_actions"]
  "Appendix: Validation" ["algebraic_identities"
                          "sympy_comparison"]}

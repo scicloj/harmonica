@@ -56,14 +56,6 @@ with applications to combinatorics, signal processing, and card shuffling.
 - SVG: [Young diagrams](https://en.wikipedia.org/wiki/Young_diagram), hook diagrams, standard Young tableaux, cycle diagrams
 - SVG: [Cayley tables](https://en.wikipedia.org/wiki/Cayley_table), [Cayley graphs](https://en.wikipedia.org/wiki/Cayley_graph)
 
-## Installation
-
-Add to your `deps.edn`:
-
-```clojure
-{:deps {org.scicloj/harmonica {:mvn/version "0.1.0"}}}
-```
-
 ## Documentation
 
 The [Harmonica book](https://scicloj.github.io/harmonica/) is organized for
@@ -74,24 +66,23 @@ and rosette patterns through necklace counting, music theory, and card shuffling
 
 See the [API reference](https://scicloj.github.io/harmonica/harmonica_book.api_reference.html) for the full list of functions with examples.
 
-Most users need only two namespaces:
+Most users need only one namespace:
 
 ```clojure
 (require '[scicloj.harmonica :as hm])
-(require '[scicloj.harmonica.linalg.complex :as cx])
 ```
 
 `scicloj.harmonica` is the public API — groups, character tables, Fourier
-transforms, representations, group actions, and visualization. `cx` provides
-ComplexTensor operations for working with complex-valued results.
+transforms, representations, group actions, and visualization.
 
-Internal namespaces (`analysis.characters`, `analysis.fourier`,
-`analysis.representations`, `linalg.ejml`, `protocols`, `action`, etc.) are
-available but rarely needed directly.
+For complex-valued results (character tables, Fourier coefficients),
+harmonica uses [lalinea](https://github.com/scicloj/lalinea) tensors.
+See `scicloj.lalinea.elementwise` and `scicloj.lalinea.tensor` for
+element-wise and tensor operations.
 
 ## Built on
 
-- [dtype-next](https://github.com/cnuernber/dtype-next) — array/tensor numerics
+- [lalinea](https://github.com/scicloj/lalinea) — complex tensors and linear algebra
 - [fastmath](https://github.com/generateme/fastmath) — matrix operations
 
 The [book notebooks](https://scicloj.github.io/harmonica/) also use

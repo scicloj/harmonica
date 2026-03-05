@@ -140,7 +140,7 @@
   "Play a chord given as pitch-class numbers (0-11). Octave is C4 (MIDI 60)."
   [pcs]
   (let
-   [midi (mapv (fn* [p1__90071#] (+ 60 p1__90071#)) (sort pcs))]
+   [midi (mapv (fn* [p1__93543#] (+ 60 p1__93543#)) (sort pcs))]
    (kind/audio
     {:samples (chord->samples midi 1.5), :sample-rate sample-rate}))))
 
@@ -154,7 +154,7 @@
   (let
    [midi-chords
     (mapv
-     (fn [pcs] (mapv (fn* [p1__90072#] (+ 60 p1__90072#)) (sort pcs)))
+     (fn [pcs] (mapv (fn* [p1__93544#] (+ 60 p1__93544#)) (sort pcs)))
      chord-seq)]
    (kind/audio
     {:samples (chord-sequence->samples midi-chords 0.6),
@@ -182,9 +182,9 @@
      (fn [i] (- (* 2 Math/PI (/ i (double n))) (/ Math/PI 2)))
      (range n))
     xs
-    (mapv (fn* [p1__90073#] (Math/cos p1__90073#)) angles)
+    (mapv (fn* [p1__93545#] (Math/cos p1__93545#)) angles)
     ys
-    (mapv (fn* [p1__90074#] (Math/sin p1__90074#)) angles)
+    (mapv (fn* [p1__93546#] (Math/sin p1__93546#)) angles)
     pcs-sorted
     (vec (sort pcs))
     chord-xs
@@ -240,7 +240,7 @@
      (let
       [transposed
        (sort
-        (mapv (fn* [p1__90075#] (mod (+ p1__90075# k) 12)) c-major))]
+        (mapv (fn* [p1__93547#] (mod (+ p1__93547# k) 12)) c-major))]
       {:transposition k, :notes (str (mapv pitch-names transposed))}))
     (range 12))]
   (kind/table
@@ -363,7 +363,7 @@
    (fn
     [rep]
     (first
-     (filter (fn* [p1__90076#] (contains? p1__90076# rep)) orbs-d)))
+     (filter (fn* [p1__93548#] (contains? p1__93548# rep)) orbs-d)))
    merged-groups
    (group-by d-orbit-of c-reps)
    merged-rows
@@ -390,12 +390,12 @@
    orbs
    (hm/orbits G act-sub domain)
    reps
-   (mapv (fn* [p1__90077#] (first (sort p1__90077#))) orbs)
+   (mapv (fn* [p1__93549#] (first (sort p1__93549#))) orbs)
    ivs
    (mapv interval-vector reps)
    iv-groups
    (group-by identity ivs)]
-  (every? (fn* [p1__90078#] (= 1 (count (val p1__90078#)))) iv-groups)))
+  (every? (fn* [p1__93550#] (= 1 (count (val p1__93550#)))) iv-groups)))
 
 
 (deftest t34_l314 (is (true? v33_l302)))
@@ -535,19 +535,19 @@
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__90079#] (mod (+ p1__90079# k) n)) pcs-vec))))
+       (map (fn* [p1__93551#] (mod (+ p1__93551# k) n)) pcs-vec))))
     inversions
     (for
      [k (range n)]
      (vec
       (sort
-       (map (fn* [p1__90080#] (mod (- k p1__90080#) n)) pcs-vec))))
+       (map (fn* [p1__93552#] (mod (- k p1__93552#) n)) pcs-vec))))
     normalize
     (fn
      [s]
      (let
       [base (first s)]
-      (mapv (fn* [p1__90081#] (mod (- p1__90081# base) n)) s)))
+      (mapv (fn* [p1__93553#] (mod (- p1__93553# base) n)) s)))
     candidates
     (map normalize (concat transpositions inversions))]
    (first (sort candidates)))))

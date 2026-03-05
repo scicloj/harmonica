@@ -218,7 +218,7 @@
     (let
      [probs
       (mapv
-       (fn* [p1__89540#] (riffle/gsr-probability p1__89540# k))
+       (fn* [p1__95249#] (riffle/gsr-probability p1__95249# k))
        elts)]
      (double (* 0.5 (el/sum (el/abs (el/- probs uniform)))))))
    (range 1 8))))

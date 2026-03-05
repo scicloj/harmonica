@@ -339,18 +339,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Group Actions — Algebraic Reference</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./harmonica_book.complex_tensors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Complex Tensors</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./harmonica_book.ejml_integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">EJML Integration</span></span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -365,13 +353,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.algebraic_identities.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Algebraic Identities — A Verification Suite</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./harmonica_book.sympy_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cross-Validation with SymPy</span></span></a>
   </div>
 </li>
       </ul>
@@ -543,16 +531,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="api" class="level2">
 <h2 class="anchored" data-anchor-id="api">API</h2>
 <p>See the <a href="https://scicloj.github.io/harmonica/harmonica_book.api_reference.html">API reference</a> for the full list of functions with examples.</p>
-<p>Most users need only two namespaces:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica <span class="at">:as</span> hm])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica.linalg.complex <span class="at">:as</span> cx])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>scicloj.harmonica</code> is the public API — groups, character tables, Fourier transforms, representations, group actions, and visualization. <code>cx</code> provides ComplexTensor operations for working with complex-valued results.</p>
-<p>Internal namespaces (<code>analysis.characters</code>, <code>analysis.fourier</code>, <code>analysis.representations</code>, <code>linalg.ejml</code>, <code>protocols</code>, <code>action</code>, etc.) are available but rarely needed directly.</p>
+<p>Most users need only one namespace:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica <span class="at">:as</span> hm])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>scicloj.harmonica</code> is the public API — groups, character tables, Fourier transforms, representations, group actions, and visualization.</p>
+<p>For complex-valued results (character tables, Fourier coefficients), harmonica uses <a href="https://github.com/scicloj/lalinea">lalinea</a> tensors. See <code>scicloj.lalinea.elementwise</code> and <code>scicloj.lalinea.tensor</code> for element-wise and tensor operations.</p>
 </section>
 <section id="built-on" class="level2">
 <h2 class="anchored" data-anchor-id="built-on">Built on</h2>
 <ul>
-<li><a href="https://github.com/cnuernber/dtype-next">dtype-next</a> — array/tensor numerics</li>
+<li><a href="https://github.com/scicloj/lalinea">lalinea</a> — complex tensors and linear algebra</li>
 <li><a href="https://github.com/generateme/fastmath">fastmath</a> — matrix operations</li>
 </ul>
 <p>The <a href="https://scicloj.github.io/harmonica/">book notebooks</a> also use <a href="https://github.com/scicloj/tablecloth">tablecloth</a>, <a href="https://github.com/scicloj/tableplot">tableplot</a>, and <a href="https://github.com/scicloj/kindly">kindly</a> (kindly is also a top-level dependency; tablecloth and tableplot are in the <code>:dev</code> and <code>:test</code> aliases).</p>

@@ -53,8 +53,8 @@
        +
        (map
         (fn*
-         [p1__137618#]
-         (let [d (hm/hook-length-dimension p1__137618#)] (* d d)))
+         [p1__94903#]
+         (let [d (hm/hook-length-dimension p1__94903#)] (* d d)))
         parts))])})))
 
 
@@ -71,8 +71,8 @@
        +
        (map
         (fn*
-         [p1__137619#]
-         (let [d (hm/hook-length-dimension p1__137619#)] (* d d)))
+         [p1__94904#]
+         (let [d (hm/hook-length-dimension p1__94904#)] (* d d)))
         parts)))))
    v13_l74)))
 
@@ -106,9 +106,7 @@
     (-
      (reduce
       +
-      (map
-       (fn* [p1__137620#] (probs p1__137620#))
-       (range (count elts))))
+      (map (fn* [p1__94905#] (probs p1__94905#)) (range (count elts))))
      1.0))
    1.0E-10)))
 
@@ -142,9 +140,7 @@
         (reduce
          +
          (map
-          (fn*
-           [p1__137621#]
-           (Math/abs (- (probs p1__137621#) uniform)))
+          (fn* [p1__94906#] (Math/abs (- (probs p1__94906#) uniform)))
           (range n-elts))))]
       {:k k, :tv tv}))
     (range 1 15))]
@@ -186,7 +182,7 @@
     (reduce
      +
      (map
-      (fn* [p1__137622#] (Math/abs (- (probs p1__137622#) uniform)))
+      (fn* [p1__94907#] (Math/abs (- (probs p1__94907#) uniform)))
       (range n-elts))))]
   (> tv 0.5)))
 
@@ -215,7 +211,7 @@
     (reduce
      +
      (map
-      (fn* [p1__137623#] (Math/abs (- (probs p1__137623#) uniform)))
+      (fn* [p1__94908#] (Math/abs (- (probs p1__94908#) uniform)))
       (range n-elts))))]
   (< tv 0.01)))
 
@@ -318,9 +314,7 @@
         (reduce
          +
          (map
-          (fn*
-           [p1__137624#]
-           (Math/abs (- (probs p1__137624#) uniform)))
+          (fn* [p1__94909#] (Math/abs (- (probs p1__94909#) uniform)))
           (range n-elts))))]
       {:k k, :tv tv, :n (str "n=" n)})))]
   (->
