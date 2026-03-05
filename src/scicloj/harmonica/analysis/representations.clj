@@ -22,7 +22,7 @@
             [scicloj.harmonica.combinatorics.young-tableaux :as yt]
             [scicloj.harmonica.combinatorics.permutation :as perm]
             [scicloj.harmonica.analysis.characters :as ch]
-            [scicloj.harmonica.linalg.complex :as cx]
+            [scicloj.lalinea.elementwise :as el]
             [fastmath.matrix :as fm]))
 
 (defn irrep
@@ -309,7 +309,7 @@
   [G rep]
   (let [ct (ch/character-table G)
         ct-classes (:classes ct) ;; partitions in CT order
-        table-re (cx/re (:table ct))
+        table-re (el/re (:table ct))
         irrep-labels (:irrep-labels ct)
         order (double (p/order G))
         ;; Map from partition to CT column index

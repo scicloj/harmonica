@@ -1,6 +1,6 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.12.0"}
-        cnuernber/dtype-next {:mvn/version "10.111"}
+        org.scicloj/lalinea {:local/root "../lalinea"}
         generateme/fastmath {:mvn/version "3.0.0-alpha4"}
         org.scicloj/kindly {:mvn/version "4-beta23"}}
 
@@ -10,8 +10,7 @@
                      org.scicloj/tableplot {:mvn/version "1-beta15"}
                      org.scicloj/clay {:mvn/version "2.0.9"}
                      org.scicloj/noj {:mvn/version "2-beta19.1"}
-                     org.slf4j/slf4j-simple {:mvn/version "2.0.16"}
-                     org.ejml/ejml-zdense {:mvn/version "0.44.0"}}}
+                     org.slf4j/slf4j-simple {:mvn/version "2.0.16"}}}
 
   :test {:extra-paths ["notebooks" "test"]
          :extra-deps {scicloj/tablecloth {:mvn/version "7.029.2"}

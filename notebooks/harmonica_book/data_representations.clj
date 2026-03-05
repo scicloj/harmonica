@@ -13,7 +13,8 @@
 (ns harmonica-book.data-representations
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.combinatorics.permutation :as perm]
    [scicloj.harmonica.combinatorics.partition :as part]
@@ -296,7 +297,7 @@
 ;; matrix whose real part contains the character values (all integers
 ;; for $S_n$):
 
-(cx/complex-shape (:table ct-s4))
+(t/complex-shape (:table ct-s4))
 
 (kind/test-last [= [5 5]])
 
@@ -321,20 +322,20 @@
 
 ;; A complex vector of length 3:
 
-(def v (cx/complex-tensor [1.0 2.0 3.0] [0.5 -0.5 1.0]))
+(def v (t/complex-tensor [1.0 2.0 3.0] [0.5 -0.5 1.0]))
 
 v
 
 ;; The underlying storage is a `[3, 2]` real tensor:
 
-(dtype/shape (cx/->tensor v))
+(dtype/shape (t/->tensor v))
 
 (kind/test-last [= [3 2]])
 
 ;; `re` and `im` return **zero-copy tensor views** — slicing the
 ;; last axis at index 0 or 1:
 
-[(vec (cx/re v)) (vec (cx/im v))]
+[(vec (el/re v)) (vec (el/im v))]
 
 (kind/test-last [= [[1.0 2.0 3.0] [0.5 -0.5 1.0]]])
 
@@ -350,12 +351,12 @@ v
 ;;
 ;; One subtlety: `dfn/*` on two ComplexTensors does **element-wise real**
 ;; multiply (on the flat interleaved buffer), not complex multiply.
-;; Use `cx/cmul` for complex multiplication:
+;; Use `el/*` for complex multiplication:
 
-(let [a (cx/complex 3.0 4.0)
-      b (cx/complex 1.0 2.0)]
-  {:cmul-re (cx/re (cx/cmul a b))
-   :cmul-im (cx/im (cx/cmul a b))})
+(let [a (t/complex 3.0 4.0)
+      b (t/complex 1.0 2.0)]
+  {:cmul-re (el/re (el/* a b))
+   :cmul-im (el/im (el/* a b))})
 
 (kind/test-last [(fn [m] (and (= -5.0 (:cmul-re m))
                               (= 10.0 (:cmul-im m))))])
@@ -364,7 +365,7 @@ v
 ;; so they work naturally with Clojure's indexing and sequence operations:
 
 (let [ct-row ((:table ct-s4) 0)]
-  {:first-value (cx/re (((:table ct-s4) 0) 0))
+  {:first-value (el/re (((:table ct-s4) 0) 0))
    :count (count ((:table ct-s4) 0))})
 
 (kind/test-last [(fn [m] (and (= 1.0 (:first-value m))
@@ -450,7 +451,7 @@ v
 
 (let [G (hm/cyclic-group 8)
       ct (hm/character-table G)
-      signal (cx/complex-tensor-real [1 0 1 0 1 0 1 0])]
+      signal (t/complex-tensor-real [1 0 1 0 1 0 1 0])]
   (hm/fourier-transform ct signal))
 
 ;; The inverse transform reverses the process, with a $1/|G|$ scaling factor.

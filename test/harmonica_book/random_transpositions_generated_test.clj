@@ -2,7 +2,8 @@
  harmonica-book.random-transpositions-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.linalg.complex :as cx]
+  [scicloj.lalinea.tensor :as t]
+  [scicloj.lalinea.elementwise :as el]
   [harmonica-book.book-helpers :refer [allclose?]]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
@@ -11,35 +12,35 @@
 
 
 (def
- v3_l32
+ v3_l33
  (let
   [ct (hm/character-table (hm/symmetric-group 5))]
   (kind/table
    {:column-names
     (into
      ["Irrep λ"]
-     (map (fn* [p1__129789#] (str p1__129789#)) (:classes ct))),
+     (map (fn* [p1__67605#] (str p1__67605#)) (:classes ct))),
     :row-vectors
     (mapv
      (fn
       [label row]
       (into
        [(str label)]
-       (map (fn* [p1__129790#] (long (cx/re p1__129790#))) row)))
+       (map (fn* [p1__67606#] (long (el/re p1__67606#))) row)))
      (:irrep-labels ct)
      (:table ct))})))
 
 
 (def
- v5_l44
+ v5_l45
  (count (:irrep-labels (hm/character-table (hm/symmetric-group 5)))))
 
 
-(deftest t6_l46 (is (= v5_l44 7)))
+(deftest t6_l47 (is (= v5_l45 7)))
 
 
 (def
- v8_l56
+ v8_l57
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -67,13 +68,13 @@
             (table j)
             sizes
             order)]
-          (format "%.0f" (cx/re v))))
+          (format "%.0f" (el/re v))))
         (range (count table)))))
      (range (count table)))})))
 
 
 (def
- v10_l73
+ v10_l74
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -88,17 +89,17 @@
     (for
      [i (range k) j (range k)]
      (-
-      (cx/re
+      (el/re
        (hm/character-inner-product (table i) (table j) sizes 120))
       (if (= i j) 1.0 0.0))))]
   (allclose? errors 0.0)))
 
 
-(deftest t11_l84 (is (true? v10_l73)))
+(deftest t11_l85 (is (true? v10_l74)))
 
 
 (def
- v13_l123
+ v13_l124
  (defn
   n-stat
   "n(lambda) = sum_i C(lambda_i, 2) = sum_i lambda_i*(lambda_i-1)/2."
@@ -107,7 +108,7 @@
 
 
 (def
- v14_l128
+ v14_l129
  (defn
   eigenvalue
   "Eigenvalue of the random transposition operator on irrep lambda of S_n."
@@ -124,7 +125,7 @@
 
 
 (def
- v15_l135
+ v15_l136
  (defn
   hook-length-dim
   "Dimension of irrep lambda via the hook-length formula: n! / prod h(i,j)."
@@ -144,7 +145,7 @@
 
 
 (def
- v17_l152
+ v17_l153
  (let
   [n
    5
@@ -166,9 +167,9 @@
        [lam
         ((:irrep-labels ct) i)
         d
-        (long (cx/re ((table i) 0)))
+        (long (el/re ((table i) 0)))
         chi-t
-        (long (cx/re ((table i) trans-idx)))
+        (long (el/re ((table i) trans-idx)))
         from-table
         (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ (double chi-t) d))) M)]
        [(str lam)
@@ -179,7 +180,7 @@
 
 
 (deftest
- t18_l169
+ t18_l170
  (is
   ((fn
     [_]
@@ -201,32 +202,32 @@
         [lam
          ((:irrep-labels ct) i)
          d
-         (cx/re ((table i) 0))
+         (el/re ((table i) 0))
          chi-t
-         (cx/re ((table i) trans-idx))
+         (el/re ((table i) trans-idx))
          from-table
          (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ chi-t d))) M)]
         (< (Math/abs (- from-table (eigenvalue n lam))) 1.0E-10)))
       (range (count table)))))
-   v17_l152)))
+   v17_l153)))
 
 
-(def v20_l191 (eigenvalue 5 [5]))
+(def v20_l192 (eigenvalue 5 [5]))
 
 
-(deftest t21_l193 (is (= v20_l191 1.0)))
+(deftest t21_l194 (is (= v20_l192 1.0)))
 
 
-(def v23_l197 (eigenvalue 5 [1 1 1 1 1]))
+(def v23_l198 (eigenvalue 5 [1 1 1 1 1]))
 
 
 (deftest
- t24_l199
- (is ((fn [v] (< (Math/abs (- v (/ -9.0 11.0))) 1.0E-10)) v23_l197)))
+ t24_l200
+ (is ((fn [v] (< (Math/abs (- v (/ -9.0 11.0))) 1.0E-10)) v23_l198)))
 
 
 (def
- v26_l213
+ v26_l214
  (defn
   tv-upper-bound
   "Upper bound on ||Q^{*k} - U||_TV via Diaconis's Upper Bound Lemma."
@@ -244,7 +245,7 @@
 
 
 (def
- v28_l226
+ v28_l227
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -287,7 +288,7 @@
 
 
 (def
- v30_l251
+ v30_l252
  (let
   [n
    10
@@ -302,11 +303,11 @@
   (> (tv-upper-bound data 1) 0.5)))
 
 
-(deftest t31_l258 (is (true? v30_l251)))
+(deftest t31_l259 (is (true? v30_l252)))
 
 
 (def
- v33_l262
+ v33_l263
  (let
   [n
    10
@@ -321,11 +322,11 @@
   (< (tv-upper-bound data 100) 0.01)))
 
 
-(deftest t34_l269 (is (true? v33_l262)))
+(deftest t34_l270 (is (true? v33_l263)))
 
 
 (def
- v36_l276
+ v36_l277
  (let
   [ns-to-plot
    [10 20 30 40]
@@ -370,7 +371,7 @@
 
 
 (def
- v38_l302
+ v38_l303
  (kind/table
   {:column-names ["n" "|Sₙ|" "½n ln n" "# partitions"],
    :row-vectors

@@ -3,7 +3,8 @@
             [scicloj.harmonica :as hm]
             [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
             [scicloj.harmonica.combinatorics.partition :as part]
-            [scicloj.harmonica.linalg.complex :as cx]))
+            [scicloj.lalinea.tensor :as t]
+            [scicloj.lalinea.elementwise :as el]))
 
 ;; ---------------------------------------------------------------------------
 ;; Murnaghan-Nakayama rule: known character tables
@@ -76,7 +77,7 @@
             ct (hm/character-table G)
             trivial-row ((:table ct) 0)]
         (doseq [v (seq trivial-row)]
-          (is (< (Math/abs (- (cx/re v) 1.0)) 1e-10)
+          (is (< (Math/abs (- (el/re v) 1.0)) 1e-10)
               (str "trivial character entry should be 1 for S_" n)))))))
 
 (deftest symmetric-sign-character
@@ -90,7 +91,7 @@
             classes (:classes ct)]
         (doseq [[v cls] (map vector (seq sign-row) classes)]
           (let [expected (if (even? (- n (count cls))) 1.0 -1.0)]
-            (is (< (Math/abs (- (cx/re v) expected)) 1e-10)
+            (is (< (Math/abs (- (el/re v) expected)) 1e-10)
                 (str "sign character at " cls " for S_" n))))))))
 
 (deftest symmetric-dimensions
@@ -99,7 +100,7 @@
       (let [G (hm/symmetric-group n)
             ct (hm/character-table G)
             table (:table ct)
-            dims (mapv (fn [row] (long (cx/re (row 0)))) (seq table))]
+            dims (mapv (fn [row] (long (el/re (row 0)))) (seq table))]
         (doseq [d dims]
           (is (pos? d) (str "dimension should be positive for S_" n)))
         (is (= (hm/order G)
@@ -117,7 +118,7 @@
             k (count table)]
         (doseq [i (range k)
                 j (range i (min (+ i 3) k))]
-          (let [ip (cx/cabs (hm/character-inner-product
+          (let [ip (el/abs (hm/character-inner-product
                              (table i) (table j) sizes order))]
             (if (= i j)
               (is (< (Math/abs (- ip 1.0)) 1e-8)
@@ -131,7 +132,7 @@
       (let [G (hm/symmetric-group n)
             ct (hm/character-table G)
             table (:table ct)
-            table-re (cx/re table)
+            table-re (el/re table)
             sizes (:class-sizes ct)
             order (hm/order G)
             k (count table)]

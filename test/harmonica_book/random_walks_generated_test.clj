@@ -2,7 +2,8 @@
  harmonica-book.random-walks-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.harmonica.linalg.complex :as cx]
+  [scicloj.lalinea.tensor :as t]
+  [scicloj.lalinea.elementwise :as el]
   [harmonica-book.book-helpers :refer [allclose?]]
   [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]
@@ -14,7 +15,7 @@
 
 
 (def
- v3_l47
+ v3_l48
  (defn
   gaussian-pdf
   "Gaussian density at x with given mean and standard deviation."
@@ -25,7 +26,7 @@
 
 
 (def
- v5_l58
+ v5_l59
  (defn
   gaussian-kernel
   "Sampled Gaussian kernel (integrates to ~1) for numerical convolution."
@@ -39,7 +40,7 @@
 
 
 (def
- v6_l68
+ v6_l69
  (let
   [xs
    (vec (range -5.0 5.01 0.05))
@@ -91,7 +92,7 @@
 
 
 (def
- v8_l106
+ v8_l107
  (defn
   convolve-2d
   "Convolve a 2D grid (vec of vecs) with a Gaussian of width sigma,\n   using separable 1D convolution (rows then columns)."
@@ -115,7 +116,7 @@
        (vec
         (dt-conv/convolve1d
          (double-array
-          (map (fn* [p1__127980#] (nth p1__127980# j)) row-conv))
+          (map (fn* [p1__66682#] (nth p1__66682# j)) row-conv))
          k
          {:mode :same})))
       (range n))]
@@ -124,7 +125,7 @@
 
 
 (def
- v9_l124
+ v9_l125
  (let
   [xs
    (vec (range -3.0 3.1 0.25))
@@ -205,48 +206,48 @@
      :margin {:t 40, :b 20, :l 20, :r 20}}})))
 
 
-(def v11_l176 (def n 24))
+(def v11_l177 (def n 24))
 
 
-(def v12_l177 (def G (hm/cyclic-group n)))
+(def v12_l178 (def G (hm/cyclic-group n)))
 
 
-(def v13_l178 (def ct (hm/character-table G)))
+(def v13_l179 (def ct (hm/character-table G)))
 
 
 (def
- v15_l184
+ v15_l185
  (def
   step-dist
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec
     (for
      [g (range n)]
      (case g 0 (/ 1.0 3) 1 (/ 1.0 3) 23 (/ 1.0 3) 0.0))))))
 
 
-(def v17_l196 (dfn/sum (cx/re step-dist)))
+(def v17_l197 (dfn/sum (el/re step-dist)))
 
 
 (deftest
- t18_l198
- (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v17_l196)))
+ t18_l199
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v17_l197)))
 
 
 (def
- v20_l204
+ v20_l205
  (defn
   make-delta
   "Point mass at position 0 on a group of order n."
   [n]
-  (cx/complex-tensor-real (vec (cons 1.0 (repeat (dec n) 0.0))))))
+  (t/complex-tensor-real (vec (cons 1.0 (repeat (dec n) 0.0))))))
 
 
-(def v21_l210 (def delta-0 (make-delta n)))
+(def v21_l211 (def delta-0 (make-delta n)))
 
 
 (def
- v23_l216
+ v23_l217
  (defn
   walk-distributions
   "Compute distributions at each step up to t-max, returning a vector."
@@ -260,7 +261,7 @@
 
 
 (def
- v25_l226
+ v25_l227
  (let
   [dists
    (walk-distributions ct step-dist n 100)
@@ -271,7 +272,7 @@
     (for
      [t steps g (range n)]
      {:position g,
-      :probability (cx/re ((dists t) g)),
+      :probability (el/re ((dists t) g)),
       :steps (str "t=" t)}))]
   (->
    (tc/dataset rows)
@@ -287,11 +288,11 @@
    plotly/plot)))
 
 
-(def v27_l254 (def uniform (vec (repeat n (/ 1.0 n)))))
+(def v27_l255 (def uniform (vec (repeat n (/ 1.0 n)))))
 
 
 (def
- v28_l256
+ v28_l257
  (let
   [dists
    (walk-distributions ct step-dist n 200)
@@ -302,7 +303,7 @@
       [t dist]
       {:step t,
        :tv-distance
-       (hm/total-variation-distance (cx/re dist) uniform)})
+       (hm/total-variation-distance (el/re dist) uniform)})
      dists))]
   (->
    (tc/dataset tv-data)
@@ -316,33 +317,33 @@
    plotly/plot)))
 
 
-(def v30_l273 (hm/total-variation-distance (cx/re delta-0) uniform))
+(def v30_l274 (hm/total-variation-distance (el/re delta-0) uniform))
 
 
 (deftest
- t31_l275
+ t31_l276
  (is
-  ((fn [v] (< (Math/abs (- v (- 1.0 (/ 1.0 24)))) 1.0E-10)) v30_l273)))
+  ((fn [v] (< (Math/abs (- v (- 1.0 (/ 1.0 24)))) 1.0E-10)) v30_l274)))
 
 
 (def
- v33_l280
+ v33_l281
  (let
   [dists (walk-distributions ct step-dist n 200)]
-  (hm/total-variation-distance (cx/re (dists 200)) uniform)))
+  (hm/total-variation-distance (el/re (dists 200)) uniform)))
 
 
-(deftest t34_l283 (is ((fn [v] (< v 0.01)) v33_l280)))
+(deftest t34_l284 (is ((fn [v] (< v 0.01)) v33_l281)))
 
 
-(def v36_l301 (def step-hat (hm/fourier-transform ct step-dist)))
+(def v36_l302 (def step-hat (hm/fourier-transform ct step-dist)))
 
 
 (def
- v38_l305
+ v38_l306
  (let
   [rows
-   (vec (for [k (range n)] {:k k, :magnitude (cx/cabs (step-hat k))}))]
+   (vec (for [k (range n)] {:k k, :magnitude (el/abs (step-hat k))}))]
   (->
    (tc/dataset rows)
    (plotly/base
@@ -355,26 +356,26 @@
    plotly/plot)))
 
 
-(def v40_l318 (cx/cabs (step-hat 0)))
+(def v40_l319 (el/abs (step-hat 0)))
 
 
 (deftest
- t41_l320
- (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v40_l318)))
+ t41_l321
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v40_l319)))
 
 
 (def
- v43_l330
+ v43_l331
  (def
   max-nontrivial
-  (apply max (for [k (range 1 n)] (cx/cabs (step-hat k))))))
+  (apply max (for [k (range 1 n)] (el/abs (step-hat k))))))
 
 
-(def v44_l333 max-nontrivial)
+(def v44_l334 max-nontrivial)
 
 
 (def
- v46_l342
+ v46_l343
  (let
   [t
    10
@@ -383,15 +384,15 @@
    conv-t-hat
    (hm/fourier-transform ct (dists t))
    power-t
-   (reduce cx/cmul (repeat t step-hat))]
-  (allclose? (cx/cabs conv-t-hat) (cx/cabs power-t) 1.0E-8)))
+   (reduce el/* (repeat t step-hat))]
+  (allclose? (el/abs conv-t-hat) (el/abs power-t) 1.0E-8)))
 
 
-(deftest t47_l348 (is (true? v46_l342)))
+(deftest t47_l349 (is (true? v46_l343)))
 
 
 (def
- v49_l352
+ v49_l353
  (let
   [steps
    [1 5 15 40]
@@ -400,7 +401,7 @@
     (for
      [t steps k (range n)]
      {:k k,
-      :power (Math/pow (cx/cabs (step-hat k)) t),
+      :power (Math/pow (el/abs (step-hat k)) t),
       :steps (str "t=" t)}))]
   (->
    (tc/dataset rows)
@@ -417,24 +418,24 @@
 
 
 (def
- v51_l377
+ v51_l378
  (def
   step-nn
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec (for [g (range n)] (case g 1 0.5 23 0.5 0.0))))))
 
 
 (def
- v53_l384
+ v53_l385
  (def
   step-long
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec
     (for [g (range n)] (case g 0 0.2 1 0.2 2 0.2 22 0.2 23 0.2 0.0))))))
 
 
 (def
- v54_l389
+ v54_l390
  (let
   [walks
    [["nearest-neighbor" step-nn]
@@ -451,7 +452,7 @@
       (range 81)]
      {:step t,
       :tv-distance
-      (hm/total-variation-distance (cx/re (dists t)) uniform),
+      (hm/total-variation-distance (el/re (dists t)) uniform),
       :walk label}))]
   (->
    (tc/dataset tv-data)
@@ -467,7 +468,7 @@
 
 
 (def
- v56_l409
+ v56_l410
  (let
   [walks
    {"nearest-neighbor" step-nn,
@@ -479,7 +480,7 @@
      [[label step] walks k (range (inc (/ n 2)))]
      (let
       [fhat (hm/fourier-transform ct step)]
-      {:k k, :magnitude (cx/cabs (fhat k)), :walk label})))]
+      {:k k, :magnitude (el/abs (fhat k)), :walk label})))]
   (->
    (tc/dataset rows)
    (plotly/base
@@ -495,7 +496,7 @@
 
 
 (def
- v58_l430
+ v58_l431
  (kind/table
   {:column-names ["Walk" "max |μ̂(k)|, k≠0" "Spectral gap"],
    :row-vectors
@@ -506,56 +507,56 @@
       [fhat
        (hm/fourier-transform ct step)
        m
-       (apply max (for [k (range 1 n)] (cx/cabs (fhat k))))]
+       (apply max (for [k (range 1 n)] (el/abs (fhat k))))]
       [label (format "%.4f" m) (format "%.4f" (- 1.0 m))]))
     [["nearest-neighbor" step-nn]
      ["lazy (±1, 0)" step-dist]
      ["long-range (±2)" step-long]])}))
 
 
-(def v60_l450 (def m 12))
+(def v60_l451 (def m 12))
 
 
 (def
- v61_l451
+ v61_l452
  (def G2d (hm/product-group (hm/cyclic-group m) (hm/cyclic-group m))))
 
 
-(def v62_l452 (def ct2d (hm/character-table G2d)))
+(def v62_l453 (def ct2d (hm/character-table G2d)))
 
 
-(def v63_l454 (def n2d (hm/order G2d)))
+(def v63_l455 (def n2d (hm/order G2d)))
 
 
-(def v64_l456 n2d)
+(def v64_l457 n2d)
 
 
-(deftest t65_l458 (is (= v64_l456 144)))
+(deftest t65_l459 (is (= v64_l457 144)))
 
 
-(def v67_l464 (def elts2d (vec (hm/elements G2d))))
+(def v67_l465 (def elts2d (vec (hm/elements G2d))))
 
 
 (def
- v68_l466
+ v68_l467
  (def
   step-2d
   (let
    [neighbors #{[0 0] [1 0] [11 0] [0 11] [0 1]}]
-   (cx/complex-tensor-real
+   (t/complex-tensor-real
     (mapv (fn [e] (if (neighbors e) 0.2 0.0)) elts2d)))))
 
 
-(def v69_l471 (dfn/sum (cx/re step-2d)))
+(def v69_l472 (dfn/sum (el/re step-2d)))
 
 
 (deftest
- t70_l473
- (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v69_l471)))
+ t70_l474
+ (is ((fn [v] (< (Math/abs (- v 1.0)) 1.0E-10)) v69_l472)))
 
 
 (def
- v72_l478
+ v72_l479
  (defn
   dist-to-grid
   "Reshape a distribution vector on Z/m x Z/m into a grid for heatmaps."
@@ -563,14 +564,14 @@
   (vec
    (for
     [i (range m)]
-    (vec (for [j (range m)] (cx/re (dist-vec (+ (* i m) j)))))))))
+    (vec (for [j (range m)] (el/re (dist-vec (+ (* i m) j)))))))))
 
 
-(def v73_l485 (def dists-2d (walk-distributions ct2d step-2d n2d 60)))
+(def v73_l486 (def dists-2d (walk-distributions ct2d step-2d n2d 60)))
 
 
 (def
- v74_l487
+ v74_l488
  (let
   [steps
    [0 1 5 15 30 60]
@@ -626,11 +627,11 @@
      :margin {:t 40, :b 20, :l 20, :r 20}}})))
 
 
-(def v76_l534 (def uniform-2d (vec (repeat n2d (/ 1.0 (double n2d))))))
+(def v76_l535 (def uniform-2d (vec (repeat n2d (/ 1.0 (double n2d))))))
 
 
 (def
- v77_l536
+ v77_l537
  (let
   [tv-data
    (vec
@@ -639,7 +640,7 @@
       [t dist]
       {:step t,
        :tv-distance
-       (hm/total-variation-distance (cx/re dist) uniform-2d)})
+       (hm/total-variation-distance (el/re dist) uniform-2d)})
      dists-2d))]
   (->
    (tc/dataset tv-data)

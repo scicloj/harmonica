@@ -23,7 +23,8 @@
 (ns harmonica-book.random-walks
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
@@ -182,7 +183,7 @@
 ;; left ($-1$), staying ($0$), or moving right ($+1$).
 
 (def step-dist
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec (for [g (range n)]
           (case g
             0 (/ 1.0 3)
@@ -193,7 +194,7 @@
 ;; This is a probability distribution on the group: non-negative,
 ;; sums to 1.
 
-(dfn/sum (cx/re step-dist))
+(dfn/sum (el/re step-dist))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 1.0)) 1e-10))])
@@ -204,7 +205,7 @@
 (defn make-delta
   "Point mass at position 0 on a group of order n."
   [n]
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec (cons 1.0 (repeat (dec n) 0.0)))))
 
 (def delta-0 (make-delta n))
@@ -227,7 +228,7 @@
       steps [0 1 3 10 30 100]
       rows (vec (for [t steps g (range n)]
                   {:position g
-                   :probability (cx/re ((dists t) g))
+                   :probability (el/re ((dists t) g))
                    :steps (str "t=" t)}))]
   (-> (tc/dataset rows)
       (plotly/base {:=x :position :=y :probability :=color :steps
@@ -257,7 +258,7 @@
       tv-data (vec (map-indexed
                     (fn [t dist]
                       {:step t
-                       :tv-distance (hm/total-variation-distance (cx/re dist) uniform)})
+                       :tv-distance (hm/total-variation-distance (el/re dist) uniform)})
                     dists))]
   (-> (tc/dataset tv-data)
       (plotly/base {:=x :step :=y :tv-distance
@@ -270,7 +271,7 @@
 
 ;; At step 0, the TV distance is $1 - 1/n$:
 
-(hm/total-variation-distance (cx/re delta-0) uniform)
+(hm/total-variation-distance (el/re delta-0) uniform)
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v (- 1.0 (/ 1.0 24)))) 1e-10))])
@@ -278,7 +279,7 @@
 ;; After 200 steps, it's very small:
 
 (let [dists (walk-distributions ct step-dist n 200)]
-  (hm/total-variation-distance (cx/re (dists 200)) uniform))
+  (hm/total-variation-distance (el/re (dists 200)) uniform))
 
 (kind/test-last
  [(fn [v] (< v 0.01))])
@@ -303,7 +304,7 @@
 ;; The magnitudes of the Fourier coefficients:
 
 (let [rows (vec (for [k (range n)]
-                  {:k k :magnitude (cx/cabs (step-hat k))}))]
+                  {:k k :magnitude (el/abs (step-hat k))}))]
   (-> (tc/dataset rows)
       (plotly/base {:=x :k :=y :magnitude
                     :=title "Fourier spectrum of the step distribution"
@@ -315,7 +316,7 @@
 ;; probability, which is conserved. Every other coefficient has magnitude
 ;; strictly less than 1.
 
-(cx/cabs (step-hat 0))
+(el/abs (step-hat 0))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 1.0)) 1e-10))])
@@ -328,7 +329,7 @@
 ;; Fourier coefficient — the one closest to 1:
 
 (def max-nontrivial
-  (apply max (for [k (range 1 n)] (cx/cabs (step-hat k)))))
+  (apply max (for [k (range 1 n)] (el/abs (step-hat k)))))
 
 max-nontrivial
 
@@ -342,8 +343,8 @@ max-nontrivial
 (let [t 10
       dists (walk-distributions ct step-dist n t)
       conv-t-hat (hm/fourier-transform ct (dists t))
-      power-t (reduce cx/cmul (repeat t step-hat))]
-  (allclose? (cx/cabs conv-t-hat) (cx/cabs power-t) 1e-8))
+      power-t (reduce el/* (repeat t step-hat))]
+  (allclose? (el/abs conv-t-hat) (el/abs power-t) 1e-8))
 
 (kind/test-last [true?])
 
@@ -352,7 +353,7 @@ max-nontrivial
 (let [steps [1 5 15 40]
       rows (vec (for [t steps k (range n)]
                   {:k k
-                   :power (Math/pow (cx/cabs (step-hat k)) t)
+                   :power (Math/pow (el/abs (step-hat k)) t)
                    :steps (str "t=" t)}))]
   (-> (tc/dataset rows)
       (plotly/base {:=x :k :=y :power :=color :steps
@@ -375,14 +376,14 @@ max-nontrivial
 ;; probability, never stay put.
 
 (def step-nn
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec (for [g (range n)]
           (case g 1 0.5, 23 0.5, 0.0)))))
 
 ;; **Long-range**: uniform on $\{-2, -1, 0, +1, +2\}$.
 
 (def step-long
-  (cx/complex-tensor-real
+  (t/complex-tensor-real
    (vec (for [g (range n)]
           (case g 0 0.2, 1 0.2, 2 0.2, 22 0.2, 23 0.2, 0.0)))))
 
@@ -393,7 +394,7 @@ max-nontrivial
                          :let [dists (walk-distributions ct step n 80)]
                          t (range 81)]
                      {:step t
-                      :tv-distance (hm/total-variation-distance (cx/re (dists t)) uniform)
+                      :tv-distance (hm/total-variation-distance (el/re (dists t)) uniform)
                       :walk label}))]
   (-> (tc/dataset tv-data)
       (plotly/base {:=x :step :=y :tv-distance :=color :walk
@@ -413,7 +414,7 @@ max-nontrivial
                       k (range (inc (/ n 2)))]
                   (let [fhat (hm/fourier-transform ct step)]
                     {:k k
-                     :magnitude (cx/cabs (fhat k))
+                     :magnitude (el/abs (fhat k))
                      :walk label})))]
   (-> (tc/dataset rows)
       (plotly/base {:=x :k :=y :magnitude :=color :walk
@@ -432,7 +433,7 @@ max-nontrivial
   :row-vectors
   (mapv (fn [[label step]]
           (let [fhat (hm/fourier-transform ct step)
-                m (apply max (for [k (range 1 n)] (cx/cabs (fhat k))))]
+                m (apply max (for [k (range 1 n)] (el/abs (fhat k))))]
             [label (format "%.4f" m) (format "%.4f" (- 1.0 m))]))
         [["nearest-neighbor" step-nn]
          ["lazy (±1, 0)" step-dist]
@@ -465,10 +466,10 @@ n2d
 
 (def step-2d
   (let [neighbors #{[0 0] [1 0] [11 0] [0 1] [0 11]}]
-    (cx/complex-tensor-real
+    (t/complex-tensor-real
      (mapv (fn [e] (if (neighbors e) 0.2 0.0)) elts2d))))
 
-(dfn/sum (cx/re step-2d))
+(dfn/sum (el/re step-2d))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 1.0)) 1e-10))])
@@ -480,7 +481,7 @@ n2d
   [dist-vec m]
   (vec (for [i (range m)]
          (vec (for [j (range m)]
-                (cx/re (dist-vec (+ (* i m) j))))))))
+                (el/re (dist-vec (+ (* i m) j))))))))
 
 (def dists-2d (walk-distributions ct2d step-2d n2d 60))
 
@@ -536,7 +537,7 @@ n2d
 (let [tv-data (vec (map-indexed
                     (fn [t dist]
                       {:step t
-                       :tv-distance (hm/total-variation-distance (cx/re dist) uniform-2d)})
+                       :tv-distance (hm/total-variation-distance (el/re dist) uniform-2d)})
                     dists-2d))]
   (-> (tc/dataset tv-data)
       (plotly/base {:=x :step :=y :tv-distance

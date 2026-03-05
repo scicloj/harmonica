@@ -10,7 +10,8 @@
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.analysis.representations :as rep]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [fastmath.matrix :as fm]
    [scicloj.kindly.v4.kind :as kind]))
 
@@ -164,8 +165,8 @@
                                     (let [ci (nth (nth table i) k)
                                           cj (nth (nth table j) k)]
                                       (* (double sz)
-                                         (+ (* (cx/re ci) (cx/re cj))
-                                            (* (cx/im ci) (cx/im cj))))))
+                                         (+ (* (el/re ci) (el/re cj))
+                                            (* (el/im ci) (el/im cj))))))
                                   class-sizes))
                     expected (if (= i j) (double order) 0.0)]
                 (< (Math/abs (- ip expected)) tol))))))
@@ -192,8 +193,8 @@
               (let [ip (reduce + (map (fn [row]
                                         (let [ci (nth row i)
                                               cj (nth row j)]
-                                          (+ (* (cx/re ci) (cx/re cj))
-                                             (* (cx/im ci) (cx/im cj)))))
+                                          (+ (* (el/re ci) (el/re cj))
+                                             (* (el/im ci) (el/im cj)))))
                                       table))
                     expected (if (= i j)
                                (/ (double order) (double (nth class-sizes i)))
@@ -211,7 +212,7 @@
               (let [ct (hm/character-table group)
                     dims (mapv (fn [row]
                                  (let [d (first row)]
-                                   (cx/re d)))
+                                   (el/re d)))
                                (:table ct))
                     dim-sq-sum (reduce + (map #(* % %) dims))]
                 {:group label
@@ -242,7 +243,7 @@
                     ;; The first irrep should be trivial
                     trivial-row (first (:table ct))
                     ok? (every? (fn [chi-val]
-                                  (< (cx/cabs (cx/csub chi-val (cx/complex 1.0 0.0))) 1e-8))
+                                  (< (el/abs (el/- chi-val (t/complex 1.0 0.0))) 1e-8))
                                 trivial-row)]
                 {:group label :pass? ok?}))
             ct-groups)]
@@ -257,7 +258,7 @@
               (let [ct (hm/character-table group)
                     ;; Identity is the first class
                     ok? (every? (fn [row]
-                                  (let [d (cx/re (first row))]
+                                  (let [d (el/re (first row))]
                                     (< (Math/abs (- d (Math/round d))) 1e-8)))
                                 (:table ct))]
                 {:group label :pass? ok?}))
@@ -284,10 +285,10 @@
       (mapv (fn [{:keys [label group]}]
               (let [n (hm/order group)
                     ct (hm/character-table group)
-                    f-vals (cx/complex-tensor-real (mapv (fn [i] (double (inc i))) (range n)))
+                    f-vals (t/complex-tensor-real (mapv (fn [i] (double (inc i))) (range n)))
                     f-hat (hm/fourier-transform ct f-vals)
                     f-back (hm/inverse-fourier-transform ct f-hat)
-                    max-err (apply max (vec (cx/cabs (cx/csub f-back f-vals))))]
+                    max-err (apply max (vec (el/abs (el/- f-back f-vals))))]
                 {:group label :pass? (< max-err 1e-10)}))
             abelian-groups)]
   (every? :pass? results))
@@ -300,10 +301,10 @@
       (mapv (fn [{:keys [label group]}]
               (let [n (hm/order group)
                     ct (hm/character-table group)
-                    f-vals (cx/complex-tensor-real (mapv (fn [i] (Math/sin (* 2.0 Math/PI (/ i (double n))))) (range n)))
+                    f-vals (t/complex-tensor-real (mapv (fn [i] (Math/sin (* 2.0 Math/PI (/ i (double n))))) (range n)))
                     f-hat (hm/fourier-transform ct f-vals)
-                    mag-f (cx/cabs f-vals)
-                    mag-fh (cx/cabs f-hat)
+                    mag-f (el/abs f-vals)
+                    mag-fh (el/abs f-hat)
                     lhs (apply + (map #(* % %) (vec mag-f)))
                     rhs (* (/ 1.0 (double n))
                            (apply + (map #(* % %) (vec mag-fh))))]
@@ -319,14 +320,14 @@
       (mapv (fn [{:keys [label group]}]
               (let [n (hm/order group)
                     ct (hm/character-table group)
-                    f (cx/complex-tensor-real (mapv (fn [i] (if (< i 3) 1.0 0.0)) (range n)))
-                    g (cx/complex-tensor-real (mapv (fn [i] (/ 1.0 (inc (double i)))) (range n)))
+                    f (t/complex-tensor-real (mapv (fn [i] (if (< i 3) 1.0 0.0)) (range n)))
+                    g (t/complex-tensor-real (mapv (fn [i] (/ 1.0 (inc (double i)))) (range n)))
                     conv (hm/convolve ct f g)
                     f-hat (hm/fourier-transform ct f)
                     g-hat (hm/fourier-transform ct g)
                     conv-hat (hm/fourier-transform ct conv)
-                    pointwise (cx/cmul f-hat g-hat)
-                    max-err (apply max (vec (cx/cabs (cx/csub conv-hat pointwise))))]
+                    pointwise (el/* f-hat g-hat)
+                    max-err (apply max (vec (el/abs (el/- conv-hat pointwise))))]
                 {:group label :pass? (< max-err 1e-8)}))
             abelian-groups)]
   (every? :pass? results))
@@ -409,7 +410,7 @@
                           row (nth (:table ct) lambda-idx)]
                       (every? (fn [sigma]
                                 (let [ct-idx (class-idx (hm/cycle-type sigma))
-                                      chi-val (cx/re (nth row ct-idx))
+                                      chi-val (el/re (nth row ct-idx))
                                       trace-val (hm/rep-character ir sigma)]
                                   (< (Math/abs (- chi-val trace-val)) 1e-8)))
                               (hm/elements G)))))))]
@@ -881,7 +882,7 @@
                     (let [ip (hm/character-inner-product
                               (nth table i) (nth table j) class-sizes order)
                           expected (if (= i j) 1.0 0.0)]
-                      (< (cx/cabs (cx/csub ip (cx/complex expected 0.0))) 1e-8))))))]
+                      (< (el/abs (el/- ip (t/complex expected 0.0))) 1e-8))))))]
   (every? true? results))
 
 (kind/test-last [true?])

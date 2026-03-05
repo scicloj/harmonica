@@ -11,7 +11,8 @@
 (ns harmonica-book.chord-geometry
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
    [tech.v3.datatype :as dtype]
    [tablecloth.api :as tc]
@@ -358,13 +359,13 @@
 (let [G (hm/cyclic-group 12)
       ct (hm/character-table G)
       ;; C major = {0, 4, 7}
-      f-vals (cx/complex-tensor-real (mapv (fn [x] (if (#{0 4 7} x) 1.0 0.0)) (range 12)))
+      f-vals (t/complex-tensor-real (mapv (fn [x] (if (#{0 4 7} x) 1.0 0.0)) (range 12)))
       f-hat (hm/fourier-transform ct f-vals)]
   (kind/table
    {:column-names ["Frequency k" "|f\u0302(k)|\u00b2"]
     :row-vectors (mapv (fn [k]
                          (let [fk (f-hat k)
-                               mag-sq (let [r (cx/re fk) i (cx/im fk)] (+ (* r r) (* i i)))]
+                               mag-sq (let [r (el/re fk) i (el/im fk)] (+ (* r r) (* i i)))]
                            [k (format "%.4f" mag-sq)]))
                        (range 12))}))
 
@@ -380,11 +381,11 @@
       ct (hm/character-table G)
       chord-a [0 4 7]
       chord-b [6 10 1]
-      f-a (cx/complex-tensor-real (mapv (fn [x] (if ((set chord-a) x) 1.0 0.0)) (range 12)))
-      f-b (cx/complex-tensor-real (mapv (fn [x] (if ((set chord-b) x) 1.0 0.0)) (range 12)))
+      f-a (t/complex-tensor-real (mapv (fn [x] (if ((set chord-a) x) 1.0 0.0)) (range 12)))
+      f-b (t/complex-tensor-real (mapv (fn [x] (if ((set chord-b) x) 1.0 0.0)) (range 12)))
       hat-a (hm/fourier-transform ct f-a)
       hat-b (hm/fourier-transform ct f-b)]
-  (allclose? (cx/cabs hat-a) (cx/cabs hat-b)))
+  (allclose? (el/abs hat-a) (el/abs hat-b)))
 
 (kind/test-last [true?])
 

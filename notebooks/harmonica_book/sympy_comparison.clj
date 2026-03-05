@@ -10,7 +10,8 @@
 (ns harmonica-book.sympy-comparison
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [scicloj.kindly.v4.kind :as kind]
    [libpython-clj2.python :as py]
    [libpython-clj2.require :refer [require-python]]))
@@ -309,7 +310,7 @@
     {:irreps (:irrep-labels ct)
      :classes class-partitions
      :table (mapv (fn [row]
-                    (mapv #(Math/round (cx/re %)) row))
+                    (mapv #(Math/round (el/re %)) row))
                   table)}))
 
 ;; ### $S_3$

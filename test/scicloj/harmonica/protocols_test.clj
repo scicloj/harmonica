@@ -1,7 +1,8 @@
 (ns scicloj.harmonica.protocols-test
   (:require [clojure.test :refer [deftest testing is are]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.linalg.complex :as cx]))
+            [scicloj.lalinea.tensor :as t]
+            [scicloj.lalinea.elementwise :as el]))
 
 ;; ---------------------------------------------------------------------------
 ;; Group axioms for cyclic groups
@@ -45,7 +46,7 @@
       (testing (str "row orthogonality for Z/" n "Z")
         (doseq [j (range n)
                 k (range n)]
-          (let [ip (cx/cabs (hm/character-inner-product
+          (let [ip (el/abs (hm/character-inner-product
                              (table j) (table k) sizes n))]
             (if (= j k)
               (is (< (Math/abs (- ip 1.0)) 1e-8)
@@ -69,36 +70,36 @@
   (doseq [n [4 8 16]]
     (let [G (hm/cyclic-group n)
           ct (hm/character-table G)
-          signal (cx/complex-tensor-real (mapv (fn [_] (double (rand-int 100))) (range n)))
+          signal (t/complex-tensor-real (mapv (fn [_] (double (rand-int 100))) (range n)))
           f-hat (hm/fourier-transform ct signal)
           recovered (hm/inverse-fourier-transform ct f-hat)
-          max-err (apply max (vec (cx/cabs (cx/csub recovered signal))))]
+          max-err (apply max (vec (el/abs (el/- recovered signal))))]
       (testing (str "round-trip for Z/" n "Z")
         (is (< max-err 1e-8))))))
 
 (deftest convolution-theorem
   (let [G (hm/cyclic-group 8)
         ct (hm/character-table G)
-        f (cx/complex-tensor-real [1 2 0 0 0 0 0 3])
-        h (cx/complex-tensor-real [0 1 1 0 0 0 0 0])
+        f (t/complex-tensor-real [1 2 0 0 0 0 0 3])
+        h (t/complex-tensor-real [0 1 1 0 0 0 0 0])
         ;; Convolution via library
         conv (hm/convolve ct f h)
         ;; Convolution via pointwise product in Fourier domain
         f-hat (hm/fourier-transform ct f)
         h-hat (hm/fourier-transform ct h)
-        product (cx/cmul f-hat h-hat)
+        product (el/* f-hat h-hat)
         conv-from-fourier (hm/inverse-fourier-transform ct product)
-        max-err (apply max (vec (cx/cabs (cx/csub conv conv-from-fourier))))]
+        max-err (apply max (vec (el/abs (el/- conv conv-from-fourier))))]
     (testing "convolution matches pointwise Fourier product"
       (is (< max-err 1e-8)))))
 
 (deftest parseval-theorem
   (let [G (hm/cyclic-group 8)
         ct (hm/character-table G)
-        signal (cx/complex-tensor-real [20 22 25 23 21 19 18 20])
+        signal (t/complex-tensor-real [20 22 25 23 21 19 18 20])
         f-hat (hm/fourier-transform ct signal)
-        mag-s (cx/cabs signal)
-        mag-f (cx/cabs f-hat)
+        mag-s (el/abs signal)
+        mag-f (el/abs f-hat)
         energy-time (apply + (map #(* % %) (vec mag-s)))
         energy-freq (/ (apply + (map #(* % %) (vec mag-f)))
                        (double (hm/order G)))]

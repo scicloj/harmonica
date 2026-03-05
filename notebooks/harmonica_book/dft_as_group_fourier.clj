@@ -14,7 +14,8 @@
 (ns harmonica-book.dft-as-group-fourier
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as lt]
+   [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
    [fastmath.transform :as t]
    [tech.v3.datatype :as dtype]
@@ -114,14 +115,14 @@ ct
 
 ;; All entries have magnitude 1 (they lie on the unit circle).
 
-(allclose? (cx/cabs (:table ct)) 1.0)
+(allclose? (el/abs (:table ct)) 1.0)
 
 (kind/test-last
  [true?])
 
 ;; The first row ($k = 0$) is the **trivial character** — all ones.
 
-(allclose? (cx/re ((:table ct) 0)) 1.0)
+(allclose? (el/re ((:table ct) 0)) 1.0)
 
 (kind/test-last
  [true?])
@@ -134,7 +135,7 @@ ct
        (for [k [0 1 2 3]
              g (range 24)]
          {:month g
-          :real-part (cx/re ((table k) g))
+          :real-part (el/re ((table k) g))
           :character (str "chi_" k)})))
     (plotly/base {:=x :month
                   :=y :real-part
@@ -160,7 +161,7 @@ ct
 ;; This is an inner product: "how much does $f$ align with character $\chi_k$?"
 ;; For $\mathbb{Z}/n\mathbb{Z}$, this is exactly the DFT formula.
 
-(def signal (cx/complex-tensor-real temperatures))
+(def signal (lt/complex-tensor-real temperatures))
 
 signal
 
@@ -170,7 +171,7 @@ f-hat
 
 ;; The $k = 0$ coefficient is the sum of all values (the DC component).
 
-(cx/re (f-hat 0))
+(el/re (f-hat 0))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 320.0)) 1e-10))])
@@ -179,7 +180,7 @@ f-hat
 
 (-> (tc/dataset
      {:frequency (range 24)
-      :magnitude (vec (cx/cabs f-hat))})
+      :magnitude (vec (el/abs f-hat))})
     (plotly/base {:=x :frequency
                   :=y :magnitude
                   :=x-title "Frequency k (character index)"
@@ -215,11 +216,11 @@ f-hat
 (let [fft-result (t/forward-1d (t/transformer :real :fft) temperatures)
       fft-coefficients (let [data (vec fft-result)
                              n (/ (count data) 2)]
-                         (cx/complex-tensor
+                         (lt/complex-tensor
                           (mapv (fn [k] (data (* 2 k))) (range n))
                           (mapv (fn [k] (data (inc (* 2 k)))) (range n))))]
-  (allclose? (dtype/sub-buffer (cx/cabs f-hat) 0 12)
-             (cx/cabs fft-coefficients)
+  (allclose? (dtype/sub-buffer (el/abs f-hat) 0 12)
+             (el/abs fft-coefficients)
              1e-8))
 (kind/test-last
  [true?])
@@ -245,7 +246,7 @@ f-hat
     (tensor/compute-tensor
      [n n]
      (fn [j k]
-       (cx/cabs (hm/character-inner-product (table j) (table k) sizes n)))
+       (el/abs (hm/character-inner-product (table j) (table k) sizes n)))
      :float64)))
 
 orthogonality-matrix
@@ -266,7 +267,7 @@ orthogonality-matrix
 ;; $$f(g) = \frac{1}{|G|} \sum_{k} \hat{f}(k) \cdot \chi_k(g)$$
 
 (let [reconstructed (hm/inverse-fourier-transform ct f-hat)]
-  (dfn/reduce-max (cx/cabs (cx/csub reconstructed signal))))
+  (dfn/reduce-max (el/abs (el/- reconstructed signal))))
 (kind/test-last
  [(fn [err] (< err 1e-10))])
 
@@ -286,16 +287,16 @@ orthogonality-matrix
 ;; direct summation, we can compute forward FFT, pointwise multiply, and
 ;; inverse FFT in $O(n \log n)$.
 
-(def f-fn (cx/complex-tensor-real
+(def f-fn (lt/complex-tensor-real
            [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
-(def h-fn (cx/complex-tensor-real
+(def h-fn (lt/complex-tensor-real
            [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 ;; Convolve via the library (which uses the Fourier domain internally).
 
 (def convolved (hm/convolve ct f-fn h-fn))
 
-(mapv #(Math/round %) (vec (cx/re convolved)))
+(mapv #(Math/round %) (vec (el/re convolved)))
 
 (kind/test-last
  [= [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]])
@@ -305,8 +306,8 @@ orthogonality-matrix
 (let [f-fn-hat (hm/fourier-transform ct f-fn)
       h-fn-hat (hm/fourier-transform ct h-fn)
       convolved-hat (hm/fourier-transform ct convolved)
-      pointwise-product (cx/cmul f-fn-hat h-fn-hat)]
-  (< (dfn/reduce-max (cx/cabs (cx/csub convolved-hat pointwise-product))) 1e-8))
+      pointwise-product (el/* f-fn-hat h-fn-hat)]
+  (< (dfn/reduce-max (el/abs (el/- convolved-hat pointwise-product))) 1e-8))
 
 (kind/test-last
  [true?])
@@ -319,8 +320,8 @@ orthogonality-matrix
 ;;
 ;; $$\sum_{g} |f(g)|^2 = \frac{1}{|G|} \sum_{k} |\hat{f}(k)|^2$$
 
-(let [mag-s (cx/cabs signal)
-      mag-f (cx/cabs f-hat)
+(let [mag-s (el/abs signal)
+      mag-f (el/abs f-hat)
       energy-time (dfn/sum (dfn/* mag-s mag-s))
       energy-freq (/ (dfn/sum (dfn/* mag-f mag-f))
                      (double (hm/order G)))]
@@ -368,9 +369,9 @@ cyclic-from-linear
 
 ;; This matches our group-theoretic convolution exactly.
 
-(let [group-conv (cx/re (hm/convolve ct
-                                     (cx/complex-tensor-real f-real)
-                                     (cx/complex-tensor-real h-real)))]
+(let [group-conv (el/re (hm/convolve ct
+                                     (lt/complex-tensor-real f-real)
+                                     (lt/complex-tensor-real h-real)))]
   (allclose? cyclic-from-linear group-conv))
 
 (kind/test-last

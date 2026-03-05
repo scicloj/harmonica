@@ -14,7 +14,8 @@
 (ns harmonica-book.product-group-dft
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [tech.v3.datatype :as dtype]
    [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
@@ -100,7 +101,7 @@ ct
 
 ;; Now apply the Fourier transform:
 
-(def signal (cx/complex-tensor-real image-data))
+(def signal (t/complex-tensor-real image-data))
 
 (def f-hat (hm/fourier-transform ct signal))
 
@@ -108,7 +109,7 @@ f-hat
 
 ;; The DC component ($k = 0$) is the sum of all pixel values:
 
-(cx/re (f-hat 0))
+(el/re (f-hat 0))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 9.0)) 1e-10))])
@@ -118,7 +119,7 @@ f-hat
 ;; The inverse Fourier transform recovers the original image exactly.
 
 (let [recovered (hm/inverse-fourier-transform ct f-hat)
-      max-err (apply max (vec (cx/cabs (cx/csub recovered signal))))]
+      max-err (apply max (vec (el/abs (el/- recovered signal))))]
   (< max-err 1e-10))
 
 (kind/test-last [true?])
@@ -142,29 +143,29 @@ f-hat
       ct2 (hm/character-table G2)
       ;; Reshape image into rows
       rows (mapv (fn [i]
-                   (cx/complex-tensor-real
+                   (t/complex-tensor-real
                     (subvec image-data (* i n) (* (inc i) n))))
                  (range m))
       ;; Transform each row (along columns)
       rows-transformed (mapv #(hm/fourier-transform ct2 %) rows)
       ;; Extract columns from transformed rows and transform along rows
       cols-of-transformed (mapv (fn [j]
-                                  (cx/complex-tensor
-                                   (mapv (fn [row] [(cx/re (row j))
-                                                    (cx/im (row j))])
+                                  (t/complex-tensor
+                                   (mapv (fn [row] [(el/re (row j))
+                                                    (el/im (row j))])
                                          rows-transformed)))
                                 (range n))
       cols-transformed (mapv #(hm/fourier-transform ct1 %) cols-of-transformed)
       ;; Flatten back: result[i*n + j] = cols-transformed[j][i]
-      separable-result (cx/complex-tensor
+      separable-result (t/complex-tensor
                         (mapv (fn [idx]
                                 (let [i (quot idx n)
                                       j (rem idx n)
                                       v ((cols-transformed j) i)]
-                                  [(cx/re v) (cx/im v)]))
+                                  [(el/re v) (el/im v)]))
                               (range (* m n))))
       ;; Compare with direct product group transform
-      max-err (apply max (vec (cx/cabs (cx/csub separable-result f-hat))))]
+      max-err (apply max (vec (el/abs (el/- separable-result f-hat))))]
   (< max-err 1e-10))
 
 (kind/test-last [true?])
@@ -176,9 +177,9 @@ f-hat
 ;;
 ;; Energy is preserved: $\sum |f(g)|^2 = \frac{1}{|G|} \sum |\hat{f}(k)|^2$.
 
-(let [energy-space (dfn/sum (dfn/* (cx/re signal) (cx/re signal)))
+(let [energy-space (dfn/sum (dfn/* (el/re signal) (el/re signal)))
       mags-sq (mapv (fn [i] (let [v (f-hat i)
-                                  r (cx/re v) im (cx/im v)]
+                                  r (el/re v) im (el/im v)]
                               (+ (* r r) (* im im))))
                     (range (hm/order G)))
       energy-freq (/ (reduce + mags-sq) (double (hm/order G)))]
@@ -192,12 +193,12 @@ f-hat
 ;; images. The convolution theorem holds: convolution in the spatial
 ;; domain equals pointwise multiplication in the frequency domain.
 
-(let [f (cx/complex-tensor-real
+(let [f (t/complex-tensor-real
          [1.0 0.0 0.0
           0.0 0.0 0.0
           0.0 0.0 0.0
           0.0 0.0 0.0])
-      h (cx/complex-tensor-real
+      h (t/complex-tensor-real
          [1.0 1.0 0.0
           1.0 0.0 0.0
           0.0 0.0 0.0
@@ -206,9 +207,9 @@ f-hat
       ;; Verify via Fourier domain
       f-hat (hm/fourier-transform ct f)
       h-hat (hm/fourier-transform ct h)
-      product (cx/cmul f-hat h-hat)
+      product (el/* f-hat h-hat)
       conv-from-freq (hm/inverse-fourier-transform ct product)
-      max-err (apply max (vec (cx/cabs (cx/csub conv conv-from-freq))))]
+      max-err (apply max (vec (el/abs (el/- conv conv-from-freq))))]
   (< max-err 1e-10))
 
 (kind/test-last [true?])
@@ -226,7 +227,7 @@ f-hat
                      (let [i (quot idx n) j (rem idx n)]
                        (if (= (mod (+ i j) 3) 0) 1.0 0.0)))
                    (range (* m n)))
-      f-hat-sq (hm/fourier-transform ct-sq (cx/complex-tensor-real stripe))
+      f-hat-sq (hm/fourier-transform ct-sq (t/complex-tensor-real stripe))
       ;; Build 2D grids directly
       image-grid (vec (for [i (range m)]
                         (vec (for [j (range n)]
@@ -234,8 +235,8 @@ f-hat
       mag-grid (vec (for [i (range m)]
                       (vec (for [j (range n)]
                              (let [v (f-hat-sq (+ (* i n) j))]
-                               (Math/sqrt (+ (* (cx/re v) (cx/re v))
-                                             (* (cx/im v) (cx/im v)))))))))]
+                               (Math/sqrt (+ (* (el/re v) (el/re v))
+                                             (* (el/im v) (el/im v)))))))))]
   (kind/plotly
    {:data [{:type "heatmap"
             :z image-grid

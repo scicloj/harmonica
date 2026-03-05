@@ -6,11 +6,10 @@
 ;; [ComplexTensor](complex_tensors.html) — the two can share memory
 ;; with zero copying.
 ;;
-;; This notebook demonstrates the bridge between harmonica's
-;; `ComplexTensor` and EJML's `ZMatrixRMaj`, verifies correctness
-;; of the wrapped operations, and shows the performance advantage
-;; for the matrix Fourier transform accumulation pattern
-;; $\hat{f}(\rho) = \sum_{\sigma \in G} f(\sigma) \, \rho(\sigma)$.
+;; This notebook demonstrates the bridge between lalinea's
+;; ComplexTensor and EJML's `ZMatrixRMaj`, and shows how
+;; lalinea's high-level API (`la/mmul`, `la/trace`, etc.) dispatches
+;; to EJML automatically for complex matrices.
 ;;
 ;; **Dependency** (dev/optional):
 ;;
@@ -21,8 +20,9 @@
 (ns harmonica-book.ejml-integration
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
-   [scicloj.harmonica.linalg.ejml :as ejml]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
+   [scicloj.lalinea.linalg :as la]
    [scicloj.harmonica.analysis.representations :as rep]
    [tech.v3.tensor :as tensor]
    [tech.v3.datatype :as dtype]
@@ -31,24 +31,22 @@
    [scicloj.kindly.v4.kind :as kind])
   (:import [org.ejml.data ZMatrixRMaj]))
 
-;; ## The shared memory layout
+;; ## The interleaved layout
 ;;
 ;; A ComplexTensor matrix with complex shape $[r, c]$ is backed by a
-;; real tensor of shape $[r, c, 2]$. In row-major order, the underlying
-;; `double[]` is interleaved:
+;; real tensor of shape $[r, c, 2]$. In row-major order, the doubles
+;; are interleaved:
 ;;
 ;; $$[\operatorname{re}_{00},\; \operatorname{im}_{00},\;
 ;;    \operatorname{re}_{01},\; \operatorname{im}_{01},\; \ldots]$$
 ;;
-;; EJML's `ZMatrixRMaj` uses the identical layout. This means the two
-;; types can **share the same backing array** — no allocation, no
-;; copying.
+;; EJML's `ZMatrixRMaj` uses the identical layout.
 
-(let [ct (cx/complex-tensor
+(let [ct (t/complex-tensor
           (tensor/->tensor [[1.0 2.0] [3.0 4.0]])
           (tensor/->tensor [[0.5 1.0] [1.5 2.0]]))]
-  {:complex-shape (cx/complex-shape ct)
-   :raw-doubles (vec (cx/->double-array ct))})
+  {:complex-shape (t/complex-shape ct)
+   :raw-doubles (vec (t/->double-array ct))})
 
 ;; The interleaved doubles: `re(0,0)=1`, `im(0,0)=0.5`, `re(0,1)=2`,
 ;; `im(0,1)=1`, etc.
@@ -56,82 +54,64 @@
 (kind/test-last [(fn [v] (= (:raw-doubles v)
                             [1.0 0.5 2.0 1.0 3.0 1.5 4.0 2.0]))])
 
-;; `ct->zmat` wraps a ComplexTensor as a `ZMatrixRMaj`, sharing the
-;; **identical** Java `double[]` object.
+;; ## Converting between ComplexTensor and ZMatrixRMaj
+;;
+;; `complex-tensor->zmat` converts a ComplexTensor to a `ZMatrixRMaj`.
 
-(let [ct (cx/complex-tensor
+(let [ct (t/complex-tensor
           (tensor/->tensor [[1.0 2.0] [3.0 4.0]])
           (tensor/->tensor [[0.5 1.0] [1.5 2.0]]))
-      zm (ejml/ct->zmat ct)]
-  {:identical? (identical? (cx/->double-array ct) (.data ^ZMatrixRMaj zm))
-   :rows (.numRows ^ZMatrixRMaj zm)
-   :cols (.numCols ^ZMatrixRMaj zm)})
+      zm (t/complex-tensor->zmat ct)]
+  {:rows (.numRows ^ZMatrixRMaj zm)
+   :cols (.numCols ^ZMatrixRMaj zm)
+   :entry-00 (let [c (org.ejml.data.Complex_F64.)]
+               (.get ^ZMatrixRMaj zm 0 0 c)
+               [(.real c) (.imaginary c)])})
+
+(kind/test-last [(fn [v] (and (= (:rows v) 2) (= (:cols v) 2)
+                              (= (:entry-00 v) [1.0 0.5])))])
+
+;; The reverse direction, `zmat->complex-tensor`, wraps the
+;; `ZMatrixRMaj`'s backing `double[]` directly — zero-copy.
+
+(let [zm (ZMatrixRMaj. 2 2)]
+  (.set zm 0 0 5.0 6.0)
+  (let [ct (t/zmat->complex-tensor zm)]
+    {:identical? (identical? (.data zm) (t/->double-array ct))
+     :re (el/re ((ct 0) 0))
+     :im (el/im ((ct 0) 0))}))
 
 (kind/test-last [(fn [v] (and (:identical? v)
-                              (= (:rows v) 2)
-                              (= (:cols v) 2)))])
+                              (= (:re v) 5.0) (= (:im v) 6.0)))])
 
-;; ## Zero-copy round-trip
-;;
-;; Because both views share the same array, mutations through one
-;; are immediately visible through the other.
+;; Because both views share the same array, mutations through the
+;; `ZMatrixRMaj` are immediately visible through the ComplexTensor.
 
-;; ### EJML mutation visible in ComplexTensor
-
-(let [ct (cx/complex-tensor
-          (tensor/->tensor [[1.0 0.0] [0.0 1.0]])
-          (tensor/->tensor [[0.0 0.0] [0.0 0.0]]))
-      zm (ejml/ct->zmat ct)]
-  ;; Mutate via EJML
-  (.set ^ZMatrixRMaj zm 0 1 99.0 77.0)
-  ;; Read back via ComplexTensor
-  (let [elem (ct 0)]
-    [(cx/re (elem 1)) (cx/im (elem 1))]))
+(let [zm (ZMatrixRMaj. 2 2)]
+  (.set zm 0 1 99.0 77.0)
+  (let [ct (t/zmat->complex-tensor zm)]
+    [(el/re ((ct 0) 1)) (el/im ((ct 0) 1))]))
 
 (kind/test-last [= [99.0 77.0]])
 
-;; ### ComplexTensor mutation visible in EJML
-
-(let [ct (cx/complex-tensor
-          (tensor/->tensor [[1.0 0.0] [0.0 1.0]])
-          (tensor/->tensor [[0.0 0.0] [0.0 0.0]]))
-      zm (ejml/ct->zmat ct)
-      arr (cx/->double-array ct)]
-  ;; Mutate the raw array (shared by both)
-  (aset arr 2 42.0) ;; re(0,1)
-  (aset arr 3 13.0) ;; im(0,1)
-  ;; Read back via EJML
-  (let [c (org.ejml.data.Complex_F64.)]
-    (.get ^ZMatrixRMaj zm 0 1 c)
-    [(.real c) (.imaginary c)]))
-
-(kind/test-last [= [42.0 13.0]])
-
-;; The reverse direction, `zmat->ct`, also shares the array.
-
-(let [zm (ejml/zmat 2 2)
-      _ (.set ^ZMatrixRMaj zm 0 0 5.0 6.0)
-      ct (ejml/zmat->ct zm)]
-  (identical? (.data ^ZMatrixRMaj zm) (cx/->double-array ct)))
-
-(kind/test-last [true?])
-
-;; ## Complex matrix operations
+;; ## Complex matrix operations via dispatch
 ;;
-;; The `scicloj.harmonica.linalg.ejml` namespace wraps EJML's `CommonOps_ZDRM`
-;; into Clojure functions that accept and return `ZMatrixRMaj` objects.
+;; Lalinea's `la/` functions dispatch on real vs complex tensors.
+;; For complex matrices, operations like `la/mmul`, `la/trace`, and
+;; `la/det` delegate to EJML automatically — no need to convert
+;; to `ZMatrixRMaj` manually.
 
 ;; ### Matrix multiply
-;;
+
+(def A (t/complex-tensor
+        (tensor/->tensor [[1.0 2.0] [3.0 4.0]])
+        (tensor/->tensor [[0.5 1.0] [1.5 2.0]])))
+
 ;; $A \cdot I = A$
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 2.0] [3.0 4.0]])
-                        (tensor/->tensor [[0.5 1.0] [1.5 2.0]])))
-      I (ejml/zmat-identity 2)
-      AI (ejml/zmul A I)]
-  (= (vec (.data ^ZMatrixRMaj AI))
-     (vec (.data ^ZMatrixRMaj A))))
+(let [I (t/complex-tensor-real (t/eye 2))
+      AI (la/mmul A I)]
+  (la/close? A AI))
 
 (kind/test-last [true?])
 
@@ -140,58 +120,60 @@
 ;; the $(0,0)$ entry of $A^2$ is
 ;; $(1+2i)^2 + (3+4i)(5+6i) = (-3+4i) + (-9+38i) = -12+42i$.
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 3.0] [5.0 7.0]])
-                        (tensor/->tensor [[2.0 4.0] [6.0 8.0]])))
-      A2 (ejml/zmul A A)
-      result (ejml/zmat->ct A2)]
-  [(cx/re ((result 0) 0)) (cx/im ((result 0) 0))])
+(let [B (t/complex-tensor
+         (tensor/->tensor [[1.0 3.0] [5.0 7.0]])
+         (tensor/->tensor [[2.0 4.0] [6.0 8.0]]))
+      B2 (la/mmul B B)
+      entry (el/* ((B2 0) 0) (t/complex 1 0))]
+  [(el/re ((B2 0) 0)) (el/im ((B2 0) 0))])
 
 (kind/test-last [= [-12.0 42.0]])
 
 ;; ### Trace and determinant
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 3.0] [5.0 7.0]])
-                        (tensor/->tensor [[2.0 4.0] [6.0 8.0]])))]
-  {:trace (ejml/ztrace A)
-   :det (let [[re im] (ejml/zdet A)]
-          [(Math/round re) (Math/round im)])})
+(let [B (t/complex-tensor
+         (tensor/->tensor [[1.0 3.0] [5.0 7.0]])
+         (tensor/->tensor [[2.0 4.0] [6.0 8.0]]))
+      tr (la/trace B)
+      d (la/det B)]
+  {:trace-re (el/re tr) :trace-im (el/im tr)
+   :det-re (Math/round (double (el/re d)))
+   :det-im (Math/round (double (el/im d)))})
 
 ;; $\operatorname{tr}(A) = (1+2i) + (7+8i) = 8+10i$
 ;;
 ;; $\det(A) = (1+2i)(7+8i) - (3+4i)(5+6i) = -16i$
 
-(kind/test-last [(fn [v] (and (= (:trace v) [8.0 10.0])
-                              (= (:det v) [0 -16])))])
+(kind/test-last [(fn [v] (and (= (:trace-re v) 8.0) (= (:trace-im v) 10.0)
+                              (= (:det-re v) 0) (= (:det-im v) -16)))])
 
 ;; ### Frobenius norm
 ;;
 ;; The identity $\operatorname{tr}(A^\dagger A) = \|A\|_F^2$ connects
 ;; the conjugate transpose, trace, and norm.
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 2.0 3.0] [4.0 5.0 6.0] [7.0 8.0 9.0]])
-                        (tensor/->tensor [[0.1 0.2 0.3] [0.4 0.5 0.6] [0.7 0.8 0.9]])))
-      AdA (ejml/zmul (ejml/ztranspose-conj A) A)
-      [tr-re _] (ejml/ztrace AdA)
-      nf (ejml/znorm-f A)]
+(let [C (t/complex-tensor
+         (tensor/->tensor [[1.0 2.0 3.0] [4.0 5.0 6.0] [7.0 8.0 9.0]])
+         (tensor/->tensor [[0.1 0.2 0.3] [0.4 0.5 0.6] [0.7 0.8 0.9]]))
+      AdA (la/mmul (la/transpose C) C)
+      tr-re (double (el/re (la/trace AdA)))
+      nf (la/norm C)]
   (< (Math/abs (- tr-re (* nf nf))) 1e-10))
 
 (kind/test-last [true?])
 
 ;; ### Conjugate transpose
 ;;
-;; For $A = \begin{pmatrix} 1+i & 2+3i \\ 4+5i & 6+7i \end{pmatrix}$,
-;; $A^\dagger = \begin{pmatrix} 1-i & 4-5i \\ 2-3i & 6-7i \end{pmatrix}$.
+;; `la/transpose` on a ComplexTensor computes the conjugate transpose $A^\dagger$.
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 2.0] [4.0 6.0]])
-                        (tensor/->tensor [[1.0 3.0] [5.0 7.0]])))
-      Ad (ejml/ztranspose-conj A)
-      ct (ejml/zmat->ct Ad)]
-  {:re (vec (dtype/->double-array (cx/re ct)))
-   :im (vec (dtype/->double-array (cx/im ct)))})
+(let [B (t/complex-tensor
+         (tensor/->tensor [[1.0 2.0] [4.0 6.0]])
+         (tensor/->tensor [[1.0 3.0] [5.0 7.0]]))
+      Bd (la/transpose B)]
+  {:re (vec (dtype/->double-array (el/re Bd)))
+   :im (vec (dtype/->double-array (el/im Bd)))})
+
+;; $A^\dagger = \begin{pmatrix} 1-i & 4-5i \\ 2-3i & 6-7i \end{pmatrix}$
 
 (kind/test-last [(fn [v] (and (= (:re v) [1.0 4.0 2.0 6.0])
                               (= (:im v) [-1.0 -5.0 -3.0 -7.0])))])
@@ -200,195 +182,78 @@
 ;;
 ;; $A \cdot A^{-1} \approx I$
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 2.0] [3.0 4.0]])
-                        (tensor/->tensor [[0.5 1.0] [1.5 2.5]])))
-      inv (ejml/zinvert A)
-      product (ejml/zmul A inv)
-      ct (ejml/zmat->ct product)
-      re (cx/re ct)
-      im (cx/im ct)]
-  (and (< (dfn/reduce-max (dfn/abs (dfn/- (dtype/->double-array re)
-                                          (double-array [1 0 0 1])))) 1e-10)
-       (< (dfn/reduce-max (dfn/abs (dtype/->double-array im))) 1e-10)))
+(let [inv (la/invert A)
+      product (la/mmul A inv)
+      re-part (el/re product)
+      im-part (el/im product)]
+  (and (< (el/reduce-max (el/abs (el/- re-part (t/eye 2)))) 1e-10)
+       (< (el/reduce-max (el/abs im-part)) 1e-10)))
 
 (kind/test-last [true?])
 
 ;; ### Addition and subtraction
 
-(let [A (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[1.0 2.0]])
-                        (tensor/->tensor [[3.0 4.0]])))
-      B (ejml/ct->zmat (cx/complex-tensor
-                        (tensor/->tensor [[5.0 6.0]])
-                        (tensor/->tensor [[7.0 8.0]])))
-      sum-ct (ejml/zmat->ct (ejml/zadd A B))
-      diff-ct (ejml/zmat->ct (ejml/zsub A B))]
-  {:sum-re (vec (dtype/->double-array (cx/re sum-ct)))
-   :diff-re (vec (dtype/->double-array (cx/re diff-ct)))})
+(let [X (t/complex-tensor [1.0 2.0] [3.0 4.0])
+      Y (t/complex-tensor [5.0 6.0] [7.0 8.0])
+      s (el/+ X Y)
+      d (el/- X Y)]
+  {:sum-re (vec (dtype/->double-array (el/re s)))
+   :diff-re (vec (dtype/->double-array (el/re d)))})
 
 (kind/test-last [(fn [v] (and (= (:sum-re v) [6.0 8.0])
                               (= (:diff-re v) [-4.0 -4.0])))])
 
-;; ## Accumulation pattern
+;; ## Matrix Fourier transform
 ;;
-;; The matrix-valued Fourier transform on a finite group accumulates
+;; The matrix-valued Fourier transform on a finite group is
 ;;
 ;; $$\hat{f}(\rho) = \sum_{\sigma \in G} f(\sigma) \, \rho(\sigma)$$
 ;;
 ;; where $f(\sigma)$ is a scalar and $\rho(\sigma)$ is a $d \times d$
-;; matrix. The `scale-add-reuse!` function implements the inner loop
-;; efficiently: `acc += α · M` using a reusable temp buffer.
-
-;; As a small example, accumulate $3 \cdot I + (-1) \cdot P$ where
-;; $P$ is the permutation matrix that swaps two coordinates.
-
-(let [I-zm (ejml/ct->zmat (cx/complex-tensor
-                           (tensor/->tensor [[1.0 0.0] [0.0 1.0]])
-                           (tensor/->tensor [[0.0 0.0] [0.0 0.0]])))
-      P-zm (ejml/ct->zmat (cx/complex-tensor
-                           (tensor/->tensor [[0.0 1.0] [1.0 0.0]])
-                           (tensor/->tensor [[0.0 0.0] [0.0 0.0]])))
-      acc (ejml/zmat 2 2)
-      temp (ejml/zmat 2 2)]
-  (ejml/scale-add-reuse! acc 3.0 0.0 I-zm temp)
-  (ejml/scale-add-reuse! acc -1.0 0.0 P-zm temp)
-  (vec (dtype/->double-array (cx/re (ejml/zmat->ct acc)))))
-
-;; $3I - P = \begin{pmatrix} 3 & -1 \\ -1 & 3 \end{pmatrix}$
-
-(kind/test-last [= [3.0 -1.0 -1.0 3.0]])
-
-;; ## Matrix Fourier transform comparison
-;;
-;; We compute the matrix Fourier transform of a function on $S_4$
-;; using both the existing API (Apache Commons Math backend) and EJML,
-;; then verify the results match exactly.
+;; real matrix (for symmetric groups, irrep matrices are real).
 
 (let [G (hm/symmetric-group 4)
       ir (hm/irrep [3 1])
       d (:dimension ir)
-      ;; deterministic function
       f-map (zipmap (hm/elements G)
                     (map #(Math/sin (double %)) (range (hm/order G))))
-      ;; Existing API
-      result-acm (rep/matrix-fourier-transform ir G f-map)
-      ;; EJML accumulation
-      result-ejml (let [acc (ejml/zmat d d)
-                        temp (ejml/zmat d d)]
-                    (doseq [sigma (hm/elements G)]
-                      (let [coeff (get f-map sigma 0.0)
-                            mat (rep/rep-matrix ir sigma)
-                            zm (ejml/zmat d d)]
-                        (dotimes [i d]
-                          (dotimes [j d]
-                            (.set ^ZMatrixRMaj zm i j
-                                  (double (fm/entry mat i j)) 0.0)))
-                        (ejml/scale-add-reuse! acc coeff 0.0 zm temp)))
-                    acc)
-      ;; Compare element by element
-      max-diff (reduce max
-                       (for [i (range d) j (range d)]
-                         (let [c (org.ejml.data.Complex_F64.)]
-                           (.get ^ZMatrixRMaj result-ejml i j c)
-                           (Math/abs (- (.real c)
-                                        (double (fm/entry result-acm i j)))))))]
-  max-diff)
+      result (rep/matrix-fourier-transform ir G f-map)]
+  {:dimension d
+   :frobenius-norm (rep/frobenius-norm result)})
 
-(kind/test-last [(fn [v] (< v 1e-10))])
+(kind/test-last [(fn [v] (and (= (:dimension v) 3)
+                              (> (:frobenius-norm v) 0.0)))])
 
-;; ## Performance comparison
+;; The Plancherel identity connects the spatial and spectral norms:
 ;;
-;; Isolating the accumulation loop (with pre-computed representation
-;; matrices) reveals EJML's advantage. We benchmark $S_5$ with the
-;; $6$-dimensional irrep $\lambda = [3,1,1]$, which has $|S_5| = 120$
-;; group elements.
+;; $$\sum_{\sigma \in G} |f(\sigma)|^2
+;;   = \frac{1}{|G|} \sum_\rho d_\rho \, \|\hat{f}(\rho)\|_F^2$$
 
-(defn benchmark-accumulation
-  "Time n iterations of matrix Fourier accumulation. Returns µs/iter."
-  [accumulate-fn n]
-  (accumulate-fn) ;; warmup
-  (let [t0 (System/nanoTime)]
-    (dotimes [_ n] (accumulate-fn))
-    (/ (- (System/nanoTime) t0) (* n 1000.0))))
+(let [G (hm/symmetric-group 4)
+      parts [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]]
+      irreps (mapv hm/irrep parts)
+      f-map (zipmap (hm/elements G)
+                    (map #(Math/sin (double %)) (range (hm/order G))))
+      f-hats (rep/matrix-fourier-transform-all G f-map irreps)
+      lhs (rep/plancherel-lhs G f-map)
+      rhs (rep/plancherel-rhs G f-hats irreps)]
+  (< (Math/abs (- lhs rhs)) 1e-10))
 
-(let [G (hm/symmetric-group 5)
-      ir (hm/irrep [3 1 1])
-      d (:dimension ir)
-      elts (hm/elements G)
-      f-map (zipmap elts (map #(Math/sin (double %)) (range (hm/order G))))
-      ;; Pre-compute EJML rep matrices
-      precomp-z (into {}
-                      (map (fn [sigma]
-                             (let [mat (rep/rep-matrix ir sigma)
-                                   zm (ejml/zmat d d)]
-                               (dotimes [i d]
-                                 (dotimes [j d]
-                                   (.set ^ZMatrixRMaj zm i j
-                                         (double (fm/entry mat i j)) 0.0)))
-                               [sigma zm]))
-                           elts))
-      ;; Pre-compute ACM rep matrices
-      precomp-acm (into {}
-                        (map (fn [sigma]
-                               [sigma (rep/rep-matrix ir sigma)])
-                             elts))
-      ;; EJML accumulation
-      ejml-fn (fn []
-                (let [acc (ejml/zmat d d)
-                      temp (ejml/zmat d d)]
-                  (doseq [[sigma ^ZMatrixRMaj zm] precomp-z]
-                    (let [coeff (double (get f-map sigma 0.0))]
-                      (when-not (zero? coeff)
-                        (ejml/scale-add-reuse! acc coeff 0.0 zm temp))))
-                  acc))
-      ;; ACM accumulation
-      acm-fn (fn []
-               (reduce
-                (fn [^org.apache.commons.math3.linear.RealMatrix acc
-                     [sigma mat]]
-                  (let [coeff (double (get f-map sigma 0.0))]
-                    (if (zero? coeff)
-                      acc
-                      (.add acc
-                            (.scalarMultiply
-                             ^org.apache.commons.math3.linear.RealMatrix
-                             mat coeff)))))
-                (fm/rows->mat (vec (repeat d (vec (repeat d 0.0)))))
-                precomp-acm))
-      n 2000
-      us-ejml (benchmark-accumulation ejml-fn n)
-      us-acm (benchmark-accumulation acm-fn n)]
-  (kind/table
-   {:column-names ["Backend" "d" "|G|" "\u00b5s / iter" "Speedup"]
-    :row-vectors [["EJML (ZMatrixRMaj)" d (hm/order G)
-                   (format "%.1f" us-ejml)
-                   (format "%.1fx" (/ us-acm us-ejml))]
-                  ["ACM (RealMatrix)" d (hm/order G)
-                   (format "%.1f" us-acm) "1.0x"]]}))
-
-;; The speedup grows with matrix dimension because EJML's internal
-;; loops are tighter (primitive `double[]` with no object overhead).
-;; See `dev-notes/ejml-integration.md` for benchmarks at $d = 3$
-;; ($S_4$), $d = 6$ ($S_5$), and $d = 16$ ($S_6$).
+(kind/test-last [true?])
 
 ;; ## Summary
 ;;
-;; The `scicloj.harmonica.linalg.ejml` namespace provides:
+;; Lalinea dispatches complex matrix operations to EJML automatically:
 ;;
-;; - **Zero-copy interop** — `ct->zmat` and `zmat->ct` share the
-;;   same `double[]` between ComplexTensor and `ZMatrixRMaj`
+;; - **Zero-copy interop** — `complex-tensor->zmat` and
+;;   `zmat->complex-tensor` share the same `double[]`
 ;;
-;; - **2–3× faster accumulation** — `scale-add-reuse!` outperforms
-;;   Apache Commons Math's `.scalarMultiply` + `.add` for the matrix
-;;   Fourier transform inner loop
+;; - **Field dispatch** — `la/mmul`, `la/trace`, `la/det`,
+;;   `la/invert`, `la/transpose`, `la/norm` all work on ComplexTensors,
+;;   delegating to EJML internally
 ;;
-;; - **Full complex linear algebra** — multiply, conjugate transpose,
-;;   trace, determinant, Frobenius norm, inverse, LU/QR/Cholesky
-;;
-;; **Limitations**: EJML does not provide complex eigenvalue
-;; decomposition, complex SVD, or Kronecker product. For these,
-;; use the existing fastmath / Apache Commons Math backend.
+;; - **No manual conversion** — work with ComplexTensors directly;
+;;   EJML is an implementation detail
 ;;
 ;; See [Complex Tensors](complex_tensors.html) for the ComplexTensor
-;; API that this namespace builds on.
+;; API that this builds on.

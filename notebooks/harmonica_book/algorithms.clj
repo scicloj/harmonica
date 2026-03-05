@@ -8,7 +8,8 @@
 (ns harmonica-book.algorithms
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.combinatorics.permutation :as perm]
    [scicloj.harmonica.combinatorics.partition :as part]
@@ -88,7 +89,7 @@
       ;; Find the row for irrep [3,2] and column for class [2,2,1]
       row-idx (.indexOf ^clojure.lang.PersistentVector (:irrep-labels ct) [3 2])
       col-idx (.indexOf ^clojure.lang.PersistentVector (:classes ct) [2 2 1])]
-  (cx/re (((:table ct) row-idx) col-idx)))
+  (el/re (((:table ct) row-idx) col-idx)))
 
 (kind/test-last [= 1.0])
 

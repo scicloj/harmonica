@@ -1,7 +1,9 @@
 (ns
  harmonica-book.complex-tensors-generated-test
  (:require
-  [scicloj.harmonica.linalg.complex :as cx]
+  [scicloj.lalinea.tensor :as t]
+  [scicloj.lalinea.elementwise :as el]
+  [scicloj.lalinea.linalg :as la]
   [tech.v3.tensor :as tensor]
   [tech.v3.datatype :as dtype]
   [tech.v3.datatype.functional :as dfn]
@@ -9,157 +11,164 @@
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l35 (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0]))
+(def
+ v2_l28
+ (defn
+  re-im
+  "Extract [re im] pair from a scalar ComplexTensor."
+  [ct]
+  [(el/re ct) (el/im ct)]))
 
 
-(deftest t4_l37 (is ((fn [v] (= [3] (cx/complex-shape v))) v3_l35)))
+(def v4_l41 (t/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0]))
+
+
+(deftest t5_l43 (is ((fn [v] (= [3] (t/complex-shape v))) v4_l41)))
 
 
 (def
- v6_l41
+ v7_l47
  (let
-  [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
-  {:re (vec (cx/re ct)), :im (vec (cx/im ct))}))
+  [ct (t/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
+  {:re (vec (el/re ct)), :im (vec (el/im ct))}))
 
 
 (deftest
- t7_l45
+ t8_l51
  (is
   ((fn [v] (and (= (:re v) [1.0 2.0 3.0]) (= (:im v) [4.0 5.0 6.0])))
-   v6_l41)))
+   v7_l47)))
 
 
-(def v9_l53 (cx/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]])))
+(def v10_l59 (t/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]])))
 
 
 (deftest
- t10_l55
+ t11_l61
  (is
   ((fn
     [v]
     (and
-     (= [2] (cx/complex-shape v))
-     (= [1.0 3.0] (vec (cx/re v)))
-     (= [2.0 4.0] (vec (cx/im v)))))
-   v9_l53)))
+     (= [2] (t/complex-shape v))
+     (= [1.0 3.0] (vec (el/re v)))
+     (= [2.0 4.0] (vec (el/im v)))))
+   v10_l59)))
 
 
-(def v12_l63 (cx/complex-tensor-real [5.0 6.0 7.0]))
+(def v13_l69 (t/complex-tensor-real [5.0 6.0 7.0]))
 
 
 (deftest
- t13_l65
+ t14_l71
  (is
   ((fn
     [v]
     (and
-     (= [5.0 6.0 7.0] (vec (cx/re v)))
-     (= [0.0 0.0 0.0] (vec (cx/im v)))))
-   v12_l63)))
+     (= [5.0 6.0 7.0] (vec (el/re v)))
+     (= [0.0 0.0 0.0] (vec (el/im v)))))
+   v13_l69)))
 
 
-(def v15_l72 (def z (cx/complex-tensor (tensor/->tensor [3.0 4.0]))))
+(def v16_l78 (def z (t/complex-tensor (tensor/->tensor [3.0 4.0]))))
 
 
-(def v16_l74 (cx/scalar? z))
+(def v17_l80 (t/scalar? z))
 
 
-(deftest t17_l76 (is (true? v16_l74)))
+(deftest t18_l82 (is (true? v17_l80)))
 
 
-(def v19_l80 [(cx/re z) (cx/im z)])
+(def v20_l86 [(el/re z) (el/im z)])
 
 
-(deftest t20_l82 (is (= v19_l80 [3.0 4.0])))
+(deftest t21_l88 (is (= v20_l86 [3.0 4.0])))
 
 
-(def v22_l86 [(count z) (seq z)])
+(def v23_l92 [(count z) (seq z)])
 
 
-(deftest t23_l88 (is (= v22_l86 [0 nil])))
-
-
-(def
- v25_l94
- (def
-  M
-  (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])))
-
-
-(def v26_l97 (cx/complex-shape M))
-
-
-(deftest t27_l99 (is (= v26_l97 [2 2])))
+(deftest t24_l94 (is (= v23_l92 [0 nil])))
 
 
 (def
- v29_l108
+ v26_l100
+ (def M (t/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])))
+
+
+(def v27_l103 (t/complex-shape M))
+
+
+(deftest t28_l105 (is (= v27_l103 [2 2])))
+
+
+(def
+ v30_l114
  (let
-  [ct (cx/complex-tensor [10.0 20.0 30.0] [0.1 0.2 0.3])]
-  [(vec (cx/re ct)) (vec (cx/im ct))]))
+  [ct (t/complex-tensor [10.0 20.0 30.0] [0.1 0.2 0.3])]
+  [(vec (el/re ct)) (vec (el/im ct))]))
 
 
-(deftest t30_l111 (is (= v29_l108 [[10.0 20.0 30.0] [0.1 0.2 0.3]])))
+(deftest t31_l117 (is (= v30_l114 [[10.0 20.0 30.0] [0.1 0.2 0.3]])))
 
 
 (def
- v32_l115
+ v33_l121
  (let
-  [ct (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])]
-  (vec (dtype/shape (cx/re ct)))))
+  [ct (t/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])]
+  (vec (dtype/shape (el/re ct)))))
 
 
-(deftest t33_l119 (is (= v32_l115 [2 2])))
-
-
-(def
- v35_l123
- (cx/complex-shape (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])))
-
-
-(deftest t36_l125 (is (= v35_l123 [3])))
+(deftest t34_l125 (is (= v33_l121 [2 2])))
 
 
 (def
- v38_l135
+ v36_l129
+ (t/complex-shape (t/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])))
+
+
+(deftest t37_l131 (is (= v36_l129 [3])))
+
+
+(def
+ v39_l141
  (let
-  [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
-  [(cx/re (ct 0)) (cx/im (ct 0))]))
+  [ct (t/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
+  [(el/re (ct 0)) (el/im (ct 0))]))
 
 
-(deftest t39_l138 (is (= v38_l135 [1.0 4.0])))
+(deftest t40_l144 (is (= v39_l141 [1.0 4.0])))
 
 
 (def
- v40_l140
+ v41_l146
  (let
-  [ct (cx/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
-  (cx/scalar? (ct 1))))
+  [ct (t/complex-tensor [1.0 2.0 3.0] [4.0 5.0 6.0])]
+  (t/scalar? (ct 1))))
 
 
-(deftest t41_l143 (is (true? v40_l140)))
+(deftest t42_l149 (is (true? v41_l146)))
 
 
-(def v43_l147 (nth (cx/complex-tensor [1.0] [2.0]) 99 :missing))
+(def v44_l153 (nth (t/complex-tensor [1.0] [2.0]) 99 :missing))
 
 
-(deftest t44_l149 (is (= v43_l147 :missing)))
+(deftest t45_l155 (is (= v44_l153 :missing)))
 
 
 (def
- v46_l155
+ v47_l161
  (let
   [ct
-   (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])
+   (t/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])
    row0
    (ct 0)]
-  {:shape (cx/complex-shape row0),
-   :re (vec (cx/re row0)),
-   :im (vec (cx/im row0))}))
+  {:shape (t/complex-shape row0),
+   :re (vec (el/re row0)),
+   :im (vec (el/im row0))}))
 
 
 (deftest
- t47_l162
+ t48_l168
  (is
   ((fn
     [v]
@@ -167,183 +176,189 @@
      (= (:shape v) [2])
      (= (:re v) [1.0 2.0])
      (= (:im v) [5.0 6.0])))
-   v46_l155)))
+   v47_l161)))
 
 
 (def
- v49_l168
+ v50_l174
  (let
-  [ct (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])]
-  [(cx/re ((ct 1) 1)) (cx/im ((ct 1) 1))]))
+  [ct (t/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])]
+  [(el/re ((ct 1) 1)) (el/im ((ct 1) 1))]))
 
 
-(deftest t50_l172 (is (= v49_l168 [4.0 8.0])))
+(deftest t51_l178 (is (= v50_l174 [4.0 8.0])))
 
 
 (def
- v52_l178
+ v53_l184
  (let
-  [ct (cx/complex-tensor [1.0 2.0] [3.0 4.0])]
-  (mapv cx/re (seq ct))))
+  [ct (t/complex-tensor [1.0 2.0] [3.0 4.0])]
+  (mapv el/re (seq ct))))
 
 
-(deftest t53_l181 (is (= v52_l178 [1.0 2.0])))
+(deftest t54_l187 (is (= v53_l184 [1.0 2.0])))
 
 
 (def
- v54_l183
+ v55_l189
  (let
-  [ct (cx/complex-tensor [1.0 2.0] [3.0 4.0])]
-  (every? cx/scalar? (seq ct))))
+  [ct (t/complex-tensor [1.0 2.0] [3.0 4.0])]
+  (every? t/scalar? (seq ct))))
 
 
-(deftest t55_l186 (is (true? v54_l183)))
+(deftest t56_l192 (is (true? v55_l189)))
 
 
 (def
- v57_l197
+ v58_l203
  (let
   [a
-   (cx/complex-tensor [1.0 2.0] [3.0 4.0])
+   (t/complex-tensor [1.0 2.0] [3.0 4.0])
    b
-   (cx/complex-tensor [5.0 6.0] [7.0 8.0])
+   (t/complex-tensor [5.0 6.0] [7.0 8.0])
    c
-   (cx/cmul a b)]
-  {:re (vec (cx/re c)), :im (vec (cx/im c))}))
+   (el/* a b)]
+  {:re (vec (el/re c)), :im (vec (el/im c))}))
 
 
 (deftest
- t59_l207
+ t60_l213
  (is
   ((fn [v] (and (= (:re v) [-16.0 -20.0]) (= (:im v) [22.0 40.0])))
-   v57_l197)))
+   v58_l203)))
 
 
 (def
- v61_l214
+ v62_l220
  (let
-  [ct (cx/cconj (cx/complex-tensor [1.0 2.0] [3.0 -4.0]))]
-  {:re (vec (cx/re ct)), :im (vec (cx/im ct))}))
+  [ct (el/conj (t/complex-tensor [1.0 2.0] [3.0 -4.0]))]
+  {:re (vec (el/re ct)), :im (vec (el/im ct))}))
 
 
 (deftest
- t62_l218
+ t63_l224
  (is
   ((fn [v] (and (= (:re v) [1.0 2.0]) (= (:im v) [-3.0 4.0])))
-   v61_l214)))
+   v62_l220)))
 
 
 (def
- v64_l225
+ v65_l231
  (let
-  [ct (cx/cscale (cx/complex-tensor [1.0 2.0] [3.0 4.0]) 2.0)]
-  {:re (vec (cx/re ct)), :im (vec (cx/im ct))}))
+  [ct (el/scale (t/complex-tensor [1.0 2.0] [3.0 4.0]) 2.0)]
+  {:re (vec (el/re ct)), :im (vec (el/im ct))}))
 
 
 (deftest
- t65_l229
+ t66_l235
  (is
   ((fn [v] (and (= (:re v) [2.0 4.0]) (= (:im v) [6.0 8.0])))
-   v64_l225)))
+   v65_l231)))
 
 
 (def
- v67_l236
+ v68_l242
  (let
-  [m (cx/cabs (cx/complex-tensor [3.0 0.0] [4.0 1.0]))]
+  [m (el/abs (t/complex-tensor [3.0 0.0] [4.0 1.0]))]
   [(double (m 0)) (double (m 1))]))
 
 
 (deftest
- t69_l241
+ t70_l247
  (is
   ((fn
     [v]
     (and
      (< (Math/abs (- (first v) 5.0)) 1.0E-10)
      (< (Math/abs (- (second v) 1.0)) 1.0E-10)))
-   v67_l236)))
+   v68_l242)))
 
 
 (def
- v71_l252
+ v72_l258
  (let
   [a
-   (cx/complex-tensor [1.0 0.0] [0.0 1.0])
+   (t/complex-tensor [1.0 0.0] [0.0 1.0])
    b
-   (cx/complex-tensor [0.0 1.0] [1.0 0.0])]
-  (cx/cdot a b)))
+   (t/complex-tensor [0.0 1.0] [1.0 0.0])]
+  (el/sum (el/* a b))))
 
 
 (deftest
- t73_l258
+ t74_l264
  (is
   ((fn
-    [[re im]]
-    (and (< (Math/abs re) 1.0E-10) (< (Math/abs (- im 2.0)) 1.0E-10)))
-   v71_l252)))
+    [v]
+    (let
+     [re (el/re v) im (el/im v)]
+     (and
+      (< (Math/abs re) 1.0E-10)
+      (< (Math/abs (- im 2.0)) 1.0E-10))))
+   v72_l258)))
 
 
 (def
- v75_l269
+ v76_l275
  (let
   [a
-   (cx/complex-tensor [1.0 0.0] [0.0 1.0])
+   (t/complex-tensor [1.0 0.0] [0.0 1.0])
    b
-   (cx/complex-tensor [0.0 1.0] [1.0 0.0])]
-  (cx/cdot-conj a b)))
+   (t/complex-tensor [0.0 1.0] [1.0 0.0])]
+  (la/dot-conj a b)))
 
 
 (deftest
- t77_l275
+ t78_l281
  (is
   ((fn
-    [[re im]]
-    (and (< (Math/abs re) 1.0E-10) (< (Math/abs im) 1.0E-10)))
-   v75_l269)))
+    [v]
+    (let
+     [re (el/re v) im (el/im v)]
+     (and (< (Math/abs re) 1.0E-10) (< (Math/abs im) 1.0E-10))))
+   v76_l275)))
 
 
 (def
- v79_l281
+ v80_l287
  (let
   [a
-   (cx/complex-tensor [3.0 1.0] [4.0 2.0])
+   (t/complex-tensor [3.0 1.0] [4.0 2.0])
    [re im]
-   (cx/cdot-conj a a)]
+   (re-im (la/dot-conj a a))]
   {:norm-sq re, :im-part im}))
 
 
 (deftest
- t81_l287
+ t82_l293
  (is
   ((fn
     [v]
     (and
      (< (Math/abs (- (:norm-sq v) 30.0)) 1.0E-10)
      (< (Math/abs (:im-part v)) 1.0E-10)))
-   v79_l281)))
+   v80_l287)))
 
 
-(def v83_l295 (def a (cx/complex-tensor [1.0 -2.0 3.0] [4.0 5.0 -6.0])))
+(def v84_l301 (def a (t/complex-tensor [1.0 -2.0 3.0] [4.0 5.0 -6.0])))
 
 
-(def v84_l296 (def b (cx/complex-tensor [-3.0 0.5 2.0] [1.0 -1.5 7.0])))
+(def v85_l302 (def b (t/complex-tensor [-3.0 0.5 2.0] [1.0 -1.5 7.0])))
 
 
-(def v85_l297 (def c (cx/complex-tensor [0.0 4.0 -1.0] [2.0 -3.0 0.5])))
+(def v86_l303 (def c (t/complex-tensor [0.0 4.0 -1.0] [2.0 -3.0 0.5])))
 
 
 (def
- v86_l299
+ v87_l305
  (defn
   approx=
   "Check that two ComplexTensors are approximately equal."
   [x y tol]
   (let
    [re-diff
-    (dfn/- (cx/re x) (cx/re y))
+    (dfn/- (el/re x) (el/re y))
     im-diff
-    (dfn/- (cx/im x) (cx/im y))
+    (dfn/- (el/im x) (el/im y))
     max-re
     (dfn/reduce-max (dfn/abs re-diff))
     max-im
@@ -351,183 +366,184 @@
    (and (< max-re tol) (< max-im tol)))))
 
 
-(def v88_l312 (approx= (cx/cmul a b) (cx/cmul b a) 1.0E-10))
+(def v89_l318 (approx= (el/* a b) (el/* b a) 1.0E-10))
 
 
-(deftest t89_l314 (is (true? v88_l312)))
+(deftest t90_l320 (is (true? v89_l318)))
+
+
+(def v92_l326 (approx= (el/* (el/* a b) c) (el/* a (el/* b c)) 1.0E-10))
+
+
+(deftest t93_l330 (is (true? v92_l326)))
 
 
 (def
- v91_l320
- (approx= (cx/cmul (cx/cmul a b) c) (cx/cmul a (cx/cmul b c)) 1.0E-10))
-
-
-(deftest t92_l324 (is (true? v91_l320)))
-
-
-(def
- v94_l330
+ v95_l336
  (let
-  [one (cx/complex-tensor-real [1.0 1.0 1.0])]
-  (approx= (cx/cmul a one) a 1.0E-10)))
+  [one (t/complex-tensor-real [1.0 1.0 1.0])]
+  (approx= (el/* a one) a 1.0E-10)))
 
 
-(deftest t95_l333 (is (true? v94_l330)))
+(deftest t96_l339 (is (true? v95_l336)))
 
 
-(def v97_l339 (approx= (cx/cconj (cx/cconj a)) a 1.0E-10))
+(def v98_l345 (approx= (el/conj (el/conj a)) a 1.0E-10))
 
 
-(deftest t98_l341 (is (true? v97_l339)))
-
-
-(def
- v100_l347
- (approx=
-  (cx/cconj (cx/cmul a b))
-  (cx/cmul (cx/cconj a) (cx/cconj b))
-  1.0E-10))
-
-
-(deftest t101_l351 (is (true? v100_l347)))
+(deftest t99_l347 (is (true? v98_l345)))
 
 
 (def
- v103_l357
+ v101_l353
+ (approx= (el/conj (el/* a b)) (el/* (el/conj a) (el/conj b)) 1.0E-10))
+
+
+(deftest t102_l357 (is (true? v101_l353)))
+
+
+(def
+ v104_l363
  (let
   [prod
-   (cx/cmul a (cx/cconj a))
+   (el/* a (el/conj a))
    mag-sq
-   (dfn/+ (dfn/* (cx/re a) (cx/re a)) (dfn/* (cx/im a) (cx/im a)))]
+   (dfn/+ (dfn/* (el/re a) (el/re a)) (dfn/* (el/im a) (el/im a)))]
   (and
-   (< (dfn/reduce-max (dfn/abs (dfn/- (cx/re prod) mag-sq))) 1.0E-10)
-   (< (dfn/reduce-max (dfn/abs (cx/im prod))) 1.0E-10))))
+   (< (dfn/reduce-max (dfn/abs (dfn/- (el/re prod) mag-sq))) 1.0E-10)
+   (< (dfn/reduce-max (dfn/abs (el/im prod))) 1.0E-10))))
 
 
-(deftest t104_l363 (is (true? v103_l357)))
+(deftest t105_l369 (is (true? v104_l363)))
 
 
 (def
- v106_l369
+ v107_l375
  (let
-  [lhs (cx/cabs (cx/cmul a b)) rhs (dfn/* (cx/cabs a) (cx/cabs b))]
+  [lhs (el/abs (el/* a b)) rhs (dfn/* (el/abs a) (el/abs b))]
   (< (dfn/reduce-max (dfn/abs (dfn/- lhs rhs))) 1.0E-10)))
 
 
-(deftest t107_l373 (is (true? v106_l369)))
+(deftest t108_l379 (is (true? v107_l375)))
 
 
 (def
- v109_l379
+ v110_l385
  (let
   [alpha 3.7]
   (approx=
-   (cx/cscale (cx/cmul a b) alpha)
-   (cx/cmul (cx/cscale a alpha) b)
+   (el/scale (el/* a b) alpha)
+   (el/* (el/scale a alpha) b)
    1.0E-10)))
 
 
-(deftest t110_l384 (is (true? v109_l379)))
+(deftest t111_l390 (is (true? v110_l385)))
 
 
 (def
- v112_l390
+ v113_l396
  (let
   [alpha -2.5]
   (approx=
-   (cx/cconj (cx/cscale a alpha))
-   (cx/cscale (cx/cconj a) alpha)
+   (el/conj (el/scale a alpha))
+   (el/scale (el/conj a) alpha)
    1.0E-10)))
 
 
-(deftest t113_l395 (is (true? v112_l390)))
+(deftest t114_l401 (is (true? v113_l396)))
 
 
 (def
- v115_l401
+ v116_l407
  (let
-  [[re-ab im-ab] (cx/cdot-conj a b) [re-ba im-ba] (cx/cdot-conj b a)]
+  [[re-ab im-ab]
+   (re-im (la/dot-conj a b))
+   [re-ba im-ba]
+   (re-im (la/dot-conj b a))]
   (and
    (< (Math/abs (- re-ab re-ba)) 1.0E-10)
    (< (Math/abs (+ im-ab im-ba)) 1.0E-10))))
 
 
-(deftest t116_l406 (is (true? v115_l401)))
+(deftest t117_l412 (is (true? v116_l407)))
 
 
 (def
- v118_l412
+ v119_l418
  (let
-  [[re-aa im-aa] (cx/cdot-conj a a)]
+  [[re-aa im-aa] (re-im (la/dot-conj a a))]
   (and (>= re-aa 0.0) (< (Math/abs im-aa) 1.0E-10))))
 
 
-(deftest t119_l416 (is (true? v118_l412)))
+(deftest t120_l422 (is (true? v119_l418)))
 
 
 (def
- v120_l418
+ v121_l424
  (let
   [zero
-   (cx/complex-tensor-real [0.0 0.0 0.0])
+   (t/complex-tensor-real [0.0 0.0 0.0])
    [re-00 _]
-   (cx/cdot-conj zero zero)]
+   (re-im (la/dot-conj zero zero))]
   (< (Math/abs re-00) 1.0E-10)))
 
 
-(deftest t121_l422 (is (true? v120_l418)))
+(deftest t122_l428 (is (true? v121_l424)))
 
 
 (def
- v123_l428
+ v124_l434
  (let
   [[re-aa _]
-   (cx/cdot-conj a a)
+   (re-im (la/dot-conj a a))
    norm-sq
    (dfn/sum
-    (dfn/+ (dfn/* (cx/re a) (cx/re a)) (dfn/* (cx/im a) (cx/im a))))]
+    (dfn/+ (dfn/* (el/re a) (el/re a)) (dfn/* (el/im a) (el/im a))))]
   (< (Math/abs (- re-aa norm-sq)) 1.0E-10)))
 
 
-(deftest t124_l433 (is (true? v123_l428)))
+(deftest t125_l439 (is (true? v124_l434)))
 
 
 (def
- v126_l439
+ v127_l445
  (let
-  [[re-ab im-ab] (cx/cdot a b) [re-ba im-ba] (cx/cdot b a)]
+  [[re-ab im-ab]
+   (re-im (el/sum (el/* a b)))
+   [re-ba im-ba]
+   (re-im (el/sum (el/* b a)))]
   (and
    (< (Math/abs (- re-ab re-ba)) 1.0E-10)
    (< (Math/abs (- im-ab im-ba)) 1.0E-10))))
 
 
-(deftest t127_l444 (is (true? v126_l439)))
+(deftest t128_l450 (is (true? v127_l445)))
 
 
 (def
- v129_l450
+ v130_l456
  (let
   [[re-dot im-dot]
-   (cx/cdot a b)
+   (re-im (el/sum (el/* a b)))
    [re-conj im-conj]
-   (cx/cdot-conj a (cx/cconj b))]
+   (re-im (la/dot-conj a (el/conj b)))]
   (and
    (< (Math/abs (- re-dot re-conj)) 1.0E-10)
    (< (Math/abs (- im-dot im-conj)) 1.0E-10))))
 
 
-(deftest t130_l455 (is (true? v129_l450)))
+(deftest t131_l461 (is (true? v130_l456)))
 
 
 (def
- v132_l461
+ v133_l467
  (let
   [[re-ab im-ab]
-   (cx/cdot-conj a b)
+   (re-im (la/dot-conj a b))
    [re-aa _]
-   (cx/cdot-conj a a)
+   (re-im (la/dot-conj a a))
    [re-bb _]
-   (cx/cdot-conj b b)
+   (re-im (la/dot-conj b b))
    lhs
    (+ (* re-ab re-ab) (* im-ab im-ab))
    rhs
@@ -535,100 +551,92 @@
   (<= (- lhs 1.0E-10) rhs)))
 
 
-(deftest t133_l468 (is (true? v132_l461)))
+(deftest t134_l474 (is (true? v133_l467)))
 
 
 (def
- v135_l474
+ v136_l480
  (let
   [alpha
    3.7
    [re1 im1]
-   (cx/cdot-conj (cx/cscale a alpha) b)
+   (re-im (la/dot-conj (el/scale a alpha) b))
    [re2 im2]
-   (cx/cdot-conj a b)]
+   (re-im (la/dot-conj a b))]
   (and
    (< (Math/abs (- re1 (* alpha re2))) 1.0E-10)
    (< (Math/abs (- im1 (* alpha im2))) 1.0E-10))))
 
 
-(deftest t136_l480 (is (true? v135_l474)))
+(deftest t137_l486 (is (true? v136_l480)))
 
 
 (def
- v138_l490
+ v139_l496
  (let
-  [ct (cx/complex-tensor [1.0 2.0] [3.0 4.0])]
-  (vec (dtype/shape (cx/->tensor ct)))))
+  [ct (t/complex-tensor [1.0 2.0] [3.0 4.0])]
+  (vec (dtype/shape (t/->tensor ct)))))
 
 
-(deftest t139_l493 (is (= v138_l490 [2 2])))
+(deftest t140_l499 (is (= v139_l496 [2 2])))
 
 
 (def
- v141_l497
+ v142_l503
  (let
-  [ct
-   (cx/complex-tensor [1.0 2.0] [3.0 4.0])
-   arr
-   (cx/->double-array ct)]
-  {:identical? (identical? arr (cx/->double-array ct)),
-   :values (vec arr)}))
+  [ct (t/complex-tensor [1.0 2.0] [3.0 4.0])]
+  (vec (t/->double-array ct))))
 
 
-(deftest
- t143_l504
- (is
-  ((fn [v] (and (:identical? v) (= (:values v) [1.0 3.0 2.0 4.0])))
-   v141_l497)))
+(deftest t144_l508 (is (= v142_l503 [1.0 3.0 2.0 4.0])))
 
 
 (def
- v145_l515
+ v146_l518
  (def
   mat
-  (cx/complex-tensor
+  (t/complex-tensor
    [[1.0 2.0 3.0] [4.0 5.0 6.0]]
    [[0.1 0.2 0.3] [0.4 0.5 0.6]])))
 
 
-(def v146_l520 (cx/complex-shape mat))
+(def v147_l523 (t/complex-shape mat))
 
 
-(deftest t147_l522 (is (= v146_l520 [2 3])))
+(deftest t148_l525 (is (= v147_l523 [2 3])))
 
 
-(def v148_l524 (count mat))
+(def v149_l527 (count mat))
 
 
-(deftest t149_l526 (is (= v148_l524 2)))
+(deftest t150_l529 (is (= v149_l527 2)))
 
 
 (def
- v151_l530
+ v152_l533
  (let
   [row (mat 0)]
-  {:shape (cx/complex-shape row), :re (vec (cx/re row))}))
+  {:shape (t/complex-shape row), :re (vec (el/re row))}))
 
 
 (deftest
- t152_l534
+ t153_l537
  (is
   ((fn [v] (and (= (:shape v) [3]) (= (:re v) [1.0 2.0 3.0])))
-   v151_l530)))
+   v152_l533)))
 
 
 (def
- v154_l539
+ v155_l542
  (let
-  [re-mat (cx/re mat) shape (vec (dtype/shape re-mat))]
+  [re-mat (el/re mat) shape (vec (dtype/shape re-mat))]
   {:shape shape,
    :row0 (vec (tensor/select re-mat 0 :all)),
    :row1 (vec (tensor/select re-mat 1 :all))}))
 
 
 (deftest
- t155_l545
+ t156_l548
  (is
   ((fn
     [v]
@@ -636,141 +644,26 @@
      (= (:shape v) [2 3])
      (= (:row0 v) [1.0 2.0 3.0])
      (= (:row1 v) [4.0 5.0 6.0])))
-   v154_l539)))
+   v155_l542)))
 
 
-(def v157_l559 (cx/complex-tensor (tensor/->tensor [3.0 4.0])))
-
-
-(deftest
- t158_l561
- (is
-  ((fn [v] (clojure.string/includes? (str v) "3.0+4.0i")) v157_l559)))
-
-
-(def v160_l565 (cx/complex-tensor (tensor/->tensor [3.0 -4.0])))
+(def v158_l557 (str (t/complex 3.0 4.0)))
 
 
 (deftest
- t161_l567
- (is
-  ((fn [v] (clojure.string/includes? (str v) "3.0-4.0i")) v160_l565)))
+ t159_l559
+ (is ((fn [v] (clojure.string/includes? v "ComplexTensor")) v158_l557)))
 
 
-(def v163_l571 (cx/complex-tensor (tensor/->tensor [5.0 0.0])))
+(def v160_l561 (str (t/complex-tensor [1.0 2.0] [3.0 4.0])))
 
 
-(deftest
- t164_l573
- (is ((fn [v] (clojure.string/includes? (str v) "5.0")) v163_l571)))
-
-
-(def v166_l577 (cx/complex-tensor (tensor/->tensor [0.0 0.0])))
-
-
-(deftest
- t167_l579
- (is ((fn [v] (clojure.string/includes? (str v) "0.0")) v166_l577)))
-
-
-(def v169_l583 (cx/complex-tensor (tensor/->tensor [0.0 3.0])))
-
-
-(deftest
- t170_l585
- (is ((fn [v] (clojure.string/includes? (str v) "3.0i")) v169_l583)))
-
-
-(def v172_l589 (cx/complex-tensor (tensor/->tensor [0.0 1.0])))
-
-
-(deftest
- t173_l591
- (is ((fn [v] (clojure.string/ends-with? (str v) "\ni")) v172_l589)))
-
-
-(def v174_l593 (cx/complex-tensor (tensor/->tensor [0.0 -1.0])))
-
-
-(deftest
- t175_l595
- (is ((fn [v] (clojure.string/ends-with? (str v) "\n-i")) v174_l593)))
-
-
-(def v177_l599 (cx/complex-tensor (tensor/->tensor [-2.0 3.0])))
-
-
-(deftest
- t178_l601
- (is
-  ((fn [v] (clojure.string/includes? (str v) "-2.0+3.0i")) v177_l599)))
-
-
-(def v180_l608 (cx/complex-tensor [1.0 3.0] [2.0 4.0]))
-
-
-(deftest
- t181_l610
- (is
-  ((fn [v] (clojure.string/includes? (str v) "[1.0+2.0i, 3.0+4.0i]"))
-   v180_l608)))
-
-
-(def v182_l612 (cx/complex-tensor-real [1.0 2.0]))
-
-
-(deftest
- t183_l614
- (is
-  ((fn [v] (clojure.string/includes? (str v) "[1.0, 2.0]")) v182_l612)))
-
-
-(def v185_l618 (cx/complex-tensor [1.0 0.0 -1.0] [2.0 3.0 0.0]))
-
-
-(deftest
- t186_l620
- (is
-  ((fn [v] (clojure.string/includes? (str v) "[1.0+2.0i, 3.0i, -1.0]"))
-   v185_l618)))
-
-
-(def v188_l624 (cx/complex-tensor-real (vec (range 25.0))))
-
-
-(deftest
- t189_l626
- (is
-  ((fn [v] (clojure.string/includes? (str v) "... (25 total)"))
-   v188_l624)))
+(deftest t161_l563 (is (= v160_l561 "ComplexTensor<float64>[2]")))
 
 
 (def
- v191_l632
- (cx/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]]))
+ v162_l565
+ (str (t/complex-tensor [[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]])))
 
 
-(deftest
- t192_l635
- (is
-  ((fn
-    [v]
-    (and
-     (clojure.string/includes? (str v) "#ComplexTensor [2 2]")
-     (clojure.string/includes? (str v) "[1.0+5.0i, 2.0+6.0i]")
-     (clojure.string/includes? (str v) "[3.0+7.0i, 4.0+8.0i]")))
-   v191_l632)))
-
-
-(def
- v194_l643
- (cx/complex-tensor
-  [[[1.0 2.0] [3.0 4.0]] [[5.0 6.0] [7.0 8.0]]]
-  [[[0.1 0.2] [0.3 0.4]] [[0.5 0.6] [0.7 0.8]]]))
-
-
-(deftest
- t195_l648
- (is
-  ((fn [v] (clojure.string/includes? (str v) "#ComplexTensor [2 2 2]"))
-   v194_l643)))
+(deftest t163_l568 (is (= v162_l565 "ComplexTensor<float64>[2 2]")))

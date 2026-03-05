@@ -13,7 +13,8 @@
 (ns harmonica-book.character-theory
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
    [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
@@ -62,7 +63,7 @@
 
 ;; Every entry has magnitude 1:
 
-(allclose? (cx/cabs (:table (hm/character-table (hm/cyclic-group 8)))) 1.0)
+(allclose? (el/abs (:table (hm/character-table (hm/cyclic-group 8)))) 1.0)
 
 (kind/test-last [true?])
 
@@ -74,8 +75,8 @@
 ;; A remarkable fact: all entries are **real integers**.
 
 (let [table (:table (hm/character-table (hm/symmetric-group 4)))
-      re-vals (cx/re table)]
-  (and (allclose? (cx/im table) 0.0)
+      re-vals (el/re table)]
+  (and (allclose? (el/im table) 0.0)
        (allclose? re-vals (dfn/rint re-vals))))
 
 (kind/test-last [true?])
@@ -91,7 +92,7 @@
 (hm/show-character-table (hm/character-table (hm/symmetric-group 3)))
 
 (let [ct (hm/character-table (hm/symmetric-group 3))
-      re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
+      re-table (mapv (fn [row] (mapv #(Math/round (el/re %)) row))
                      (:table ct))]
   re-table)
 
@@ -106,7 +107,7 @@
 (hm/show-character-table (hm/character-table (hm/symmetric-group 4)))
 
 (let [ct (hm/character-table (hm/symmetric-group 4))
-      re-table (mapv (fn [row] (mapv #(Math/round (cx/re %)) row))
+      re-table (mapv (fn [row] (mapv #(Math/round (el/re %)) row))
                      (:table ct))]
   re-table)
 
@@ -140,8 +141,8 @@
                          (fn [k sz]
                            (let [ci ((table i) k) cj ((table j) k)]
                              (* (double sz)
-                                (+ (* (cx/re ci) (cx/re cj))
-                                   (* (cx/im ci) (cx/im cj))))))
+                                (+ (* (el/re ci) (el/re cj))
+                                   (* (el/im ci) (el/im cj))))))
                          class-sizes)))
       max-err (apply max
                      (for [i (range n) j (range n)]
@@ -168,8 +169,8 @@
                      (for [i (range n) j (range n)]
                        (let [ip (reduce + (map (fn [row]
                                                  (let [ci (row i) cj (row j)]
-                                                   (+ (* (cx/re ci) (cx/re cj))
-                                                      (* (cx/im ci) (cx/im cj)))))
+                                                   (+ (* (el/re ci) (el/re cj))
+                                                      (* (el/im ci) (el/im cj)))))
                                                table))
                              expected (if (= i j)
                                         (/ (double order) (double (nth class-sizes i)))
@@ -193,9 +194,9 @@
 ;; The $D_3 \cong S_3$ isomorphism means their character dimensions match:
 
 (let [ct-d3 (hm/character-table (hm/dihedral-group 3))
-      dims (sort (mapv #(Math/round (cx/re (% 0))) (:table ct-d3)))
+      dims (sort (mapv #(Math/round (el/re (% 0))) (:table ct-d3)))
       ct-s3 (hm/character-table (hm/symmetric-group 3))
-      dims-s3 (sort (mapv #(Math/round (cx/re (% 0))) (:table ct-s3)))]
+      dims-s3 (sort (mapv #(Math/round (el/re (% 0))) (:table ct-s3)))]
   (= dims dims-s3))
 
 (kind/test-last [true?])
@@ -208,7 +209,7 @@
 ;; The trivial character $\chi_{[n]}$ has value 1 for every conjugacy class.
 
 (let [trivial-row (first (:table (hm/character-table (hm/symmetric-group 5))))]
-  (allclose? (cx/re trivial-row) 1.0))
+  (allclose? (el/re trivial-row) 1.0))
 
 (kind/test-last [true?])
 
@@ -222,7 +223,7 @@
       sign-row (nth (:table ct) row-idx)
       classes (:classes ct)
       expected (mapv (fn [mu] (Math/pow -1 (- 5 (count mu)))) classes)]
-  (allclose? (cx/re sign-row) expected))
+  (allclose? (el/re sign-row) expected))
 
 (kind/test-last [true?])
 

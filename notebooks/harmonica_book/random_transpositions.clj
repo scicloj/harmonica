@@ -17,7 +17,8 @@
 (ns harmonica-book.random-transpositions
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
@@ -35,7 +36,7 @@
                         (map #(str %) (:classes ct)))
     :row-vectors (mapv (fn [label row]
                          (into [(str label)]
-                               (map #(long (cx/re %)) row)))
+                               (map #(long (el/re %)) row)))
                        (:irrep-labels ct) (:table ct))}))
 
 ;; Each entry $\chi_\lambda(\mu)$ is an integer. The first column (identity
@@ -64,7 +65,7 @@
                                (map (fn [j]
                                       (let [v (hm/character-inner-product
                                                (table i) (table j) sizes order)]
-                                        (format "%.0f" (cx/re v))))
+                                        (format "%.0f" (el/re v))))
                                     (range (count table)))))
                        (range (count table)))}))
 
@@ -76,7 +77,7 @@
       k (count (:irrep-labels ct))
       errors (double-array
               (for [i (range k) j (range k)]
-                (- (cx/re (hm/character-inner-product
+                (- (el/re (hm/character-inner-product
                            (table i) (table j) sizes 120))
                    (if (= i j) 1.0 0.0))))]
   (allclose? errors 0.0))
@@ -160,8 +161,8 @@
     :row-vectors
     (mapv (fn [i]
             (let [lam ((:irrep-labels ct) i)
-                  d (long (cx/re ((table i) 0)))
-                  chi-t (long (cx/re ((table i) trans-idx)))
+                  d (long (el/re ((table i) 0)))
+                  chi-t (long (el/re ((table i) trans-idx)))
                   from-table (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ (double chi-t) d))) M)]
               [(str lam) d (format "%.4f" from-table) (format "%.4f" (eigenvalue n lam))]))
           (range (count table)))}))
@@ -178,8 +179,8 @@
       (every?
        (fn [i]
          (let [lam ((:irrep-labels ct) i)
-               d (cx/re ((table i) 0))
-               chi-t (cx/re ((table i) trans-idx))
+               d (el/re ((table i) 0))
+               chi-t (el/re ((table i) trans-idx))
                from-table (/ (+ 1.0 (* (/ (* n (dec n)) 2) (/ chi-t d))) M)]
            (< (Math/abs (- from-table (eigenvalue n lam))) 1e-10)))
        (range (count table)))))])

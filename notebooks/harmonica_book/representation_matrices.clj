@@ -14,7 +14,8 @@
   (:require
    [scicloj.harmonica :as hm]
    [scicloj.harmonica.analysis.representations :as rep]
-   [scicloj.harmonica.linalg.complex :as cx]
+   [scicloj.lalinea.tensor :as t]
+   [scicloj.lalinea.elementwise :as el]
    [fastmath.matrix :as fm]
    [tech.v3.tensor :as tensor]
    [scicloj.kindly.v4.kind :as kind]))

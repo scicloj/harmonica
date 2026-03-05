@@ -7,7 +7,8 @@
             [clojure.test.check.properties :as prop]
             [clojure.test.check.clojure-test :refer [defspec]]
             [scicloj.harmonica :as hm]
-            [scicloj.harmonica.linalg.complex :as cx]
+            [scicloj.lalinea.tensor :as t]
+            [scicloj.lalinea.elementwise :as el]
             [scicloj.harmonica.analysis.characters :as ch]
             [fastmath.matrix :as fm]))
 
@@ -106,7 +107,7 @@
           k (count (:irrep-labels ct))]
       (every? true?
               (for [i (range k) j (range (inc i) k)]
-                (let [ip (cx/cabs (hm/character-inner-product
+                (let [ip (el/abs (hm/character-inner-product
                                     (table i) (table j) sizes order))]
                   (< ip 1e-8)))))))
 
@@ -120,11 +121,11 @@
           ;; For S_n, identity is the class with cycle type [1 1 ... 1]
           ;; which is the last column
           dims (mapv (fn [i]
-                       (let [row-re (cx/re (table i))]
+                       (let [row-re (el/re (table i))]
                          ;; Identity class is the one with cycle type [1,...,1]
                          ;; which has index matching the trivial partition
                          ;; Actually just compute dimension from hook-length
-                         (long (Math/round (cx/re ((table i) 0))))))
+                         (long (Math/round (el/re ((table i) 0))))))
                      (range (count (:irrep-labels ct))))
           sum-sq (reduce + (map #(* % %) dims))]
       (= sum-sq (hm/order G)))))
@@ -197,11 +198,11 @@
   (prop/for-all [n (gen/choose 2 16)]
     (let [G (hm/cyclic-group n)
           ct (hm/character-table G)
-          signal (cx/complex-tensor-real
+          signal (t/complex-tensor-real
                    (mapv (fn [_] (double (- (rand-int 201) 100))) (range n)))
           f-hat (hm/fourier-transform ct signal)
           recovered (hm/inverse-fourier-transform ct f-hat)
-          max-err (apply max (vec (cx/cabs (cx/csub recovered signal))))]
+          max-err (apply max (vec (el/abs (el/- recovered signal))))]
       (< max-err 1e-8))))
 
 ;; ---------------------------------------------------------------------------

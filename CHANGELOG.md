@@ -25,3 +25,16 @@ Initial release.
 - **SVG visualizations**: `young-diagram-svg`, `young-hooks-svg`, `syt-svg`, `cycle-diagram-svg`, `cayley-table-svg`, `cayley-graph-svg`
 - **ComplexTensor**: interleaved `double[]` complex arithmetic (`complex-tensor`, `cmul`, `cabs`, `cdot`, `cconj`, etc.)
 - **EJML interop**: zero-copy bridge between ComplexTensor and `ZMatrixRMaj`
+
+## [Unreleased]
+
+### Changed
+
+- **Migrated to lalinea** for complex arithmetic and linear algebra — replaces `harmonica.linalg.complex` and `harmonica.linalg.ejml`
+- **Simplified analysis layer** (`fourier.clj`, `characters.clj`) using lalinea's field dispatch (`el/*`, `la/dot`, etc.)
+- No direct dtype-next dependency — lalinea provides the numeric layer
+
+### Removed
+
+- `scicloj.harmonica.linalg.complex` — superseded by `scicloj.lalinea.tensor` / `scicloj.lalinea.elementwise`
+- `scicloj.harmonica.linalg.ejml` — superseded by `scicloj.lalinea.linalg` (EJML dispatch is automatic)
