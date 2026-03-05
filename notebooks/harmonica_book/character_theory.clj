@@ -16,7 +16,6 @@
    [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
-   [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## What is a character?
@@ -77,7 +76,7 @@
 (let [table (:table (hm/character-table (hm/symmetric-group 4)))
       re-vals (el/re table)]
   (and (allclose? (el/im table) 0.0)
-       (allclose? re-vals (dfn/rint re-vals))))
+       (allclose? re-vals (el/round re-vals))))
 
 (kind/test-last [true?])
 

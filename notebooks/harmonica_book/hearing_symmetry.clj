@@ -12,8 +12,7 @@
    [scicloj.kindly.v4.kind :as kind]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
-   [tech.v3.datatype :as dtype]
-   [tech.v3.datatype.functional :as dfn]))
+   [scicloj.lalinea.tensor :as t]))
 
 ;; ## The Klein Four-Group
 ;;
@@ -69,7 +68,7 @@
         attack (long (* 0.015 sample-rate))
         sounding (long (* 0.85 n-note))
         release (long (* 0.06 sample-rate))]
-    (dtype/make-reader
+    (t/make-reader
      :float32
      (* (count melody) n-note)
      (let [note-idx (quot idx n-note)

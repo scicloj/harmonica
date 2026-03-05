@@ -2,14 +2,11 @@
  harmonica-book.dft-as-group-fourier-generated-test
  (:require
   [scicloj.harmonica :as hm]
-  [scicloj.lalinea.tensor :as lt]
+  [scicloj.lalinea.tensor :as t]
   [scicloj.lalinea.elementwise :as el]
   [harmonica-book.book-helpers :refer [allclose?]]
-  [fastmath.transform :as t]
-  [tech.v3.datatype :as dtype]
-  [tech.v3.datatype.functional :as dfn]
+  [fastmath.transform :as ft]
   [tech.v3.datatype.convolve :as dt-conv]
-  [tech.v3.tensor :as tensor]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
   [scicloj.kindly.v4.kind :as kind]
@@ -17,14 +14,14 @@
 
 
 (def
- v3_l35
+ v3_l32
  (def
   temperatures
   [2 3 7 12 17 22 25 24 19 13 7 3 3 4 8 13 18 23 26 25 20 14 8 4]))
 
 
 (def
- v4_l39
+ v4_l36
  (->
   (tc/dataset {:month (range 24), :temp temperatures})
   (plotly/base
@@ -38,53 +35,53 @@
   plotly/plot))
 
 
-(def v6_l57 (def G (hm/cyclic-group 24)))
+(def v6_l54 (def G (hm/cyclic-group 24)))
 
 
-(def v7_l59 (hm/elements G))
+(def v7_l56 (hm/elements G))
 
 
-(deftest t8_l61 (is (= v7_l59 (range 24))))
+(deftest t8_l58 (is (= v7_l56 (range 24))))
 
 
-(def v10_l66 (hm/op G 15 9))
+(def v10_l63 (hm/op G 15 9))
 
 
-(deftest t11_l68 (is (= v10_l66 0)))
+(deftest t11_l65 (is (= v10_l63 0)))
 
 
-(def v12_l71 (hm/op G 18 10))
+(def v12_l68 (hm/op G 18 10))
 
 
-(deftest t13_l73 (is (= v12_l71 4)))
+(deftest t13_l70 (is (= v12_l68 4)))
 
 
-(def v15_l78 (hm/inv G 15))
+(def v15_l75 (hm/inv G 15))
 
 
-(deftest t16_l80 (is (= v15_l78 9)))
+(deftest t16_l77 (is (= v15_l75 9)))
 
 
-(def v18_l112 (def ct (hm/character-table G)))
+(def v18_l109 (def ct (hm/character-table G)))
 
 
-(def v19_l114 ct)
+(def v19_l111 ct)
 
 
-(def v21_l118 (allclose? (el/abs (:table ct)) 1.0))
+(def v21_l115 (allclose? (el/abs (:table ct)) 1.0))
 
 
-(deftest t22_l120 (is (true? v21_l118)))
+(deftest t22_l117 (is (true? v21_l115)))
 
 
-(def v24_l125 (allclose? (el/re ((:table ct) 0)) 1.0))
+(def v24_l122 (allclose? (el/re ((:table ct) 0)) 1.0))
 
 
-(deftest t25_l127 (is (true? v24_l125)))
+(deftest t25_l124 (is (true? v24_l122)))
 
 
 (def
- v27_l133
+ v27_l130
  (->
   (tc/dataset
    (let
@@ -106,28 +103,28 @@
   plotly/plot))
 
 
-(def v29_l164 (def signal (lt/complex-tensor-real temperatures)))
+(def v29_l161 (def signal (t/complex-tensor-real temperatures)))
 
 
-(def v30_l166 signal)
+(def v30_l163 signal)
 
 
-(def v31_l168 (def f-hat (hm/fourier-transform ct signal)))
+(def v31_l165 (def f-hat (hm/fourier-transform ct signal)))
 
 
-(def v32_l170 f-hat)
+(def v32_l167 f-hat)
 
 
-(def v34_l174 (el/re (f-hat 0)))
+(def v34_l171 (el/re (f-hat 0)))
 
 
 (deftest
- t35_l176
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v34_l174)))
+ t35_l173
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v34_l171)))
 
 
 (def
- v37_l181
+ v37_l178
  (->
   (tc/dataset {:frequency (range 24), :magnitude (vec (el/abs f-hat))})
   (plotly/base
@@ -142,32 +139,32 @@
 
 
 (def
- v39_l216
+ v39_l213
  (let
   [fft-result
-   (t/forward-1d (t/transformer :real :fft) temperatures)
+   (ft/forward-1d (ft/transformer :real :fft) temperatures)
    fft-coefficients
    (let
     [data (vec fft-result) n (/ (count data) 2)]
-    (lt/complex-tensor
+    (t/complex-tensor
      (mapv (fn [k] (data (* 2 k))) (range n))
      (mapv (fn [k] (data (inc (* 2 k)))) (range n))))]
   (allclose?
-   (dtype/sub-buffer (el/abs f-hat) 0 12)
+   (t/select (el/abs f-hat) (range 12))
    (el/abs fft-coefficients)
    1.0E-8)))
 
 
-(deftest t40_l225 (is (true? v39_l216)))
+(deftest t40_l222 (is (true? v39_l213)))
 
 
 (def
- v42_l242
+ v42_l239
  (def
   orthogonality-matrix
   (let
    [table (:table ct) sizes (:class-sizes ct) n 24]
-   (tensor/compute-tensor
+   (t/compute-tensor
     [n n]
     (fn
      [j k]
@@ -175,65 +172,62 @@
     :float64))))
 
 
-(def v43_l252 orthogonality-matrix)
+(def v43_l249 orthogonality-matrix)
 
 
 (def
- v45_l257
+ v45_l254
  (allclose?
   orthogonality-matrix
-  (tensor/compute-tensor
-   [24 24]
-   (fn [j k] (if (= j k) 1.0 0.0))
-   :float64)))
+  (t/compute-tensor [24 24] (fn [j k] (if (= j k) 1.0 0.0)) :float64)))
 
 
-(deftest t46_l260 (is (true? v45_l257)))
+(deftest t46_l257 (is (true? v45_l254)))
 
 
 (def
- v48_l269
+ v48_l266
  (let
   [reconstructed (hm/inverse-fourier-transform ct f-hat)]
-  (dfn/reduce-max (el/abs (el/- reconstructed signal)))))
+  (el/reduce-max (el/abs (el/- reconstructed signal)))))
 
 
-(deftest t49_l271 (is ((fn [err] (< err 1.0E-10)) v48_l269)))
+(deftest t49_l268 (is ((fn [err] (< err 1.0E-10)) v48_l266)))
 
 
 (def
- v51_l290
+ v51_l287
  (def
   f-fn
-  (lt/complex-tensor-real
+  (t/complex-tensor-real
    [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3])))
 
 
 (def
- v52_l292
+ v52_l289
  (def
   h-fn
-  (lt/complex-tensor-real
+  (t/complex-tensor-real
    [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
-(def v54_l297 (def convolved (hm/convolve ct f-fn h-fn)))
+(def v54_l294 (def convolved (hm/convolve ct f-fn h-fn)))
 
 
 (def
- v55_l299
+ v55_l296
  (mapv
-  (fn* [p1__66219#] (Math/round p1__66219#))
+  (fn* [p1__91394#] (Math/round p1__91394#))
   (vec (el/re convolved))))
 
 
 (deftest
- t56_l301
- (is (= v55_l299 [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
+ t56_l298
+ (is (= v55_l296 [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
 
 
 (def
- v58_l306
+ v58_l303
  (let
   [f-fn-hat
    (hm/fourier-transform ct f-fn)
@@ -244,56 +238,56 @@
    pointwise-product
    (el/* f-fn-hat h-fn-hat)]
   (<
-   (dfn/reduce-max (el/abs (el/- convolved-hat pointwise-product)))
+   (el/reduce-max (el/abs (el/- convolved-hat pointwise-product)))
    1.0E-8)))
 
 
-(deftest t59_l312 (is (true? v58_l306)))
+(deftest t59_l309 (is (true? v58_l303)))
 
 
 (def
- v61_l323
+ v61_l320
  (let
   [mag-s
    (el/abs signal)
    mag-f
    (el/abs f-hat)
    energy-time
-   (dfn/sum (dfn/* mag-s mag-s))
+   (el/sum (el/* mag-s mag-s))
    energy-freq
-   (/ (dfn/sum (dfn/* mag-f mag-f)) (double (hm/order G)))]
+   (/ (el/sum (el/* mag-f mag-f)) (double (hm/order G)))]
   (< (Math/abs (- energy-time energy-freq)) 1.0E-8)))
 
 
-(deftest t62_l329 (is (true? v61_l323)))
+(deftest t62_l326 (is (true? v61_l320)))
 
 
 (def
- v64_l339
+ v64_l336
  (def f-real [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
 
 
 (def
- v65_l341
+ v65_l338
  (def h-real [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 
 (def
- v67_l346
+ v67_l343
  (def
   linear-conv
   (vec
    (dt-conv/convolve1d f-real h-real {:mode :full, :edge-mode :zero}))))
 
 
-(def v68_l349 (count linear-conv))
+(def v68_l346 (count linear-conv))
 
 
-(deftest t69_l351 (is (= v68_l349 47)))
+(deftest t69_l348 (is (= v68_l346 47)))
 
 
 (def
- v71_l356
+ v71_l353
  (def
   cyclic-from-linear
   (let
@@ -307,30 +301,30 @@
     (range n)))))
 
 
-(def v72_l365 cyclic-from-linear)
+(def v72_l362 cyclic-from-linear)
 
 
 (deftest
- t73_l367
+ t73_l364
  (is
   ((fn
     [v]
     (=
      (mapv long v)
      [3 4 3 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
-   v72_l365)))
+   v72_l362)))
 
 
 (def
- v75_l372
+ v75_l369
  (let
   [group-conv
    (el/re
     (hm/convolve
      ct
-     (lt/complex-tensor-real f-real)
-     (lt/complex-tensor-real h-real)))]
+     (t/complex-tensor-real f-real)
+     (t/complex-tensor-real h-real)))]
   (allclose? cyclic-from-linear group-conv)))
 
 
-(deftest t76_l377 (is (true? v75_l372)))
+(deftest t76_l374 (is (true? v75_l369)))

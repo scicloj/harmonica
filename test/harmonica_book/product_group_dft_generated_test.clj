@@ -4,55 +4,53 @@
   [scicloj.harmonica :as hm]
   [scicloj.lalinea.tensor :as t]
   [scicloj.lalinea.elementwise :as el]
-  [tech.v3.datatype :as dtype]
-  [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l29 (def G1 (hm/cyclic-group 4)))
+(def v3_l27 (def G1 (hm/cyclic-group 4)))
 
 
-(def v4_l30 (def G2 (hm/cyclic-group 3)))
+(def v4_l28 (def G2 (hm/cyclic-group 3)))
 
 
-(def v5_l31 (def G (hm/product-group G1 G2)))
+(def v5_l29 (def G (hm/product-group G1 G2)))
 
 
-(def v6_l33 (hm/order G))
+(def v6_l31 (hm/order G))
 
 
-(deftest t7_l35 (is (= v6_l33 12)))
+(deftest t7_l33 (is (= v6_l31 12)))
 
 
-(def v9_l39 (take 6 (hm/elements G)))
+(def v9_l37 (take 6 (hm/elements G)))
 
 
-(def v11_l43 (hm/op G [1 2] [3 1]))
+(def v11_l41 (hm/op G [1 2] [3 1]))
 
 
-(deftest t12_l45 (is (= v11_l43 [0 0])))
+(deftest t12_l43 (is (= v11_l41 [0 0])))
 
 
-(def v14_l58 (def ct (hm/character-table G)))
+(def v14_l56 (def ct (hm/character-table G)))
 
 
-(def v15_l60 ct)
+(def v15_l58 ct)
 
 
-(def v16_l62 (count (:irrep-labels ct)))
+(def v16_l60 (count (:irrep-labels ct)))
 
 
-(deftest t17_l64 (is (= v16_l62 12)))
+(deftest t17_l62 (is (= v16_l60 12)))
 
 
 (def
- v19_l75
+ v19_l73
  (def image-data [1.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 3.0 1.0 1.0 1.0]))
 
 
 (def
- v20_l81
+ v20_l79
  (kind/plotly
   {:data
    [{:type "heatmap",
@@ -69,7 +67,7 @@
 
 
 (def
- v22_l96
+ v22_l94
  (let
   [elts
    (vec (hm/elements G))
@@ -78,28 +76,28 @@
   (count f-map)))
 
 
-(deftest t23_l100 (is (= v22_l96 12)))
+(deftest t23_l98 (is (= v22_l94 12)))
 
 
-(def v25_l104 (def signal (t/complex-tensor-real image-data)))
+(def v25_l102 (def signal (t/complex-tensor-real image-data)))
 
 
-(def v26_l106 (def f-hat (hm/fourier-transform ct signal)))
+(def v26_l104 (def f-hat (hm/fourier-transform ct signal)))
 
 
-(def v27_l108 f-hat)
+(def v27_l106 f-hat)
 
 
-(def v29_l112 (el/re (f-hat 0)))
+(def v29_l110 (el/re (f-hat 0)))
 
 
 (deftest
- t30_l114
- (is ((fn [v] (< (Math/abs (- v 9.0)) 1.0E-10)) v29_l112)))
+ t30_l112
+ (is ((fn [v] (< (Math/abs (- v 9.0)) 1.0E-10)) v29_l110)))
 
 
 (def
- v32_l121
+ v32_l119
  (let
   [recovered
    (hm/inverse-fourier-transform ct f-hat)
@@ -108,11 +106,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t33_l125 (is (true? v32_l121)))
+(deftest t33_l123 (is (true? v32_l119)))
 
 
 (def
- v35_l141
+ v35_l139
  (let
   [m
    4
@@ -129,7 +127,7 @@
      (t/complex-tensor-real (subvec image-data (* i n) (* (inc i) n))))
     (range m))
    rows-transformed
-   (mapv (fn* [p1__66522#] (hm/fourier-transform ct2 p1__66522#)) rows)
+   (mapv (fn* [p1__89685#] (hm/fourier-transform ct2 p1__89685#)) rows)
    cols-of-transformed
    (mapv
     (fn
@@ -141,7 +139,7 @@
     (range n))
    cols-transformed
    (mapv
-    (fn* [p1__66523#] (hm/fourier-transform ct1 p1__66523#))
+    (fn* [p1__89686#] (hm/fourier-transform ct1 p1__89686#))
     cols-of-transformed)
    separable-result
    (t/complex-tensor
@@ -157,14 +155,14 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t36_l171 (is (true? v35_l141)))
+(deftest t36_l169 (is (true? v35_l139)))
 
 
 (def
- v38_l180
+ v38_l178
  (let
   [energy-space
-   (dfn/sum (dfn/* (el/re signal) (el/re signal)))
+   (el/sum (el/* (el/re signal) (el/re signal)))
    mags-sq
    (mapv
     (fn
@@ -178,11 +176,11 @@
   (< (Math/abs (- energy-space energy-freq)) 1.0E-10)))
 
 
-(deftest t39_l188 (is (true? v38_l180)))
+(deftest t39_l186 (is (true? v38_l178)))
 
 
 (def
- v41_l196
+ v41_l194
  (let
   [f
    (t/complex-tensor-real
@@ -205,11 +203,11 @@
   (< max-err 1.0E-10)))
 
 
-(deftest t42_l215 (is (true? v41_l196)))
+(deftest t42_l213 (is (true? v41_l194)))
 
 
 (def
- v44_l222
+ v44_l220
  (let
   [m
    6

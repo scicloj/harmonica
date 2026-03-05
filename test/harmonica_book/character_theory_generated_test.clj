@@ -5,38 +5,37 @@
   [scicloj.lalinea.tensor :as t]
   [scicloj.lalinea.elementwise :as el]
   [harmonica-book.book-helpers :refer [allclose?]]
-  [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
 (def
- v3_l57
+ v3_l56
  (let
   [ct (hm/character-table (hm/cyclic-group 6))]
   (count (:table ct))))
 
 
-(deftest t4_l60 (is (= v3_l57 6)))
+(deftest t4_l59 (is (= v3_l56 6)))
 
 
 (def
- v5_l62
+ v5_l61
  (hm/show-character-table (hm/character-table (hm/cyclic-group 6))))
 
 
 (def
- v7_l66
+ v7_l65
  (allclose?
   (el/abs (:table (hm/character-table (hm/cyclic-group 8))))
   1.0))
 
 
-(deftest t8_l68 (is (true? v7_l66)))
+(deftest t8_l67 (is (true? v7_l65)))
 
 
 (def
- v10_l77
+ v10_l76
  (let
   [table
    (:table (hm/character-table (hm/symmetric-group 4)))
@@ -44,19 +43,19 @@
    (el/re table)]
   (and
    (allclose? (el/im table) 0.0)
-   (allclose? re-vals (dfn/rint re-vals)))))
+   (allclose? re-vals (el/round re-vals)))))
 
 
-(deftest t11_l82 (is (true? v10_l77)))
+(deftest t11_l81 (is (true? v10_l76)))
 
 
 (def
- v13_l92
+ v13_l91
  (hm/show-character-table (hm/character-table (hm/symmetric-group 3))))
 
 
 (def
- v14_l94
+ v14_l93
  (let
   [ct
    (hm/character-table (hm/symmetric-group 3))
@@ -64,21 +63,21 @@
    (mapv
     (fn
      [row]
-     (mapv (fn* [p1__67151#] (Math/round (el/re p1__67151#))) row))
+     (mapv (fn* [p1__89401#] (Math/round (el/re p1__89401#))) row))
     (:table ct))]
   re-table))
 
 
-(deftest t15_l99 (is (= v14_l94 [[1 1 1] [2 0 -1] [1 -1 1]])))
+(deftest t15_l98 (is (= v14_l93 [[1 1 1] [2 0 -1] [1 -1 1]])))
 
 
 (def
- v17_l107
+ v17_l106
  (hm/show-character-table (hm/character-table (hm/symmetric-group 4))))
 
 
 (def
- v18_l109
+ v18_l108
  (let
   [ct
    (hm/character-table (hm/symmetric-group 4))
@@ -86,16 +85,16 @@
    (mapv
     (fn
      [row]
-     (mapv (fn* [p1__67152#] (Math/round (el/re p1__67152#))) row))
+     (mapv (fn* [p1__89402#] (Math/round (el/re p1__89402#))) row))
     (:table ct))]
   re-table))
 
 
 (deftest
- t19_l114
+ t19_l113
  (is
   (=
-   v18_l109
+   v18_l108
    [[1 1 1 1 1]
     [3 1 -1 0 -1]
     [2 0 2 -1 0]
@@ -104,7 +103,7 @@
 
 
 (def
- v21_l135
+ v21_l134
  (let
   [ct
    (hm/character-table (hm/symmetric-group 4))
@@ -137,11 +136,11 @@
   (< max-err 1.0E-8)))
 
 
-(deftest t22_l153 (is (true? v21_l135)))
+(deftest t22_l152 (is (true? v21_l134)))
 
 
 (def
- v24_l164
+ v24_l163
  (let
   [ct
    (hm/character-table (hm/symmetric-group 4))
@@ -176,50 +175,50 @@
   (< max-err 1.0E-8)))
 
 
-(deftest t25_l181 (is (true? v24_l164)))
+(deftest t25_l180 (is (true? v24_l163)))
 
 
 (def
- v27_l192
+ v27_l191
  (hm/show-character-table (hm/character-table (hm/dihedral-group 4))))
 
 
 (def
- v29_l196
+ v29_l195
  (let
   [ct-d3
    (hm/character-table (hm/dihedral-group 3))
    dims
    (sort
     (mapv
-     (fn* [p1__67153#] (Math/round (el/re (p1__67153# 0))))
+     (fn* [p1__89403#] (Math/round (el/re (p1__89403# 0))))
      (:table ct-d3)))
    ct-s3
    (hm/character-table (hm/symmetric-group 3))
    dims-s3
    (sort
     (mapv
-     (fn* [p1__67154#] (Math/round (el/re (p1__67154# 0))))
+     (fn* [p1__89404#] (Math/round (el/re (p1__89404# 0))))
      (:table ct-s3)))]
   (= dims dims-s3)))
 
 
-(deftest t30_l202 (is (true? v29_l196)))
+(deftest t30_l201 (is (true? v29_l195)))
 
 
 (def
- v32_l211
+ v32_l210
  (let
   [trivial-row
    (first (:table (hm/character-table (hm/symmetric-group 5))))]
   (allclose? (el/re trivial-row) 1.0)))
 
 
-(deftest t33_l214 (is (true? v32_l211)))
+(deftest t33_l213 (is (true? v32_l210)))
 
 
 (def
- v35_l219
+ v35_l218
  (let
   [ct
    (hm/character-table (hm/symmetric-group 5))
@@ -238,9 +237,9 @@
   (allclose? (el/re sign-row) expected)))
 
 
-(deftest t36_l228 (is (true? v35_l219)))
+(deftest t36_l227 (is (true? v35_l218)))
 
 
 (def
- v38_l232
+ v38_l231
  (hm/show-character-table (hm/character-table (hm/symmetric-group 5))))

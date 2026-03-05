@@ -20,9 +20,6 @@
    [scicloj.harmonica.combinatorics.partition :as part]
    [scicloj.harmonica.combinatorics.young-tableaux :as yt]
    [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
-   [tech.v3.tensor :as tensor]
-   [tech.v3.datatype :as dtype]
-   [tech.v3.datatype.functional :as dfn]
    [fastmath.matrix :as fm]
    [scicloj.kindly.v4.kind :as kind]))
 
@@ -315,8 +312,8 @@
 
 ;; ## ComplexTensor
 ;;
-;; ComplexTensor is the library's complex number type, backed by
-;; dtype-next tensors. The core idea: a complex tensor of shape
+;; ComplexTensor is the library's complex number type, provided by
+;; [lalinea](https://github.com/scicloj/lalinea). The core idea: a complex tensor of shape
 ;; $[d_1, d_2, \ldots]$ is stored as a **real** tensor of shape
 ;; $[d_1, d_2, \ldots, 2]$ with interleaved real/imaginary pairs.
 
@@ -328,7 +325,7 @@ v
 
 ;; The underlying storage is a `[3, 2]` real tensor:
 
-(dtype/shape (t/->tensor v))
+(t/shape (t/->tensor v))
 
 (kind/test-last [= [3 2]])
 
@@ -345,13 +342,10 @@ v
 ;;   sit in adjacent memory
 ;; - **EJML compatible**: EJML's `ZMatrixRMaj` uses the same
 ;;   interleaved `double[]` layout, enabling zero-copy sharing
-;; - **dtype-next integration**: protocol extensions make `dfn/+` and
-;;   `dfn/-` work directly on ComplexTensors (operating on the raw
-;;   interleaved buffer)
+;; - **Field dispatch**: `el/+`, `el/-`, `el/*` dispatch correctly
+;;   on ComplexTensors (complex addition, subtraction, multiplication)
 ;;
-;; One subtlety: `dfn/*` on two ComplexTensors does **element-wise real**
-;; multiply (on the flat interleaved buffer), not complex multiply.
-;; Use `el/*` for complex multiplication:
+;; Complex multiplication via `el/*`:
 
 (let [a (t/complex 3.0 4.0)
       b (t/complex 1.0 2.0)]
@@ -437,17 +431,13 @@ v
 
 ;; ## Fourier transform pipeline
 ;;
-;; The Fourier transform on a finite abelian group works on
-;; split real/imaginary arrays using dtype-next operations.
-;; The pipeline is:
+;; The Fourier transform on a finite abelian group uses lalinea's
+;; field dispatch. The forward transform computes each coefficient as
+;; a Hermitian inner product:
 ;;
-;; 1. Extract `re` and `im` views from the character table and signal
-;; 2. Compute $\hat{f}(k) = \sum_g f(g) \cdot \overline{\chi_k(g)}$
-;;    as `(ac + bd)` and `(bc - ad)` using `dfn/*` and `dfn/sum`
-;; 3. Wrap the result pair back into a ComplexTensor
+;; $$\hat{f}(k) = \langle f, \chi_k \rangle = \sum_g f(g) \, \overline{\chi_k(g)}$$
 ;;
-;; No intermediate complex objects are created — everything stays
-;; in split-real form until the final assembly.
+;; via `la/dot`. The inverse uses `el/sum(el/*)` for the bilinear sum.
 
 (let [G (hm/cyclic-group 8)
       ct (hm/character-table G)
@@ -455,9 +445,8 @@ v
   (hm/fourier-transform ct signal))
 
 ;; The inverse transform reverses the process, with a $1/|G|$ scaling factor.
-;; Convolution composes: forward transform both inputs, pointwise complex multiply,
-;; inverse transform. The entire pipeline involves three passes through the data,
-;; each using `dtype/make-reader` for lazy evaluation and `dfn` for vectorized arithmetic.
+;; Convolution composes: forward transform both inputs, pointwise complex
+;; multiply (`el/*`), inverse transform.
 
 ;; ## What comes next
 ;;

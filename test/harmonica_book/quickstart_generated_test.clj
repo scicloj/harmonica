@@ -4,19 +4,18 @@
   [scicloj.harmonica :as hm]
   [scicloj.lalinea.tensor :as t]
   [scicloj.lalinea.elementwise :as el]
+  [harmonica-book.book-helpers :refer [allclose?]]
   [tablecloth.api :as tc]
   [scicloj.tableplot.v1.plotly :as plotly]
-  [tech.v3.datatype :as dtype]
-  [tech.v3.datatype.functional :as dfn]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l33 (defn rotation-action [n] (fn [g x] (mod (+ x g) n))))
+(def v3_l32 (defn rotation-action [n] (fn [g x] (mod (+ x g) n))))
 
 
 (def
- v4_l36
+ v4_l35
  (let
   [G
    (hm/cyclic-group 8)
@@ -25,11 +24,11 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t5_l40 (is (= v4_l36 834)))
+(deftest t5_l39 (is (= v4_l35 834)))
 
 
 (def
- v7_l46
+ v7_l45
  (defn
   dihedral-action
   [n]
@@ -37,7 +36,7 @@
 
 
 (def
- v8_l52
+ v8_l51
  (let
   [G
    (hm/dihedral-group 8)
@@ -46,24 +45,24 @@
   (hm/polya-count ci 3)))
 
 
-(deftest t9_l56 (is (= v8_l52 498)))
+(deftest t9_l55 (is (= v8_l51 498)))
 
 
-(def v11_l70 (def G (hm/cyclic-group 24)))
+(def v11_l69 (def G (hm/cyclic-group 24)))
 
 
-(def v12_l71 (def ct (hm/character-table G)))
+(def v12_l70 (def ct (hm/character-table G)))
 
 
 (def
- v14_l75
+ v14_l74
  (def
   temperatures
   [2 3 7 12 17 22 25 24 19 13 7 3 3 4 8 13 18 23 26 25 20 14 8 4]))
 
 
 (def
- v15_l79
+ v15_l78
  (->
   (tc/dataset {:month (range 24), :temp temperatures})
   (plotly/base
@@ -78,17 +77,17 @@
 
 
 (def
- v16_l87
+ v16_l86
  (def
   f-hat
   (hm/fourier-transform ct (t/complex-tensor-real temperatures))))
 
 
-(def v17_l89 f-hat)
+(def v17_l88 f-hat)
 
 
 (def
- v19_l93
+ v19_l92
  (let
   [n
    24
@@ -114,39 +113,37 @@
    plotly/plot)))
 
 
-(def v21_l110 (el/re (f-hat 0)))
+(def v21_l109 (el/re (f-hat 0)))
 
 
 (deftest
- t22_l112
- (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v21_l110)))
+ t22_l111
+ (is ((fn [v] (< (Math/abs (- v 320.0)) 1.0E-10)) v21_l109)))
 
 
 (def
- v24_l117
+ v24_l116
  (let
   [mags
    (mapv (fn [k] [k (el/abs (f-hat k))]) (range 1 (inc (/ 24 2))))]
   (first (apply max-key second mags))))
 
 
-(deftest t25_l120 (is (= v24_l117 2)))
+(deftest t25_l119 (is (= v24_l116 2)))
 
 
 (def
- v27_l124
+ v27_l123
  (let
   [recovered (el/re (hm/inverse-fourier-transform ct f-hat))]
-  (<
-   (dfn/reduce-max (dfn/abs (dfn/- recovered temperatures)))
-   1.0E-10)))
+  (allclose? recovered temperatures)))
 
 
-(deftest t28_l127 (is (true? v27_l124)))
+(deftest t28_l126 (is (true? v27_l123)))
 
 
 (def
- v30_l138
+ v30_l137
  (defn
   make-rosette
   [n motif]
@@ -171,7 +168,7 @@
 
 
 (def
- v31_l154
+ v31_l153
  (let
   [motif
    (mapv
@@ -219,12 +216,12 @@
 
 
 (def
- v33_l190
+ v33_l189
  (def V4 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 2))))
 
 
 (def
- v35_l196
+ v35_l195
  (def
   motif
   [[62 0.8]
@@ -238,7 +235,7 @@
 
 
 (def
- v36_l198
+ v36_l197
  (defn
   apply-v4
   [pivot [r i] melody]
@@ -252,7 +249,7 @@
 
 
 (def
- v38_l204
+ v38_l203
  (let
   [pivot (ffirst motif)]
   {:original (mapv first motif),
@@ -261,11 +258,11 @@
    :retrograde-inv (mapv first (apply-v4 pivot [1 1] motif))}))
 
 
-(def v40_l212 (def sample-rate 44100.0))
+(def v40_l211 (def sample-rate 44100.0))
 
 
 (def
- v41_l214
+ v41_l213
  (defn
   play
   [melody]
@@ -279,7 +276,7 @@
    (kind/audio
     {:sample-rate sample-rate,
      :samples
-     (dtype/make-reader
+     (t/make-reader
       :float32
       total
       (let
@@ -328,13 +325,13 @@
          (float (* amp env wave))))))}))))
 
 
-(def v43_l251 (play motif))
+(def v43_l250 (play motif))
 
 
-(def v44_l253 (play (apply-v4 (ffirst motif) [1 0] motif)))
+(def v44_l252 (play (apply-v4 (ffirst motif) [1 0] motif)))
 
 
-(def v45_l255 (play (apply-v4 (ffirst motif) [0 1] motif)))
+(def v45_l254 (play (apply-v4 (ffirst motif) [0 1] motif)))
 
 
-(def v46_l257 (play (apply-v4 (ffirst motif) [1 1] motif)))
+(def v46_l256 (play (apply-v4 (ffirst motif) [1 1] motif)))

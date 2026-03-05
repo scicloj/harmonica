@@ -14,7 +14,6 @@
    [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
-   [tech.v3.datatype :as dtype]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -39,7 +38,7 @@
         amp (/ 2500.0 (count midi-notes))
         attack (long (* 0.02 sample-rate))
         release (long (* 0.1 sample-rate))]
-    (dtype/make-reader
+    (t/make-reader
      :float32
      n-samples
      (let [env (cond
@@ -65,7 +64,7 @@
         attack (long (* 0.015 sample-rate))
         sounding (long (* 0.85 n-chord))
         release (long (* 0.06 sample-rate))]
-    (dtype/make-reader
+    (t/make-reader
      :float32
      n-total
      (let [chord-idx (quot idx n-chord)

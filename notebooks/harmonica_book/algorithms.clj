@@ -18,7 +18,6 @@
    [scicloj.harmonica.combinatorics.young-orthogonal :as yo]
    [scicloj.harmonica.combinatorics.riffle :as riffle]
    [scicloj.harmonica.analysis.representations :as rep]
-   [tech.v3.datatype.functional :as dfn]
    [fastmath.matrix :as fm]
    [scicloj.kindly.v4.kind :as kind]))
 
@@ -345,7 +344,7 @@
       uniform (/ 1.0 (hm/order G))]
   (mapv (fn [k]
           (let [probs (mapv #(riffle/gsr-probability % k) elts)]
-            (double (* 0.5 (dfn/sum (dfn/abs (dfn/- probs uniform)))))))
+            (double (* 0.5 (el/sum (el/abs (el/- probs uniform)))))))
         (range 1 8)))
 
 (kind/test-last [(fn [tvs] (and (> (first tvs) 0.4)

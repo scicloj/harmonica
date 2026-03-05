@@ -14,14 +14,11 @@
 (ns harmonica-book.dft-as-group-fourier
   (:require
    [scicloj.harmonica :as hm]
-   [scicloj.lalinea.tensor :as lt]
+   [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
-   [fastmath.transform :as t]
-   [tech.v3.datatype :as dtype]
-   [tech.v3.datatype.functional :as dfn]
+   [fastmath.transform :as ft]
    [tech.v3.datatype.convolve :as dt-conv]
-   [tech.v3.tensor :as tensor]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
    [scicloj.kindly.v4.kind :as kind]))
@@ -161,7 +158,7 @@ ct
 ;; This is an inner product: "how much does $f$ align with character $\chi_k$?"
 ;; For $\mathbb{Z}/n\mathbb{Z}$, this is exactly the DFT formula.
 
-(def signal (lt/complex-tensor-real temperatures))
+(def signal (t/complex-tensor-real temperatures))
 
 signal
 
@@ -213,13 +210,13 @@ f-hat
 ;; the first $N/2$ coefficients (exploiting Hermitian symmetry). We extract
 ;; them and compare magnitudes with our full result.
 
-(let [fft-result (t/forward-1d (t/transformer :real :fft) temperatures)
+(let [fft-result (ft/forward-1d (ft/transformer :real :fft) temperatures)
       fft-coefficients (let [data (vec fft-result)
                              n (/ (count data) 2)]
-                         (lt/complex-tensor
+                         (t/complex-tensor
                           (mapv (fn [k] (data (* 2 k))) (range n))
                           (mapv (fn [k] (data (inc (* 2 k)))) (range n))))]
-  (allclose? (dtype/sub-buffer (el/abs f-hat) 0 12)
+  (allclose? (t/select (el/abs f-hat) (range 12))
              (el/abs fft-coefficients)
              1e-8))
 (kind/test-last
@@ -243,7 +240,7 @@ f-hat
   (let [table (:table ct)
         sizes (:class-sizes ct)
         n 24]
-    (tensor/compute-tensor
+    (t/compute-tensor
      [n n]
      (fn [j k]
        (el/abs (hm/character-inner-product (table j) (table k) sizes n)))
@@ -255,7 +252,7 @@ orthogonality-matrix
 ;; diagonal, effectively 0 everywhere else.
 
 (allclose? orthogonality-matrix
-           (tensor/compute-tensor [24 24] (fn [j k] (if (= j k) 1.0 0.0)) :float64))
+           (t/compute-tensor [24 24] (fn [j k] (if (= j k) 1.0 0.0)) :float64))
 
 (kind/test-last
  [true?])
@@ -267,7 +264,7 @@ orthogonality-matrix
 ;; $$f(g) = \frac{1}{|G|} \sum_{k} \hat{f}(k) \cdot \chi_k(g)$$
 
 (let [reconstructed (hm/inverse-fourier-transform ct f-hat)]
-  (dfn/reduce-max (el/abs (el/- reconstructed signal))))
+  (el/reduce-max (el/abs (el/- reconstructed signal))))
 (kind/test-last
  [(fn [err] (< err 1e-10))])
 
@@ -287,9 +284,9 @@ orthogonality-matrix
 ;; direct summation, we can compute forward FFT, pointwise multiply, and
 ;; inverse FFT in $O(n \log n)$.
 
-(def f-fn (lt/complex-tensor-real
+(def f-fn (t/complex-tensor-real
            [1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3]))
-(def h-fn (lt/complex-tensor-real
+(def h-fn (t/complex-tensor-real
            [0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))
 
 ;; Convolve via the library (which uses the Fourier domain internally).
@@ -307,7 +304,7 @@ orthogonality-matrix
       h-fn-hat (hm/fourier-transform ct h-fn)
       convolved-hat (hm/fourier-transform ct convolved)
       pointwise-product (el/* f-fn-hat h-fn-hat)]
-  (< (dfn/reduce-max (el/abs (el/- convolved-hat pointwise-product))) 1e-8))
+  (< (el/reduce-max (el/abs (el/- convolved-hat pointwise-product))) 1e-8))
 
 (kind/test-last
  [true?])
@@ -322,8 +319,8 @@ orthogonality-matrix
 
 (let [mag-s (el/abs signal)
       mag-f (el/abs f-hat)
-      energy-time (dfn/sum (dfn/* mag-s mag-s))
-      energy-freq (/ (dfn/sum (dfn/* mag-f mag-f))
+      energy-time (el/sum (el/* mag-s mag-s))
+      energy-freq (/ (el/sum (el/* mag-f mag-f))
                      (double (hm/order G)))]
   (< (Math/abs (- energy-time energy-freq)) 1e-8))
 (kind/test-last
@@ -370,8 +367,8 @@ cyclic-from-linear
 ;; This matches our group-theoretic convolution exactly.
 
 (let [group-conv (el/re (hm/convolve ct
-                                     (lt/complex-tensor-real f-real)
-                                     (lt/complex-tensor-real h-real)))]
+                                     (t/complex-tensor-real f-real)
+                                     (t/complex-tensor-real h-real)))]
   (allclose? cyclic-from-linear group-conv))
 
 (kind/test-last

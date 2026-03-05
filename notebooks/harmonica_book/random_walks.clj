@@ -26,8 +26,6 @@
    [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
    [harmonica-book.book-helpers :refer [allclose?]]
-   [tech.v3.datatype :as dtype]
-   [tech.v3.datatype.functional :as dfn]
    [tech.v3.datatype.convolve :as dt-conv]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
@@ -76,7 +74,7 @@
                      (* 0.15 (Math/exp (* -3.0 (* (- x 2.5) (- x 2.5)))))))
                 xs))
       ;; Normalize so it integrates to 1
-      signal (dfn// raw (* dx (dfn/sum raw)))
+      signal (el// raw (* dx (el/sum raw)))
       rows (vec (concat
                  (for [i (range (count xs))]
                    {:x (xs i) :density (signal i) :curve "original"})
@@ -128,11 +126,11 @@
       raw (vec (for [y xs]
                  (vec (for [x xs]
                         (+ (* 0.5 (Math/exp (- (+ (* 5 (+ x 1.0) (+ x 1.0))
-                                                   (* 5 (- y 0.8) (- y 0.8))))))
+                                                  (* 5 (- y 0.8) (- y 0.8))))))
                            (* 0.35 (Math/exp (- (+ (* 10 (- x 1.2) (- x 1.2))
-                                                    (* 10 (+ y 1.0) (+ y 1.0))))))
+                                                   (* 10 (+ y 1.0) (+ y 1.0))))))
                            (* 0.2 (Math/exp (- (+ (* 3 (* x x))
-                                                   (* 8 (- y 1.5) (- y 1.5)))))))))))
+                                                  (* 8 (- y 1.5) (- y 1.5)))))))))))
       z1 raw
       z2 (convolve-2d raw 0.5 dx)
       z3 (convolve-2d raw 1.2 dx)
@@ -194,7 +192,7 @@
 ;; This is a probability distribution on the group: non-negative,
 ;; sums to 1.
 
-(dfn/sum (el/re step-dist))
+(el/sum (el/re step-dist))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 1.0)) 1e-10))])
@@ -469,7 +467,7 @@ n2d
     (t/complex-tensor-real
      (mapv (fn [e] (if (neighbors e) 0.2 0.0)) elts2d))))
 
-(dfn/sum (el/re step-2d))
+(el/sum (el/re step-2d))
 
 (kind/test-last
  [(fn [v] (< (Math/abs (- v 1.0)) 1e-10))])

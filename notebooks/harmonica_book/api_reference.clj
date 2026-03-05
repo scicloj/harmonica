@@ -14,8 +14,6 @@
    [scicloj.harmonica.protocols :as p]
    [scicloj.harmonica.analysis.representations :as rep]
    [fastmath.matrix :as fm]
-   [tech.v3.tensor :as tensor]
-   [tech.v3.datatype :as dtype]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Group Constructors
@@ -446,7 +444,7 @@
 ;; ## Complex Tensors
 ;;
 ;; The `scicloj.lalinea.tensor / scicloj.lalinea.elementwise` namespace provides tensor-backed complex
-;; numbers. A ComplexTensor wraps a dtype-next tensor whose last dimension
+;; numbers. A ComplexTensor wraps a lalinea tensor whose last dimension
 ;; is 2 (interleaved real/imaginary pairs).
 
 ;; ### Constructors
@@ -457,7 +455,7 @@
 
 (kind/test-last [(fn [v] (= [3] (t/complex-shape v)))])
 
-(t/complex-tensor (tensor/->tensor [[1.0 2.0] [3.0 4.0]]))
+(t/complex-tensor [[1.0 2.0] [3.0 4.0]])
 
 (kind/test-last [(fn [v] (= [2] (t/complex-shape v)))])
 
@@ -492,7 +490,7 @@
 
 (kind/doc #'t/scalar?)
 
-(t/scalar? (t/complex-tensor (tensor/->tensor [3.0 4.0])))
+(t/scalar? (t/complex-tensor [3.0 4.0]))
 
 (kind/test-last [true?])
 
@@ -502,7 +500,7 @@
 
 (kind/doc #'t/->tensor)
 
-(vec (dtype/shape (t/->tensor (t/complex-tensor [1.0 2.0] [3.0 4.0]))))
+(t/shape (t/->tensor (t/complex-tensor [1.0 2.0] [3.0 4.0])))
 
 (kind/test-last [= [2 2]])
 

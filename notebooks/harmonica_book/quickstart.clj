@@ -13,10 +13,9 @@
    [scicloj.harmonica :as hm]
    [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
+   [harmonica-book.book-helpers :refer [allclose?]]
    [tablecloth.api :as tc]
    [scicloj.tableplot.v1.plotly :as plotly]
-   [tech.v3.datatype :as dtype]
-   [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Counting necklaces
@@ -122,7 +121,7 @@ f-hat
 ;; Inverse transform recovers the original signal exactly:
 
 (let [recovered (el/re (hm/inverse-fourier-transform ct f-hat))]
-  (< (dfn/reduce-max (dfn/abs (dfn/- recovered temperatures))) 1e-10))
+  (allclose? recovered temperatures))
 
 (kind/test-last [true?])
 
@@ -218,7 +217,7 @@ f-hat
     (kind/audio
      {:sample-rate sample-rate
       :samples
-      (dtype/make-reader
+      (t/make-reader
        :float32 total
        (let [[note-idx note-start]
              (loop [i 0]

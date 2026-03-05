@@ -16,8 +16,6 @@
    [scicloj.harmonica :as hm]
    [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
-   [tech.v3.datatype :as dtype]
-   [tech.v3.datatype.functional :as dfn]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Product Groups
@@ -177,7 +175,7 @@ f-hat
 ;;
 ;; Energy is preserved: $\sum |f(g)|^2 = \frac{1}{|G|} \sum |\hat{f}(k)|^2$.
 
-(let [energy-space (dfn/sum (dfn/* (el/re signal) (el/re signal)))
+(let [energy-space (el/sum (el/* (el/re signal) (el/re signal)))
       mags-sq (mapv (fn [i] (let [v (f-hat i)
                                   r (el/re v) im (el/im v)]
                               (+ (* r r) (* im im))))

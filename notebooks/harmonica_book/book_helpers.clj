@@ -1,4 +1,3 @@
-
 ;; # Helper Functions
 ;;
 ;; Small utilities shared across the book's notebooks. Each notebook
@@ -6,12 +5,14 @@
 
 (ns harmonica-book.book-helpers
   (:require
-   [tech.v3.datatype.functional :as dfn]))
+   [scicloj.lalinea.linalg :as la]))
 
 (defn allclose?
   "True when every element of `a` is within `tol` of the corresponding
-   element of `b`. Works on dtype buffers, tensors, scalars, and Clojure
-   vectors — anything `dfn/-` accepts."
+   element of `b`. Works on RealTensors, ComplexTensors, vectors,
+   and scalars."
   ([a b] (allclose? a b 1e-10))
   ([a b tol]
-   (< (double (dfn/reduce-max (dfn/abs (dfn/- a b)))) (double tol))))
+   (if (and (number? a) (number? b))
+     (la/close-scalar? a b tol)
+     (la/close? a b tol))))

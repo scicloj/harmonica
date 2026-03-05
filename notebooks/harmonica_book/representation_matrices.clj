@@ -17,7 +17,6 @@
    [scicloj.lalinea.tensor :as t]
    [scicloj.lalinea.elementwise :as el]
    [fastmath.matrix :as fm]
-   [tech.v3.tensor :as tensor]
    [scicloj.kindly.v4.kind :as kind]))
 
 ;; ## Building an irrep
@@ -43,9 +42,9 @@ ir-31
 (kind/test-last [= 3])
 
 (defn mat->tensor
-  "Convert a fastmath matrix to a dtype-next tensor for display."
+  "Convert a fastmath matrix to a tensor for display."
   [M]
-  (tensor/->tensor (fm/mat->array2d M)))
+  (t/->tensor (fm/mat->array2d M)))
 
 ;; ## What do the matrices look like?
 ;;

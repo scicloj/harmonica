@@ -9,130 +9,127 @@
   [scicloj.harmonica.combinatorics.partition :as part]
   [scicloj.harmonica.combinatorics.young-tableaux :as yt]
   [scicloj.harmonica.combinatorics.murnaghan-nakayama :as mn]
-  [tech.v3.tensor :as tensor]
-  [tech.v3.datatype :as dtype]
-  [tech.v3.datatype.functional :as dfn]
   [fastmath.matrix :as fm]
   [scicloj.kindly.v4.kind :as kind]
   [clojure.test :refer [deftest is]]))
 
 
-(def v3_l48 (def Z6 (hm/cyclic-group 6)))
+(def v3_l45 (def Z6 (hm/cyclic-group 6)))
 
 
-(def v4_l50 (type Z6))
-
-
-(deftest
- t5_l52
- (is ((fn [t] (= (.getSimpleName t) "CyclicGroup")) v4_l50)))
-
-
-(def v7_l56 (select-keys Z6 [:n]))
-
-
-(deftest t8_l58 (is (= v7_l56 {:n 6})))
-
-
-(def v9_l60 (hm/elements Z6))
-
-
-(deftest t10_l62 (is (= v9_l60 (range 6))))
-
-
-(def v12_l66 [(hm/op Z6 2 3) (hm/inv Z6 2) (hm/id Z6)])
-
-
-(deftest t13_l70 (is (= v12_l66 [5 4 0])))
-
-
-(def v15_l75 (count (hm/conjugacy-classes Z6)))
-
-
-(deftest t16_l77 (is (= v15_l75 6)))
-
-
-(def v18_l88 (def S4 (hm/symmetric-group 4)))
-
-
-(def v19_l90 (type S4))
+(def v4_l47 (type Z6))
 
 
 (deftest
- t20_l92
- (is ((fn [t] (= (.getSimpleName t) "SymmetricGroup")) v19_l90)))
+ t5_l49
+ (is ((fn [t] (= (.getSimpleName t) "CyclicGroup")) v4_l47)))
 
 
-(def v21_l94 (hm/order S4))
+(def v7_l53 (select-keys Z6 [:n]))
 
 
-(deftest t22_l96 (is (= v21_l94 24)))
+(deftest t8_l55 (is (= v7_l53 {:n 6})))
 
 
-(def v24_l100 (hm/op S4 [1 0 3 2] [2 3 0 1]))
+(def v9_l57 (hm/elements Z6))
 
 
-(deftest t25_l102 (is (= v24_l100 [3 2 1 0])))
+(deftest t10_l59 (is (= v9_l57 (range 6))))
 
 
-(def v27_l106 [(hm/id S4) (hm/inv S4 [1 2 3 0])])
+(def v12_l63 [(hm/op Z6 2 3) (hm/inv Z6 2) (hm/id Z6)])
 
 
-(deftest t28_l109 (is (= v27_l106 [[0 1 2 3] [3 0 1 2]])))
+(deftest t13_l67 (is (= v12_l63 [5 4 0])))
 
 
-(def v30_l115 (mapv :cycle-type (hm/conjugacy-classes S4)))
+(def v15_l72 (count (hm/conjugacy-classes Z6)))
 
 
-(deftest t31_l117 (is (= v30_l115 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
+(deftest t16_l74 (is (= v15_l72 6)))
 
 
-(def v33_l130 (def D4 (hm/dihedral-group 4)))
+(def v18_l85 (def S4 (hm/symmetric-group 4)))
 
 
-(def v34_l132 (hm/order D4))
+(def v19_l87 (type S4))
 
 
-(deftest t35_l134 (is (= v34_l132 8)))
+(deftest
+ t20_l89
+ (is ((fn [t] (= (.getSimpleName t) "SymmetricGroup")) v19_l87)))
 
 
-(def v37_l138 (hm/op D4 [:r 1] [:s 0]))
+(def v21_l91 (hm/order S4))
 
 
-(deftest t38_l140 (is (= v37_l138 [:s 1])))
+(deftest t22_l93 (is (= v21_l91 24)))
 
 
-(def v40_l144 (hm/op D4 [:s 2] [:s 0]))
+(def v24_l97 (hm/op S4 [1 0 3 2] [2 3 0 1]))
 
 
-(deftest t41_l146 (is (= v40_l144 [:r 2])))
+(deftest t25_l99 (is (= v24_l97 [3 2 1 0])))
 
 
-(def v43_l150 (hm/inv D4 [:s 3]))
+(def v27_l103 [(hm/id S4) (hm/inv S4 [1 2 3 0])])
 
 
-(deftest t44_l152 (is (= v43_l150 [:s 3])))
+(deftest t28_l106 (is (= v27_l103 [[0 1 2 3] [3 0 1 2]])))
+
+
+(def v30_l112 (mapv :cycle-type (hm/conjugacy-classes S4)))
+
+
+(deftest t31_l114 (is (= v30_l112 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
+
+
+(def v33_l127 (def D4 (hm/dihedral-group 4)))
+
+
+(def v34_l129 (hm/order D4))
+
+
+(deftest t35_l131 (is (= v34_l129 8)))
+
+
+(def v37_l135 (hm/op D4 [:r 1] [:s 0]))
+
+
+(deftest t38_l137 (is (= v37_l135 [:s 1])))
+
+
+(def v40_l141 (hm/op D4 [:s 2] [:s 0]))
+
+
+(deftest t41_l143 (is (= v40_l141 [:r 2])))
+
+
+(def v43_l147 (hm/inv D4 [:s 3]))
+
+
+(deftest t44_l149 (is (= v43_l147 [:s 3])))
 
 
 (def
- v46_l158
+ v46_l155
  (def Z2xZ3 (hm/product-group (hm/cyclic-group 2) (hm/cyclic-group 3))))
 
 
-(def v47_l160 (hm/order Z2xZ3))
+(def v47_l157 (hm/order Z2xZ3))
 
 
-(deftest t48_l162 (is (= v47_l160 6)))
+(deftest t48_l159 (is (= v47_l157 6)))
 
 
-(def v49_l164 (hm/op Z2xZ3 [1 2] [1 1]))
+(def v49_l161 (hm/op Z2xZ3 [1 2] [1 1]))
 
 
-(deftest t50_l166 (is (= v49_l164 [0 0])))
+(deftest t50_l163 (is (= v49_l161 [0 0])))
 
 
 (def
- v52_l173
+ v52_l170
  (defn
   group-axioms-hold?
   [G]
@@ -140,60 +137,60 @@
    [e (hm/id G) elts (take 20 (hm/elements G))]
    (and
     (every?
-     (fn* [p1__68225#] (= (hm/op G e p1__68225#) p1__68225#))
+     (fn* [p1__90386#] (= (hm/op G e p1__90386#) p1__90386#))
      elts)
     (every?
      (fn*
-      [p1__68226#]
-      (= (hm/op G p1__68226# (hm/inv G p1__68226#)) e))
+      [p1__90387#]
+      (= (hm/op G p1__90387# (hm/inv G p1__90387#)) e))
      elts)))))
 
 
-(def v53_l182 (mapv group-axioms-hold? [Z6 S4 D4 Z2xZ3]))
+(def v53_l179 (mapv group-axioms-hold? [Z6 S4 D4 Z2xZ3]))
 
 
-(deftest t54_l184 (is (= v53_l182 [true true true true])))
+(deftest t54_l181 (is (= v53_l179 [true true true true])))
 
 
-(def v56_l193 (let [sigma [2 0 1] tau [1 2 0]] (mapv sigma tau)))
+(def v56_l190 (let [sigma [2 0 1] tau [1 2 0]] (mapv sigma tau)))
 
 
-(deftest t57_l197 (is (= v56_l193 [0 1 2])))
+(deftest t57_l194 (is (= v56_l190 [0 1 2])))
 
 
-(def v59_l202 (perm/inverse [2 0 1]))
+(def v59_l199 (perm/inverse [2 0 1]))
 
 
-(deftest t60_l204 (is (= v59_l202 [1 2 0])))
+(deftest t60_l201 (is (= v59_l199 [1 2 0])))
 
 
-(def v62_l209 (perm/cycles [1 3 0 2]))
+(def v62_l206 (perm/cycles [1 3 0 2]))
 
 
 (deftest
- t63_l211
- (is ((fn [cs] (= (set (map set cs)) #{#{0 1 3 2}})) v62_l209)))
+ t63_l208
+ (is ((fn [cs] (= (set (map set cs)) #{#{0 1 3 2}})) v62_l206)))
 
 
-(def v65_l216 (perm/cycle-type [1 2 0 3 4]))
+(def v65_l213 (perm/cycle-type [1 2 0 3 4]))
 
 
-(deftest t66_l218 (is (= v65_l216 [3 1 1])))
+(deftest t66_l215 (is (= v65_l213 [3 1 1])))
 
 
 (def
- v68_l223
+ v68_l220
  [(perm/sign [0 1 2 3]) (perm/sign [1 0 2 3]) (perm/sign [1 2 0 3])])
 
 
-(deftest t69_l227 (is (= v68_l223 [1 -1 1])))
+(deftest t69_l224 (is (= v68_l220 [1 -1 1])))
 
 
-(def v71_l235 (hm/partitions 5))
+(def v71_l232 (hm/partitions 5))
 
 
 (deftest
- t72_l237
+ t72_l234
  (is
   ((fn
     [ps]
@@ -201,103 +198,103 @@
      (= 7 (count ps))
      (= [5] (first ps))
      (= [1 1 1 1 1] (last ps))))
-   v71_l235)))
+   v71_l232)))
 
 
-(def v74_l244 (part/conjugate [4 2 1]))
+(def v74_l241 (part/conjugate [4 2 1]))
 
 
-(deftest t75_l246 (is (= v74_l244 [3 2 1 1])))
+(deftest t75_l243 (is (= v74_l241 [3 2 1 1])))
 
 
-(def v77_l253 (hm/standard-young-tableaux [3 2]))
+(def v77_l250 (hm/standard-young-tableaux [3 2]))
 
 
-(deftest t78_l255 (is ((fn [syts] (= 5 (count syts))) v77_l253)))
+(deftest t78_l252 (is ((fn [syts] (= 5 (count syts))) v77_l250)))
 
 
-(def v80_l262 (hm/hook-length-dimension [3 2]))
+(def v80_l259 (hm/hook-length-dimension [3 2]))
 
 
-(deftest t81_l264 (is (= v80_l262 5)))
+(deftest t81_l261 (is (= v80_l259 5)))
 
 
 (def
- v83_l268
+ v83_l265
  (=
   (count (hm/standard-young-tableaux [4 3 1]))
   (hm/hook-length-dimension [4 3 1])))
 
 
-(deftest t84_l271 (is (true? v83_l268)))
+(deftest t84_l268 (is (true? v83_l265)))
 
 
-(def v86_l277 (def ct-s4 (hm/character-table S4)))
+(def v86_l274 (def ct-s4 (hm/character-table S4)))
 
 
-(def v87_l279 (sort (keys ct-s4)))
+(def v87_l276 (sort (keys ct-s4)))
 
 
 (deftest
- t88_l281
- (is (= v87_l279 [:class-sizes :classes :group :irrep-labels :table])))
+ t88_l278
+ (is (= v87_l276 [:class-sizes :classes :group :irrep-labels :table])))
 
 
-(def v90_l285 (:irrep-labels ct-s4))
+(def v90_l282 (:irrep-labels ct-s4))
 
 
-(deftest t91_l287 (is (= v90_l285 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
+(deftest t91_l284 (is (= v90_l282 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
 
 
-(def v93_l292 (:classes ct-s4))
+(def v93_l289 (:classes ct-s4))
 
 
-(deftest t94_l294 (is ((fn [cs] (= [1 1 1 1] (first cs))) v93_l292)))
+(deftest t94_l291 (is ((fn [cs] (= [1 1 1 1] (first cs))) v93_l289)))
 
 
-(def v96_l300 (t/complex-shape (:table ct-s4)))
+(def v96_l297 (t/complex-shape (:table ct-s4)))
 
 
-(deftest t97_l302 (is (= v96_l300 [5 5])))
+(deftest t97_l299 (is (= v96_l297 [5 5])))
 
 
-(def v98_l304 (:table ct-s4))
+(def v98_l301 (:table ct-s4))
 
 
-(def v100_l325 (def v (t/complex-tensor [1.0 2.0 3.0] [0.5 -0.5 1.0])))
+(def v100_l322 (def v (t/complex-tensor [1.0 2.0 3.0] [0.5 -0.5 1.0])))
 
 
-(def v101_l327 v)
+(def v101_l324 v)
 
 
-(def v103_l331 (dtype/shape (t/->tensor v)))
+(def v103_l328 (t/shape (t/->tensor v)))
 
 
-(deftest t104_l333 (is (= v103_l331 [3 2])))
+(deftest t104_l330 (is (= v103_l328 [3 2])))
 
 
-(def v106_l338 [(vec (el/re v)) (vec (el/im v))])
+(def v106_l335 [(vec (el/re v)) (vec (el/im v))])
 
 
-(deftest t107_l340 (is (= v106_l338 [[1.0 2.0 3.0] [0.5 -0.5 1.0]])))
+(deftest t107_l337 (is (= v106_l335 [[1.0 2.0 3.0] [0.5 -0.5 1.0]])))
 
 
 (def
- v109_l356
+ v109_l350
  (let
   [a (t/complex 3.0 4.0) b (t/complex 1.0 2.0)]
   {:cmul-re (el/re (el/* a b)), :cmul-im (el/im (el/* a b))}))
 
 
 (deftest
- t110_l361
+ t110_l355
  (is
   ((fn [m] (and (= -5.0 (:cmul-re m)) (= 10.0 (:cmul-im m))))
-   v109_l356)))
+   v109_l350)))
 
 
 (def
- v112_l367
+ v112_l361
  (let
   [ct-row ((:table ct-s4) 0)]
   {:first-value (el/re (((:table ct-s4) 0) 0)),
@@ -305,51 +302,51 @@
 
 
 (deftest
- t113_l371
+ t113_l365
  (is
-  ((fn [m] (and (= 1.0 (:first-value m)) (= 5 (:count m)))) v112_l367)))
+  ((fn [m] (and (= 1.0 (:first-value m)) (= 5 (:count m)))) v112_l361)))
 
 
-(def v115_l380 (def ir-31 (hm/irrep [3 1])))
+(def v115_l374 (def ir-31 (hm/irrep [3 1])))
 
 
-(def v116_l382 (sort (keys ir-31)))
+(def v116_l376 (sort (keys ir-31)))
 
 
 (deftest
- t117_l384
- (is (= v116_l382 [:dimension :generators :lambda :syts])))
+ t117_l378
+ (is (= v116_l376 [:dimension :generators :lambda :syts])))
 
 
-(def v119_l395 (:lambda ir-31))
+(def v119_l389 (:lambda ir-31))
 
 
-(deftest t120_l397 (is (= v119_l395 [3 1])))
+(deftest t120_l391 (is (= v119_l389 [3 1])))
 
 
-(def v121_l399 (:dimension ir-31))
+(def v121_l393 (:dimension ir-31))
 
 
-(deftest t122_l401 (is (= v121_l399 3)))
+(deftest t122_l395 (is (= v121_l393 3)))
 
 
-(def v124_l405 (:syts ir-31))
+(def v124_l399 (:syts ir-31))
 
 
-(deftest t125_l407 (is ((fn [syts] (= 3 (count syts))) v124_l405)))
+(deftest t125_l401 (is ((fn [syts] (= 3 (count syts))) v124_l399)))
 
 
-(def v127_l413 (count (:generators ir-31)))
+(def v127_l407 (count (:generators ir-31)))
 
 
-(deftest t128_l415 (is (= v127_l413 3)))
+(deftest t128_l409 (is (= v127_l407 3)))
 
 
-(def v130_l421 (hm/rep-matrix ir-31 [1 0 2 3]))
+(def v130_l415 (hm/rep-matrix ir-31 [1 0 2 3]))
 
 
 (def
- v132_l427
+ v132_l421
  (let
   [rep1
    (hm/irrep [3 1])
@@ -361,13 +358,13 @@
 
 
 (deftest
- t133_l433
+ t133_l427
  (is
-  ((fn [m] (and (:has-matrix-fn m) (= 6 (:dimension m)))) v132_l427)))
+  ((fn [m] (and (:has-matrix-fn m) (= 6 (:dimension m)))) v132_l421)))
 
 
 (def
- v135_l452
+ v135_l442
  (let
   [G
    (hm/cyclic-group 8)
