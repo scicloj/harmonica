@@ -59,12 +59,16 @@ with applications to combinatorics, signal processing, and card shuffling.
 ## Documentation
 
 The [Harmonica book](https://scicloj.github.io/harmonica/) is organized for
-incremental learning, interleaving theory with applications — from the DFT
-and rosette patterns through necklace counting, music theory, and card shuffling.
+incremental learning, interleaving theory with applications:
+
+- **Getting Started** — [Quickstart](https://scicloj.github.io/harmonica/harmonica_book.quickstart.html)
+- **Groups and the DFT** — [Groups and Structure](https://scicloj.github.io/harmonica/harmonica_book.groups_and_structure.html), [DFT as Group Fourier](https://scicloj.github.io/harmonica/harmonica_book.dft_as_group_fourier.html), [Product Group DFT](https://scicloj.github.io/harmonica/harmonica_book.product_group_dft.html), [Random Walks](https://scicloj.github.io/harmonica/harmonica_book.random_walks.html)
+- **Groups in Action** — [Symmetry Sketchpad](https://scicloj.github.io/harmonica/harmonica_book.symmetry_sketchpad.html), [Counting Necklaces](https://scicloj.github.io/harmonica/harmonica_book.counting_necklaces.html), [Chord Geometry](https://scicloj.github.io/harmonica/harmonica_book.chord_geometry.html), [Hearing Symmetry](https://scicloj.github.io/harmonica/harmonica_book.hearing_symmetry.html)
+- **Symmetric Groups** — [Symmetric Groups](https://scicloj.github.io/harmonica/harmonica_book.symmetric_groups.html), [Character Theory](https://scicloj.github.io/harmonica/harmonica_book.character_theory.html), [Random Transpositions](https://scicloj.github.io/harmonica/harmonica_book.random_transpositions.html)
+- **Representation Matrices** — [Representation Matrices](https://scicloj.github.io/harmonica/harmonica_book.representation_matrices.html), [Riffle Shuffle](https://scicloj.github.io/harmonica/harmonica_book.riffle_shuffle.html)
+- **Reference** — [API Reference](https://scicloj.github.io/harmonica/harmonica_book.api_reference.html), [Group Actions](https://scicloj.github.io/harmonica/harmonica_book.group_actions.html)
 
 ## API
-
-See the [API reference](https://scicloj.github.io/harmonica/harmonica_book.api_reference.html) for the full list of functions with examples.
 
 Most users need only one namespace:
 
