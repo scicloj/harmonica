@@ -387,7 +387,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#group-actions" id="toc-group-actions" class="nav-link" data-scroll-target="#group-actions">Group actions</a></li>
   <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
   </ul></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
   <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
   <li><a href="#api" id="toc-api" class="nav-link" data-scroll-target="#api">API</a></li>
   <li><a href="#built-on" id="toc-built-on" class="nav-link" data-scroll-target="#built-on">Built on</a></li>
@@ -519,11 +518,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Add to your <code>deps.edn</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:deps</span> {org.scicloj/harmonica {<span class="at">:mvn/version</span> <span class="st">"0.1.0"</span>}}}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
 <section id="documentation" class="level2">
 <h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
 <p>The <a href="https://scicloj.github.io/harmonica/">Harmonica book</a> is organized for incremental learning, interleaving theory with applications — from the DFT and rosette patterns through necklace counting, music theory, and card shuffling.</p>
@@ -532,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="api">API</h2>
 <p>See the <a href="https://scicloj.github.io/harmonica/harmonica_book.api_reference.html">API reference</a> for the full list of functions with examples.</p>
 <p>Most users need only one namespace:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica <span class="at">:as</span> hm])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.harmonica <span class="at">:as</span> hm])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>scicloj.harmonica</code> is the public API — groups, character tables, Fourier transforms, representations, group actions, and visualization.</p>
 <p>For complex-valued results (character tables, Fourier coefficients), harmonica uses <a href="https://github.com/scicloj/lalinea">lalinea</a> tensors. See <code>scicloj.lalinea.elementwise</code> and <code>scicloj.lalinea.tensor</code> for element-wise and tensor operations.</p>
 </section>
@@ -546,9 +540,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="development" class="level2">
 <h2 class="anchored" data-anchor-id="development">Development</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-M:dev</span> <span class="at">-m</span> nrepl.cmdline   <span class="co"># start REPL</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run_tests.sh</span>                     <span class="co"># run tests</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-T:build</span> ci                <span class="co"># test + build JAR</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-M:dev</span> <span class="at">-m</span> nrepl.cmdline   <span class="co"># start REPL</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run_tests.sh</span>                     <span class="co"># run tests</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">clojure</span> <span class="at">-T:build</span> ci                <span class="co"># test + build JAR</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>

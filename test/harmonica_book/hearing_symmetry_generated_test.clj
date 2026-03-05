@@ -130,7 +130,7 @@
    [inverted
     (if
      (= i 1)
-     (mapv (fn* [p1__93858#] (- (* 2 pivot) p1__93858#)) melody)
+     (mapv (fn* [p1__75434#] (- (* 2 pivot) p1__75434#)) melody)
      melody)
     retrograded
     (if (= r 1) (vec (reverse inverted)) inverted)]
@@ -163,8 +163,8 @@
        (str
         (mapv
          (fn*
-          [p1__93859#]
-          (get note-names p1__93859# (str p1__93859#)))
+          [p1__75435#]
+          (get note-names p1__75435# (str p1__75435#)))
          result))}))
     (hm/elements V4))]
   (kind/table
@@ -252,7 +252,7 @@
   transpose-melody
   "Transpose a melody by k semitones."
   [k melody]
-  (mapv (fn* [p1__93860#] (+ p1__93860# k)) melody)))
+  (mapv (fn* [p1__75436#] (+ p1__75436# k)) melody)))
 
 
 (def
@@ -268,10 +268,10 @@
        (str
         (mapv
          (fn*
-          [p1__93861#]
-          (get note-names (mod p1__93861# 12) (str p1__93861#)))
+          [p1__75437#]
+          (get note-names (mod p1__75437# 12) (str p1__75437#)))
          (mapv
-          (fn* [p1__93862#] (+ 60 (mod (- p1__93862# 60) 12)))
+          (fn* [p1__75438#] (+ 60 (mod (- p1__75438# 60) 12)))
           transposed)))]))
     (range 12))]
   (kind/table
@@ -341,7 +341,7 @@
     pivot
     (first row)
     inversion
-    (mapv (fn* [p1__93863#] (mod (- (* 2 pivot) p1__93863#) 12)) row)
+    (mapv (fn* [p1__75439#] (mod (- (* 2 pivot) p1__75439#) 12)) row)
     ri
     (vec (reverse inversion))
     base-forms
@@ -353,7 +353,7 @@
       :form-type form-name,
       :transposition k,
       :row
-      (mapv (fn* [p1__93864#] (mod (+ p1__93864# k) 12)) form)})))))
+      (mapv (fn* [p1__75440#] (mod (+ p1__75440# k) 12)) form)})))))
 
 
 (def v56_l291 (let [forms (row-forms schoenberg-row)] (count forms)))
@@ -370,8 +370,8 @@
    selected
    (filterv
     (fn*
-     [p1__93865#]
-     (contains? #{0 6 3 9} (:transposition p1__93865#)))
+     [p1__75441#]
+     (contains? #{0 6 3 9} (:transposition p1__75441#)))
     forms)
    selected
    (take 16 (sort-by (juxt :form-type :transposition) selected))]
@@ -383,14 +383,14 @@
 
 (def
  v61_l312
- (play (mapv (fn* [p1__93866#] (+ 60 p1__93866#)) schoenberg-row)))
+ (play (mapv (fn* [p1__75442#] (+ 60 p1__75442#)) schoenberg-row)))
 
 
 (def
  v63_l315
  (play
   (mapv
-   (fn* [p1__93867#] (+ 60 p1__93867#))
+   (fn* [p1__75443#] (+ 60 p1__75443#))
    (vec (reverse schoenberg-row)))))
 
 
@@ -400,7 +400,7 @@
   [pivot (first schoenberg-row)]
   (play
    (mapv
-    (fn* [p1__93868#] (+ 60 (mod (- (* 2 pivot) p1__93868#) 12)))
+    (fn* [p1__75444#] (+ 60 (mod (- (* 2 pivot) p1__75444#) 12)))
     schoenberg-row))))
 
 
@@ -410,11 +410,11 @@
   [pivot (first schoenberg-row)]
   (play
    (mapv
-    (fn* [p1__93869#] (+ 60 p1__93869#))
+    (fn* [p1__75445#] (+ 60 p1__75445#))
     (vec
      (reverse
       (mapv
-       (fn* [p1__93870#] (mod (- (* 2 pivot) p1__93870#) 12))
+       (fn* [p1__75446#] (mod (- (* 2 pivot) p1__75446#) 12))
        schoenberg-row)))))))
 
 

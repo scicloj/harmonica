@@ -137,12 +137,12 @@
    [e (hm/id G) elts (take 20 (hm/elements G))]
    (and
     (every?
-     (fn* [p1__95034#] (= (hm/op G e p1__95034#) p1__95034#))
+     (fn* [p1__76610#] (= (hm/op G e p1__76610#) p1__76610#))
      elts)
     (every?
      (fn*
-      [p1__95035#]
-      (= (hm/op G p1__95035# (hm/inv G p1__95035#)) e))
+      [p1__76611#]
+      (= (hm/op G p1__76611# (hm/inv G p1__76611#)) e))
      elts)))))
 
 

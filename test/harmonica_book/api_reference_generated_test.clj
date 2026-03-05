@@ -260,7 +260,7 @@
    (mapv
     (fn
      [row]
-     (mapv (fn* [p1__95394#] (Math/round (el/re p1__95394#))) row))
+     (mapv (fn* [p1__76970#] (Math/round (el/re p1__76970#))) row))
     (:table ct))]
   re-table))
 
@@ -533,7 +533,7 @@
    (fn
     [g coloring]
     (mapv
-     (fn* [p1__95395#] (coloring (mod (+ p1__95395# g) 4)))
+     (fn* [p1__76971#] (coloring (mod (+ p1__76971# g) 4)))
      (range 4)))
    domain
    [[0 0 0 0]
