@@ -418,13 +418,6 @@ window.Quarto = {
   <ul>
   <li><a href="#product-groups" id="toc-product-groups" class="nav-link active" data-scroll-target="#product-groups">Product Groups</a></li>
   <li><a href="#character-table-of-a-product-group" id="toc-character-table-of-a-product-group" class="nav-link" data-scroll-target="#character-table-of-a-product-group">Character Table of a Product Group</a></li>
-  <li><a href="#the-2d-dft-on-a-small-grid" id="toc-the-2d-dft-on-a-small-grid" class="nav-link" data-scroll-target="#the-2d-dft-on-a-small-grid">The 2D DFT on a Small Grid</a></li>
-  <li><a href="#round-trip-inverse-transform" id="toc-round-trip-inverse-transform" class="nav-link" data-scroll-target="#round-trip-inverse-transform">Round-Trip: Inverse Transform</a></li>
-  <li><a href="#separability-of-the-2d-dft" id="toc-separability-of-the-2d-dft" class="nav-link" data-scroll-target="#separability-of-the-2d-dft">Separability of the 2D DFT</a></li>
-  <li><a href="#parsevals-theorem-in-2d" id="toc-parsevals-theorem-in-2d" class="nav-link" data-scroll-target="#parsevals-theorem-in-2d">Parseval’s Theorem in 2D</a></li>
-  <li><a href="#convolution-in-2d" id="toc-convolution-in-2d" class="nav-link" data-scroll-target="#convolution-in-2d">Convolution in 2D</a></li>
-  <li><a href="#visualizing-the-2d-spectrum" id="toc-visualizing-the-2d-spectrum" class="nav-link" data-scroll-target="#visualizing-the-2d-spectrum">Visualizing the 2D Spectrum</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -462,7 +455,6 @@ window.Quarto = {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.20.0/plotly.min.js" type="text/javascript"></script>
 <p>The 1D <a href="https://en.wikipedia.org/wiki/Discrete_Fourier_transform">Discrete Fourier Transform</a> is the Fourier transform on the <a href="https://en.wikipedia.org/wiki/Cyclic_group">cyclic group</a> <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span> (see <a href="dft_as_group_fourier.html">The DFT as Group Fourier Transform</a>).</p>
 <p>What about the <strong>2D DFT</strong> used in image processing? It’s the Fourier transform on the <strong><a href="https://en.wikipedia.org/wiki/Direct_product_of_groups">direct product</a></strong> <span class="math inline">\(\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}\)</span>.</p>
 <p>This notebook makes that connection explicit: we compute the character table of a product group and show that it reproduces the standard 2D DFT.</p>
@@ -515,272 +507,34 @@ window.Quarto = {
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ct </span>(hm/character-table G))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ct</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:group</span> {<span class="at">:G1</span> {<span class="at">:n</span> <span class="dv">4</span>}, <span class="at">:G2</span> {<span class="at">:n</span> <span class="dv">3</span>}},</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> <span class="at">:classes</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> [[<span class="dv">0</span> <span class="dv">0</span>]</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span> <span class="dv">1</span>]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span> <span class="dv">2</span>]</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">0</span>]</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">1</span>]</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">2</span>]</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">0</span>]</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">1</span>]</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">2</span>]</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">3</span> <span class="dv">0</span>]</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">3</span> <span class="dv">1</span>]</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">3</span> <span class="dv">2</span>]],</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a> <span class="at">:class-sizes</span> [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>],</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a> <span class="at">:irrep-labels</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a> [[<span class="dv">0</span> <span class="dv">0</span>]</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span> <span class="dv">1</span>]</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span> <span class="dv">2</span>]</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">0</span>]</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">1</span>]</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span> <span class="dv">2</span>]</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">0</span>]</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">1</span>]</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span> <span class="dv">2</span>]</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">3</span> <span class="dv">0</span>]</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">3</span> <span class="dv">1</span>]</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">3</span> <span class="dv">2</span>]],</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a> <span class="at">:table</span> #ComplexTensor [<span class="dv">12</span> <span class="dv">12</span>]</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>[[<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>]</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, <span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, <span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, <span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i]</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, <span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, <span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, <span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i]</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">6.123233995736766E-17+1.0</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i]</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, -<span class="fl">0.8660254037844387-0.4999999999999997</span>i, <span class="fl">0.8660254037844384-0.5000000000000004</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, <span class="fl">0.8660254037844388+0.4999999999999996</span>i, -<span class="fl">0.8660254037844383+0.5000000000000006</span>i]</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, <span class="fl">0.8660254037844384-0.5000000000000004</span>i, -<span class="fl">0.8660254037844387-0.4999999999999997</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">0.8660254037844383+0.5000000000000006</span>i, <span class="fl">0.8660254037844388+0.4999999999999996</span>i]</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i]</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, <span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i]</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, <span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i]</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i]</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, <span class="fl">0.8660254037844388+0.4999999999999996</span>i, -<span class="fl">0.8660254037844383+0.5000000000000006</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, -<span class="fl">0.8660254037844387-0.4999999999999997</span>i, <span class="fl">0.8660254037844384-0.5000000000000004</span>i]</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">0.5000000000000004-0.8660254037844384</span>i, -<span class="fl">0.4999999999999998+0.8660254037844387</span>i, -<span class="fl">1.8369701987210297E-16-1.0</span>i, -<span class="fl">0.8660254037844383+0.5000000000000006</span>i, <span class="fl">0.8660254037844388+0.4999999999999996</span>i, -<span class="fl">1.0+1.2246467991473532E-16</span>i, <span class="fl">0.5000000000000006+0.8660254037844383</span>i, <span class="fl">0.49999999999999967-0.8660254037844388</span>i, <span class="fl">6.123233995736766E-17+1.0</span>i, <span class="fl">0.8660254037844384-0.5000000000000004</span>i, -<span class="fl">0.8660254037844387-0.4999999999999997</span>i]]}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Syntax error macroexpanding at (NO_SOURCE_FILE:57:9).
 </div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">count</span> (<span class="at">:irrep-labels</span> ct))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>No implementation of method: :group-type of protocol: #’scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.product.ProductGroup</p>
+<pre><code>                         clojure.core/eval          core.clj: 3232
+                                       ...                       
+scicloj.harmonica.protocols/eval23011/fn/G     protocols.clj:   28
+           clojure.core/-cache-protocol-fn  core_deftype.clj:  585
+     java.lang.IllegalArgumentException: No implementation of method: :group-type of protocol: #'scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.product.ProductGroup
+clojure.lang.Compiler$CompilerException: Syntax error macroexpanding at (NO_SOURCE_FILE:57:9).
+    data: #:clojure.error{:phase :execution,
+                      :line 57,
+                      :column 9,
+                      :source "NO_SOURCE_FILE"}
+
+</code></pre>
 </div>
-<p>The character table has 12 rows (one per irrep) and 12 columns (one per conjugacy class). For abelian groups, every element is its own conjugacy class, so this is a <span class="math inline">\(12 \times 12\)</span> matrix.</p>
-</section>
-<section id="the-2d-dft-on-a-small-grid" class="level2">
-<h2 class="anchored" data-anchor-id="the-2d-dft-on-a-small-grid">The 2D DFT on a Small Grid</h2>
-<p>Consider a <span class="math inline">\(4 \times 3\)</span> grid of values — a tiny “image.” Each pixel is addressed by a pair <span class="math inline">\((i, j) \in \mathbb{Z}/4\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}\)</span>.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> image-data</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">1.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>   <span class="fl">0.0</span> <span class="fl">2.0</span> <span class="fl">0.0</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>   <span class="fl">0.0</span> <span class="fl">0.0</span> <span class="fl">3.0</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>   <span class="fl">1.0</span> <span class="fl">1.0</span> <span class="fl">1.0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(kind/plotly</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:data</span> [{<span class="at">:type</span> <span class="st">"heatmap"</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">:z</span> (<span class="kw">partition</span> <span class="dv">3</span> image-data)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">:colorscale</span> <span class="st">"Viridis"</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">:showscale</span> <span class="va">true</span>}]</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">:layout</span> {<span class="at">:title</span> <span class="st">"4×3 image"</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">:xaxis</span> {<span class="at">:title</span> <span class="st">"column"</span> <span class="at">:dtick</span> <span class="dv">1</span>}</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"row"</span> <span class="at">:autorange</span> <span class="st">"reversed"</span> <span class="at">:dtick</span> <span class="dv">1</span>}</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">:width</span> <span class="dv">300</span> <span class="at">:height</span> <span class="dv">300</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">:margin</span> {<span class="at">:t</span> <span class="dv">40</span> <span class="at">:b</span> <span class="dv">40</span> <span class="at">:l</span> <span class="dv">40</span> <span class="at">:r</span> <span class="dv">40</span>}}})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"type":"heatmap","z":[[1.0,0.0,0.0],[0.0,2.0,0.0],[0.0,0.0,3.0],[1.0,1.0,1.0]],"colorscale":"Viridis","showscale":true}], {"title":"4\u00d73 image","xaxis":{"title":"column","dtick":1},"yaxis":{"title":"row","autorange":"reversed","dtick":1},"width":300,"height":300,"margin":{"t":40,"b":40,"l":40,"r":40}}, {});</script></div>
-<p>We flatten this into a function on the product group. The group elements are ordered by <code>hm/elements</code>, so we need a map from group elements to pixel values.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [elts (<span class="kw">vec</span> (hm/elements G))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      f-map (<span class="kw">into</span> {} (map-indexed (<span class="kw">fn</span> [i <span class="kw">e</span>] [<span class="kw">e</span> (<span class="kw">nth</span> image-data i)]) elts))]</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> f-map))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Now apply the Fourier transform:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> signal </span>(cx/complex-tensor-real image-data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> f-hat </span>(hm/fourier-transform ct signal))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>f-hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">12</span>]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>[<span class="fl">9.0</span>, -<span class="fl">1.500000000000001+0.8660254037844374</span>i, -<span class="fl">1.5000000000000004-0.8660254037844396</span>i, -<span class="fl">2.0000000000000004+0.9999999999999996</span>i, <span class="fl">0.7679491924311247-1.5980762113533153</span>i, <span class="fl">4.232050807568876+3.5980762113533173</span>i, -<span class="fl">1.0-6.123233995736766E-16</span>i, <span class="fl">0.4999999999999982+4.330127018922193</span>i, <span class="fl">0.500000000000002-4.330127018922193</span>i, -<span class="fl">2.0000000000000004-1.0000000000000004</span>i, <span class="fl">4.232050807568879-3.5980762113533133</span>i, <span class="fl">0.7679491924311224+1.5980762113533156</span>i]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The DC component (<span class="math inline">\(k = 0\)</span>) is the sum of all pixel values:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(cx/re (f-hat <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fl">9.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="round-trip-inverse-transform" class="level2">
-<h2 class="anchored" data-anchor-id="round-trip-inverse-transform">Round-Trip: Inverse Transform</h2>
-<p>The inverse Fourier transform recovers the original image exactly.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [recovered (hm/inverse-fourier-transform ct f-hat)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>      max-err (<span class="kw">apply</span> <span class="kw">max</span> (<span class="kw">vec</span> (cx/cabs (cx/csub recovered signal))))]</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> max-err <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="separability-of-the-2d-dft" class="level2">
-<h2 class="anchored" data-anchor-id="separability-of-the-2d-dft">Separability of the 2D DFT</h2>
-<p>A key property of the product group Fourier transform: it’s <strong>separable</strong>. The 2D DFT of an <span class="math inline">\(m \times n\)</span> image equals applying the 1D DFT along rows, then along columns (or vice versa).</p>
-<p>The algorithm has three steps:</p>
-<ol type="1">
-<li>Transform each row with the 1D DFT of the column group</li>
-<li>Extract columns from the result, transform each with the row group DFT</li>
-<li>Flatten back to a single vector and compare with the direct product DFT</li>
-</ol>
-<p>Let’s verify this by computing both ways.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [m <span class="dv">4</span> n <span class="dv">3</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>      ct1 (hm/character-table G1)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>      ct2 (hm/character-table G2)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Reshape image into rows</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>      rows (<span class="kw">mapv</span> (<span class="kw">fn</span> [i]</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                   (cx/complex-tensor-real</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">subvec</span> image-data (<span class="kw">*</span> i n) (<span class="kw">*</span> (<span class="kw">inc</span> i) n))))</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                 (<span class="kw">range</span> m))</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Transform each row (along columns)</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>      rows-transformed (<span class="kw">mapv</span> #(hm/fourier-transform ct2 <span class="va">%</span>) rows)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Extract columns from transformed rows and transform along rows</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>      cols-of-transformed (<span class="kw">mapv</span> (<span class="kw">fn</span> [j]</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>                                  (cx/complex-tensor</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>                                   (<span class="kw">mapv</span> (<span class="kw">fn</span> [row] [(cx/re (row j))</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                                                    (cx/im (row j))])</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>                                         rows-transformed)))</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>                                (<span class="kw">range</span> n))</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>      cols-transformed (<span class="kw">mapv</span> #(hm/fourier-transform ct1 <span class="va">%</span>) cols-of-transformed)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Flatten back: result[i*n + j] = cols-transformed[j][i]</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>      separable-result (cx/complex-tensor</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>                        (<span class="kw">mapv</span> (<span class="kw">fn</span> [idx]</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>                                (<span class="kw">let</span> [i (<span class="kw">quot</span> idx n)</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>                                      j (<span class="kw">rem</span> idx n)</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>                                      v ((cols-transformed j) i)]</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>                                  [(cx/re v) (cx/im v)]))</span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">range</span> (<span class="kw">*</span> m n))))</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Compare with direct product group transform</span></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>      max-err (<span class="kw">apply</span> <span class="kw">max</span> (<span class="kw">vec</span> (cx/cabs (cx/csub separable-result f-hat))))]</span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> max-err <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The row-then-column approach gives the same result as the product group transform — confirming separability.</p>
-</section>
-<section id="parsevals-theorem-in-2d" class="level2">
-<h2 class="anchored" data-anchor-id="parsevals-theorem-in-2d">Parseval’s Theorem in 2D</h2>
-<p>Energy is preserved: <span class="math inline">\(\sum |f(g)|^2 = \frac{1}{|G|} \sum |\hat{f}(k)|^2\)</span>.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [energy-space (dfn/sum (dfn/* (cx/re signal) (cx/re signal)))</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>      mags-sq (<span class="kw">mapv</span> (<span class="kw">fn</span> [i] (<span class="kw">let</span> [v (f-hat i)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                                  r (cx/re v) im (cx/im v)]</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                              (<span class="kw">+</span> (<span class="kw">*</span> r r) (<span class="kw">*</span> im im))))</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">range</span> (hm/order G)))</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>      energy-freq (<span class="kw">/</span> (<span class="kw">reduce</span> <span class="kw">+</span> mags-sq) (<span class="kw">double</span> (hm/order G)))]</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> (Math/abs (<span class="kw">-</span> energy-space energy-freq)) <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="convolution-in-2d" class="level2">
-<h2 class="anchored" data-anchor-id="convolution-in-2d">Convolution in 2D</h2>
-<p>Convolution on the product group corresponds to 2D convolution of images. The convolution theorem holds: convolution in the spatial domain equals pointwise multiplication in the frequency domain.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [f (cx/complex-tensor-real</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>         [<span class="fl">1.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span>])</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>      h (cx/complex-tensor-real</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>         [<span class="fl">1.0</span> <span class="fl">1.0</span> <span class="fl">0.0</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>          <span class="fl">1.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.0</span> <span class="fl">0.0</span> <span class="fl">0.0</span>])</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>      conv (hm/convolve ct f h)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Verify via Fourier domain</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>      f-hat (hm/fourier-transform ct f)</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>      h-hat (hm/fourier-transform ct h)</span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>      product (cx/cmul f-hat h-hat)</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>      conv-from-freq (hm/inverse-fourier-transform ct product)</span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>      max-err (<span class="kw">apply</span> <span class="kw">max</span> (<span class="kw">vec</span> (cx/cabs (cx/csub conv conv-from-freq))))]</span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">&lt;</span> max-err <span class="fl">1e-10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="visualizing-the-2d-spectrum" class="level2">
-<h2 class="anchored" data-anchor-id="visualizing-the-2d-spectrum">Visualizing the 2D Spectrum</h2>
-<p>The magnitude spectrum shows which “spatial frequencies” are present in the image. Let’s visualize it for a pattern with a strong diagonal.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [m <span class="dv">6</span> n <span class="dv">6</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>      G-sq (hm/product-group (hm/cyclic-group m) (hm/cyclic-group n))</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      ct-sq (hm/character-table G-sq)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Diagonal stripe pattern</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>      stripe (<span class="kw">mapv</span> (<span class="kw">fn</span> [idx]</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                     (<span class="kw">let</span> [i (<span class="kw">quot</span> idx n) j (<span class="kw">rem</span> idx n)]</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">if</span> (<span class="kw">=</span> (<span class="kw">mod</span> (<span class="kw">+</span> i j) <span class="dv">3</span>) <span class="dv">0</span>) <span class="fl">1.0</span> <span class="fl">0.0</span>)))</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">range</span> (<span class="kw">*</span> m n)))</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>      f-hat-sq (hm/fourier-transform ct-sq (cx/complex-tensor-real stripe))</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Build 2D grids directly</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>      image-grid (<span class="kw">vec</span> (<span class="kw">for</span> [i (<span class="kw">range</span> m)]</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>                        (<span class="kw">vec</span> (<span class="kw">for</span> [j (<span class="kw">range</span> n)]</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>                               (stripe (<span class="kw">+</span> (<span class="kw">*</span> i n) j))))))</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>      mag-grid (<span class="kw">vec</span> (<span class="kw">for</span> [i (<span class="kw">range</span> m)]</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">vec</span> (<span class="kw">for</span> [j (<span class="kw">range</span> n)]</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>                             (<span class="kw">let</span> [v (f-hat-sq (<span class="kw">+</span> (<span class="kw">*</span> i n) j))]</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>                               (Math/sqrt (<span class="kw">+</span> (<span class="kw">*</span> (cx/re v) (cx/re v))</span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>                                             (<span class="kw">*</span> (cx/im v) (cx/im v)))))))))]</span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  (kind/plotly</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:data</span> [{<span class="at">:type</span> <span class="st">"heatmap"</span></span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">:z</span> image-grid</span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">:colorscale</span> <span class="st">"Greys"</span></span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">:reversescale</span> <span class="va">true</span></span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">:showscale</span> <span class="va">false</span></span>
-<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">:xaxis</span> <span class="st">"x"</span> <span class="at">:yaxis</span> <span class="st">"y"</span>}</span>
-<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>           {<span class="at">:type</span> <span class="st">"heatmap"</span></span>
-<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">:z</span> mag-grid</span>
-<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">:colorscale</span> <span class="st">"Viridis"</span></span>
-<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">:showscale</span> <span class="va">false</span></span>
-<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">:xaxis</span> <span class="st">"x2"</span> <span class="at">:yaxis</span> <span class="st">"y2"</span>}]</span>
-<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">:layout</span> {<span class="at">:title</span> <span class="st">"Diagonal stripe and its 2D Fourier spectrum"</span></span>
-<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>             <span class="at">:grid</span> {<span class="at">:rows</span> <span class="dv">1</span> <span class="at">:columns</span> <span class="dv">2</span> <span class="at">:pattern</span> <span class="st">"independent"</span>}</span>
-<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">:xaxis</span> {<span class="at">:title</span> <span class="st">"column"</span> <span class="at">:domain</span> [<span class="dv">0</span> <span class="fl">0.45</span>] <span class="at">:dtick</span> <span class="dv">1</span>}</span>
-<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"row"</span> <span class="at">:autorange</span> <span class="st">"reversed"</span> <span class="at">:dtick</span> <span class="dv">1</span>}</span>
-<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>             <span class="at">:xaxis2</span> {<span class="at">:title</span> <span class="st">"freq col"</span> <span class="at">:domain</span> [<span class="fl">0.55</span> <span class="dv">1</span>] <span class="at">:dtick</span> <span class="dv">1</span>}</span>
-<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>             <span class="at">:yaxis2</span> {<span class="at">:title</span> <span class="st">"freq row"</span> <span class="at">:autorange</span> <span class="st">"reversed"</span> <span class="at">:dtick</span> <span class="dv">1</span>}</span>
-<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>             <span class="at">:width</span> <span class="dv">700</span> <span class="at">:height</span> <span class="dv">350</span></span>
-<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>             <span class="at">:margin</span> {<span class="at">:t</span> <span class="dv">40</span> <span class="at">:b</span> <span class="dv">40</span> <span class="at">:l</span> <span class="dv">40</span> <span class="at">:r</span> <span class="dv">40</span>}}}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div style="height:auto;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement, [{"type":"heatmap","z":[[1.0,0.0,0.0,1.0,0.0,0.0],[0.0,0.0,1.0,0.0,0.0,1.0],[0.0,1.0,0.0,0.0,1.0,0.0],[1.0,0.0,0.0,1.0,0.0,0.0],[0.0,0.0,1.0,0.0,0.0,1.0],[0.0,1.0,0.0,0.0,1.0,0.0]],"colorscale":"Greys","reversescale":true,"showscale":false,"xaxis":"x","yaxis":"y"},{"type":"heatmap","z":[[12.0,1.5543122344752192E-15,1.6011864169946884E-15,7.347880794884119E-16,1.6011864169946884E-15,1.5543122344752192E-15],[1.5543122344752192E-15,2.220446049250313E-16,1.7763568394002505E-15,0.0,7.288997950487152E-16,1.1102230246251565E-16],[1.6011864169946884E-15,1.7208456881689926E-15,12.0,2.220446049250313E-16,3.820199830714189E-15,8.013915871899104E-16],[7.347880794884119E-16,0.0,2.220446049250313E-16,0.0,2.220446049250313E-16,0.0],[1.6011864169946884E-15,8.013915871899104E-16,3.820199830714189E-15,2.220446049250313E-16,12.0,1.6653345369377348E-15],[1.5543122344752192E-15,1.2412670766236366E-16,7.288997950487152E-16,0.0,1.6653345369377348E-15,2.220446049250313E-16]],"colorscale":"Viridis","showscale":false,"xaxis":"x2","yaxis":"y2"}], {"grid":{"rows":1,"columns":2,"pattern":"independent"},"xaxis2":{"title":"freq col","domain":[0.55,1],"dtick":1},"width":700,"xaxis":{"title":"column","domain":[0,0.45],"dtick":1},"title":"Diagonal stripe and its 2D Fourier spectrum","yaxis":{"title":"row","autorange":"reversed","dtick":1},"yaxis2":{"title":"freq row","autorange":"reversed","dtick":1},"height":350,"margin":{"t":40,"b":40,"l":40,"r":40}}, {});</script></div>
-<p>The spectrum shows energy concentrated along the diagonal frequency direction — exactly what we expect from a diagonal stripe pattern.</p>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This notebook demonstrated:</p>
-<ul>
-<li>The <strong>2D DFT</strong> is the Fourier transform on <span class="math inline">\(\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}\)</span></li>
-<li>The <strong>character table</strong> of a product group encodes both dimensions</li>
-<li><strong>Separability</strong>: row-then-column transform equals the product group transform</li>
-<li><strong>Parseval’s theorem</strong> and the <strong>convolution theorem</strong> generalize to 2D</li>
-<li>The magnitude spectrum reveals spatial frequency structure</li>
-</ul>
-<p>For the 1D story, see <a href="dft_as_group_fourier.html">The DFT as Group Fourier Transform</a>. For convolution as random walks and convergence to uniform, see <a href="random_walks.html">Random Walks and Convolution</a>. For groups acting on geometric objects and combinatorial structures, see <a href="symmetry_sketchpad.html">Symmetry Sketchpad</a> and <a href="counting_necklaces.html">Counting Necklaces</a>. For non-abelian Fourier analysis, see <a href="random_transpositions.html">Random Transpositions</a> and <a href="riffle_shuffle.html">Riffle Shuffles</a>.</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/product_group_dft.clj">notebooks/harmonica_book/product_group_dft.clj</a></small></small></pre></div>
 

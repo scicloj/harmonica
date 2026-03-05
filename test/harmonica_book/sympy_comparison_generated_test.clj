@@ -182,7 +182,7 @@
    [Sn (named/SymmetricGroup n) classes (py/py. Sn conjugacy_classes)]
    (sort
     (mapv
-     (fn* [p1__127090#] (long (py/py. p1__127090# __len__)))
+     (fn* [p1__141184#] (long (py/py. p1__141184# __len__)))
      classes)))))
 
 
@@ -196,7 +196,7 @@
    [G (hm/symmetric-group n) classes (hm/conjugacy-classes G)]
    (sort
     (mapv
-     (fn* [p1__127091#] (count (:elements p1__127091#)))
+     (fn* [p1__141185#] (count (:elements p1__141185#)))
      classes)))))
 
 
@@ -236,7 +236,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__127092#] (long (py/py. p1__127092# __len__)))
+      (fn* [p1__141186#] (long (py/py. p1__141186# __len__)))
       classes))]
    {:order order, :num-classes (count classes), :class-sizes sizes})))
 
@@ -254,7 +254,7 @@
     sizes
     (sort
      (mapv
-      (fn* [p1__127093#] (count (:elements p1__127093#)))
+      (fn* [p1__141187#] (count (:elements p1__141187#)))
       classes))]
    {:order (hm/order G),
     :num-classes (count classes),
@@ -409,7 +409,7 @@
     (mapv
      (fn
       [row]
-      (mapv (fn* [p1__127094#] (Math/round (cx/re p1__127094#))) row))
+      (mapv (fn* [p1__141188#] (Math/round (cx/re p1__141188#))) row))
      table)})))
 
 
@@ -418,216 +418,3 @@
  (let
   [hm-ct (extract-hm-character-table 3)]
   (= (:table known-S3) (:table hm-ct))))
-
-
-(deftest t59_l320 (is (true? v58_l317)))
-
-
-(def
- v61_l324
- (let
-  [hm-ct (extract-hm-character-table 4)]
-  (= (:table known-S4) (:table hm-ct))))
-
-
-(deftest t62_l327 (is (true? v61_l324)))
-
-
-(def
- v64_l331
- (let
-  [hm-ct (extract-hm-character-table 5)]
-  (= (:table known-S5) (:table hm-ct))))
-
-
-(deftest t65_l334 (is (true? v64_l331)))
-
-
-(def
- v67_l338
- (let
-  [hm-ct
-   (extract-hm-character-table 5)
-   rows
-   (map-indexed
-    (fn
-     [i irrep]
-     (let
-      [hm-row
-       (nth (:table hm-ct) i)
-       known-row
-       (nth (:table known-S5) i)]
-      [(str irrep) (str hm-row) (str known-row) (= hm-row known-row)]))
-    (:irreps known-S5))]
-  (kind/table
-   {:column-names ["Irrep" "harmonica" "Known" "Match?"],
-    :row-vectors (vec rows)})))
-
-
-(def
- v69_l356
- (every?
-  (fn
-   [n]
-   (let
-    [ct
-     (extract-hm-character-table n)
-     dims-from-ct
-     (mapv first (:table ct))
-     dims-from-hook
-     (mapv hm/hook-length-dimension (:irreps ct))]
-    (= dims-from-ct dims-from-hook)))
-  (range 2 8)))
-
-
-(deftest t70_l363 (is (true? v69_l356)))
-
-
-(def
- v72_l368
- (every?
-  (fn
-   [n]
-   (let
-    [parts
-     (hm/partitions n)
-     total
-     (reduce
-      +
-      (map
-       (fn*
-        [p1__127095#]
-        (let [d (hm/hook-length-dimension p1__127095#)] (* d d)))
-       parts))]
-    (= total (reduce * (range 1 (inc n))))))
-  (range 2 8)))
-
-
-(deftest t73_l374 (is (true? v72_l368)))
-
-
-(def
- v75_l382
- (defn
-  necklace-formula
-  "Number of binary necklaces with n beads, from the formula:\n   (1/n) * sum_{d|n} phi(d) * 2^{n/d}"
-  [n]
-  (let
-   [divisors
-    (filter
-     (fn* [p1__127096#] (zero? (mod n p1__127096#)))
-     (range 1 (inc n)))
-    euler-phi
-    (fn
-     [m]
-     (count
-      (filter
-       (fn*
-        [p1__127097#]
-        (=
-         1
-         (long
-          (.gcd
-           (BigInteger/valueOf m)
-           (BigInteger/valueOf p1__127097#)))))
-       (range 1 (inc m)))))]
-   (/
-    (reduce
-     +
-     (map
-      (fn [d] (* (euler-phi d) (long (Math/pow 2 (/ n d)))))
-      divisors))
-    n))))
-
-
-(def
- v76_l394
- (defn
-  hm-necklace-count
-  [n]
-  (let
-   [G
-    (hm/cyclic-group n)
-    act
-    (fn [g x] (mod (+ x g) n))
-    ci
-    (hm/cycle-index G act (range n))]
-   (hm/polya-count ci 2))))
-
-
-(def
- v77_l400
- (every?
-  (fn [n] (= (hm-necklace-count n) (necklace-formula n)))
-  (range 1 21)))
-
-
-(deftest t78_l404 (is (true? v77_l400)))
-
-
-(def
- v80_l408
- (let
-  [rows
-   (mapv
-    (fn [n] [n (hm-necklace-count n) (necklace-formula n)])
-    (range 1 13))]
-  (kind/table
-   {:column-names ["n" "harmonica (Pólya)" "Formula"],
-    :row-vectors rows})))
-
-
-(def
- v82_l421
- (every?
-  (fn
-   [n]
-   (let
-    [G
-     (hm/symmetric-group n)
-     Sn
-     (named/SymmetricGroup n)
-     act
-     (fn [sigma x] (sigma x))]
-    (every?
-     (fn
-      [x]
-      (let
-       [orb-hm
-        (count (hm/orbit G act x))
-        stab-hm
-        (count (hm/stabilizer G act x))
-        orb-py
-        (long (py/py. (py/py. Sn orbit x) __len__))
-        stab-py
-        (long (py/py. (py/py. Sn stabilizer x) order))]
-       (and (= orb-hm orb-py) (= stab-hm stab-py))))
-     (range n))))
-  (range 2 6)))
-
-
-(deftest t83_l435 (is (true? v82_l421)))
-
-
-(def
- v85_l446
- (let
-  [G-c
-   (hm/cyclic-group 12)
-   G-d
-   (hm/dihedral-group 12)
-   act-c
-   (fn [g x] (mod (+ x g) 12))
-   act-d
-   (fn [[t k] x] (case t :r (mod (+ x k) 12) :s (mod (- k x) 12)))
-   {domain-3 :domain, act-c-sub :act}
-   (hm/subset-action act-c (range 12) 3)
-   {_ :domain, act-d-sub :act}
-   (hm/subset-action act-d (range 12) 3)
-   under-C12
-   (count (hm/orbits G-c act-c-sub domain-3))
-   under-D12
-   (count (hm/orbits G-d act-d-sub domain-3))]
-  {:total (count domain-3),
-   :under-C12 under-C12,
-   :under-D12 under-D12}))

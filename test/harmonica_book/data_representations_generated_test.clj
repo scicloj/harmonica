@@ -139,12 +139,12 @@
    [e (hm/id G) elts (take 20 (hm/elements G))]
    (and
     (every?
-     (fn* [p1__123655#] (= (hm/op G e p1__123655#) p1__123655#))
+     (fn* [p1__137749#] (= (hm/op G e p1__137749#) p1__137749#))
      elts)
     (every?
      (fn*
-      [p1__123656#]
-      (= (hm/op G p1__123656# (hm/inv G p1__123656#)) e))
+      [p1__137750#]
+      (= (hm/op G p1__137750# (hm/inv G p1__137750#)) e))
      elts)))))
 
 
@@ -232,146 +232,3 @@
 
 
 (def v86_l276 (def ct-s4 (hm/character-table S4)))
-
-
-(def v87_l278 (sort (keys ct-s4)))
-
-
-(deftest
- t88_l280
- (is (= v87_l278 [:class-sizes :classes :group :irrep-labels :table])))
-
-
-(def v90_l284 (:irrep-labels ct-s4))
-
-
-(deftest t91_l286 (is (= v90_l284 [[4] [3 1] [2 2] [2 1 1] [1 1 1 1]])))
-
-
-(def v93_l291 (:classes ct-s4))
-
-
-(deftest t94_l293 (is ((fn [cs] (= [1 1 1 1] (first cs))) v93_l291)))
-
-
-(def v96_l299 (cx/complex-shape (:table ct-s4)))
-
-
-(deftest t97_l301 (is (= v96_l299 [5 5])))
-
-
-(def v98_l303 (:table ct-s4))
-
-
-(def v100_l324 (def v (cx/complex-tensor [1.0 2.0 3.0] [0.5 -0.5 1.0])))
-
-
-(def v101_l326 v)
-
-
-(def v103_l330 (dtype/shape (cx/->tensor v)))
-
-
-(deftest t104_l332 (is (= v103_l330 [3 2])))
-
-
-(def v106_l337 [(vec (cx/re v)) (vec (cx/im v))])
-
-
-(deftest t107_l339 (is (= v106_l337 [[1.0 2.0 3.0] [0.5 -0.5 1.0]])))
-
-
-(def
- v109_l355
- (let
-  [a (cx/complex 3.0 4.0) b (cx/complex 1.0 2.0)]
-  {:cmul-re (cx/re (cx/cmul a b)), :cmul-im (cx/im (cx/cmul a b))}))
-
-
-(deftest
- t110_l360
- (is
-  ((fn [m] (and (= -5.0 (:cmul-re m)) (= 10.0 (:cmul-im m))))
-   v109_l355)))
-
-
-(def
- v112_l366
- (let
-  [ct-row ((:table ct-s4) 0)]
-  {:first-value (cx/re (((:table ct-s4) 0) 0)),
-   :count (count ((:table ct-s4) 0))}))
-
-
-(deftest
- t113_l370
- (is
-  ((fn [m] (and (= 1.0 (:first-value m)) (= 5 (:count m)))) v112_l366)))
-
-
-(def v115_l379 (def ir-31 (hm/irrep [3 1])))
-
-
-(def v116_l381 (sort (keys ir-31)))
-
-
-(deftest
- t117_l383
- (is (= v116_l381 [:dimension :generators :lambda :syts])))
-
-
-(def v119_l394 (:lambda ir-31))
-
-
-(deftest t120_l396 (is (= v119_l394 [3 1])))
-
-
-(def v121_l398 (:dimension ir-31))
-
-
-(deftest t122_l400 (is (= v121_l398 3)))
-
-
-(def v124_l404 (:syts ir-31))
-
-
-(deftest t125_l406 (is ((fn [syts] (= 3 (count syts))) v124_l404)))
-
-
-(def v127_l412 (count (:generators ir-31)))
-
-
-(deftest t128_l414 (is (= v127_l412 3)))
-
-
-(def v130_l420 (hm/rep-matrix ir-31 [1 0 2 3]))
-
-
-(def
- v132_l426
- (let
-  [rep1
-   (hm/irrep [3 1])
-   rep2
-   (hm/irrep [2 2])
-   tp
-   (hm/tensor-product rep1 rep2)]
-  {:has-matrix-fn (some? (:matrix-fn tp)), :dimension (:dimension tp)}))
-
-
-(deftest
- t133_l432
- (is
-  ((fn [m] (and (:has-matrix-fn m) (= 6 (:dimension m)))) v132_l426)))
-
-
-(def
- v135_l451
- (let
-  [G
-   (hm/cyclic-group 8)
-   ct
-   (hm/character-table G)
-   signal
-   (cx/complex-tensor-real [1 0 1 0 1 0 1 0])]
-  (hm/fourier-transform ct signal)))

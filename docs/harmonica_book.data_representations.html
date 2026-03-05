@@ -427,10 +427,6 @@ window.Quarto = {
   <li><a href="#permutations" id="toc-permutations" class="nav-link" data-scroll-target="#permutations">Permutations</a></li>
   <li><a href="#partitions-and-young-tableaux" id="toc-partitions-and-young-tableaux" class="nav-link" data-scroll-target="#partitions-and-young-tableaux">Partitions and Young tableaux</a></li>
   <li><a href="#character-tables" id="toc-character-tables" class="nav-link" data-scroll-target="#character-tables">Character tables</a></li>
-  <li><a href="#complextensor" id="toc-complextensor" class="nav-link" data-scroll-target="#complextensor">ComplexTensor</a></li>
-  <li><a href="#representations" id="toc-representations" class="nav-link" data-scroll-target="#representations">Representations</a></li>
-  <li><a href="#fourier-transform-pipeline" id="toc-fourier-transform-pipeline" class="nav-link" data-scroll-target="#fourier-transform-pipeline">Fourier transform pipeline</a></li>
-  <li><a href="#what-comes-next" id="toc-what-comes-next" class="nav-link" data-scroll-target="#what-comes-next">What comes next</a></li>
   </ul>
 </nav>
     </div>
@@ -777,245 +773,34 @@ window.Quarto = {
 <div class="sourceClojure">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ct-s4 </span>(hm/character-table S4))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">sort</span> (<span class="kw">keys</span> ct-s4))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:class-sizes</span> <span class="at">:classes</span> <span class="at">:group</span> <span class="at">:irrep-labels</span> <span class="at">:table</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Syntax error macroexpanding at (NO_SOURCE_FILE:276:12).
 </div>
-<p>For <span class="math inline">\(S_4\)</span>, irrep labels are the 5 partitions of 4:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:irrep-labels</span> ct-s4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">4</span>] [<span class="dv">3</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">2</span>] [<span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>] [<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>No implementation of method: :group-type of protocol: #’scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.symmetric.SymmetricGroup</p>
+<pre><code>                         clojure.core/eval          core.clj: 3232
+                                       ...                       
+scicloj.harmonica.protocols/eval23011/fn/G     protocols.clj:   28
+           clojure.core/-cache-protocol-fn  core_deftype.clj:  585
+     java.lang.IllegalArgumentException: No implementation of method: :group-type of protocol: #'scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.symmetric.SymmetricGroup
+clojure.lang.Compiler$CompilerException: Syntax error macroexpanding at (NO_SOURCE_FILE:276:12).
+    data: #:clojure.error{:phase :execution,
+                      :line 276,
+                      :column 12,
+                      :source "NO_SOURCE_FILE"}
+
+</code></pre>
 </div>
-<p>Classes are also partitions (cycle types), with the identity class <code>[1 1 1 1]</code> first:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:classes</span> ct-s4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span>] [<span class="dv">2</span> <span class="dv">2</span>] [<span class="dv">3</span> <span class="dv">1</span>] [<span class="dv">4</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The <code>:table</code> is a <strong>ComplexTensor</strong> matrix — a <code>[5 × 5]</code> complex matrix whose real part contains the character values (all integers for <span class="math inline">\(S_n\)</span>):</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>(cx/complex-shape (<span class="at">:table</span> ct-s4))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">5</span> <span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:table</span> ct-s4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">5</span> <span class="dv">5</span>]</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>[[<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>]</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a> [<span class="fl">3.0</span>, <span class="fl">1.0</span>, -<span class="fl">1.0</span>, <span class="fl">0.0</span>, -<span class="fl">1.0</span>]</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a> [<span class="fl">2.0</span>, <span class="fl">0.0</span>, <span class="fl">2.0</span>, -<span class="fl">1.0</span>, <span class="fl">0.0</span>]</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a> [<span class="fl">3.0</span>, -<span class="fl">1.0</span>, -<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>]</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1.0</span>, -<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, -<span class="fl">1.0</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Character table computation is a <strong>multimethod</strong> dispatching on <code>group-type</code>:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Group type</th>
-<th style="text-align: left;">Algorithm</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>:cyclic</code></td>
-<td style="text-align: left;">DFT matrix: χⱼ(k) = ωʲᵏ where ω = e^(2πi/n)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>:symmetric</code></td>
-<td style="text-align: left;">Murnaghan-Nakayama rule (integer-valued)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>:dihedral</code></td>
-<td style="text-align: left;">Closed-form trig expressions</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>:product</code></td>
-<td style="text-align: left;">Kronecker product of factor character tables</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="complextensor" class="level2">
-<h2 class="anchored" data-anchor-id="complextensor">ComplexTensor</h2>
-<p>ComplexTensor is the library’s complex number type, backed by dtype-next tensors. The core idea: a complex tensor of shape <span class="math inline">\([d_1, d_2, \ldots]\)</span> is stored as a <strong>real</strong> tensor of shape <span class="math inline">\([d_1, d_2, \ldots, 2]\)</span> with interleaved real/imaginary pairs.</p>
-<p>A complex vector of length 3:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> v </span>(cx/complex-tensor [<span class="fl">1.0</span> <span class="fl">2.0</span> <span class="fl">3.0</span>] [<span class="fl">0.5</span> -<span class="fl">0.5</span> <span class="fl">1.0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>v</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">3</span>]</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>[<span class="fl">1.0+0.5</span>i, <span class="fl">2.0-0.5</span>i, <span class="fl">3.0+1.0</span>i]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The underlying storage is a <code>[3, 2]</code> real tensor:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>(dtype/shape (cx/-&gt;tensor v))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><code>re</code> and <code>im</code> return <strong>zero-copy tensor views</strong> — slicing the last axis at index 0 or 1:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>[(<span class="kw">vec</span> (cx/re v)) (<span class="kw">vec</span> (cx/im v))]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb78"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>[[<span class="fl">1.0</span> <span class="fl">2.0</span> <span class="fl">3.0</span>] [<span class="fl">0.5</span> -<span class="fl">0.5</span> <span class="fl">1.0</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>This interleaved layout is deliberate:</p>
-<ul>
-<li><p><strong>Cache-friendly</strong>: real and imaginary parts of the same element sit in adjacent memory</p></li>
-<li><p><strong>EJML compatible</strong>: EJML’s <code>ZMatrixRMaj</code> uses the same interleaved <code>double[]</code> layout, enabling zero-copy sharing</p></li>
-<li><p><strong>dtype-next integration</strong>: protocol extensions make <code>dfn/+</code> and <code>dfn/-</code> work directly on ComplexTensors (operating on the raw interleaved buffer)</p></li>
-</ul>
-<p>One subtlety: <code>dfn/*</code> on two ComplexTensors does <strong>element-wise real</strong> multiply (on the flat interleaved buffer), not complex multiply. Use <code>cx/cmul</code> for complex multiplication:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [a (cx/complex <span class="fl">3.0</span> <span class="fl">4.0</span>)</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>      b (cx/complex <span class="fl">1.0</span> <span class="fl">2.0</span>)]</span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cmul-re</span> (cx/re (cx/cmul a b))</span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:cmul-im</span> (cx/im (cx/cmul a b))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb80"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cmul-re</span> -<span class="fl">5.0</span>, <span class="at">:cmul-im</span> <span class="fl">10.0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>ComplexTensors implement <code>IFn</code>, <code>Indexed</code>, <code>Seqable</code>, and <code>Counted</code>, so they work naturally with Clojure’s indexing and sequence operations:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ct-row ((<span class="at">:table</span> ct-s4) <span class="dv">0</span>)]</span>
-<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:first-value</span> (cx/re (((<span class="at">:table</span> ct-s4) <span class="dv">0</span>) <span class="dv">0</span>))</span>
-<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:count</span> (<span class="kw">count</span> ((<span class="at">:table</span> ct-s4) <span class="dv">0</span>))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:first-value</span> <span class="fl">1.0</span>, <span class="at">:count</span> <span class="dv">5</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="representations" class="level2">
-<h2 class="anchored" data-anchor-id="representations">Representations</h2>
-<p>An irreducible representation of <span class="math inline">\(S_n\)</span> is built from <a href="https://en.wikipedia.org/wiki/Young%27s_orthogonal_form">Young’s orthogonal form</a>. The result is a Clojure map:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> ir-31 </span>(hm/irrep [<span class="dv">3</span> <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">sort</span> (<span class="kw">keys</span> ir<span class="dv">-31</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:dimension</span> <span class="at">:generators</span> <span class="at">:lambda</span> <span class="at">:syts</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The four fields:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 30%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Key</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Content</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>:lambda</code></td>
-<td style="text-align: left;">vector</td>
-<td style="text-align: left;">The partition labeling this irrep</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>:dimension</code></td>
-<td style="text-align: left;">long</td>
-<td style="text-align: left;">Number of SYTs = dimension of the representation</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>:syts</code></td>
-<td style="text-align: left;">vector of SYTs</td>
-<td style="text-align: left;">The basis (each SYT is a vector of row vectors)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>:generators</code></td>
-<td style="text-align: left;">vector of <code>RealMatrix</code></td>
-<td style="text-align: left;">One matrix per adjacent transposition sᵢ</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb86"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:lambda</span> ir<span class="dv">-31</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb88"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:dimension</span> ir<span class="dv">-31</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The basis vectors are the 3 standard Young tableaux of shape <code>[3, 1]</code>:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb90"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:syts</span> ir<span class="dv">-31</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb91"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>[[[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">4</span>]] [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span> <span class="dv">4</span>] [<span class="dv">2</span>]]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The generators are <span class="math inline">\((n-1) = 3\)</span> real orthogonal matrices, one for each adjacent transposition <span class="math inline">\(s_1 = (1\;2)\)</span>, <span class="math inline">\(s_2 = (2\;3)\)</span>, <span class="math inline">\(s_3 = (3\;4)\)</span>:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb92"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">count</span> (<span class="at">:generators</span> ir<span class="dv">-31</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>To get <span class="math inline">\(\rho(\sigma)\)</span> for any permutation <span class="math inline">\(\sigma\)</span>, the library decomposes <span class="math inline">\(\sigma\)</span> into adjacent transpositions and multiplies the corresponding generators:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb94"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>(hm/rep-matrix ir<span class="dv">-31</span> [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>#object[org.apache.commons.math3.linear.Array2DRowRealMatrix <span class="bn">0x9d9e32c</span> <span class="st">"Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,-1.0}}"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>Composite representations</strong> (tensor product, direct sum) use a different mechanism: a <code>:matrix-fn</code> closure that computes <span class="math inline">\(\rho(\sigma)\)</span> on demand:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb96"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [rep1 (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])</span>
-<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>      rep2 (hm/irrep [<span class="dv">2</span> <span class="dv">2</span>])</span>
-<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>      tp (hm/tensor-product rep1 rep2)]</span>
-<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:has-matrix-fn</span> (some? (<span class="at">:matrix-fn</span> tp))</span>
-<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:dimension</span> (<span class="at">:dimension</span> tp)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:has-matrix-fn</span> <span class="va">true</span>, <span class="at">:dimension</span> <span class="dv">6</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>This two-track dispatch lets generator-based irreps and closure-based composites share the same <code>rep-matrix</code> function.</p>
-</section>
-<section id="fourier-transform-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="fourier-transform-pipeline">Fourier transform pipeline</h2>
-<p>The Fourier transform on a finite abelian group works on split real/imaginary arrays using dtype-next operations. The pipeline is:</p>
-<ol type="1">
-<li>Extract <code>re</code> and <code>im</code> views from the character table and signal</li>
-<li>Compute <span class="math inline">\(\hat{f}(k) = \sum_g f(g) \cdot \overline{\chi_k(g)}\)</span> as <code>(ac + bd)</code> and <code>(bc - ad)</code> using <code>dfn/*</code> and <code>dfn/sum</code></li>
-<li>Wrap the result pair back into a ComplexTensor</li>
-</ol>
-<p>No intermediate complex objects are created — everything stays in split-real form until the final assembly.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">8</span>)</span>
-<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>      ct (hm/character-table G)</span>
-<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>      signal (cx/complex-tensor-real [<span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span>])]</span>
-<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>  (hm/fourier-transform ct signal))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>#ComplexTensor [<span class="dv">8</span>]</span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>[<span class="fl">4.0</span>, -<span class="fl">7.267471740958731E-17-2.220446049250313E-16</span>i, -<span class="fl">2.4492935982947064E-16</span>i, -<span class="fl">1.6081226496766364E-16-1.1102230246251565E-16</span>i, <span class="fl">4.0</span>, -<span class="fl">7.267471740958731E-17-2.220446049250313E-16</span>i, -<span class="fl">2.4492935982947064E-16</span>i, -<span class="fl">1.6081226496766364E-16-1.1102230246251565E-16</span>i]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The inverse transform reverses the process, with a <span class="math inline">\(1/|G|\)</span> scaling factor. Convolution composes: forward transform both inputs, pointwise complex multiply, inverse transform. The entire pipeline involves three passes through the data, each using <code>dtype/make-reader</code> for lazy evaluation and <code>dfn</code> for vectorized arithmetic.</p>
-</section>
-<section id="what-comes-next" class="level2">
-<h2 class="anchored" data-anchor-id="what-comes-next">What comes next</h2>
-<p>The next chapter, <a href="algorithms.html">Algorithms</a>, walks through the key algorithms — Murnaghan-Nakayama, Young’s orthogonal form, bubble-sort decomposition — with step-by-step worked examples.</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/data_representations.clj">notebooks/harmonica_book/data_representations.clj</a></small></small></pre></div>
 

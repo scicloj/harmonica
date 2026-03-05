@@ -417,6 +417,26 @@ window.Quarto = {
    
   <ul>
   <li><a href="#actions-of-cyclic-groups" id="toc-actions-of-cyclic-groups" class="nav-link active" data-scroll-target="#actions-of-cyclic-groups">Actions of cyclic groups</a></li>
+  <li><a href="#actions-of-dihedral-groups" id="toc-actions-of-dihedral-groups" class="nav-link" data-scroll-target="#actions-of-dihedral-groups">Actions of dihedral groups</a></li>
+  <li><a href="#orbit-stabilizer-theorem" id="toc-orbit-stabilizer-theorem" class="nav-link" data-scroll-target="#orbit-stabilizer-theorem">Orbit-stabilizer theorem</a></li>
+  <li><a href="#orbit-stabilizer-for-subset-actions" id="toc-orbit-stabilizer-for-subset-actions" class="nav-link" data-scroll-target="#orbit-stabilizer-for-subset-actions">Orbit-stabilizer for subset actions</a></li>
+  <li><a href="#fixed-points" id="toc-fixed-points" class="nav-link" data-scroll-target="#fixed-points">Fixed points</a></li>
+  <li><a href="#burnsides-lemma" id="toc-burnsides-lemma" class="nav-link" data-scroll-target="#burnsides-lemma">Burnside’s lemma</a>
+  <ul>
+  <li><a href="#cyclic-group-on-binary-colorings" id="toc-cyclic-group-on-binary-colorings" class="nav-link" data-scroll-target="#cyclic-group-on-binary-colorings">Cyclic group on binary colorings</a></li>
+  <li><a href="#dihedral-group-on-binary-colorings-bracelets" id="toc-dihedral-group-on-binary-colorings-bracelets" class="nav-link" data-scroll-target="#dihedral-group-on-binary-colorings-bracelets">Dihedral group on binary colorings (bracelets)</a></li>
+  <li><a href="#known-necklace-and-bracelet-counts" id="toc-known-necklace-and-bracelet-counts" class="nav-link" data-scroll-target="#known-necklace-and-bracelet-counts">Known necklace and bracelet counts</a></li>
+  </ul></li>
+  <li><a href="#cycle-index" id="toc-cycle-index" class="nav-link" data-scroll-target="#cycle-index">Cycle index</a></li>
+  <li><a href="#pólya-enumeration" id="toc-pólya-enumeration" class="nav-link" data-scroll-target="#pólya-enumeration">Pólya enumeration</a>
+  <ul>
+  <li><a href="#pólya-burnside-for-cyclic-colorings" id="toc-pólya-burnside-for-cyclic-colorings" class="nav-link" data-scroll-target="#pólya-burnside-for-cyclic-colorings">Pólya = Burnside for cyclic colorings</a></li>
+  <li><a href="#pólya-burnside-for-dihedral-colorings" id="toc-pólya-burnside-for-dihedral-colorings" class="nav-link" data-scroll-target="#pólya-burnside-for-dihedral-colorings">Pólya = Burnside for dihedral colorings</a></li>
+  <li><a href="#known-pólya-counts" id="toc-known-pólya-counts" class="nav-link" data-scroll-target="#known-pólya-counts">Known Pólya counts</a></li>
+  <li><a href="#pólya-for-large-n" id="toc-pólya-for-large-n" class="nav-link" data-scroll-target="#pólya-for-large-n">Pólya for large <span class="math inline">\(n\)</span></a></li>
+  </ul></li>
+  <li><a href="#subset-actions" id="toc-subset-actions" class="nav-link" data-scroll-target="#subset-actions">Subset actions</a></li>
+  <li><a href="#summary-of-verified-identities" id="toc-summary-of-verified-identities" class="nav-link" data-scroll-target="#summary-of-verified-identities">Summary of verified identities</a></li>
   </ul>
 </nav>
     </div>
@@ -489,31 +509,362 @@ window.Quarto = {
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      act (rotation-action <span class="dv">5</span>)]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (hm/orbits G act (<span class="kw">range</span> <span class="dv">5</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>No implementation of method: :elements of protocol: #’scicloj.harmonica.protocols/FiniteGroup found for class: scicloj.harmonica.group.cyclic.CyclicGroup
+</section>
+<section id="actions-of-dihedral-groups" class="level2">
+<h2 class="anchored" data-anchor-id="actions-of-dihedral-groups">Actions of dihedral groups</h2>
+<p>The dihedral group <span class="math inline">\(D_n\)</span> acts on vertices of a regular <span class="math inline">\(n\)</span>-gon:</p>
+<ul>
+<li>Rotation <span class="math inline">\(r_k\)</span> (code: <code>[:r k]</code>) sends vertex <span class="math inline">\(x\)</span> to <span class="math inline">\((x + k) \bmod n\)</span></li>
+<li>Reflection <span class="math inline">\(s_k\)</span> (code: <code>[:s k]</code>) sends vertex <span class="math inline">\(x\)</span> to <span class="math inline">\((k - x) \bmod n\)</span></li>
+</ul>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> dihedral-vertex-action </span>[n]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [[t k] x]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">case</span> t</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">:r</span> (<span class="kw">mod</span> (<span class="kw">+</span> x k) n)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">:s</span> (<span class="kw">mod</span> (<span class="kw">-</span> k x) n))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+<p><span class="math inline">\(D_4\)</span> acts transitively on 4 vertices.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/dihedral-group <span class="dv">4</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      act (dihedral-vertex-action <span class="dv">4</span>)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (hm/orbits G act (<span class="kw">range</span> <span class="dv">4</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
-<div class="callout-body-container callout-body">
-<pre><code>                          clojure.core/eval          core.clj: 3232
-                                        ...                       
-    harmonica-book.group-actions/eval124561        REPL Input:     
-            scicloj.harmonica.action/orbits        action.clj:   35
-             scicloj.harmonica.action/orbit        action.clj:   24
-scicloj.harmonica.protocols/eval102277/fn/G     protocols.clj:   14
-            clojure.core/-cache-protocol-fn  core_deftype.clj:  585
-java.lang.IllegalArgumentException: No implementation of method: :elements of protocol: #'scicloj.harmonica.protocols/FiniteGroup found for class: scicloj.harmonica.group.cyclic.CyclicGroup
-
-</code></pre>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="orbit-stabilizer-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="orbit-stabilizer-theorem"><a href="https://en.wikipedia.org/wiki/Orbit%E2%80%93stabilizer_theorem">Orbit-stabilizer theorem</a></h2>
+<p>For any group <span class="math inline">\(G\)</span> acting on a set <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[|G| = |\text{Orb}(x)| \cdot |\text{Stab}(x)|\]</span></p>
+<p>We verify this for dihedral groups acting on vertices.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">13</span>)]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/dihedral-group n)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>              act (dihedral-vertex-action n)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>              order (hm/order G)]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">every?</span> (<span class="kw">fn</span> [x]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">=</span> order (<span class="kw">*</span> (<span class="kw">count</span> (hm/orbit G act x))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                                (<span class="kw">count</span> (hm/stabilizer G act x)))))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">range</span> n))))]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Verify for cyclic groups acting on themselves (regular representation).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n [<span class="dv">2</span> <span class="dv">3</span> <span class="dv">5</span> <span class="dv">7</span> <span class="dv">11</span> <span class="dv">13</span>]]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>              act (rotation-action n)]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">every?</span> (<span class="kw">fn</span> [x]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">=</span> n (<span class="kw">*</span> (<span class="kw">count</span> (hm/orbit G act x))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                            (<span class="kw">count</span> (hm/stabilizer G act x)))))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">range</span> n))))]</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="orbit-stabilizer-for-subset-actions" class="level2">
+<h2 class="anchored" data-anchor-id="orbit-stabilizer-for-subset-actions">Orbit-stabilizer for subset actions</h2>
+<p><span class="math inline">\(S_n\)</span> acts on <span class="math inline">\(k\)</span>-element subsets of <span class="math inline">\(\{0, \ldots, n{-}1\}\)</span>. The orbit-stabilizer theorem still holds.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n [<span class="dv">4</span> <span class="dv">5</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>            k [<span class="dv">2</span> <span class="dv">3</span>]]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/symmetric-group n)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              perm-act (<span class="kw">fn</span> [sigma x] (sigma x))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [act domain]} (hm/subset-action perm-act (<span class="kw">range</span> n) k)]</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>          <span class="co">;; Check for a sample of subsets</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">every?</span> (<span class="kw">fn</span> [x]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                    (<span class="kw">=</span> (hm/order G)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                       (<span class="kw">*</span> (<span class="kw">count</span> (hm/orbit G act x))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                          (<span class="kw">count</span> (hm/stabilizer G act x)))))</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">take</span> <span class="dv">5</span> domain))))]</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="fixed-points" class="level2">
+<h2 class="anchored" data-anchor-id="fixed-points">Fixed points</h2>
+<p><span class="math inline">\(\text{Fix}(g) = \{x \in X : g \cdot x = x\}\)</span></p>
+<p>The identity fixes every point.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/dihedral-group <span class="dv">6</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>      act (dihedral-vertex-action <span class="dv">6</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      <span class="kw">e</span> (hm/id G)]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">count</span> (hm/fixed-points act <span class="kw">e</span> (<span class="kw">range</span> <span class="dv">6</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A rotation by 1 in <span class="math inline">\(D_n\)</span> fixes no vertices (for <span class="math inline">\(n &gt; 1\)</span>).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">13</span>)]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [act (dihedral-vertex-action n)]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> <span class="dv">0</span> (<span class="kw">count</span> (hm/fixed-points act [<span class="at">:r</span> <span class="dv">1</span>] (<span class="kw">range</span> n))))))]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A reflection in <span class="math inline">\(D_n\)</span> fixes at most 2 vertices (for odd <span class="math inline">\(n\)</span>, exactly 1).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">13</span>)]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [act (dihedral-vertex-action n)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              fix-count (<span class="kw">count</span> (hm/fixed-points act [<span class="at">:s</span> <span class="dv">0</span>] (<span class="kw">range</span> n)))]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">if</span> (<span class="kw">odd?</span> n)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">=</span> fix-count <span class="dv">1</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">&lt;=</span> fix-count <span class="dv">2</span>))))]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="burnsides-lemma" class="level2">
+<h2 class="anchored" data-anchor-id="burnsides-lemma"><a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma">Burnside’s lemma</a></h2>
+<p><span class="math display">\[|\text{orbits}| = \frac{1}{|G|} \sum_{g \in G} |\text{Fix}(g)|\]</span></p>
+<p>We verify that Burnside’s count matches the actual orbit count for colorings of beads under cyclic and dihedral groups.</p>
+<p>The library provides <code>coloring-action</code> to generate all <span class="math inline">\(k\)</span>-colorings and lift a point action to colorings — analogous to <code>subset-action</code> for <span class="math inline">\(k\)</span>-element subsets.</p>
+<section id="cyclic-group-on-binary-colorings" class="level3">
+<h3 class="anchored" data-anchor-id="cyclic-group-on-binary-colorings">Cyclic group on binary colorings</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">2</span> <span class="dv">9</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            k [<span class="dv">2</span> <span class="dv">3</span>]]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [domain act]} (hm/coloring-action (rotation-action n) n k)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              actual-orbits (<span class="kw">count</span> (hm/orbits G act domain))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>              burnside (hm/burnside-count G act domain)]</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> actual-orbits burnside)))]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="dihedral-group-on-binary-colorings-bracelets" class="level3">
+<h3 class="anchored" data-anchor-id="dihedral-group-on-binary-colorings-bracelets">Dihedral group on binary colorings (bracelets)</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">9</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>            k [<span class="dv">2</span> <span class="dv">3</span>]]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/dihedral-group n)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [domain act]} (hm/coloring-action (dihedral-vertex-action n) n k)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>              actual-orbits (<span class="kw">count</span> (hm/orbits G act domain))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>              burnside (hm/burnside-count G act domain)]</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> actual-orbits burnside)))]</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="known-necklace-and-bracelet-counts" class="level3">
+<h3 class="anchored" data-anchor-id="known-necklace-and-bracelet-counts">Known necklace and bracelet counts</h3>
+<p>Binary necklaces (cyclic, <a href="https://oeis.org/A000031">OEIS A000031</a> for n≥1): 2, 3, 4, 6, 8, 14, 20, 36, 60, … Binary bracelets (dihedral, <a href="https://oeis.org/A000029">OEIS A000029</a> for n≥1): 2, 3, 4, 6, 8, 13, 18, 30, 46, …</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> known-necklaces </span>[<span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">6</span> <span class="dv">8</span> <span class="dv">14</span> <span class="dv">20</span> <span class="dv">36</span> <span class="dv">60</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> known-bracelets </span>[<span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">6</span> <span class="dv">8</span> <span class="dv">13</span> <span class="dv">18</span> <span class="dv">30</span> <span class="dv">46</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">1</span> (<span class="kw">inc</span> (<span class="kw">count</span> known-necklaces)))]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [domain act]} (hm/coloring-action (rotation-action n) n <span class="dv">2</span>)]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> (hm/burnside-count G act domain) (<span class="kw">nth</span> known-necklaces (<span class="kw">dec</span> n)))))]</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">1</span> (<span class="kw">inc</span> (<span class="kw">count</span> known-bracelets)))]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/dihedral-group n)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [domain act]} (hm/coloring-action (dihedral-vertex-action n) n <span class="dv">2</span>)]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> (hm/burnside-count G act domain) (<span class="kw">nth</span> known-bracelets (<span class="kw">dec</span> n)))))]</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="cycle-index" class="level2">
+<h2 class="anchored" data-anchor-id="cycle-index"><a href="https://en.wikipedia.org/wiki/Cycle_index">Cycle index</a></h2>
+<p>The <strong>cycle index</strong> of a group action is a polynomial that encodes the cycle structure of every group element’s permutation of the domain:</p>
+<p><span class="math display">\[Z(G) = \frac{1}{|G|} \sum_{g \in G} \prod_i p_i^{c_i(g)}\]</span></p>
+<p>Coefficients are rational numbers summing to 1.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">4</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>      act (rotation-action <span class="dv">4</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>      ci (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">4</span>))]</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> <span class="dv">1</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">vals</span> ci))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Cycle index coefficients sum to 1 for diverse groups and actions.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">concat</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">2</span> <span class="dv">10</span>)]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>               act (rotation-action n)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>               ci (hm/cycle-index G act (<span class="kw">range</span> n))]</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">=</span> <span class="dv">1</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">vals</span> ci)))))</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">10</span>)]</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">let</span> [G (hm/dihedral-group n)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>               act (dihedral-vertex-action n)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>               ci (hm/cycle-index G act (<span class="kw">range</span> n))]</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>           (<span class="kw">=</span> <span class="dv">1</span> (<span class="kw">reduce</span> <span class="kw">+</span> (<span class="kw">vals</span> ci))))))]</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pólya-enumeration" class="level2">
+<h2 class="anchored" data-anchor-id="pólya-enumeration"><a href="https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem">Pólya enumeration</a></h2>
+<p>Evaluating the cycle index with <span class="math inline">\(p_i = k\)</span> counts the number of distinct <span class="math inline">\(k\)</span>-colorings: <span class="math inline">\(|colorings| = Z(G; p_1 = k, p_2 = k, \ldots)\)</span>.</p>
+<section id="pólya-burnside-for-cyclic-colorings" class="level3">
+<h3 class="anchored" data-anchor-id="pólya-burnside-for-cyclic-colorings">Pólya = Burnside for cyclic colorings</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">2</span> <span class="dv">9</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>            k [<span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span>]]</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>              act (rotation-action n)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>              ci (hm/cycle-index G act (<span class="kw">range</span> n))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>              polya (hm/polya-count ci k)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [domain] act-col <span class="at">:act</span>} (hm/coloring-action act n k)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>              burnside (hm/burnside-count G act-col domain)]</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> polya burnside)))]</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pólya-burnside-for-dihedral-colorings" class="level3">
+<h3 class="anchored" data-anchor-id="pólya-burnside-for-dihedral-colorings">Pólya = Burnside for dihedral colorings</h3>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">3</span> <span class="dv">8</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>            k [<span class="dv">2</span> <span class="dv">3</span>]]</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/dihedral-group n)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>              act (dihedral-vertex-action n)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>              ci (hm/cycle-index G act (<span class="kw">range</span> n))</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>              polya (hm/polya-count ci k)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [domain] act-col <span class="at">:act</span>} (hm/coloring-action act n k)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>              burnside (hm/burnside-count G act-col domain)]</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> polya burnside)))]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="known-pólya-counts" class="level3">
+<h3 class="anchored" data-anchor-id="known-pólya-counts">Known Pólya counts</h3>
+<p>Binary necklaces with <span class="math inline">\(n\)</span> beads and <span class="math inline">\(k = 2\)</span> colors under <span class="math inline">\(C_n\)</span> (<a href="https://oeis.org/A000031">OEIS A000031</a>):</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">10</span>)]</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>              act (rotation-action n)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>              ci (hm/cycle-index G act (<span class="kw">range</span> n))]</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> (hm/polya-count ci <span class="dv">2</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">nth</span> known-necklaces (<span class="kw">dec</span> n)))))]</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pólya-for-large-n" class="level3">
+<h3 class="anchored" data-anchor-id="pólya-for-large-n">Pólya for large <span class="math inline">\(n\)</span></h3>
+<p>The formula works even when enumeration is infeasible. 100-bead binary necklaces under <span class="math inline">\(C_{100}\)</span>:</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">100</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>      act (rotation-action <span class="dv">100</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>      ci (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">100</span>))]</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  (hm/polya-count ci <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="dv">12676506002282305273966813560N</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="subset-actions" class="level2">
+<h2 class="anchored" data-anchor-id="subset-actions">Subset actions</h2>
+<p>The symmetric group <span class="math inline">\(S_n\)</span> acts on <span class="math inline">\(k\)</span>-element subsets. The number of orbits is <span class="math inline">\(\binom{n}{k}\)</span> since the action is transitive (any <span class="math inline">\(k\)</span>-subset can be mapped to any other).</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n [<span class="dv">4</span> <span class="dv">5</span> <span class="dv">6</span>]</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>            k (<span class="kw">range</span> <span class="dv">1</span> n)]</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/symmetric-group n)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>              perm-act (<span class="kw">fn</span> [sigma x] (sigma x))</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [act domain]} (hm/subset-action perm-act (<span class="kw">range</span> n) k)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>              orbit-count (<span class="kw">count</span> (hm/orbits G act domain))]</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> orbit-count <span class="dv">1</span>)))]</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Under the cyclic group, the number of orbits on <span class="math inline">\(k\)</span>-subsets equals the number of binary necklaces with <span class="math inline">\(k\)</span> ones and <span class="math inline">\(n-k\)</span> zeros, i.e. the Burnside count for binary colorings with weight <span class="math inline">\(k\)</span>.</p>
+<div class="sourceClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [results</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">for</span> [n [<span class="dv">5</span> <span class="dv">6</span> <span class="dv">7</span>]</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>            k [<span class="dv">2</span> <span class="dv">3</span>]]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">let</span> [G (hm/cyclic-group n)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>              point-act (rotation-action n)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:keys</span> [act domain]} (hm/subset-action point-act (<span class="kw">range</span> n) k)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>              subset-orbits (<span class="kw">count</span> (hm/orbits G act domain))</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>              <span class="co">;; Binary colorings of weight k</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>              {all-cols <span class="at">:domain</span> act-col <span class="at">:act</span>} (hm/coloring-action point-act n <span class="dv">2</span>)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>              weighted-colorings (<span class="kw">filter</span> (<span class="kw">fn</span> [c] (<span class="kw">=</span> k (<span class="kw">reduce</span> <span class="kw">+</span> c))) all-cols)</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>              weighted-orbits (<span class="kw">count</span> (hm/orbits G act-col weighted-colorings))]</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">=</span> subset-orbits weighted-orbits)))]</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">every?</span> <span class="kw">true?</span> results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="printedClojure">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="summary-of-verified-identities" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-verified-identities">Summary of verified identities</h2>
+<p>This notebook verified:</p>
+<ul>
+<li><p><strong>Orbit-stabilizer theorem</strong> for dihedral groups (<span class="math inline">\(n = 3, \ldots, 12\)</span>), cyclic groups, and subset actions</p></li>
+<li><p><strong>Burnside’s lemma</strong> matches actual orbit count for cyclic and dihedral colorings (<span class="math inline">\(n\)</span> up to 8, <span class="math inline">\(k\)</span> up to 3)</p></li>
+<li><p><strong>Known necklace counts</strong> (<a href="https://oeis.org/A000031">OEIS A000031</a>) for <span class="math inline">\(n = 1, \ldots, 9\)</span></p></li>
+<li><p><strong>Known bracelet counts</strong> (<a href="https://oeis.org/A000029">OEIS A000029</a>) for <span class="math inline">\(n = 1, \ldots, 9\)</span></p></li>
+<li><p><strong>Cycle index coefficients</strong> sum to 1 for all groups tested</p></li>
+<li><p><strong>Pólya = Burnside</strong> for cyclic and dihedral colorings</p></li>
+<li><p><strong>Large Pólya</strong>: 100-bead binary necklaces computed via formula</p></li>
+<li><p><strong>Subset action transitivity</strong> under <span class="math inline">\(S_n\)</span></p></li>
+<li><p><strong>Subset orbits = weighted necklaces</strong> under <span class="math inline">\(C_n\)</span></p></li>
+<li><p><strong>Fixed point properties</strong>: identity fixes all, rotation by 1 fixes none, reflection fixes at most 2</p></li>
+</ul>
+<p>For applications of group actions, see <a href="counting_necklaces.html">Counting Necklaces</a> and <a href="chord_geometry.html">Chord Geometry</a>.</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/group_actions.clj">notebooks/harmonica_book/group_actions.clj</a></small></small></pre></div>
 

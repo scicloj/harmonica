@@ -422,28 +422,6 @@ window.Quarto = {
   <li><a href="#rim-hook-removal-as-bit-swapping" id="toc-rim-hook-removal-as-bit-swapping" class="nav-link" data-scroll-target="#rim-hook-removal-as-bit-swapping">Rim hook removal as bit-swapping</a></li>
   <li><a href="#worked-example" id="toc-worked-example" class="nav-link" data-scroll-target="#worked-example">Worked example</a></li>
   </ul></li>
-  <li><a href="#youngs-orthogonal-form" id="toc-youngs-orthogonal-form" class="nav-link" data-scroll-target="#youngs-orthogonal-form">Young’s orthogonal form</a>
-  <ul>
-  <li><a href="#the-syt-basis" id="toc-the-syt-basis" class="nav-link" data-scroll-target="#the-syt-basis">The SYT basis</a></li>
-  <li><a href="#axial-distance" id="toc-axial-distance" class="nav-link" data-scroll-target="#axial-distance">Axial distance</a></li>
-  <li><a href="#generator-matrices" id="toc-generator-matrices" class="nav-link" data-scroll-target="#generator-matrices">Generator matrices</a></li>
-  <li><a href="#from-generators-to-arbitrary-permutations" id="toc-from-generators-to-arbitrary-permutations" class="nav-link" data-scroll-target="#from-generators-to-arbitrary-permutations">From generators to arbitrary permutations</a></li>
-  </ul></li>
-  <li><a href="#conjugacy-classes-of-s_n" id="toc-conjugacy-classes-of-s_n" class="nav-link" data-scroll-target="#conjugacy-classes-of-s_n">Conjugacy classes of <span class="math inline">\(S_n\)</span></a></li>
-  <li><a href="#burnsides-lemma-and-cycle-index" id="toc-burnsides-lemma-and-cycle-index" class="nav-link" data-scroll-target="#burnsides-lemma-and-cycle-index">Burnside’s lemma and cycle index</a></li>
-  <li><a href="#gsr-riffle-shuffle" id="toc-gsr-riffle-shuffle" class="nav-link" data-scroll-target="#gsr-riffle-shuffle">GSR riffle shuffle</a>
-  <ul>
-  <li><a href="#rising-sequences" id="toc-rising-sequences" class="nav-link" data-scroll-target="#rising-sequences">Rising sequences</a></li>
-  <li><a href="#the-probability-formula" id="toc-the-probability-formula" class="nav-link" data-scroll-target="#the-probability-formula">The probability formula</a></li>
-  <li><a href="#connection-to-fourier-analysis" id="toc-connection-to-fourier-analysis" class="nav-link" data-scroll-target="#connection-to-fourier-analysis">Connection to Fourier analysis</a></li>
-  </ul></li>
-  <li><a href="#restriction-induction-and-branching" id="toc-restriction-induction-and-branching" class="nav-link" data-scroll-target="#restriction-induction-and-branching">Restriction, induction, and branching</a>
-  <ul>
-  <li><a href="#standard-embedding-s_k-hookrightarrow-s_n" id="toc-standard-embedding-s_k-hookrightarrow-s_n" class="nav-link" data-scroll-target="#standard-embedding-s_k-hookrightarrow-s_n">Standard embedding <span class="math inline">\(S_k \hookrightarrow S_n\)</span></a></li>
-  <li><a href="#induction" id="toc-induction" class="nav-link" data-scroll-target="#induction">Induction</a></li>
-  <li><a href="#branching-rule" id="toc-branching-rule" class="nav-link" data-scroll-target="#branching-rule">Branching rule</a></li>
-  </ul></li>
-  <li><a href="#what-comes-next" id="toc-what-comes-next" class="nav-link" data-scroll-target="#what-comes-next">What comes next</a></li>
   </ul>
 </nav>
     </div>
@@ -547,283 +525,35 @@ window.Quarto = {
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      col-idx (.indexOf ^clojure.lang.PersistentVector (<span class="at">:classes</span> ct) [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span>])]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  (cx/re (((<span class="at">:table</span> ct) row-idx) col-idx)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>The MN rule builds the entire character table of <span class="math inline">\(S_n\)</span> without constructing any representation matrices. For <span class="math inline">\(S_{20}\)</span> (which has 627 conjugacy classes), computing a single character value is nearly instant:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(mn/chi [<span class="dv">10</span> <span class="dv">5</span> <span class="dv">3</span> <span class="dv">2</span>] [<span class="dv">4</span> <span class="dv">4</span> <span class="dv">4</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>No implementation of method: :group-type of protocol: #’scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.symmetric.SymmetricGroup
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-</section>
-</section>
-<section id="youngs-orthogonal-form" class="level2">
-<h2 class="anchored" data-anchor-id="youngs-orthogonal-form">Young’s orthogonal form</h2>
-<p>To build actual representation <strong>matrices</strong> (not just traces), harmonica uses <a href="https://en.wikipedia.org/wiki/Young%27s_orthogonal_form">Young’s orthogonal form</a>. The idea: define the irrep on <strong>generators</strong> (adjacent transpositions <span class="math inline">\(s_i = (i\;i{+}1)\)</span>), then extend to arbitrary permutations by decomposition.</p>
-<section id="the-syt-basis" class="level3">
-<h3 class="anchored" data-anchor-id="the-syt-basis">The SYT basis</h3>
-<p>The basis vectors of the irrep <span class="math inline">\(\rho_\lambda\)</span> are the standard Young tableaux of shape <span class="math inline">\(\lambda\)</span>. For <span class="math inline">\(\lambda = [3, 1]\)</span>:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(yt/standard-young-tableaux [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<pre><code>                         clojure.core/eval          core.clj: 3232
+                                       ...                       
+      harmonica-book.algorithms/eval137989        REPL Input:     
+                                       ...                       
+scicloj.harmonica.protocols/eval23011/fn/G     protocols.clj:   28
+           clojure.core/-cache-protocol-fn  core_deftype.clj:  585
+java.lang.IllegalArgumentException: No implementation of method: :group-type of protocol: #'scicloj.harmonica.protocols/GroupType found for class: scicloj.harmonica.group.symmetric.SymmetricGroup
+
+</code></pre>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[[[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] [<span class="dv">4</span>]] [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] [[<span class="dv">1</span> <span class="dv">3</span> <span class="dv">4</span>] [<span class="dv">2</span>]]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="axial-distance" class="level3">
-<h3 class="anchored" data-anchor-id="axial-distance">Axial distance</h3>
-<p>The key quantity is the <strong>axial distance</strong> between values <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span> in a tableau <span class="math inline">\(T\)</span>:</p>
-<p><span class="math display">\[\rho(T, i, i{+}1) = c(\text{pos}(i{+}1)) - c(\text{pos}(i))\]</span></p>
-<p>where <span class="math inline">\(c(r, c) = c - r\)</span> is the <strong>content</strong> of cell <span class="math inline">\((r, c)\)</span>.</p>
-<p>In the tableau <code>[[1 2 4] [3]]</code>, values 2 and 3 sit at positions <span class="math inline">\((0,1)\)</span> and <span class="math inline">\((1,0)\)</span>:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(yt/axial-distance [[<span class="dv">1</span> <span class="dv">2</span> <span class="dv">4</span>] [<span class="dv">3</span>]] <span class="dv">2</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>-<span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="generator-matrices" class="level3">
-<h3 class="anchored" data-anchor-id="generator-matrices">Generator matrices</h3>
-<p>For adjacent transposition <span class="math inline">\(s_i\)</span>, the matrix in the SYT basis is:</p>
-<ul>
-<li><p>If <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span> are in the <strong>same row</strong> (<span class="math inline">\(\rho = 1\)</span>): diagonal entry <span class="math inline">\(1/\rho = 1\)</span></p></li>
-<li><p>If <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span> are in the <strong>same column</strong> (<span class="math inline">\(\rho = -1\)</span>): diagonal entry <span class="math inline">\(1/\rho = -1\)</span></p></li>
-<li><p>Otherwise: a <span class="math inline">\(2 \times 2\)</span> block pairing tableau <span class="math inline">\(T\)</span> with the tableau <span class="math inline">\(T'\)</span> obtained by swapping <span class="math inline">\(i\)</span> and <span class="math inline">\(i{+}1\)</span>:</p></li>
-</ul>
-<p><span class="math display">\[\begin{pmatrix} 1/\rho &amp; \sqrt{1 - 1/\rho^2} \\ \sqrt{1 - 1/\rho^2} &amp; -1/\rho \end{pmatrix}\]</span></p>
-<p>Here is the generator <span class="math inline">\(\rho(s_1)\)</span> for the irrep <span class="math inline">\([3, 1]\)</span> — swapping values 1 and 2:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])]</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">first</span> (<span class="at">:generators</span> ir)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>#object[org.apache.commons.math3.linear.Array2DRowRealMatrix <span class="bn">0x4a2b7181</span> <span class="st">"Array2DRowRealMatrix{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,-1.0}}"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="from-generators-to-arbitrary-permutations" class="level3">
-<h3 class="anchored" data-anchor-id="from-generators-to-arbitrary-permutations">From generators to arbitrary permutations</h3>
-<p>Any permutation can be decomposed into adjacent transpositions. Harmonica uses <strong>bubble sort</strong>: sort the permutation array, recording each swap. The recorded indices (reversed) give the decomposition.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(perm/adjacent-transposition-decomposition [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span> <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Verify: composing the transpositions (left to right) reconstructs the original permutation.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [decomp (perm/adjacent-transposition-decomposition [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>])]</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [acc i]</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            (perm/compose acc (perm/from-cycles <span class="dv">4</span> [[i (<span class="kw">inc</span> i)]])))</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>          (perm/identity-perm <span class="dv">4</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>          decomp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The representation matrix <span class="math inline">\(\rho(\sigma)\)</span> is then the product of the corresponding generator matrices:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>      sigma [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">3</span>]</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>      M (hm/rep-matrix ir sigma)]</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:trace</span> (fm/trace M)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:is-orthogonal</span> (<span class="kw">&lt;</span> (fm/trace</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                       (fm/sub (fm/mulm M (fm/transpose M))</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                               (fm/eye <span class="dv">3</span> <span class="va">true</span>)))</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                     <span class="fl">1e-10</span>)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:trace</span> <span class="fl">0.0</span>, <span class="at">:is-orthogonal</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Why bubble sort? It’s <span class="math inline">\(O(n^2)\)</span> in swaps, which is fine for <span class="math inline">\(S_n\)</span> with <span class="math inline">\(n \le 10\)</span> or so. The matrices themselves are the expensive part — each multiply costs <span class="math inline">\(O(d^3)\)</span> where <span class="math inline">\(d\)</span> is the irrep dimension.</p>
-</section>
-</section>
-<section id="conjugacy-classes-of-s_n" class="level2">
-<h2 class="anchored" data-anchor-id="conjugacy-classes-of-s_n">Conjugacy classes of <span class="math inline">\(S_n\)</span></h2>
-<p>Two permutations in <span class="math inline">\(S_n\)</span> are conjugate if and only if they have the same <strong>cycle type</strong>. So the conjugacy classes of <span class="math inline">\(S_n\)</span> are in bijection with the partitions of <span class="math inline">\(n\)</span>.</p>
-<p>The implementation uses two strategies:</p>
-<ul>
-<li><p><strong><span class="math inline">\(n \le 8\)</span></strong>: Enumerate all <span class="math inline">\(n!\)</span> permutations, group by cycle type, store the full element sets.</p></li>
-<li><p><strong><span class="math inline">\(n &gt; 8\)</span></strong>: Don’t enumerate (too expensive). Instead, for each partition, build a <strong>canonical representative</strong> by laying out consecutive cycles: partition <code>[3 2 1]</code> on <span class="math inline">\(n = 6\)</span> gives the permutation with cycles <span class="math inline">\((0\;1\;2)(3\;4)(5)\)</span>. The class size is computed by the formula:</p></li>
-</ul>
-<p><span class="math display">\[|C_\mu| = \frac{n!}{\prod_k k^{a_k} \cdot a_k!}\]</span></p>
-<p>where <span class="math inline">\(a_k\)</span> is the number of parts equal to <span class="math inline">\(k\)</span>.</p>
-<p>Small group — full element sets available:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [cls (<span class="kw">first</span> (hm/conjugacy-classes (hm/symmetric-group <span class="dv">4</span>)))]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cycle-type</span> (<span class="at">:cycle-type</span> cls)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:size</span> (<span class="at">:size</span> cls)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:has-elements</span> (some? (<span class="at">:elements</span> cls))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cycle-type</span> [<span class="dv">4</span>], <span class="at">:size</span> <span class="dv">6</span>, <span class="at">:has-elements</span> <span class="va">true</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Large group — no element enumeration:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [cls (<span class="kw">first</span> (hm/conjugacy-classes (hm/symmetric-group <span class="dv">12</span>)))]</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:cycle-type</span> (<span class="at">:cycle-type</span> cls)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:size</span> (<span class="at">:size</span> cls)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:has-elements</span> (some? (<span class="at">:elements</span> cls))})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:cycle-type</span> [<span class="dv">12</span>], <span class="at">:size</span> <span class="dv">39916800</span>, <span class="at">:has-elements</span> <span class="va">false</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The class size formula at work:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(part/partition-class-size <span class="dv">6</span> [<span class="dv">3</span> <span class="dv">2</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dv">120</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Verify: <span class="math inline">\(6! / (3^1 \cdot 1! \cdot 2^1 \cdot 1! \cdot 1^1 \cdot 1!) = 720 / 6 = 120\)</span>. Correct.</p>
-</section>
-<section id="burnsides-lemma-and-cycle-index" class="level2">
-<h2 class="anchored" data-anchor-id="burnsides-lemma-and-cycle-index">Burnside’s lemma and cycle index</h2>
-<p><a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma">Burnside’s lemma</a> counts orbits by averaging fixed-point counts:</p>
-<p><span class="math display">\[|\text{orbits}| = \frac{1}{|G|} \sum_{g \in G} |\text{Fix}(g)|\]</span></p>
-<p>The implementation is direct — loop over group elements, count fixed points of each, divide by <span class="math inline">\(|G|\)</span>.</p>
-<p>The <strong>cycle index</strong> generalizes this. For each <span class="math inline">\(g\)</span>, compute the cycle type of <span class="math inline">\(g\)</span>’s action on the domain, then accumulate frequencies. <a href="https://en.wikipedia.org/wiki/Pólya_enumeration_theorem">Pólya’s theorem</a> evaluates the cycle index by substituting <span class="math inline">\(p_i \to k\)</span> (number of colors).</p>
-<p>Necklaces with 6 beads and 3 colors. The cycle index of the rotation action captures the cycle structure of each group element:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">6</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> g x) <span class="dv">6</span>))]</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">6</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>{[<span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span>] <span class="fl">1/6</span>, [<span class="dv">6</span>] <span class="fl">1/3</span>, [<span class="dv">3</span> <span class="dv">3</span>] <span class="fl">1/3</span>, [<span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span>] <span class="fl">1/6</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Pólya’s theorem evaluates the cycle index to count distinct necklaces — substitute <span class="math inline">\(p_i \to k\)</span> (number of colors):</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">6</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> g x) <span class="dv">6</span>))</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>      ci (hm/cycle-index G act (<span class="kw">range</span> <span class="dv">6</span>))]</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  (hm/polya-count ci <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dv">130N</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Burnside’s lemma can compute the same answer directly, but it needs the action on the full set of <span class="math inline">\(3^6 = 729\)</span> colorings. <code>coloring-action</code> lifts the point action to an action on coloring vectors:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/cyclic-group <span class="dv">6</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>      act (<span class="kw">fn</span> [g x] (<span class="kw">mod</span> (<span class="kw">+</span> g x) <span class="dv">6</span>))</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      {<span class="at">:keys</span> [act domain]} (hm/coloring-action act <span class="dv">6</span> <span class="dv">3</span>)]</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  (hm/burnside-count G act domain))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="dv">130</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Pólya enumeration gives the same result without enumerating all 729 colorings — the cycle index distills the group’s structure into a compact polynomial.</p>
-</section>
-<section id="gsr-riffle-shuffle" class="level2">
-<h2 class="anchored" data-anchor-id="gsr-riffle-shuffle">GSR riffle shuffle</h2>
-<p>The <a href="https://en.wikipedia.org/wiki/Gilbert%E2%80%93Shannon%E2%80%93Reeds_model">Gilbert-Shannon-Reeds model</a> assigns a probability to each permutation after <span class="math inline">\(k\)</span> riffle shuffles of an <span class="math inline">\(n\)</span>-card deck:</p>
-<p><span class="math display">\[Q_a(\sigma) = \frac{\binom{a + n - r(\sigma)}{n}}{a^n}\]</span></p>
-<p>where <span class="math inline">\(a = 2^k\)</span> and <span class="math inline">\(r(\sigma)\)</span> is the number of <strong>rising sequences</strong> of <span class="math inline">\(\sigma\)</span>.</p>
-<section id="rising-sequences" class="level3">
-<h3 class="anchored" data-anchor-id="rising-sequences">Rising sequences</h3>
-<p><span class="math inline">\(r(\sigma) = 1 + \text{descents}(\sigma^{-1})\)</span> — compute the inverse, then count positions where the value decreases:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [sigma [<span class="dv">1</span> <span class="dv">3</span> <span class="dv">0</span> <span class="dv">2</span>]]</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:inverse</span> (perm/inverse sigma)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">:descents</span> (riffle/descents (perm/inverse sigma))</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">:rising-seqs</span> (riffle/rising-sequences sigma)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:inverse</span> [<span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">1</span>], <span class="at">:descents</span> <span class="dv">2</span>, <span class="at">:rising-seqs</span> <span class="dv">3</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="the-probability-formula" class="level3">
-<h3 class="anchored" data-anchor-id="the-probability-formula">The probability formula</h3>
-<p>After <span class="math inline">\(k = 1\)</span> shuffle of <span class="math inline">\(n = 4\)</span> cards, the identity has the highest probability (it has <span class="math inline">\(r = 1\)</span>, meaning <span class="math inline">\(a + n - 1 = 5\)</span> choose <span class="math inline">\(4 = 5\)</span>, divided by <span class="math inline">\(2^4 = 16\)</span>):</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(riffle/gsr-probability [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>] <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3125</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="connection-to-fourier-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="connection-to-fourier-analysis">Connection to Fourier analysis</h3>
-<p>The power of this formula is that <span class="math inline">\(Q_a\)</span> is a <strong>class function</strong> — it depends only on the number of rising sequences, which is determined by the cycle type of <span class="math inline">\(\sigma^{-1}\)</span>. This means we can analyze the convergence to uniformity using the (scalar) Fourier transform on <span class="math inline">\(S_n\)</span> via characters, and the (matrix) Fourier transform via irreps gives the <strong>upper bound lemma</strong> used in the “seven shuffles” proof.</p>
-<p>Total variation distance from uniform after <span class="math inline">\(k\)</span> shuffles of 52 cards:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [G (hm/symmetric-group <span class="dv">4</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>      elts (<span class="kw">vec</span> (hm/elements G))</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>      uniform (<span class="kw">/</span> <span class="fl">1.0</span> (hm/order G))]</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">mapv</span> (<span class="kw">fn</span> [k]</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>          (<span class="kw">let</span> [probs (<span class="kw">mapv</span> #(riffle/gsr-probability <span class="va">%</span> k) elts)]</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">double</span> (<span class="kw">*</span> <span class="fl">0.5</span> (dfn/sum (dfn/abs (dfn/- probs uniform)))))))</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">range</span> <span class="dv">1</span> <span class="dv">8</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>[<span class="fl">0.5</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.28125</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.14453125</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.07275390625</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.03643798828125</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.018226623535156257</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.009114265441894608</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The TV distance drops sharply — this is the <strong>cutoff phenomenon</strong>.</p>
-</section>
-</section>
-<section id="restriction-induction-and-branching" class="level2">
-<h2 class="anchored" data-anchor-id="restriction-induction-and-branching">Restriction, induction, and branching</h2>
-<section id="standard-embedding-s_k-hookrightarrow-s_n" class="level3">
-<h3 class="anchored" data-anchor-id="standard-embedding-s_k-hookrightarrow-s_n">Standard embedding <span class="math inline">\(S_k \hookrightarrow S_n\)</span></h3>
-<p>The subgroup <span class="math inline">\(S_k\)</span> sits inside <span class="math inline">\(S_n\)</span> by fixing points <span class="math inline">\(\ge k\)</span>. To <strong>restrict</strong> a representation <span class="math inline">\(\rho\)</span> of <span class="math inline">\(S_n\)</span> to <span class="math inline">\(S_k\)</span>, simply compose with the embedding:</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir (hm/irrep [<span class="dv">3</span> <span class="dv">1</span>])</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>      restricted (hm/restrict-rep ir <span class="dv">4</span> <span class="dv">3</span>)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>      <span class="co">;; Apply to an element of S_3</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      M (hm/rep-matrix restricted [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span>])]</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  (fm/trace M))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="induction" class="level3">
-<h3 class="anchored" data-anchor-id="induction">Induction</h3>
-<p><strong>Induction</strong> goes the other direction: given a representation <span class="math inline">\(\rho\)</span> of <span class="math inline">\(S_k\)</span>, build a representation of <span class="math inline">\(S_n\)</span> with dimension <span class="math inline">\([S_n : S_k] \cdot d = (n!/k!) \cdot d\)</span>.</p>
-<p>The algorithm:</p>
-<ol type="1">
-<li>Compute left coset representatives <span class="math inline">\(t_1, \ldots, t_m\)</span> of <span class="math inline">\(S_k\)</span> in <span class="math inline">\(S_n\)</span></li>
-<li>For each <span class="math inline">\(g \in S_n\)</span>, build an <span class="math inline">\(m \times m\)</span> block matrix where block <span class="math inline">\((s, t)\)</span> is <span class="math inline">\(\rho(s^{-1} g t)\)</span> if <span class="math inline">\(s^{-1} g t \in S_k\)</span>, and zero otherwise</li>
-</ol>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [ir-triv {<span class="at">:dimension</span> <span class="dv">1</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">:matrix-fn</span> (<span class="kw">fn</span> [_] (fm/eye <span class="dv">1</span> <span class="va">true</span>))}</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>      induced (hm/induce-rep ir-triv <span class="dv">2</span> <span class="dv">4</span>)]</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:dimension</span> (<span class="at">:dimension</span> induced)</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:expected</span> (<span class="kw">/</span> <span class="dv">24</span> <span class="dv">2</span>)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:dimension</span> <span class="dv">12</span>, <span class="at">:expected</span> <span class="dv">12</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="branching-rule" class="level3">
-<h3 class="anchored" data-anchor-id="branching-rule">Branching rule</h3>
-<p>The <a href="https://en.wikipedia.org/wiki/Branching_rule">branching rule</a> for <span class="math inline">\(S_n \downarrow S_{n-1}\)</span> says: the restricted irrep <span class="math inline">\(V_\lambda\)</span> decomposes into the direct sum of <span class="math inline">\(V_\mu\)</span> where <span class="math inline">\(\mu\)</span> is obtained by removing one box from <span class="math inline">\(\lambda\)</span>.</p>
-<p>Harmonica verifies this computationally: restrict, then decompose via character inner products.</p>
-<div class="sourceClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(hm/branching-rule [<span class="dv">3</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="printedClojure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>{[<span class="dv">3</span>] <span class="dv">1</span>, [<span class="dv">2</span> <span class="dv">1</span>] <span class="dv">1</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Removing one box from <code>[3,1]</code> can give <code>[3]</code> (remove from row 2) or <code>[2,1]</code> (remove from row 1) — each with multiplicity 1. The branching rule confirms this.</p>
-</section>
-</section>
-<section id="what-comes-next" class="level2">
-<h2 class="anchored" data-anchor-id="what-comes-next">What comes next</h2>
-<p>For the mathematical theory behind these algorithms, see the main book chapters — <a href="character_theory.html">Character Theory</a> for Murnaghan-Nakayama, <a href="representation_matrices.html">Representation Matrices</a> for Young’s orthogonal form, and <a href="riffle_shuffle.html">Riffle Shuffle</a> for the GSR model. The <a href="api_reference.html">API Reference</a> lists every public function with examples. For the internal data structures that these algorithms operate on, see <a href="data_representations.html">Data Representations</a>.</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: <a href="https://github.com/scicloj/harmonica/blob/main/notebooks/harmonica_book/algorithms.clj">notebooks/harmonica_book/algorithms.clj</a></small></small></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
